@@ -1,0 +1,11 @@
+[
+{"type":"header","version":"5.2.3","comment":"Export to JSON plugin for phpMyAdmin"},
+{"type":"database","name":"db_dom1097044"},
+{"type":"table","name":"p","database":"db_dom1097044","data":
+[
+{"ID":"220","post_title":"Amenities","post_status":"publish","menu_order":"0","meta_key":"associate","meta_value":"all"},
+{"ID":"225","post_title":"Features","post_status":"publish","menu_order":"0","meta_key":"associate","meta_value":"all"},
+{"ID":"396","post_title":"Event","post_status":"publish","menu_order":"0","meta_key":"associate","meta_value":"categories"}
+]
+}
+]

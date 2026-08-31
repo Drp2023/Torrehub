@@ -1,0 +1,42 @@
+[
+{"type":"header","version":"5.2.3","comment":"Export to JSON plugin for phpMyAdmin"},
+{"type":"database","name":"db_dom1097044"},
+{"type":"table","name":"t","database":"db_dom1097044","data":
+[
+{"term_id":"207","name":"Alcoi","slug":"alcoi","parent":"0","count":"3"},
+{"term_id":"225","name":"Algorfa","slug":"algorfa","parent":"0","count":"1"},
+{"term_id":"202","name":"Alicante","slug":"alicante","parent":"0","count":"2"},
+{"term_id":"226","name":"Almoradí","slug":"almoradi","parent":"0","count":"3"},
+{"term_id":"214","name":"Altea","slug":"altea","parent":"0","count":"3"},
+{"term_id":"206","name":"Benidorm","slug":"benidorm","parent":"0","count":"0"},
+{"term_id":"227","name":"Benijófar","slug":"benijofar","parent":"0","count":"1"},
+{"term_id":"232","name":"Benissa","slug":"benissa","parent":"0","count":"1"},
+{"term_id":"220","name":"Cabo Roig","slug":"cabo-roig","parent":"0","count":"0"},
+{"term_id":"213","name":"Calp","slug":"calp","parent":"0","count":"1"},
+{"term_id":"235","name":"Catral","slug":"catral","parent":"0","count":"0"},
+{"term_id":"209","name":"Dénia","slug":"denia","parent":"0","count":"0"},
+{"term_id":"234","name":"Dolores","slug":"dolores","parent":"0","count":"0"},
+{"term_id":"228","name":"El Campello","slug":"el-campello","parent":"0","count":"0"},
+{"term_id":"203","name":"Elche(Elx)","slug":"elcheelx","parent":"0","count":"0"},
+{"term_id":"208","name":"Elda","slug":"elda","parent":"0","count":"0"},
+{"term_id":"233","name":"Finestrat","slug":"finestrat","parent":"0","count":"0"},
+{"term_id":"215","name":"Guardamar del Segura","slug":"guardamar-del-segura","parent":"0","count":"0"},
+{"term_id":"212","name":"La Vila Joiosa","slug":"la-vila-joiosa","parent":"0","count":"0"},
+{"term_id":"219","name":"La Zenia","slug":"la-zenia","parent":"0","count":"1"},
+{"term_id":"221","name":"Mil Palmeras","slug":"mil-palmeras","parent":"0","count":"0"},
+{"term_id":"230","name":"Moraira","slug":"moraira","parent":"0","count":"0"},
+{"term_id":"224","name":"Orihuela","slug":"orihuela","parent":"0","count":"1"},
+{"term_id":"205","name":"Orihuela Costa","slug":"orihuela-costa","parent":"0","count":"0"},
+{"term_id":"222","name":"Pilar de la Horadada","slug":"pilar-de-la-horadada","parent":"0","count":"0"},
+{"term_id":"218","name":"Punta Prima","slug":"punta-prima","parent":"0","count":"0"},
+{"term_id":"217","name":"Quesada","slug":"quesada","parent":"0","count":"0"},
+{"term_id":"216","name":"Rojales","slug":"rojales","parent":"0","count":"0"},
+{"term_id":"211","name":"Santa Pola","slug":"santa-pola","parent":"0","count":"0"},
+{"term_id":"231","name":"Teulada","slug":"teulada","parent":"0","count":"0"},
+{"term_id":"204","name":"Torrevieja","slug":"torrevieja","parent":"0","count":"1"},
+{"term_id":"223","name":"Villamartin","slug":"villamartin","parent":"0","count":"0"},
+{"term_id":"229","name":"Villena","slug":"villena","parent":"0","count":"0"},
+{"term_id":"210","name":"Xàbia","slug":"xabia","parent":"0","count":"0"}
+]
+}
+]

@@ -1,0 +1,2 @@
+ MySQL returned an empty result set (i.e. zero rows). (Query took 0.0023 seconds.)
+SELECT p.ID, p.post_title, p.post_status, p.menu_order, pm.meta_key, pm.meta_value FROM wp_d5c58b26b6_posts p LEFT JOIN wp_d5c58b26b6_postmeta pm ON p.ID = pm.post_id WHERE p.post_type = 'rtcl_pricing' ORDER BY p.menu_order, p.ID, pm.meta_key; 
