@@ -11,6 +11,8 @@
 : "${LOCAL_WPCLI:=/c/Users/Miklos/AppData/Local/Programs/Local/resources/extraResources/bin/wp-cli/wp-cli.phar}"
 
 export REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# The live backup and local DB snapshots live OUTSIDE the theme/repo (premium code + personal data).
+export BACKUP_DIR="${BACKUP_DIR:-/c/Users/Miklos/Local Sites/Torrehub/backup}"
 export WP_PATH="$LOCAL_SITE_DIR/app/public"
 export LOCAL_RUN="/c/Users/Miklos/AppData/Roaming/Local/run/$LOCAL_SITE_ID"
 # Native Windows binaries need Windows-style paths in env vars (MSYS only converts argv).

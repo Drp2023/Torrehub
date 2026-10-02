@@ -3,7 +3,7 @@
 set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/env.sh"
 
-SNAP="$REPO_DIR/backup/local-clean.sql"
+SNAP="$BACKUP_DIR/local-clean.sql"
 LIKE_PREFIX='wp\_d5c58b26b6\_'   # LIKE-escaped live table prefix
 [[ -f "$SNAP" ]] || { echo "No snapshot. Run bin/setup-local.sh first."; exit 1; }
 

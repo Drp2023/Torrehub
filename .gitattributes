@@ -10,3 +10,25 @@
 *.svg text eol=lf
 *.png binary
 *.woff2 binary
+
+# Not part of the installable theme — excluded from bin/build-zip.sh (git archive)
+/_dev            export-ignore
+/bin             export-ignore
+/hotfix          export-ignore
+/tests           export-ignore
+/node_modules    export-ignore
+/dist            export-ignore
+/.github         export-ignore
+/.gitignore      export-ignore
+/.gitattributes  export-ignore
+/package.json    export-ignore
+/package-lock.json export-ignore
+/phpcs.xml.dist  export-ignore
+/.eslintrc.json  export-ignore
+/.stylelintrc.json export-ignore
+/esbuild.config.mjs export-ignore
+/assets/src      export-ignore
+/composer.json   export-ignore
+/composer.lock   export-ignore
+/vendor          export-ignore
+/eslint.config.js export-ignore

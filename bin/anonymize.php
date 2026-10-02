@@ -1,4 +1,5 @@
 <?php
+defined( 'WP_CLI' ) || exit; // CLI only — this file lives inside the theme folder.
 /**
  * Anonymise the imported live database. LOCAL ONLY.
  *

@@ -1,4 +1,5 @@
 <?php
+defined( 'WP_CLI' ) || exit; // CLI only — this file lives inside the theme folder.
 /**
  * Detach external services from the local copy. LOCAL ONLY.
  *

@@ -1,9 +1,9 @@
 # Direction C — Modern Local Hub · Design inventory
 
-Source: `_reference/design/Torrehub - Direction C, Modern Local Hub.html` (bundled export).
-Unbundled with `_reference/tools/unbundle.mjs` to `_reference/design/extracted/direction-c.html` + `assets/`.
-Rendered in headless Chrome (playwright-core, `_reference/tools/render-preview.mjs`) to `extracted/preview.png` and `extracted/direction-c.rendered.html`.
-Machine-readable values: `_reference/design/tokens-audit.json`. Icons: `extracted/icons/*.svg` (64 files).
+Source: `_dev/design/Torrehub - Direction C, Modern Local Hub.html` (bundled export).
+Unbundled with `_dev/tools/unbundle.mjs` to `_dev/design/extracted/direction-c.html` + `assets/`.
+Rendered in headless Chrome (playwright-core, `_dev/tools/render-preview.mjs`) to `extracted/preview.png` and `extracted/direction-c.rendered.html`.
+Machine-readable values: `_dev/design/tokens-audit.json`. Icons: `extracted/icons/*.svg` (64 files).
 
 ## 0. How to read this
 

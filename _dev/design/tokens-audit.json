@@ -1,5 +1,5 @@
 {
- "generatedFrom": "_reference/design/extracted/direction-c.html (authored inline styles + SVG attributes inside <x-dc>; React-rendered DOM used for computed component metrics and font usage)",
+ "generatedFrom": "_dev/design/extracted/direction-c.html (authored inline styles + SVG attributes inside <x-dc>; React-rendered DOM used for computed component metrics and font usage)",
  "contexts": {
   "presentation": "design-canvas chrome (intro board, dark section headers, frame labels) — not product UI",
   "foundations": "F-01/02 and F-03/04/05 boards",

@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-// Optional companion to unbundle.mjs: renders _reference/design/extracted/direction-c.html in a
+// Optional companion to unbundle.mjs: renders _dev/design/extracted/direction-c.html in a
 // headless browser, then writes
-//   _reference/design/extracted/preview.png               (full-page screenshot, 1440px viewport)
-//   _reference/design/extracted/direction-c.rendered.html (DOM after the dc-runtime/React render)
+//   _dev/design/extracted/preview.png               (full-page screenshot, 1440px viewport)
+//   _dev/design/extracted/direction-c.rendered.html (DOM after the dc-runtime/React render)
 //
 // Needs playwright-core (not a repo dependency) and a locally installed Chrome or Edge:
 //   npm i --no-save playwright-core     (or run from a folder where it is installed)
-//   node _reference/tools/render-preview.mjs [--channel=chrome|msedge]
+//   node _dev/tools/render-preview.mjs [--channel=chrome|msedge]
 //   (or PLAYWRIGHT_CORE=<path to an installed playwright-core folder> node ...)
 import fs from 'node:fs';
 import path from 'node:path';

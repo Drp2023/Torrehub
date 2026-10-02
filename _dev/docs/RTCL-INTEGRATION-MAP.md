@@ -22,7 +22,7 @@
 | `CORE/` | `plugins/cldirectory-core/` |
 | `OLD/` | `themes/cldirectory/` |
 
-**Markers.** **CONFIRMED** means verified in code at the cited `file:line`. **NOT FOUND** means searched for and absent. **DB** means the value comes from the production option export (`_reference/audit-data/06-rtcl-options.json`, `09-rtcl-forms.json`) and is not a plugin default.
+**Markers.** **CONFIRMED** means verified in code at the cited `file:line`. **NOT FOUND** means searched for and absent. **DB** means the value comes from the production option export (`_dev/audit-data/06-rtcl-options.json`, `09-rtcl-forms.json`) and is not a plugin default.
 
 > ⚠ The options export contains live secrets: the Google Maps API key, the Pusher app key/secret and the MaxMind license key. They are **not** reproduced here. Never commit that export to the theme repo, and consider rotating the Pusher secret.
 

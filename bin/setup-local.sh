@@ -10,10 +10,10 @@ source "$(dirname "${BASH_SOURCE[0]}")/env.sh"
 PREFIX="wp_d5c58b26b6_"
 LIKE_PREFIX='wp\_d5c58b26b6\_'   # LIKE-escaped live table prefix
 LIVE_DOMAIN="torrehub.com"
-BACKUP_DIR="$REPO_DIR/backup"
+[[ -d "$BACKUP_DIR" ]] || { echo "BACKUP_DIR not found: $BACKUP_DIR (set BACKUP_DIR=...)"; exit 1; }
 SQL_DIR="$BACKUP_DIR/db_tables"
 WPC="$WP_PATH/wp-content"
-LOG="$BACKUP_DIR/setup-local.log"     # inside backup/ => git-ignored
+LOG="$BACKUP_DIR/setup-local.log"     # outside the repo
 MAILPIT_SMTP_PORT="${MAILPIT_SMTP_PORT:-10001}"
 DB_NAME="local"
 

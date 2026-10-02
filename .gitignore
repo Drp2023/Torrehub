@@ -9,3 +9,8 @@ backup/
 .env.*
 node_modules/
 _reference/design/extracted/assets/*.js.map
+
+/dist/
+/node_modules/
+/vendor/
+/_dev/tools/composer.phar
