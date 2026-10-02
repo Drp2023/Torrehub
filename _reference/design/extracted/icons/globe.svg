@@ -1,0 +1,5 @@
+<!-- Torrehub Direction C · globe · uses: 1 · stroke-widths seen: 1.9 · sizes: 15x15 -->
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="12" cy="12" r="8.5"/>
+  <path d="M3.5 12h17M12 3.5c3 3 3 14 0 17"/>
+</svg>

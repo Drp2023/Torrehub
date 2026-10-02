@@ -1,0 +1,7 @@
+<!-- Torrehub Direction C · status-signal · uses: 2 · stroke-widths seen: n/a · sizes: 16x11 -->
+<svg viewBox="0 0 16 11" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="7" width="3" height="4" rx="1"/>
+  <rect x="4.3" y="5" width="3" height="6" rx="1"/>
+  <rect x="8.6" y="2.5" width="3" height="8.5" rx="1"/>
+  <rect x="12.9" y="0" width="3" height="11" rx="1" opacity="0.35"/>
+</svg>

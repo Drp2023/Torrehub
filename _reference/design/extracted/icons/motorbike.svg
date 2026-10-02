@@ -1,0 +1,6 @@
+<!-- Torrehub Direction C · motorbike · uses: 1 · stroke-widths seen: 1.9 · sizes: 22x22 -->
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="5.5" cy="17" r="3"/>
+  <circle cx="18.5" cy="17" r="3"/>
+  <path d="M8.5 17h4l3-7h-3M13 10l-2-3h-3"/>
+</svg>

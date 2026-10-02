@@ -1,0 +1,11 @@
+# Live-site backup: premium plugin licences + personal data. NEVER commit.
+/backup/
+backup/
+
+# Local/env artefacts
+*.sql
+*.sql.gz
+.env
+.env.*
+node_modules/
+_reference/design/extracted/assets/*.js.map

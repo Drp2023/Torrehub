@@ -1,0 +1,5 @@
+<!-- Torrehub Direction C · map-pin-dot · uses: 4 · stroke-widths seen: 2 · sizes: 17x17, 20x20 -->
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12 21s-6.5-6-6.5-10.5A6.5 6.5 0 0112 4a6.5 6.5 0 016.5 6.5C18.5 15 12 21 12 21z"/>
+  <circle cx="12" cy="10.5" r="2.3"/>
+</svg>
