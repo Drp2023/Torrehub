@@ -1,0 +1,138 @@
+/* Layout primitives. Breakpoints: 600 (large phone), 900 (tablet), 1200 (desktop). */
+
+.th-container {
+	width: 100%;
+	max-width: calc(var(--th-container) + 2 * var(--th-gutter));
+	margin-inline: auto;
+	padding-inline: var(--th-gutter);
+}
+
+@media (min-width: 900px) {
+	:root {
+		--th-gutter: 28px;
+	}
+}
+
+@media (min-width: 1200px) {
+	:root {
+		--th-gutter: 32px;
+	}
+}
+
+.th-main {
+	display: block;
+	min-height: 50vh;
+}
+
+.th-stack {
+	display: flex;
+	flex-direction: column;
+	gap: var(--th-stack-gap, var(--th-s-4));
+}
+
+.th-cluster {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--th-cluster-gap, var(--th-s-2));
+}
+
+.th-grid {
+	display: grid;
+	gap: var(--th-grid-gap, var(--th-s-5));
+	grid-template-columns: repeat(var(--th-cols-sm, 1), minmax(0, 1fr));
+}
+
+@media (min-width: 600px) {
+	.th-grid {
+		grid-template-columns: repeat(var(--th-cols-md, 2), minmax(0, 1fr));
+	}
+}
+
+@media (min-width: 1200px) {
+	.th-grid {
+		grid-template-columns: repeat(var(--th-cols-lg, 3), minmax(0, 1fr));
+	}
+}
+
+.th-section {
+	padding-block: var(--th-s-7);
+}
+
+@media (min-width: 900px) {
+	.th-section {
+		padding-block: var(--th-s-8);
+	}
+}
+
+/* Horizontal scroller (mobile chips / cards) without a visible scrollbar. */
+.th-scroller {
+	display: flex;
+	gap: var(--th-s-2);
+	overflow-x: auto;
+	scroll-snap-type: x proximity;
+	scrollbar-width: none;
+	overscroll-behavior-x: contain;
+}
+
+.th-scroller::-webkit-scrollbar {
+	display: none;
+}
+
+.th-scroller > * {
+	scroll-snap-align: start;
+	flex: none;
+}
+
+/* ------------------------------------------------------------------ site shell (phase 1; full header in phase 2) */
+.th-site-header {
+	position: relative;
+	z-index: var(--th-z-header);
+	background: var(--th-white);
+	border-bottom: 1px solid var(--th-line);
+}
+
+.th-site-header__inner {
+	display: flex;
+	align-items: center;
+	gap: var(--th-s-4);
+	min-height: 64px;
+}
+
+@media (min-width: 900px) {
+	.th-site-header__inner {
+		min-height: 72px;
+	}
+}
+
+.th-logo {
+	display: inline-flex;
+	align-items: center;
+	flex: none;
+}
+
+.th-logo__img {
+	height: 28px;
+	width: auto;
+}
+
+@media (min-width: 900px) {
+	.th-logo__img {
+		height: 32px;
+	}
+}
+
+/* White logo on dark surfaces — the design's own technique (footer, intro). */
+.th-logo--light .th-logo__img {
+	filter: brightness(0) invert(1);
+}
+
+.th-site-footer {
+	padding-block: var(--th-s-7);
+	background: var(--th-ink);
+	color: var(--th-footer-text);
+}
+
+.th-site-footer .th-meta {
+	color: var(--th-footer-muted);
+}

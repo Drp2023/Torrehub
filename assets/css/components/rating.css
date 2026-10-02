@@ -1,0 +1,125 @@
+/* Rating pill, stars input, summary with distribution bars. */
+
+.th-rating {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.th-rating__pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	min-height: 26px;
+	padding: 3px 10px 3px 8px;
+	border-radius: var(--th-r-pill);
+	background: var(--th-tint-amber);
+	color: var(--th-ink);
+	font-size: var(--th-fs-sm);
+	font-weight: var(--th-fw-bold); /* design: 800 → 700 */
+	line-height: 1;
+}
+
+.th-rating__pill .th-icon {
+	width: 13px;
+	height: 13px;
+	color: var(--th-orange);
+}
+
+.th-rating__count {
+	font-size: var(--th-fs-meta);
+	color: var(--th-muted);
+}
+
+/* Summary block (reviews) */
+.th-rating-summary {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: var(--th-s-5);
+	align-items: center;
+}
+
+.th-rating-summary__score {
+	font-family: var(--th-font-display);
+	font-size: clamp(2.125rem, 1.5rem + 2vw, 3rem);
+	font-weight: var(--th-fw-bold);
+	line-height: 1;
+	color: var(--th-ink);
+	letter-spacing: var(--th-ls-display-tight);
+}
+
+.th-rating-bars {
+	display: grid;
+	gap: 6px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.th-rating-bars li {
+	display: grid;
+	grid-template-columns: 1.5em 1fr 3ch;
+	gap: var(--th-s-2);
+	align-items: center;
+	font-size: var(--th-fs-meta);
+	color: var(--th-muted);
+}
+
+.th-rating-bars__track {
+	height: 6px;
+	border-radius: var(--th-r-pill);
+	background: var(--th-line);
+	overflow: hidden;
+}
+
+.th-rating-bars__fill {
+	display: block;
+	height: 100%;
+	width: var(--pct, 0%);
+	border-radius: inherit;
+	background: var(--th-success);
+}
+
+/* Star input: radios rendered right-to-left so :hover ~ siblings can highlight. */
+.th-stars {
+	display: inline-flex;
+	flex-direction: row-reverse;
+	justify-content: flex-end;
+	gap: 2px;
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.th-stars input {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.th-stars label {
+	display: grid;
+	place-items: center;
+	width: var(--th-tap);
+	height: var(--th-tap);
+	color: var(--th-line-3);
+	cursor: pointer;
+	transition: color var(--th-dur) var(--th-ease);
+}
+
+.th-stars label .th-icon {
+	width: 28px;
+	height: 28px;
+}
+
+.th-stars input:checked ~ label,
+.th-stars label:hover,
+.th-stars label:hover ~ label {
+	color: var(--th-orange);
+}
+
+.th-stars input:focus-visible + label {
+	outline: 3px solid var(--th-focus-ring);
+	outline-offset: 0;
+	border-radius: 50%;
+}

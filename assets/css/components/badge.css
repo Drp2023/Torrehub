@@ -1,0 +1,130 @@
+/* Badges & status pills — F-05. Height 24 (DECISION: design varies 22/24/26), 11.5px 700 uppercase. */
+
+.th-badge {
+	--badge-bg: var(--th-surface-2);
+	--badge-fg: var(--th-muted);
+
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	min-height: var(--th-h-badge);
+	padding: 3px 10px;
+	border-radius: var(--th-r-pill);
+	background: var(--badge-bg);
+	color: var(--badge-fg);
+	font-size: var(--th-fs-micro);
+	font-weight: var(--th-fw-bold);
+	line-height: 1.15;
+	letter-spacing: var(--th-ls-badge-tint);
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+.th-badge .th-icon {
+	width: 11px;
+	height: 11px;
+}
+
+/* Solid */
+.th-badge--featured {
+	--badge-bg: var(--th-orange);
+	--badge-fg: var(--th-ink);
+	letter-spacing: var(--th-ls-badge);
+}
+
+.th-badge--urgent {
+	--badge-bg: var(--th-clay);
+	--badge-fg: var(--th-white);
+	letter-spacing: var(--th-ls-badge);
+}
+
+.th-badge--expired-solid {
+	--badge-bg: var(--th-muted);
+	--badge-fg: var(--th-white);
+	letter-spacing: var(--th-ls-badge);
+}
+
+.th-badge--selected {
+	--badge-bg: var(--th-blue);
+	--badge-fg: var(--th-white);
+	letter-spacing: var(--th-ls-badge);
+}
+
+.th-badge--cover {
+	--badge-bg: var(--th-ink);
+	--badge-fg: var(--th-white);
+}
+
+/* Tinted */
+.th-badge--verified,
+.th-badge--open,
+.th-badge--active,
+.th-badge--success {
+	--badge-bg: var(--th-success-bg);
+	--badge-fg: var(--th-success-text);
+}
+
+.th-badge--pending {
+	--badge-bg: var(--th-tint-clay);
+	--badge-fg: var(--th-clay-text);
+}
+
+.th-badge--expired,
+.th-badge--neutral,
+.th-badge--closed {
+	--badge-bg: var(--th-surface-2);
+	--badge-fg: var(--th-muted);
+}
+
+.th-badge--info {
+	--badge-bg: var(--th-tint-blue);
+	--badge-fg: var(--th-blue-ink);
+}
+
+.th-badge--error {
+	--badge-bg: var(--th-error-bg);
+	--badge-fg: var(--th-error-text);
+}
+
+.th-badge--amber {
+	--badge-bg: var(--th-tint-amber);
+	--badge-fg: var(--th-tint-amber-text);
+}
+
+.th-badge--on-photo {
+	--badge-bg: var(--th-veil-photo);
+	--badge-fg: var(--th-white);
+	text-transform: none;
+	letter-spacing: 0;
+}
+
+/* Account types (Member / Private Seller / Business Seller) — not drawn as badges; DECISION: role tints. */
+.th-badge--member {
+	--badge-bg: var(--th-success-bg);
+	--badge-fg: var(--th-success-text);
+}
+
+.th-badge--seller {
+	--badge-bg: var(--th-tint-blue);
+	--badge-fg: var(--th-blue-ink);
+}
+
+.th-badge--business {
+	--badge-bg: var(--th-tint-amber);
+	--badge-fg: var(--th-tint-amber-text);
+}
+
+/* Notification count (chat unread) */
+.th-count {
+	display: inline-grid;
+	place-items: center;
+	min-width: 18px;
+	height: 18px;
+	padding: 0 5px;
+	border-radius: var(--th-r-pill);
+	background: var(--th-error);
+	color: var(--th-white);
+	font-size: var(--th-fs-micro);
+	font-weight: var(--th-fw-bold);
+	line-height: 1;
+}

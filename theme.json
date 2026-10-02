@@ -1,0 +1,58 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"settings": {
+		"appearanceTools": false,
+		"layout": {
+			"contentSize": "660px",
+			"wideSize": "1100px"
+		},
+		"color": {
+			"custom": false,
+			"customGradient": false,
+			"defaultPalette": false,
+			"defaultGradients": false,
+			"defaultDuotone": false,
+			"gradients": [],
+			"duotone": [],
+			"palette": [
+				{ "slug": "ink", "name": "Ink", "color": "var(--th-ink)" },
+				{ "slug": "text", "name": "Text", "color": "var(--th-text)" },
+				{ "slug": "muted", "name": "Muted", "color": "var(--th-muted)" },
+				{ "slug": "blue", "name": "Blue", "color": "var(--th-blue)" },
+				{ "slug": "orange", "name": "Orange", "color": "var(--th-orange)" },
+				{ "slug": "clay", "name": "Clay", "color": "var(--th-clay)" },
+				{ "slug": "white", "name": "White", "color": "var(--th-white)" },
+				{ "slug": "bg", "name": "Background", "color": "var(--th-bg)" },
+				{ "slug": "tint-blue", "name": "Blue tint", "color": "var(--th-tint-blue)" },
+				{ "slug": "tint-amber", "name": "Amber tint", "color": "var(--th-tint-amber)" },
+				{ "slug": "tint-clay", "name": "Clay tint", "color": "var(--th-tint-clay)" },
+				{ "slug": "success-bg", "name": "Green tint", "color": "var(--th-success-bg)" }
+			]
+		},
+		"typography": {
+			"customFontSize": false,
+			"dropCap": false,
+			"defaultFontSizes": false,
+			"fontFamilies": [
+				{ "slug": "display", "name": "Space Grotesk", "fontFamily": "var(--th-font-display)" },
+				{ "slug": "body", "name": "Figtree", "fontFamily": "var(--th-font-body)" }
+			],
+			"fontSizes": [
+				{ "slug": "small", "name": "Small", "size": "var(--th-fs-sm)" },
+				{ "slug": "body", "name": "Body", "size": "var(--th-fs-body)" },
+				{ "slug": "lead", "name": "Lead", "size": "var(--th-fs-lead)" },
+				{ "slug": "h3", "name": "Heading 3", "size": "var(--th-fs-h3)" },
+				{ "slug": "h2", "name": "Heading 2", "size": "var(--th-fs-h2)" }
+			]
+		},
+		"spacing": {
+			"customSpacingSize": false,
+			"units": ["px", "rem", "%"]
+		},
+		"shadow": {
+			"defaultPresets": false,
+			"presets": []
+		}
+	}
+}

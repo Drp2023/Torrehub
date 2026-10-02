@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<ruleset name="Torrehub">
+	<description>WordPress Coding Standards for the Torrehub theme.</description>
+	<file>.</file>
+	<exclude-pattern>/_dev/*</exclude-pattern>
+	<exclude-pattern>/bin/*</exclude-pattern>
+	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/node_modules/*</exclude-pattern>
+	<exclude-pattern>/dist/*</exclude-pattern>
+	<arg name="extensions" value="php"/>
+	<arg value="sp"/>
+	<config name="testVersion" value="8.1-"/>
+	<config name="minimum_wp_version" value="6.4"/>
+	<rule ref="WordPress">
+		<!-- PSR-4 class files under inc/src use ClassName.php, not class-name.php. -->
+		<exclude name="WordPress.Files.FileName"/>
+		<!-- Short array syntax is fine; long syntax is used for consistency but not enforced. -->
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
+	</rule>
+	<rule ref="WordPress.WP.I18n"><properties><property name="text_domain" type="array"><element value="torrehub"/></property></properties></rule>
+	<!--
+		The brief mandates the `th_` prefix for functions/hooks and TH_ for constants. WPCS rejects prefixes shorter than
+		3 characters, so those three codes are excluded; class code is namespaced (Torrehub\) and template variables are
+		function-scoped (load_template), which PHPCS cannot see.
+	-->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties><property name="prefixes" type="array"><element value="torrehub"/><element value="Torrehub"/></property></properties>
+		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound"/>
+		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound"/>
+		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound"/>
+	</rule>
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound">
+		<exclude-pattern>/template-parts/*</exclude-pattern>
+		<exclude-pattern>/page-templates/*</exclude-pattern>
+		<exclude-pattern>/classified-listing/*</exclude-pattern>
+		<exclude-pattern>/[a-z0-9-]+\.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibilityWP"/>
+</ruleset>

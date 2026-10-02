@@ -1,0 +1,296 @@
+/* Discovery / content modules: hero search, "This weekend", stats, dark promo, contact module, steps. */
+
+.th-module {
+	--mod-bg: var(--th-white);
+	--mod-fg: var(--th-text);
+	--mod-title: var(--th-ink);
+
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--th-s-4);
+	padding: var(--th-s-6);
+	border-radius: var(--th-r-card);
+	background: var(--mod-bg);
+	color: var(--mod-fg);
+}
+
+.th-module--bordered {
+	border: 1px solid var(--th-line);
+}
+
+.th-module__eyebrow {
+	font-size: var(--th-fs-micro);
+	font-weight: var(--th-fw-bold);
+	letter-spacing: var(--th-ls-micro);
+	text-transform: uppercase;
+	color: var(--mod-eyebrow, var(--th-muted));
+}
+
+.th-module__title {
+	font-family: var(--th-font-display);
+	font-size: var(--th-fs-h2);
+	font-weight: var(--th-fw-bold);
+	letter-spacing: var(--th-ls-display);
+	line-height: var(--th-lh-tight);
+	color: var(--mod-title);
+}
+
+/* Blue hero (home) */
+.th-module--hero {
+	--mod-bg: var(--th-blue);
+	--mod-fg: var(--th-on-blue);
+	--mod-title: var(--th-white);
+	--mod-eyebrow: var(--th-white);
+	min-height: 280px;
+	padding: clamp(24px, 3vw, 40px);
+	border-radius: var(--th-r-hero);
+	justify-content: center;
+}
+
+.th-module--hero .th-module__title {
+	font-size: var(--th-fs-hero);
+	letter-spacing: var(--th-ls-display-tight);
+}
+
+.th-module--hero .th-lead {
+	color: var(--th-on-blue);
+	max-width: 46ch;
+}
+
+.th-module__eyebrow-pill {
+	align-self: flex-start;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	min-height: 28px;
+	padding: 0 12px;
+	border-radius: var(--th-r-pill);
+	background: var(--th-on-dark-card);
+	color: var(--th-white);
+	font-size: var(--th-fs-micro);
+	font-weight: var(--th-fw-bold);
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+/* Orange "This weekend" */
+.th-module--accent {
+	--mod-bg: var(--th-orange);
+	--mod-fg: var(--th-ink);
+	--mod-title: var(--th-ink);
+	--mod-eyebrow: var(--th-ink);
+	border-radius: var(--th-r-hero);
+}
+
+.th-module--accent a {
+	color: var(--th-ink);
+	font-weight: var(--th-fw-bold);
+	text-decoration: none;
+	border-bottom: 1.5px solid var(--th-on-dark-line);
+}
+
+/* Dark promo (For sellers, map discovery) */
+.th-module--dark {
+	--mod-bg: var(--th-ink);
+	--mod-fg: var(--th-footer-text);
+	--mod-title: var(--th-white);
+	--mod-eyebrow: var(--th-footer-accent);
+}
+
+.th-module--dark.th-module--large {
+	padding: var(--th-s-7);
+	border-radius: var(--th-r-hero);
+}
+
+/* Blue contact module (single listing, sticky) */
+.th-module--contact {
+	--mod-bg: var(--th-blue);
+	--mod-fg: var(--th-on-blue-2);
+	--mod-title: var(--th-white);
+	--mod-eyebrow: var(--th-on-blue);
+	--btn-on: var(--th-blue-ink);
+}
+
+.th-module--contact .th-input,
+.th-module--contact .th-textarea {
+	background: var(--th-white);
+	border-color: transparent;
+}
+
+/* Tinted info modules */
+.th-module--clay {
+	--mod-bg: var(--th-tint-clay);
+	--mod-fg: var(--th-text);
+	--mod-title: var(--th-clay-text);
+	--btn-on: var(--th-clay-text);
+}
+
+.th-module--amber {
+	--mod-bg: var(--th-tint-amber);
+	--mod-fg: var(--th-text);
+	--mod-title: var(--th-tint-amber-text);
+	--btn-on: var(--th-tint-amber-text);
+}
+
+.th-module--tint {
+	--mod-bg: var(--th-tint-blue);
+	--mod-title: var(--th-blue-ink);
+	--btn-on: var(--th-blue-ink);
+}
+
+.th-module--green {
+	--mod-bg: var(--th-success-bg);
+	--mod-title: var(--th-success-text);
+	--btn-on: var(--th-success-text);
+}
+
+/* Stats (3 numbers) */
+.th-stats {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: var(--th-s-4);
+	margin: 0;
+}
+
+.th-stats div {
+	display: flex;
+	flex-direction: column-reverse;
+	gap: 2px;
+}
+
+.th-stats dt {
+	font-size: var(--th-fs-meta);
+	color: var(--th-muted);
+}
+
+.th-stats dd {
+	margin: 0;
+	font-family: var(--th-font-display);
+	font-size: 1.625rem;
+	font-weight: var(--th-fw-bold);
+	letter-spacing: var(--th-ls-display);
+	color: var(--th-ink);
+	line-height: 1.1;
+}
+
+.th-module--hero .th-stats dd,
+.th-module--contact .th-stats dd {
+	color: var(--th-white);
+}
+
+/* Numbered steps ("What happens next") on blue */
+.th-steps {
+	display: grid;
+	gap: var(--th-s-3);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	counter-reset: th-step;
+}
+
+.th-steps li {
+	counter-increment: th-step;
+	display: grid;
+	grid-template-columns: 32px 1fr;
+	gap: var(--th-s-3);
+	padding: var(--th-s-4);
+	border-radius: var(--th-r-tile);
+	background: var(--th-on-dark-card);
+	color: var(--th-on-blue);
+}
+
+.th-steps li::before {
+	content: counter(th-step);
+	display: grid;
+	place-items: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	background: var(--th-white);
+	color: var(--th-blue-ink);
+	font-weight: var(--th-fw-bold);
+}
+
+.th-steps li:last-child::before {
+	background: var(--th-orange);
+	color: var(--th-ink);
+}
+
+.th-steps strong {
+	display: block;
+	color: var(--th-white);
+}
+
+/* Icon circle used in "Why Torrehub" / info rows */
+.th-icon-circle {
+	display: grid;
+	place-items: center;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: var(--tile-bg, var(--th-tint-blue));
+	color: var(--tile-fg, var(--th-blue));
+	flex: none;
+}
+
+.th-icon-circle .th-icon {
+	width: 20px;
+	height: 20px;
+}
+
+/* Detail tiles (single listing Form Builder fields) */
+.th-details {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--th-s-2);
+	margin: 0;
+}
+
+@media (min-width: 900px) {
+	.th-details {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+}
+
+.th-detail {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	padding: 14px var(--th-s-4);
+	border-radius: var(--th-r-tile);
+	background: var(--th-tint-blue);
+	min-width: 0;
+}
+
+.th-detail dt {
+	font-size: var(--th-fs-micro);
+	font-weight: var(--th-fw-bold);
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--th-blue-label);
+}
+
+.th-detail dd {
+	margin: 0;
+	font-size: var(--th-fs-ui);
+	font-weight: var(--th-fw-bold);
+	color: var(--th-ink);
+	overflow-wrap: anywhere;
+}
+
+.th-detail--yes {
+	background: var(--th-success-bg);
+}
+
+.th-detail--yes dt {
+	color: var(--th-success-label);
+}
+
+.th-detail--plain {
+	background: var(--th-bg);
+}
+
+.th-detail--plain dt {
+	color: var(--th-muted);
+}

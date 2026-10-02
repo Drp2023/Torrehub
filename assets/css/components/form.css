@@ -1,0 +1,582 @@
+/* Form controls — F-04 / F-05. Native elements, styled; errors linked via aria-describedby. */
+
+.th-field {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	min-width: 0;
+}
+
+.th-label {
+	font-size: var(--th-fs-micro);
+	font-weight: var(--th-fw-bold);
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--th-ink);
+}
+
+.th-label__optional {
+	font-weight: var(--th-fw-regular);
+	letter-spacing: 0;
+	text-transform: none;
+	color: var(--th-muted);
+}
+
+.th-help {
+	font-size: var(--th-fs-meta);
+	color: var(--th-muted);
+	display: flex;
+	gap: 6px;
+	align-items: flex-start;
+}
+
+.th-help .th-icon {
+	width: 15px;
+	height: 15px;
+	margin-top: 2px;
+}
+
+.th-help--error {
+	color: var(--th-error-text);
+}
+
+.th-help--error .th-icon {
+	color: var(--th-error);
+}
+
+.th-help--success {
+	color: var(--th-success-text);
+}
+
+/* --------------------------------------------------------------- text-like inputs */
+
+.th-input,
+.th-select,
+.th-textarea {
+	width: 100%;
+	min-height: var(--th-h-control);
+	padding: 12px 16px;
+	border: 1.5px solid var(--th-line-2);
+	border-radius: var(--th-r-input);
+	background: var(--th-bg);
+	color: var(--th-ink); /* design leaves it unset (browser black) — DECISION: ink */
+	font-size: var(--th-fs-ui);
+	line-height: 1.4;
+	transition: border-color var(--th-dur) var(--th-ease), background-color var(--th-dur) var(--th-ease);
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+.th-input::placeholder,
+.th-textarea::placeholder {
+	color: var(--th-muted);
+	opacity: 1;
+}
+
+.th-input:hover,
+.th-select:hover,
+.th-textarea:hover {
+	border-color: var(--th-line-3);
+}
+
+.th-input:focus,
+.th-select:focus,
+.th-textarea:focus {
+	background: var(--th-white);
+	border-color: var(--th-blue);
+	box-shadow: 0 0 0 4px var(--th-focus-halo); /* focus halo (design F-04), not an elevation shadow */
+	outline: none;
+}
+
+.th-input[aria-invalid="true"],
+.th-select[aria-invalid="true"],
+.th-textarea[aria-invalid="true"] {
+	background: var(--th-error-field);
+	border-color: var(--th-error);
+}
+
+.th-input.is-valid {
+	background: var(--th-white);
+	border-color: var(--th-success);
+}
+
+.th-input[readonly] {
+	background: var(--th-surface-2);
+	border-color: var(--th-surface-2);
+	color: var(--th-muted);
+}
+
+.th-input:disabled,
+.th-select:disabled,
+.th-textarea:disabled {
+	background: var(--th-bg);
+	border-color: var(--th-surface-2);
+	color: var(--th-disabled);
+	cursor: not-allowed;
+}
+
+.th-textarea {
+	min-height: 130px;
+	border-radius: var(--th-r-tile);
+	resize: vertical;
+}
+
+.th-select {
+	padding-right: 44px;
+	background-image: none;
+	cursor: pointer;
+}
+
+/* Wrapper for prefix/suffix/status icons and the select chevron. */
+.th-control {
+	position: relative;
+	display: block;
+}
+
+.th-control__affix,
+.th-control__status,
+.th-control__chevron {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	pointer-events: none;
+	color: var(--th-muted);
+	font-weight: var(--th-fw-semibold);
+}
+
+.th-control__affix--start {
+	left: 16px;
+}
+
+.th-control__affix--end,
+.th-control__status,
+.th-control__chevron {
+	right: 16px;
+}
+
+.th-control--prefix .th-input {
+	padding-left: 34px;
+}
+
+.th-control--suffix .th-input,
+.th-control--status .th-input {
+	padding-right: 48px;
+}
+
+.th-control__status {
+	color: var(--th-success);
+}
+
+/* Pill input variant (login card, search, contact module). */
+.th-input--pill {
+	border-radius: var(--th-r-pill);
+	padding-inline: 20px;
+}
+
+.th-input--on-color {
+	background: var(--th-white);
+	border-color: transparent;
+}
+
+/* Password reveal button inside the control. */
+.th-control__toggle {
+	position: absolute;
+	right: 6px;
+	top: 50%;
+	transform: translateY(-50%);
+	display: grid;
+	place-items: center;
+	width: 38px;
+	height: 38px;
+	border: 0;
+	border-radius: var(--th-r-pill);
+	background: transparent;
+	color: var(--th-muted);
+}
+
+.th-control--toggle .th-input {
+	padding-right: 52px;
+}
+
+.th-counter {
+	align-self: flex-end;
+	font-size: var(--th-fs-meta);
+	color: var(--th-muted);
+}
+
+/* --------------------------------------------------------------- checkbox / radio */
+
+.th-check {
+	display: inline-flex;
+	align-items: flex-start;
+	gap: 10px;
+	font-size: var(--th-fs-sm);
+	color: var(--th-text);
+	cursor: pointer;
+	min-height: 24px;
+}
+
+.th-check input {
+	flex: none;
+	display: grid;
+	place-content: center;
+	width: 20px;
+	height: 20px;
+	margin: 1px 0 0;
+	border: 1.5px solid var(--th-line-3);
+	border-radius: var(--th-r-check);
+	background: var(--th-white);
+	-webkit-appearance: none;
+	appearance: none;
+	cursor: pointer;
+	transition: background-color var(--th-dur) var(--th-ease), border-color var(--th-dur) var(--th-ease);
+}
+
+.th-check input[type="radio"] {
+	border-radius: 50%;
+	border-width: 2px;
+}
+
+.th-check input::before {
+	content: "";
+	width: 12px;
+	height: 12px;
+	background: var(--th-white);
+	opacity: 0;
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.th-check input:checked {
+	background: var(--th-blue);
+	border-color: var(--th-blue);
+}
+
+.th-check input:checked::before {
+	opacity: 1;
+}
+
+.th-check input:focus-visible {
+	outline: 3px solid var(--th-focus-ring);
+	outline-offset: 3px;
+}
+
+.th-check input:disabled {
+	background: var(--th-bg);
+	border-color: var(--th-surface-2);
+	cursor: not-allowed;
+}
+
+.th-check:has(input:disabled) {
+	color: var(--th-disabled);
+	cursor: not-allowed;
+}
+
+.th-check input[aria-invalid="true"] {
+	border-color: var(--th-error);
+}
+
+/* --------------------------------------------------------------- toggle (switch) */
+
+.th-toggle {
+	display: inline-flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--th-s-3);
+	min-height: var(--th-tap);
+	cursor: pointer;
+	font-size: var(--th-fs-ui);
+	color: var(--th-ink);
+}
+
+.th-toggle input {
+	position: relative;
+	flex: none;
+	width: 48px;
+	height: 28px;
+	margin: 0;
+	border-radius: var(--th-r-pill);
+	background: var(--th-line-3); /* OFF state is not drawn — DECISION: line-3 track */
+	-webkit-appearance: none;
+	appearance: none;
+	cursor: pointer;
+	transition: background-color var(--th-dur) var(--th-ease);
+}
+
+.th-toggle input::after {
+	content: "";
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	background: var(--th-white);
+}
+
+.th-toggle input:checked {
+	background: var(--th-blue);
+}
+
+.th-toggle input:checked::after {
+	transform: translateX(20px);
+}
+
+.th-toggle input:focus-visible {
+	outline: 3px solid var(--th-focus-ring);
+	outline-offset: 3px;
+}
+
+/* --------------------------------------------------------------- segmented (radio group) */
+
+.th-segmented {
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	padding: 4px;
+	border: 0;
+	margin: 0;
+	border-radius: var(--th-r-pill);
+	background: var(--th-surface-2);
+	max-width: 100%;
+}
+
+.th-segmented--block {
+	display: flex;
+}
+
+.th-segmented label {
+	flex: 1 1 auto;
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 32px;
+	padding: 6px 16px;
+	border-radius: var(--th-r-pill);
+	font-size: var(--th-fs-sm);
+	font-weight: var(--th-fw-semibold);
+	color: var(--th-muted);
+	text-align: center;
+	cursor: pointer;
+	transition: background-color var(--th-dur) var(--th-ease), color var(--th-dur) var(--th-ease);
+}
+
+.th-segmented input {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.th-segmented label:has(input:checked) {
+	background: var(--th-white);
+	color: var(--th-ink);
+	font-weight: var(--th-fw-bold);
+}
+
+.th-segmented label:has(input:focus-visible) {
+	outline: 3px solid var(--th-focus-ring);
+	outline-offset: 2px;
+}
+
+@media (pointer: coarse) {
+	.th-segmented label {
+		min-height: 40px;
+	}
+}
+
+/* --------------------------------------------------------------- dual range */
+
+.th-range {
+	--min: 0;
+	--max: 100;
+	--lo: 0;
+	--hi: 100;
+	position: relative;
+	height: 28px;
+}
+
+.th-range__track,
+.th-range__fill {
+	position: absolute;
+	top: 50%;
+	height: 5px;
+	border-radius: var(--th-r-pill);
+	transform: translateY(-50%);
+}
+
+.th-range__track {
+	left: 0;
+	right: 0;
+	background: var(--th-line);
+}
+
+.th-range__fill {
+	background: var(--th-blue);
+	left: calc((var(--lo) - var(--min)) / (var(--max) - var(--min)) * 100%);
+	right: calc(100% - (var(--hi) - var(--min)) / (var(--max) - var(--min)) * 100%);
+}
+
+.th-range input[type="range"] {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	margin: 0;
+	background: none;
+	pointer-events: none;
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+.th-range input[type="range"]::-webkit-slider-thumb {
+	pointer-events: auto;
+	width: 23px;
+	height: 23px;
+	border: 2.5px solid var(--th-blue);
+	border-radius: 50%;
+	background: var(--th-white);
+	-webkit-appearance: none;
+	appearance: none;
+	cursor: grab;
+}
+
+.th-range input[type="range"]::-moz-range-thumb {
+	pointer-events: auto;
+	width: 18px;
+	height: 18px;
+	border: 2.5px solid var(--th-blue);
+	border-radius: 50%;
+	background: var(--th-white);
+	cursor: grab;
+}
+
+.th-range input[type="range"]:focus-visible::-webkit-slider-thumb {
+	outline: 3px solid var(--th-focus-ring);
+	outline-offset: 3px;
+}
+
+.th-range-values {
+	display: flex;
+	justify-content: space-between;
+	font-size: var(--th-fs-sm);
+	font-weight: var(--th-fw-bold);
+	color: var(--th-ink);
+}
+
+/* --------------------------------------------------------------- password strength */
+
+.th-strength {
+	display: flex;
+	align-items: center;
+	gap: var(--th-s-3);
+}
+
+.th-strength__bars {
+	flex: 1;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 4px;
+}
+
+.th-strength__bars span {
+	height: 4px;
+	border-radius: var(--th-r-pill);
+	background: var(--th-line);
+	transition: background-color var(--th-dur) var(--th-ease);
+}
+
+.th-strength[data-score="1"] .th-strength__bars span:nth-child(-n + 1) {
+	background: var(--th-error);
+}
+
+.th-strength[data-score="2"] .th-strength__bars span:nth-child(-n + 2) {
+	background: var(--th-orange);
+}
+
+.th-strength[data-score="3"] .th-strength__bars span:nth-child(-n + 3),
+.th-strength[data-score="4"] .th-strength__bars span {
+	background: var(--th-success);
+}
+
+.th-strength__label {
+	font-size: var(--th-fs-meta);
+	font-weight: var(--th-fw-semibold);
+	color: var(--th-muted);
+	min-width: 5ch;
+}
+
+.th-strength[data-score="3"] .th-strength__label,
+.th-strength[data-score="4"] .th-strength__label {
+	color: var(--th-success-text);
+}
+
+/* --------------------------------------------------------------- choice card (account type, item type) */
+
+.th-choice {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--th-s-2);
+	padding: var(--th-s-5);
+	border: 1.5px solid var(--th-line);
+	border-radius: var(--th-r-card);
+	background: var(--th-white);
+	cursor: pointer;
+	transition: border-color var(--th-dur) var(--th-ease), background-color var(--th-dur) var(--th-ease);
+}
+
+.th-choice:hover {
+	border-color: var(--th-line-3);
+}
+
+.th-choice input {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.th-choice:has(input:checked) {
+	border-color: var(--th-blue);
+	background: var(--th-tint-blue);
+}
+
+.th-choice:has(input:focus-visible) {
+	outline: 3px solid var(--th-focus-ring);
+	outline-offset: 3px;
+}
+
+.th-choice__title {
+	font-family: var(--th-font-display);
+	font-size: 1.0625rem;
+	font-weight: var(--th-fw-bold);
+	color: var(--th-ink);
+}
+
+.th-choice__radio {
+	position: absolute;
+	top: var(--th-s-4);
+	right: var(--th-s-4);
+	display: grid;
+	place-items: center;
+	width: 20px;
+	height: 20px;
+	border: 2px solid var(--th-line-3);
+	border-radius: 50%;
+	background: var(--th-white);
+	color: var(--th-white);
+}
+
+.th-choice__radio .th-icon {
+	width: 12px;
+	height: 12px;
+	opacity: 0;
+}
+
+.th-choice:has(input:checked) .th-choice__radio {
+	background: var(--th-blue);
+	border-color: var(--th-blue);
+}
+
+.th-choice:has(input:checked) .th-choice__radio .th-icon {
+	opacity: 1;
+}

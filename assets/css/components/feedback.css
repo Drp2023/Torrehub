@@ -1,0 +1,231 @@
+/* Inline alerts, notices, toast, empty state, error panels. */
+
+.th-alert {
+	--alert-bg: var(--th-tint-blue);
+	--alert-fg: var(--th-blue-ink);
+	--alert-icon: var(--th-blue);
+
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: var(--th-s-3);
+	align-items: start;
+	padding: 14px var(--th-s-4);
+	border-radius: var(--th-r-tile);
+	background: var(--alert-bg);
+	color: var(--th-text);
+	font-size: var(--th-fs-sm);
+}
+
+.th-alert > .th-icon {
+	width: 20px;
+	height: 20px;
+	color: var(--alert-icon);
+	margin-top: 1px;
+}
+
+.th-alert__title {
+	display: block;
+	font-size: var(--th-fs-ui);
+	font-weight: var(--th-fw-bold);
+	color: var(--alert-fg);
+}
+
+.th-alert__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--th-s-2);
+	margin-top: var(--th-s-3);
+}
+
+.th-alert--success {
+	--alert-bg: var(--th-success-bg);
+	--alert-fg: var(--th-success-text);
+	--alert-icon: var(--th-success);
+}
+
+.th-alert--error {
+	--alert-bg: var(--th-error-bg);
+	--alert-fg: var(--th-error-text);
+	--alert-icon: var(--th-error);
+	border-radius: var(--th-r-card);
+	padding: var(--th-s-4);
+}
+
+.th-alert--attention {
+	--alert-bg: var(--th-tint-clay);
+	--alert-fg: var(--th-clay-text);
+	--alert-icon: var(--th-clay);
+	--btn-on: var(--th-clay-text);
+	border-radius: var(--th-r-card);
+	padding: var(--th-s-4) 18px;
+}
+
+.th-alert--neutral {
+	--alert-bg: var(--th-surface-2);
+	--alert-fg: var(--th-ink);
+	--alert-icon: var(--th-muted);
+	border-radius: var(--th-r-card);
+}
+
+.th-alert--amber {
+	--alert-bg: var(--th-tint-amber);
+	--alert-fg: var(--th-tint-amber-text);
+	--alert-icon: var(--th-tint-amber-icon);
+}
+
+/* Status pill ("Draft saved 12:41") */
+.th-status {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	min-height: 33px;
+	padding: 0 14px;
+	border-radius: var(--th-r-pill);
+	background: var(--th-success-bg);
+	color: var(--th-success-text);
+	font-size: var(--th-fs-sm);
+	font-weight: var(--th-fw-semibold);
+}
+
+/* ----------------------------------------------------------------- toast (not drawn — DECISION: ink pill, bottom centre) */
+.th-toasts {
+	position: fixed;
+	left: 50%;
+	bottom: calc(var(--th-s-6) + env(safe-area-inset-bottom));
+	z-index: var(--th-z-toast);
+	display: grid;
+	gap: var(--th-s-2);
+	width: max-content;
+	max-width: calc(100vw - 2 * var(--th-gutter));
+	transform: translateX(-50%);
+	pointer-events: none;
+}
+
+body:has(.th-bottom-nav) .th-toasts {
+	bottom: calc(110px + env(safe-area-inset-bottom));
+}
+
+.th-toast {
+	display: flex;
+	align-items: center;
+	gap: var(--th-s-3);
+	padding: 12px var(--th-s-5);
+	border-radius: var(--th-r-pill);
+	background: var(--th-ink);
+	color: var(--th-white);
+	font-size: var(--th-fs-sm);
+	font-weight: var(--th-fw-semibold);
+	box-shadow: var(--th-lift);
+	pointer-events: auto;
+	opacity: 1;
+	transition: opacity var(--th-dur-slow) var(--th-ease);
+}
+
+.th-toast.is-leaving {
+	opacity: 0;
+}
+
+.th-toast .th-icon {
+	width: 18px;
+	height: 18px;
+	color: var(--th-footer-accent);
+}
+
+.th-toast--success .th-icon {
+	color: var(--th-success-bg);
+}
+
+.th-toast--error {
+	background: var(--th-error-text);
+}
+
+.th-toast--error .th-icon {
+	color: var(--th-white);
+}
+
+/* ----------------------------------------------------------------- empty state */
+.th-empty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--th-s-3);
+	padding: var(--th-s-7) var(--th-s-5);
+	text-align: center;
+}
+
+.th-empty__icon {
+	display: grid;
+	place-items: center;
+	width: 64px;
+	height: 64px;
+	border-radius: 50%;
+	background: var(--th-surface-2);
+	color: var(--th-muted);
+}
+
+.th-empty__icon .th-icon {
+	width: 28px;
+	height: 28px;
+}
+
+.th-empty__title {
+	font-family: var(--th-font-display);
+	font-size: 1.375rem;
+	font-weight: var(--th-fw-bold);
+	color: var(--th-ink);
+}
+
+.th-empty p {
+	max-width: 40ch;
+	color: var(--th-muted);
+}
+
+.th-empty__actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: var(--th-s-2);
+	margin-top: var(--th-s-2);
+}
+
+/* ----------------------------------------------------------------- error panels (404 / 401 / 403) */
+.th-error-panel {
+	--panel-bg: var(--th-surface-2);
+	--panel-title: var(--th-ink);
+
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--th-s-4);
+	padding: clamp(26px, 4vw, 48px);
+	border-radius: var(--th-r-card);
+	background: var(--panel-bg);
+}
+
+.th-error-panel__code {
+	font-family: var(--th-font-display);
+	font-size: 3.5rem;
+	font-weight: var(--th-fw-bold);
+	line-height: 1;
+	color: var(--th-line-3);
+}
+
+.th-error-panel__title {
+	color: var(--panel-title);
+}
+
+.th-error-panel--401 {
+	--panel-bg: var(--th-tint-blue);
+	--panel-title: var(--th-blue-ink);
+	--btn-on: var(--th-blue-ink);
+}
+
+.th-error-panel--403 {
+	--panel-bg: var(--th-tint-clay);
+	--panel-title: var(--th-clay-text);
+	--btn-on: var(--th-clay-text);
+}
+
+.th-error-panel .th-icon-circle {
+	background: var(--th-white);
+}

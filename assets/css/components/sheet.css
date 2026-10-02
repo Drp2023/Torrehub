@@ -1,0 +1,119 @@
+/* Overlays built on <dialog>: bottom sheet (mobile), centred modal (desktop), side drawer.
+   Native <dialog> gives focus containment, Esc and inert background; JS adds scrim click + scroll lock. */
+
+.th-dialog {
+	--dialog-w: 560px;
+
+	width: 100%;
+	max-width: min(var(--dialog-w), calc(100vw - 2 * var(--th-gutter)));
+	max-height: min(88vh, 900px);
+	margin: auto;
+	padding: 0;
+	border: 0;
+	border-radius: var(--th-r-card);
+	background: var(--th-white);
+	color: var(--th-text);
+	box-shadow: var(--th-lift);
+	overflow: hidden;
+}
+
+.th-dialog[open] {
+	display: flex;
+	flex-direction: column;
+}
+
+.th-dialog::backdrop {
+	background: var(--th-scrim);
+}
+
+.th-dialog__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--th-s-3);
+	padding: var(--th-s-4) var(--th-s-5);
+	border-bottom: 1px solid var(--th-line);
+}
+
+.th-dialog__title {
+	font-family: var(--th-font-display);
+	font-size: 1.1875rem;
+	font-weight: var(--th-fw-bold);
+	color: var(--th-ink);
+}
+
+.th-dialog__body {
+	flex: 1;
+	padding: var(--th-s-5);
+	overflow-y: auto;
+	overscroll-behavior: contain;
+}
+
+.th-dialog__foot {
+	display: grid;
+	grid-template-columns: 1fr 1.5fr;
+	gap: var(--th-s-2);
+	padding: var(--th-s-3) var(--th-s-4) calc(var(--th-s-4) + env(safe-area-inset-bottom));
+	border-top: 1px solid var(--th-line);
+	background: var(--th-white);
+}
+
+/* Bottom sheet below 900px */
+@media (max-width: 899px) {
+	.th-dialog--sheet {
+		max-width: 100vw;
+		max-height: 92vh;
+		margin: auto 0 0;
+		border-radius: var(--th-r-sheet);
+	}
+
+	.th-dialog--sheet .th-dialog__head {
+		position: relative;
+		padding-top: var(--th-s-6);
+		border-bottom: 0;
+	}
+
+	.th-dialog--sheet .th-dialog__head::before {
+		content: "";
+		position: absolute;
+		top: 10px;
+		left: 50%;
+		width: 44px;
+		height: 4px;
+		margin-left: -22px;
+		border-radius: var(--th-r-pill);
+		background: var(--th-line-3);
+	}
+}
+
+/* Side drawer (mobile navigation) */
+.th-dialog--drawer {
+	max-width: min(420px, 100vw);
+	max-height: 100dvh;
+	height: 100dvh;
+	margin: 0 auto 0 0;
+	border-radius: 0;
+}
+
+/* Scroll lock while any dialog is open */
+html:has(.th-dialog[open]) {
+	overflow: hidden;
+}
+
+/* Section titles inside sheets */
+.th-sheet-section {
+	display: grid;
+	gap: var(--th-s-3);
+	padding-block: var(--th-s-4);
+	border-bottom: 1px solid var(--th-line);
+}
+
+.th-sheet-section:last-child {
+	border-bottom: 0;
+}
+
+.th-sheet-section__title {
+	font-size: var(--th-fs-ui);
+	font-weight: var(--th-fw-bold);
+	color: var(--th-ink);
+}

@@ -1,0 +1,42 @@
+{
+	"extends": [
+		"stylelint-config-standard"
+	],
+	"rules": {
+		"selector-class-pattern": "^(th|sg|is|wp|editor-styles-wrapper|screen-reader-text)(-[a-z0-9_]+)*(__[a-z0-9-]+)?(--[a-z0-9-]+)?$|^th$",
+		"custom-property-pattern": "^(th|btn|chip|badge|card|tile|mod|alert|panel|dialog|pct|lo|hi|min|max|stack-gap|cluster-gap|grid-gap|cols-sm|cols-md|cols-lg|tabs-top|btn-on)[a-z0-9-]*$",
+		"color-no-hex": [
+			true,
+			{
+				"severity": "warning"
+			}
+		],
+		"declaration-property-value-no-unknown": null,
+		"no-descending-specificity": null,
+		"font-family-name-quotes": null,
+		"selector-no-vendor-prefix": null,
+		"property-no-vendor-prefix": null,
+		"value-keyword-case": null,
+		"declaration-empty-line-before": null,
+		"comment-empty-line-before": null,
+		"rule-empty-line-before": null,
+		"alpha-value-notation": null,
+		"color-function-notation": null,
+		"media-feature-range-notation": null,
+		"shorthand-property-no-redundant-values": null,
+		"import-notation": null,
+		"number-max-precision": 5,
+		"custom-property-empty-line-before": null,
+		"at-rule-empty-line-before": null
+	},
+	"overrides": [
+		{
+			"files": [
+				"assets/css/tokens.css"
+			],
+			"rules": {
+				"color-no-hex": null
+			}
+		}
+	]
+}

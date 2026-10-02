@@ -1,0 +1,21 @@
+{
+	"theme": [
+		"tokens.css",
+		"base.css",
+		"layout.css",
+		"components/button.css",
+		"components/form.css",
+		"components/chip.css",
+		"components/badge.css",
+		"components/rating.css",
+		"components/card.css",
+		"components/tile.css",
+		"components/module.css",
+		"components/navigation.css",
+		"components/sheet.css",
+		"components/feedback.css"
+	],
+	"styleguide": [
+		"styleguide.css"
+	]
+}

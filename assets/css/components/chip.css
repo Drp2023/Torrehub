@@ -1,0 +1,171 @@
+/* Chips — filters (removable), choices, attributes, suggestions, topics, towns, languages. */
+
+.th-chip {
+	--chip-bg: var(--th-bg);
+	--chip-fg: var(--th-text);
+	--chip-line: transparent;
+	--chip-h: var(--th-h-chip);
+
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	min-height: var(--chip-h);
+	padding: 0 14px;
+	border: 1px solid var(--chip-line);
+	border-radius: var(--th-r-pill);
+	background: var(--chip-bg);
+	color: var(--chip-fg);
+	font-size: var(--th-fs-sm);
+	font-weight: var(--th-fw-semibold);
+	line-height: 1.2;
+	text-decoration: none;
+	white-space: nowrap;
+	transition: background-color var(--th-dur) var(--th-ease), color var(--th-dur) var(--th-ease), border-color var(--th-dur) var(--th-ease);
+}
+
+a.th-chip:hover,
+button.th-chip:hover {
+	background: color-mix(in srgb, var(--chip-bg) 90%, var(--th-ink));
+	color: var(--chip-fg);
+}
+
+button.th-chip {
+	cursor: pointer;
+	font-family: inherit;
+}
+
+.th-chip .th-icon {
+	width: 14px;
+	height: 14px;
+}
+
+@media (pointer: coarse) {
+	a.th-chip,
+	button.th-chip,
+	label.th-chip {
+		min-height: max(var(--chip-h), 40px);
+	}
+}
+
+/* Active filter (removable). The × is part of a single button: "Remove filter: Plumbing". */
+.th-chip--filter {
+	--chip-bg: var(--th-tint-blue);
+	--chip-fg: var(--th-blue-ink);
+	font-weight: var(--th-fw-bold);
+	padding-right: 10px;
+}
+
+.th-chip--ink {
+	--chip-bg: var(--th-ink);
+	--chip-fg: var(--th-white);
+	font-weight: var(--th-fw-bold);
+}
+
+.th-chip--ink:hover {
+	background: color-mix(in srgb, var(--th-ink) 85%, var(--th-white)) !important;
+}
+
+.th-chip--success {
+	--chip-bg: var(--th-success-bg);
+	--chip-fg: var(--th-success-text);
+	font-weight: var(--th-fw-bold);
+}
+
+.th-chip--clear {
+	--chip-bg: var(--th-white);
+	--chip-fg: var(--th-muted);
+	--chip-line: var(--th-line-2);
+}
+
+/* Selectable choice chips (checkbox/radio inside a label). */
+.th-chip--choice {
+	--chip-h: 39px;
+	cursor: pointer;
+	font-size: var(--th-fs-ui);
+}
+
+.th-chip--choice input {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.th-chip--choice:has(input:checked),
+.th-chip[aria-pressed="true"],
+.th-chip[aria-current="true"] {
+	--chip-bg: var(--th-blue);
+	--chip-fg: var(--th-white);
+	font-weight: var(--th-fw-bold);
+}
+
+.th-chip--choice:has(input:focus-visible) {
+	outline: 3px solid var(--th-focus-ring);
+	outline-offset: 3px;
+}
+
+/* Radius chips & topic chips: selected = ink. */
+.th-chip--radius:has(input:checked),
+.th-chip--topic[aria-current="page"],
+.th-chip--topic[aria-pressed="true"] {
+	--chip-bg: var(--th-ink);
+	--chip-fg: var(--th-white);
+	font-weight: var(--th-fw-bold);
+}
+
+.th-chip--topic {
+	--chip-bg: var(--th-white);
+	--chip-line: var(--th-line);
+	--chip-h: 38px;
+}
+
+/* Small, non-interactive attribute chips on cards. */
+.th-chip--attr {
+	--chip-h: 24px;
+	padding: 0 9px;
+	font-size: var(--th-fs-micro);
+}
+
+.th-chip--suggest {
+	--chip-h: 29px;
+	padding: 0 12px;
+	font-size: var(--th-fs-meta);
+}
+
+/* Amenity chips: label + green check. */
+.th-chip--amenity {
+	--chip-h: 39px;
+	font-size: var(--th-fs-ui);
+}
+
+.th-chip--amenity .th-icon {
+	color: var(--th-success);
+}
+
+@media (max-width: 599px) {
+	.th-chip--amenity {
+		--chip-h: 33px;
+		font-size: var(--th-fs-sm);
+	}
+}
+
+.th-chip__remove {
+	display: inline-grid;
+	place-items: center;
+	width: 20px;
+	height: 20px;
+	margin-right: -4px;
+	border-radius: 50%;
+}
+
+.th-chip__count {
+	display: inline-grid;
+	place-items: center;
+	min-width: 20px;
+	height: 20px;
+	padding: 0 6px;
+	border-radius: var(--th-r-pill);
+	background: var(--th-orange);
+	color: var(--th-ink);
+	font-size: var(--th-fs-micro);
+	font-weight: var(--th-fw-bold);
+}

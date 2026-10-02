@@ -1,0 +1,204 @@
+/**
+ * Torrehub — Direction C design tokens.
+ * Source: brief §3 + _dev/design/INVENTORY.md §3 (values the screens actually use).
+ * Rule: components use these custom properties only — no raw hex outside this file.
+ */
+
+@font-face {
+	font-family: "Figtree";
+	src: url("../fonts/figtree-latin-var.woff2") format("woff2");
+	font-weight: 300 900;
+	font-style: normal;
+	font-display: swap;
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+	font-family: "Figtree";
+	src: url("../fonts/figtree-latin-ext-var.woff2") format("woff2");
+	font-weight: 300 900;
+	font-style: normal;
+	font-display: swap;
+	unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+	font-family: "Space Grotesk";
+	src: url("../fonts/space-grotesk-latin-var.woff2") format("woff2");
+	font-weight: 300 700;
+	font-style: normal;
+	font-display: swap;
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+	font-family: "Space Grotesk";
+	src: url("../fonts/space-grotesk-latin-ext-var.woff2") format("woff2");
+	font-weight: 300 700;
+	font-style: normal;
+	font-display: swap;
+	unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+:root {
+	/* ---------------------------------------------------------- brand */
+	--th-blue: #0056b3;
+	--th-blue-deep: #003d82;
+	--th-blue-ink: #00458f;
+	--th-blue-loading: #2a66a6;          /* primary button, loading state */
+	--th-blue-label: #2f5c8f;            /* caps labels on blue tint */
+	--th-on-blue: #f1f7fd;               /* body text on blue surfaces */
+	--th-on-blue-2: #edf4fc;             /* secondary text on the contact module */
+	--th-orange: #ff8c00;                /* main CTA — text on it is always ink */
+	--th-orange-pressed: #b25e00;        /* pressed: text flips to white (design F-03) */
+	--th-clay: #a8482b;
+	--th-clay-hover: #c75b39;            /* DECISION: F-01 swatch label, used as link hover */
+	--th-clay-text: #9c4529;
+	--th-clay-line: #e5bfae;             /* clay outline button border */
+
+	/* -------------------------------------------------------- neutrals */
+	--th-ink: #17203a;
+	--th-night: #0e1526;
+	--th-text: #3a4562;
+	--th-muted: #5f6a8a;
+	--th-disabled: #a0a8c0;
+	--th-white: #fff;
+	--th-bg: #f7f7fb;
+	--th-surface-2: #ededf4;
+	--th-skeleton: #f2f2f7;
+	--th-line: #e2e2ec;
+	--th-line-2: #dcdce8;
+	--th-line-3: #c4c7d8;
+	--th-ghost-line: #3c4766;            /* ghost button border on ink */
+
+	/* ----------------------------------------------------------- tints */
+	--th-tint-blue: #e6effa;
+	--th-tint-clay: #fceee7;
+	--th-tint-clay-line: #f0cdbc;
+	--th-tint-amber: #fff1e0;
+	--th-tint-amber-line: #ffd9a8;
+	--th-tint-amber-text: #8a5309;
+	--th-tint-amber-icon: #c97a16;
+	--th-success-bg: #e4f4ee;
+	--th-success: #0e7a5f;
+	--th-success-text: #0b5f49;
+	--th-success-label: #2c6b58;         /* caps labels on green tint */
+	--th-error-bg: #fbe9ec;
+	--th-error: #c0304a;
+	--th-error-text: #96223a;
+	--th-error-field: #fffdfd;           /* input background in error state */
+
+	/* ---------------------------------------------------------- footer */
+	--th-footer-text: #a3aecb;
+	--th-footer-muted: #97a1be;
+	--th-footer-chip: #2a3454;
+	--th-footer-accent: #ffd09a;
+	--th-on-photo-muted: #c6cfe8;        /* town-card meta over the photo gradient */
+
+	/* ---------------------------------------------------- alpha / fx */
+	--th-scrim: rgb(14 21 38 / 0.5);
+	--th-veil-photo: rgb(14 21 38 / 0.72);
+	--th-veil-expired: rgb(247 247 251 / 0.7);
+	--th-photo-gradient: linear-gradient(180deg, rgb(14 21 38 / 0) 45%, rgb(14 21 38 / 0.82) 100%); /* town cards only (brief 3.3 exception) */
+	--th-on-dark-line: rgb(255 255 255 / 0.45);
+	--th-on-dark-card: rgb(255 255 255 / 0.14);
+	--th-focus-ring: rgb(0 86 179 / 0.3);
+	--th-focus-halo: rgb(0 86 179 / 0.12);
+
+	/* The ONLY shadow (brief 3.3): sheets, dropdowns, map overlays, mobile sticky bar.
+	   DECISION: the design's .22–.36 alphas on floating elements are unified to this token. */
+	--th-lift: 0 8px 24px -8px rgb(23 32 58 / 0.18);
+	--th-lift-up: 0 -8px 24px -10px rgb(23 32 58 / 0.18);
+
+	/* ------------------------------------------------------ category */
+	--th-cat-blue-bg: var(--th-tint-blue);
+	--th-cat-blue-fg: var(--th-blue);
+	--th-cat-clay-bg: var(--th-tint-clay);
+	--th-cat-clay-fg: var(--th-clay);
+	--th-cat-grey-bg: var(--th-surface-2);
+	--th-cat-grey-fg: var(--th-text);
+	--th-cat-amber-bg: var(--th-tint-amber);
+	--th-cat-amber-fg: var(--th-tint-amber-icon);
+	--th-cat-green-bg: var(--th-success-bg);
+	--th-cat-green-fg: var(--th-success);
+
+	/* ------------------------------------------------------ typography */
+	--th-font-display: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+	--th-font-body: "Figtree", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+	--th-fs-hero: clamp(2.125rem, 1.2rem + 3.6vw, 3.25rem);    /* 34 → 52 (home hero; 78 is the F-02 ceiling) */
+	--th-fs-h1: clamp(1.5rem, 1.15rem + 1.4vw, 2.125rem);       /* 24 → 34 (archive, listing) */
+	--th-fs-h1-page: clamp(1.625rem, 1.15rem + 1.9vw, 2.75rem); /* 26 → 44 (about, guides, auth) */
+	--th-fs-h2: clamp(1.1875rem, 1rem + 0.8vw, 1.625rem);       /* 19 → 26 */
+	--th-fs-h3: 1.1875rem;                                      /* 19 */
+	--th-fs-price: clamp(1.1875rem, 1.1rem + 0.3vw, 1.3125rem); /* 19 → 21 */
+	--th-fs-title: 0.90625rem;     /* 14.5 listing title */
+	--th-fs-lead: 1.0625rem;       /* 17 */
+	--th-fs-body: 0.96875rem;      /* 15.5 */
+	--th-fs-ui: 0.9375rem;         /* 15 buttons / inputs */
+	--th-fs-sm: 0.84375rem;        /* 13.5 */
+	--th-fs-meta: 0.78125rem;      /* 12.5 */
+	--th-fs-micro: 0.71875rem;     /* 11.5 — floor: nothing smaller */
+
+	--th-fw-regular: 400;
+	--th-fw-semibold: 600;
+	--th-fw-bold: 700;             /* DECISION: the design's Figtree 800 (rating numerals) renders as 700 */
+
+	--th-ls-display: -0.025em;
+	--th-ls-display-tight: -0.04em;
+	--th-ls-micro: 0.14em;
+	--th-ls-badge: 0.06em;
+	--th-ls-badge-tint: 0.04em;
+
+	--th-lh-tight: 1.15;
+	--th-lh-snug: 1.35;
+	--th-lh-body: 1.55;
+
+	/* --------------------------------------------------------- radius */
+	--th-r-pill: 100px;
+	--th-r-check: 6px;
+	--th-r-input: 12px;
+	--th-r-image: 14px;
+	--th-r-tile: 16px;
+	--th-r-card: 20px;
+	--th-r-hero: 24px;
+	--th-r-sheet: 24px 24px 0 0;
+
+	/* -------------------------------------------------------- spacing (4px base) */
+	--th-s-1: 4px;
+	--th-s-2: 8px;
+	--th-s-3: 12px;
+	--th-s-4: 16px;
+	--th-s-5: 20px;
+	--th-s-6: 24px;
+	--th-s-7: 32px;
+	--th-s-8: 48px;
+	--th-s-9: 80px;
+	--th-gutter: 16px;            /* mobile side gutter */
+	--th-container: 1376px;       /* 1440 − 2×32 */
+
+	/* ------------------------------------------------------- controls */
+	--th-h-control: 48px;         /* inputs */
+	--th-h-btn: 46px;
+	--th-h-btn-lg: 52px;          /* mobile CTA */
+	--th-h-btn-sm: 40px;
+	--th-h-chip: 36px;
+	--th-h-badge: 24px;           /* DECISION: design varies 22/24/26 → 24 */
+	--th-tap: 44px;               /* touch target minimum */
+
+	/* --------------------------------------------------------- motion */
+	--th-dur: 150ms;
+	--th-dur-slow: 200ms;
+	--th-ease: ease-out;
+
+	/* ---------------------------------------------------------- layers */
+	--th-z-sticky: 20;
+	--th-z-header: 40;
+	--th-z-dropdown: 60;
+	--th-z-sheet: 80;
+	--th-z-toast: 100;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--th-dur: 0ms;
+		--th-dur-slow: 0ms;
+	}
+}

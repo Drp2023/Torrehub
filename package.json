@@ -1,0 +1,20 @@
+{
+	"name": "torrehub-theme",
+	"private": true,
+	"description": "Dev tooling for the Torrehub theme (not shipped).",
+	"type": "module",
+	"scripts": {
+		"build": "node _dev/tools/build-sprite.mjs && node _dev/tools/build-assets.mjs",
+		"lint:js": "eslint assets/js",
+		"lint:css": "stylelint \"assets/css/**/*.css\" --ignore-pattern \"assets/css/build/**\"",
+		"lint:php": "php _dev/tools/composer.phar exec phpcs",
+		"lint": "npm run lint:js && npm run lint:css && npm run lint:php"
+	},
+	"devDependencies": {
+		"eslint": "^9.0.0",
+		"@eslint/js": "^9.0.0",
+		"globals": "^15.0.0",
+		"stylelint": "^16.0.0",
+		"stylelint-config-standard": "^36.0.0"
+	}
+}

@@ -1,0 +1,12 @@
+{
+	"name": "torrehub/theme",
+	"description": "Dev tooling (PHPCS) for the Torrehub theme — not shipped.",
+	"type": "project",
+	"require-dev": {
+		"wp-coding-standards/wpcs": "^3.1",
+		"phpcompatibility/phpcompatibility-wp": "^2.1"
+	},
+	"config": {
+		"allow-plugins": { "dealerdirect/phpcodesniffer-composer-installer": true }
+	}
+}

@@ -1,0 +1,246 @@
+/* Buttons — F-03. All pills, Figtree 700.
+   Hover is not drawn in the design: DECISION derive it by mixing 12% ink into the fill (colour-only transition). */
+
+.th-btn {
+	--btn-bg: var(--th-white);
+	--btn-fg: var(--th-ink);
+	--btn-line: transparent;
+	--btn-h: var(--th-h-btn);
+	--btn-px: 24px;
+
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--th-s-2);
+	min-height: var(--btn-h);
+	padding: 0 var(--btn-px);
+	border: 1.5px solid var(--btn-line);
+	border-radius: var(--th-r-pill);
+	background: var(--btn-bg);
+	color: var(--btn-fg);
+	font-family: var(--th-font-body);
+	font-size: var(--th-fs-ui);
+	font-weight: var(--th-fw-bold);
+	line-height: 1.2;
+	text-align: center;
+	text-decoration: none;
+	white-space: normal; /* long translations wrap instead of overflowing (brief §6) */
+	cursor: pointer;
+	transition: background-color var(--th-dur) var(--th-ease), color var(--th-dur) var(--th-ease), border-color var(--th-dur) var(--th-ease);
+	-webkit-tap-highlight-color: transparent;
+}
+
+.th-btn:hover {
+	background: color-mix(in srgb, var(--btn-bg) 88%, var(--th-ink));
+	color: var(--btn-fg);
+}
+
+.th-btn .th-icon {
+	width: 18px;
+	height: 18px;
+}
+
+/* -------------------------------------------------------------- variants */
+
+.th-btn--accent {
+	--btn-bg: var(--th-orange);
+	--btn-fg: var(--th-ink);
+}
+
+.th-btn--accent:active {
+	--btn-bg: var(--th-orange-pressed);
+	--btn-fg: var(--th-white);
+}
+
+.th-btn--primary {
+	--btn-bg: var(--th-blue);
+	--btn-fg: var(--th-white);
+}
+
+.th-btn--outline {
+	--btn-bg: var(--th-white);
+	--btn-fg: var(--th-ink);
+	--btn-line: var(--th-ink);
+}
+
+.th-btn--outline:hover {
+	background: var(--th-bg);
+}
+
+.th-btn--soft {
+	--btn-bg: var(--th-tint-blue);
+	--btn-fg: var(--th-blue-ink);
+}
+
+.th-btn--destructive {
+	--btn-bg: var(--th-error-bg);
+	--btn-fg: var(--th-error-text);
+}
+
+.th-btn--ink {
+	--btn-bg: var(--th-ink);
+	--btn-fg: var(--th-white);
+}
+
+.th-btn--ink:hover {
+	background: color-mix(in srgb, var(--th-ink) 85%, var(--th-white));
+}
+
+.th-btn--clay {
+	--btn-bg: var(--th-clay);
+	--btn-fg: var(--th-white);
+}
+
+.th-btn--whatsapp {
+	--btn-bg: var(--th-success);
+	--btn-fg: var(--th-white);
+}
+
+.th-btn--neutral {
+	--btn-bg: var(--th-bg);
+	--btn-fg: var(--th-ink);
+}
+
+/* White button on tinted / dark surfaces; text colour follows the surface family. */
+.th-btn--white {
+	--btn-bg: var(--th-white);
+	--btn-fg: var(--btn-on, var(--th-ink));
+}
+
+.th-btn--white:hover {
+	background: var(--th-bg);
+}
+
+.th-btn--ghost {
+	--btn-bg: transparent;
+	--btn-fg: var(--th-white);
+	--btn-line: var(--th-on-dark-line);
+}
+
+.th-btn--ghost:hover {
+	background: var(--th-on-dark-card);
+}
+
+.th-btn--clay-outline {
+	--btn-bg: var(--th-white);
+	--btn-fg: var(--th-clay-text);
+	--btn-line: var(--th-clay-line);
+}
+
+.th-btn--text {
+	--btn-bg: transparent;
+	--btn-fg: var(--th-muted);
+	--btn-px: 4px;
+	font-size: var(--th-fs-sm);
+	font-weight: var(--th-fw-regular);
+}
+
+.th-btn--text:hover {
+	background: transparent;
+	color: var(--th-ink);
+	text-decoration: underline;
+}
+
+/* -------------------------------------------------------------- sizes */
+
+.th-btn--sm {
+	--btn-h: var(--th-h-btn-sm);
+	--btn-px: 18px;
+	font-size: var(--th-fs-sm);
+}
+
+.th-btn--lg {
+	--btn-h: var(--th-h-btn-lg);
+	--btn-px: 28px;
+	font-size: 1rem;
+}
+
+.th-btn--block {
+	display: flex;
+	width: 100%;
+}
+
+@media (pointer: coarse) {
+	.th-btn--sm {
+		--btn-h: var(--th-tap);
+	}
+}
+
+/* -------------------------------------------------------------- icon button (round) */
+
+.th-btn--icon {
+	--btn-h: 46px;
+	--btn-px: 0;
+	width: var(--btn-h);
+	border-color: var(--th-line);
+}
+
+.th-btn--icon.th-btn--sm {
+	--btn-h: 38px;
+}
+
+.th-btn--icon.th-btn--neutral,
+.th-btn--icon.th-btn--accent,
+.th-btn--icon.th-btn--primary {
+	border-color: transparent;
+}
+
+@media (pointer: coarse) {
+	.th-btn--icon.th-btn--sm {
+		--btn-h: var(--th-tap);
+	}
+}
+
+/* Favourite toggle: active = soft red with filled heart. */
+.th-btn--fav[aria-pressed="true"] {
+	--btn-bg: var(--th-error-bg);
+	--btn-fg: var(--th-error);
+	border-color: transparent;
+}
+
+.th-btn--fav .th-icon--heart-filled,
+.th-btn--fav[aria-pressed="true"] .th-icon--heart {
+	display: none;
+}
+
+.th-btn--fav[aria-pressed="true"] .th-icon--heart-filled {
+	display: inline-block;
+}
+
+/* -------------------------------------------------------------- states */
+
+.th-btn:disabled,
+.th-btn[aria-disabled="true"] {
+	--btn-bg: var(--th-surface-2);
+	--btn-fg: var(--th-disabled);
+	--btn-line: transparent;
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
+.th-btn.is-loading {
+	pointer-events: none;
+}
+
+.th-btn--primary.is-loading {
+	--btn-bg: var(--th-blue-loading);
+}
+
+.th-btn__spinner {
+	width: 18px;
+	height: 18px;
+	animation: th-spin 0.8s linear infinite;
+}
+
+@keyframes th-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.th-btn__spinner {
+		animation-duration: 2.4s;
+	}
+}

@@ -1,0 +1,180 @@
+/* Category tile (10 roots, 5 tint families) + town card. */
+
+.th-cat-tile {
+	--tile-bg: var(--th-cat-grey-bg);
+	--tile-fg: var(--th-cat-grey-fg);
+
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--th-s-3);
+	min-height: 117px;
+	padding: var(--th-s-5);
+	border-radius: var(--th-r-card);
+	background: var(--tile-bg);
+	color: var(--th-ink);
+	text-decoration: none;
+	transition: background-color var(--th-dur) var(--th-ease);
+}
+
+.th-cat-tile:hover {
+	background: color-mix(in srgb, var(--tile-bg) 92%, var(--tile-fg));
+	color: var(--th-ink);
+}
+
+.th-cat-tile .th-icon {
+	width: 26px;
+	height: 26px;
+	color: var(--tile-fg);
+}
+
+.th-cat-tile__name {
+	font-size: var(--th-fs-ui);
+	font-weight: var(--th-fw-bold);
+	line-height: 1.25;
+}
+
+.th-cat-tile__meta {
+	margin-top: auto;
+	font-size: var(--th-fs-sm);
+	color: var(--th-muted);
+}
+
+.th-tint--blue {
+	--tile-bg: var(--th-cat-blue-bg);
+	--tile-fg: var(--th-cat-blue-fg);
+}
+
+.th-tint--clay {
+	--tile-bg: var(--th-cat-clay-bg);
+	--tile-fg: var(--th-cat-clay-fg);
+}
+
+.th-tint--grey {
+	--tile-bg: var(--th-cat-grey-bg);
+	--tile-fg: var(--th-cat-grey-fg);
+}
+
+.th-tint--amber {
+	--tile-bg: var(--th-cat-amber-bg);
+	--tile-fg: var(--th-cat-amber-fg);
+}
+
+.th-tint--green {
+	--tile-bg: var(--th-cat-green-bg);
+	--tile-fg: var(--th-cat-green-fg);
+}
+
+@media (max-width: 599px) {
+	.th-cat-tile {
+		min-height: 124px;
+		padding: var(--th-s-4);
+	}
+
+	.th-cat-tile .th-icon {
+		width: 24px;
+		height: 24px;
+	}
+}
+
+/* Row variant (drawer, mega-panel roots). */
+.th-cat-row {
+	--tile-bg: var(--th-cat-grey-bg);
+	--tile-fg: var(--th-cat-grey-fg);
+
+	display: flex;
+	align-items: center;
+	gap: var(--th-s-3);
+	min-height: 48px;
+	padding: 0 var(--th-s-4);
+	border-radius: var(--th-r-tile);
+	background: var(--tile-bg);
+	color: var(--th-ink);
+	font-size: var(--th-fs-ui);
+	font-weight: var(--th-fw-bold);
+	text-decoration: none;
+}
+
+.th-cat-row .th-icon {
+	width: 20px;
+	height: 20px;
+	color: var(--tile-fg);
+}
+
+.th-cat-row .th-icon--chevron-right {
+	margin-left: auto;
+	width: 15px;
+	height: 15px;
+	color: var(--th-muted);
+}
+
+/* ------------------------------------------------------------------ town card */
+
+.th-town {
+	position: relative;
+	display: block;
+	aspect-ratio: 4 / 3;
+	border-radius: var(--th-r-card);
+	overflow: hidden;
+	background: var(--th-ink);
+	color: var(--th-white);
+	text-decoration: none;
+	isolation: isolate;
+}
+
+.th-town img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	z-index: -2;
+}
+
+.th-town::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: var(--th-photo-gradient); /* readability overlay — brief 3.3 exception */
+	z-index: -1;
+}
+
+.th-town__text {
+	position: absolute;
+	left: var(--th-s-4);
+	right: var(--th-s-4);
+	bottom: var(--th-s-4);
+}
+
+.th-town__name {
+	display: block;
+	font-family: var(--th-font-display);
+	font-size: 1.25rem;
+	font-weight: var(--th-fw-bold);
+	letter-spacing: var(--th-ls-display);
+	color: var(--th-white);
+}
+
+.th-town__count {
+	font-size: var(--th-fs-meta);
+	color: var(--th-on-photo-muted);
+}
+
+.th-town:hover {
+	color: var(--th-white);
+}
+
+.th-town:focus-visible {
+	outline: 3px solid var(--th-focus-ring);
+	outline-offset: 3px;
+}
+
+@media (max-width: 599px) {
+	.th-town {
+		aspect-ratio: 5 / 6;
+	}
+
+	.th-town__name {
+		font-size: 1.0625rem;
+	}
+}
