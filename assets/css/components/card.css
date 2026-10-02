@@ -38,6 +38,7 @@
 
 .th-card__badges {
 	position: absolute;
+	z-index: 1; /* above the expired veil */
 	top: 10px;
 	left: 10px;
 	display: flex;
@@ -55,6 +56,7 @@
 
 .th-card__photos {
 	position: absolute;
+	z-index: 1;
 	right: 10px;
 	bottom: 10px;
 }

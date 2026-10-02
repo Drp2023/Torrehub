@@ -29,9 +29,9 @@ final class Theme {
 	private array $modules = array();
 
 	/**
-	 * Modules skipped for unmet requirements: id => reason.
+	 * Ids of modules skipped for unmet requirements.
 	 *
-	 * @var array<string,string>
+	 * @var array<int,string>
 	 */
 	private array $skipped = array();
 
@@ -79,9 +79,8 @@ final class Theme {
 
 		// Plugins (Classified Listing) are loaded before the theme, so requirements can be checked right away.
 		foreach ( $this->modules as $id => $module ) {
-			$reason = $module->unmet_requirement();
-			if ( null !== $reason ) {
-				$this->skipped[ $id ] = $reason;
+			if ( ! $module->requirements_met() ) {
+				$this->skipped[] = $id;
 				continue;
 			}
 			if ( Settings::module_enabled( $module ) ) {
@@ -103,9 +102,9 @@ final class Theme {
 	}
 
 	/**
-	 * Modules skipped for unmet requirements.
+	 * Ids of modules skipped for unmet requirements.
 	 *
-	 * @return array<string,string> id => reason
+	 * @return array<int,string>
 	 */
 	public function skipped(): array {
 		return $this->skipped;

@@ -83,6 +83,7 @@ h2,
 h3,
 .th-display {
 	font-family: var(--th-font-display);
+	font-weight: var(--th-fw-bold);
 	color: var(--th-ink);
 	letter-spacing: var(--th-ls-display);
 	line-height: var(--th-lh-tight);

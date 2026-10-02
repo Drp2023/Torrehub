@@ -210,7 +210,7 @@
 
 /* -------------------------------------------------------------- states */
 
-.th-btn:disabled,
+.th-btn:disabled:not(.is-loading),
 .th-btn[aria-disabled="true"] {
 	--btn-bg: var(--th-surface-2);
 	--btn-fg: var(--th-disabled);
@@ -221,6 +221,7 @@
 
 .th-btn.is-loading {
 	pointer-events: none;
+	cursor: progress;
 }
 
 .th-btn--primary.is-loading {

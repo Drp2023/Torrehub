@@ -52,8 +52,15 @@ final class Module extends BaseModule {
 	/**
 	 * Needs the Classified Listing plugin.
 	 */
-	public function unmet_requirement(): ?string {
-		return th_has_rtcl() ? null : __( 'Requires the Classified Listing plugin.', 'torrehub' );
+	public function requirements_met(): bool {
+		return th_has_rtcl();
+	}
+
+	/**
+	 * Settings-screen message when the plugin is missing.
+	 */
+	public function requirement_message(): string {
+		return __( 'Requires the Classified Listing plugin.', 'torrehub' );
 	}
 
 	/**

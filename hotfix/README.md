@@ -24,5 +24,11 @@ Visszaállítás: a fájl törlése a `mu-plugins` mappából.
 - A régi téma `delete_listing_logo_attachment` / `delete_food_attachment` AJAX-a is jogosultság-ellenőrzés nélküli — témaváltással megszűnik.
 - A korábbi GitHub-commitban (`909e296`, `audit-data/06-rtcl-options.json`) élő kulcsok vannak (OpenAI, Pusher, Google Maps, licencek) → rotálni.
 
-## Tesztelve
-Lokálisan (`bin/` környezet), lásd a commit üzenetét.
+## Tesztelve (lokális másolat, éles plugin-stack, 2026-10-02)
+
+| Teszt | Hotfix nélkül | Hotfixszel |
+|---|---|---|
+| Kijelentkezve `GET /?export_user=1` | **`demo-users/users.json` felülíródott** (valós user-sorok), és a fájl **bejelentkezés nélkül letölthető** (`GET …/demo-users/users.json` → 200) | a fájl változatlan (dátum, méret) |
+| Belépett seller törli **más** user dokumentumát (`rtcl_ajax_documents_photo_delete`, `user_id`=másik) | **„Successfully deleted”** — a melléklet és a `photo_id` törölve | **403**, a dokumentum megmarad |
+| Belépett seller letölti más user dokumentumát (`…_file_download`) | (nonce-szal sikerülne) | **403** |
+| Belépett seller a **saját** dokumentumát törli | sikeres | sikeres (nem blokkol) |

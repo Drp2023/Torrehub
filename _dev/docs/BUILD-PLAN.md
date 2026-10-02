@@ -1,7 +1,7 @@
 # BUILD-PLAN.md — Torrehub téma (Direction C · Modern Local Hub)
 
 **Verzió:** 2.0 — a 2026-10-02-i döntések szerint (felülírja a promptot és a v1 tervet)
-**Állapot:** 0. fázis jóváhagyva · hotfix kész · 1. fázis folyamatban
+**Állapot:** 0. fázis jóváhagyva · hotfix kész és tesztelve · 1. fázis kész, jóváhagyásra vár
 **Kapcsolódó:** `RTCL-INTEGRATION-MAP.md`, `RTCL-FREE-CAPABILITIES.md`, `../design/INVENTORY.md`, `../../hotfix/README.md`
 
 ---
@@ -157,7 +157,7 @@ torrehub/                               (= repo gyökér = téma gyökér)
 | # | Tartalom | Elfogadás |
 |---|---|---|
 | 0 | ✅ env, audit, integrációs térkép, terv · ✅ hotfix · ✅ repó a téma mappájában | jóváhagyva |
-| 1 | Téma-váz: `style.css`, bootstrap/autoloader, ModuleRegistry, Settings oldal váz, Installer · tokenek, fontok, ikon-sprite · komponens-könyvtár (PHP partials + CSS + vanilla JS) · rejtett `/styleguide` (F-01…F-05) · `build-zip.sh` · `Compat\FormBuilderRepeater` (élesítési kapu) · **baseline: a site csak free pluginokkal + új témával fatal nélkül fut** | Playwright 1440/390 vs design; `php -l`, PHPCS, Stylelint, ESLint |
+| 1 ✅ | Téma-váz: `style.css`, bootstrap/autoloader, ModuleRegistry, Settings oldal váz, Installer · tokenek, fontok, ikon-sprite · komponens-könyvtár (PHP partials + CSS + vanilla JS) · rejtett `/styleguide` (F-01…F-05) · `build-zip.sh` · `Compat\FormBuilderRepeater` (élesítési kapu) · **baseline: a site csak free pluginokkal + új témával fatal nélkül fut** | Playwright 1440/390 vs design; `php -l`, PHPCS, Stylelint, ESLint |
 | 2 | Header/footer/drawer/bottom nav/location/nyelvválasztó (GTranslate) + főoldal | + Lighthouse mobil ≥ 90 |
 | 3 | Archive + szűrők (meta_query) + sheet + térkép + nézetváltó + skeleton/üres/vég + kedvencek UI | + keresés-smoke |
 | 4 | Single listing (10 form) + kontakt + galéria + `Reviews` + JSON-LD + lejárt/pending | + 10 form vizuális teszt |

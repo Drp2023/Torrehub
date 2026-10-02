@@ -51,12 +51,18 @@ abstract class Module {
 	}
 
 	/**
-	 * Requirements check — e.g. the free Classified Listing plugin.
-	 *
-	 * @return string|null Translated reason when unmet, null when fine.
+	 * Requirements check — e.g. the free Classified Listing plugin. Runs while the theme boots (before `init`),
+	 * so it must not translate anything; the message comes from requirement_message().
 	 */
-	public function unmet_requirement(): ?string {
-		return null;
+	public function requirements_met(): bool {
+		return true;
+	}
+
+	/**
+	 * Explanation shown on the settings screen when requirements_met() is false.
+	 */
+	public function requirement_message(): string {
+		return '';
 	}
 
 	/**

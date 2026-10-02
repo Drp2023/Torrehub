@@ -112,8 +112,8 @@ final class Settings {
 						<tr>
 							<th scope="row"><?php echo esc_html( $module->label() ); ?></th>
 							<td>
-								<?php if ( isset( $skipped[ $id ] ) ) : ?>
-									<p><strong><?php esc_html_e( 'Unavailable:', 'torrehub' ); ?></strong> <?php echo esc_html( $skipped[ $id ] ); ?></p>
+								<?php if ( in_array( $id, $skipped, true ) ) : ?>
+									<p><strong><?php esc_html_e( 'Unavailable:', 'torrehub' ); ?></strong> <?php echo esc_html( $module->requirement_message() ); ?></p>
 								<?php elseif ( ! $module->optional() ) : ?>
 									<p><?php esc_html_e( 'Always on.', 'torrehub' ); ?></p>
 								<?php else : ?>
