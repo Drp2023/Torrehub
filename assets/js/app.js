@@ -6,6 +6,7 @@
 import { config } from './lib/config.js';
 
 const lazy = [
+	['[data-th-header]', () => import('./components/header.js')],
 	['[data-th-dialog]', () => import('./components/dialog.js')],
 	['[data-th-password]', () => import('./components/password.js')],
 	['[data-th-range]', () => import('./components/range.js')],

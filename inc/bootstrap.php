@@ -27,5 +27,13 @@ require_once TH_DIR . '/inc/setup.php';
 require_once TH_DIR . '/inc/assets.php';
 require_once TH_DIR . '/inc/template-tags.php';
 require_once TH_DIR . '/inc/category-map.php';
+require_once TH_DIR . '/inc/links.php';
+require_once TH_DIR . '/inc/location.php';
+require_once TH_DIR . '/inc/languages.php';
+require_once TH_DIR . '/inc/listing-card.php';
+require_once TH_DIR . '/inc/customizer.php';
+require_once TH_DIR . '/inc/seo.php';
+
+Torrehub\Data\Directory::register_invalidation();
 
 Torrehub\Core\Theme::instance()->boot();

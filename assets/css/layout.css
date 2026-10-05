@@ -84,31 +84,12 @@
 	flex: none;
 }
 
-/* ------------------------------------------------------------------ site shell (phase 1; full header in phase 2) */
-.th-site-header {
-	position: relative;
-	z-index: var(--th-z-header);
-	background: var(--th-white);
-	border-bottom: 1px solid var(--th-line);
-}
-
-.th-site-header__inner {
-	display: flex;
-	align-items: center;
-	gap: var(--th-s-4);
-	min-height: 64px;
-}
-
-@media (min-width: 900px) {
-	.th-site-header__inner {
-		min-height: 72px;
-	}
-}
-
+/* ------------------------------------------------------------------ logo */
 .th-logo {
 	display: inline-flex;
 	align-items: center;
 	flex: none;
+	min-height: var(--th-tap); /* touch target; the image itself stays 28/32px */
 }
 
 .th-logo__img {
@@ -125,14 +106,4 @@
 /* White logo on dark surfaces — the design's own technique (footer, intro). */
 .th-logo--light .th-logo__img {
 	filter: brightness(0) invert(1);
-}
-
-.th-site-footer {
-	padding-block: var(--th-s-7);
-	background: var(--th-ink);
-	color: var(--th-footer-text);
-}
-
-.th-site-footer .th-meta {
-	color: var(--th-footer-muted);
 }

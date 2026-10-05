@@ -1215,7 +1215,7 @@ $cat_map    = th_category_map();
 				?>
 				<div class="th-grid" style="--th-cols-md:1;--th-cols-lg:2">
 					<div class="th-module th-module--hero">
-						<span class="th-module__eyebrow-pill"><?php th_icon( 'map-pin-dot', array( 'size' => 14 ) ); ?> <?php esc_html_e( 'Costa Blanca · 34 towns', 'torrehub' ); ?></span>
+						<span class="th-module__eyebrow-pill"><?php esc_html_e( 'Costa Blanca · 34 towns', 'torrehub' ); ?></span>
 						<p class="th-module__title"><?php esc_html_e( 'Find your thing on the Costa Blanca', 'torrehub' ); ?></p>
 						<p class="th-lead"><?php esc_html_e( 'Local services, homes, cars, events and places — from people who live here.', 'torrehub' ); ?></p>
 					</div>

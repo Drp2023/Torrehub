@@ -84,7 +84,31 @@ async function shotTheme(urlPath, name, sections) {
 	}
 }
 
-if (mode === 'design') {
+async function shotFrames() {
+	// Every device frame (inline width 1440px / 390px) → _dev/screens/design/frame-<n>-<w>.png + index.json
+	const out = path.join(outRoot, 'design');
+	fs.mkdirSync(out, { recursive: true });
+	const page = await browser.newPage({ viewport: { width: 2000, height: 1200 } });
+	await page.goto(pathToFileURL(path.join(root, '_dev/design/extracted/direction-c.html')).href, { waitUntil: 'networkidle' });
+	await page.waitForTimeout(1500);
+	const frames = page.locator('[style*="width: 1440px"], [style*="width:1440px"], [style*="width: 390px"], [style*="width:390px"]');
+	const n = await frames.count();
+	const index = [];
+	for (let i = 0; i < n; i++) {
+		const el = frames.nth(i);
+		const info = await el.evaluate((e) => ({ w: Math.round(e.getBoundingClientRect().width), h: Math.round(e.getBoundingClientRect().height), text: e.innerText.replace(/\s+/g, ' ').slice(0, 90) }));
+		if (info.h < 300) continue;
+		const file = `frame-${String(i).padStart(2, '0')}-${info.w}.png`;
+		await el.screenshot({ path: path.join(out, file) });
+		index.push({ file, ...info });
+		console.log(file, info.h, info.text.slice(0, 60));
+	}
+	fs.writeFileSync(path.join(out, 'frames.json'), JSON.stringify(index, null, '\t'));
+}
+
+if (mode === 'frames') {
+	await shotFrames();
+} else if (mode === 'design') {
 	await shotDesign();
 } else if (mode === 'theme') {
 	const [urlPath = '/', name = 'page', ...sections] = rest;

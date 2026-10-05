@@ -13,9 +13,14 @@
 		"components/module.css",
 		"components/navigation.css",
 		"components/sheet.css",
-		"components/feedback.css"
+		"components/feedback.css",
+		"components/header.css",
+		"components/footer.css"
 	],
 	"styleguide": [
 		"styleguide.css"
+	],
+	"home": [
+		"home.css"
 	]
 }

@@ -214,6 +214,10 @@
 	aspect-ratio: 1;
 }
 
+.th-card--row .th-card__photos {
+	display: none;
+}
+
 .th-card--row .th-card__body {
 	padding: 0 6px 0 0;
 }

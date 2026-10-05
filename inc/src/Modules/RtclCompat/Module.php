@@ -68,6 +68,51 @@ final class Module extends BaseModule {
 	 */
 	public function register(): void {
 		add_filter( 'rtcl_fb_fields', array( $this, 'register_repeater' ), 5 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'trim_assets' ), 1000 ); // After RTCL (priority 999).
+	}
+
+	/**
+	 * Is this a screen that renders Classified Listing UI (and therefore needs its JS/CSS)?
+	 */
+	public static function is_rtcl_screen(): bool {
+		$is = is_singular( 'rtcl_listing' )
+			|| is_post_type_archive( 'rtcl_listing' )
+			|| is_tax( array( 'rtcl_category', 'rtcl_location', 'rtcl_tag' ) );
+
+		if ( ! $is && is_page() ) {
+			$pages = (array) get_option( 'rtcl_advanced_settings', array() );
+			$ids   = array_filter( array_map( 'absint', array( $pages['listings'] ?? 0, $pages['listing_form'] ?? 0, $pages['myaccount'] ?? 0, $pages['checkout'] ?? 0 ) ) );
+			$is    = in_array( (int) get_queried_object_id(), $ids, true );
+		}
+
+		/**
+		 * Filter whether the current request needs Classified Listing's front-end assets.
+		 *
+		 * @param bool $is Needs RTCL assets.
+		 */
+		return (bool) apply_filters( 'th_rtcl_assets_needed', $is );
+	}
+
+	/**
+	 * RTCL enqueues its whole front-end kit (Google Maps, Swiper, moment + daterangepicker, jQuery UI, 69 KB CSS)
+	 * on every page. Off RTCL screens the theme renders its own markup, so those assets are dequeued.
+	 */
+	public function trim_assets(): void {
+		if ( self::is_rtcl_screen() ) {
+			return;
+		}
+		foreach ( array( 'rtcl-public', 'rtcl-common', 'rtcl-map', 'rtcl-google-map', 'daterangepicker', 'swiper', 'rtcl-single-listing', 'rtcl-pro-public' ) as $handle ) {
+			wp_dequeue_script( $handle );
+		}
+		foreach ( array( 'rtcl-public', 'gb-frontend-block', 'fontawesome', 'rtcl-pro-public', 'daterangepicker' ) as $handle ) {
+			wp_dequeue_style( $handle );
+		}
+		// Per-page block CSS files (rtcl-block-css-{post_id}).
+		foreach ( wp_styles()->queue as $handle ) {
+			if ( str_starts_with( $handle, 'rtcl-block' ) ) {
+				wp_dequeue_style( $handle );
+			}
+		}
 	}
 
 	/**

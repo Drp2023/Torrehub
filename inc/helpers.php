@@ -60,7 +60,9 @@ function th_classes( ...$parts ): string {
 			}
 		}
 	}
-	return implode( ' ', array_unique( array_map( 'sanitize_html_class', $out ) ) );
+	// Entries may hold several space-separated classes ('th-a th-b'): split before sanitising each one.
+	$out = preg_split( '/\s+/', implode( ' ', $out ), -1, PREG_SPLIT_NO_EMPTY );
+	return implode( ' ', array_unique( array_filter( array_map( 'sanitize_html_class', $out ) ) ) );
 }
 
 /**

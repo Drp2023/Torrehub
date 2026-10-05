@@ -57,7 +57,14 @@ function th_enqueue_css_bundle( string $bundle, array $deps = array() ): string 
 add_action(
 	'wp_enqueue_scripts',
 	static function () {
-		th_enqueue_css_bundle( 'theme' );
+		if ( is_front_page() && th_inline_css_bundles( array( 'theme', 'home' ) ) ) {
+			// Home: CSS inlined (brief §7 — critical CSS inline on the front page, one round trip less).
+		} else {
+			$theme_css = th_enqueue_css_bundle( 'theme' );
+			if ( is_front_page() ) {
+				th_enqueue_css_bundle( 'home', array( $theme_css ) );
+			}
+		}
 
 		wp_register_script_module( 'th-app', th_asset( 'assets/js/app.js' ), array(), th_asset_version( 'assets/js/app.js' ) );
 		wp_enqueue_script_module( 'th-app' );
@@ -99,4 +106,49 @@ add_filter(
 			)
 		);
 	}
+);
+
+/**
+ * Inline built CSS bundles as one <style> (front page). Returns false when a build file is missing or in
+ * SCRIPT_DEBUG, so the caller falls back to <link> tags.
+ *
+ * @param array<int,string> $bundles Bundle names in order.
+ */
+function th_inline_css_bundles( array $bundles ): bool {
+	if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
+		return false;
+	}
+	$css = '';
+	foreach ( $bundles as $bundle ) {
+		$file = TH_DIR . "/assets/css/build/{$bundle}.css";
+		if ( ! is_readable( $file ) ) {
+			return false;
+		}
+		$css .= (string) file_get_contents( $file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+	}
+	// Build files reference assets relative to assets/css/build/ — make them absolute for inline use.
+	$css = str_replace( 'url("../../', 'url("' . TH_URI . '/assets/', $css );
+	wp_register_style( 'th-theme', false, array(), TH_VERSION );
+	wp_enqueue_style( 'th-theme' );
+	wp_add_inline_style( 'th-theme', $css );
+	return true;
+}
+
+/*
+ * Cookie-banner CSS loads asynchronously (not needed for first paint).
+ *
+ * DECISION: jQuery stays in <head> for now — live WPCode snippets ("Favorites issue fix", "Add NIF/NIE field…")
+ * print inline jQuery in the body. Moving it to the footer is part of the snippet port (phase 5, BUILD-PLAN).
+ */
+add_filter(
+	'style_loader_tag',
+	static function ( string $tag, string $handle ): string {
+		if ( 'moove_gdpr_frontend' !== $handle || is_admin() ) {
+			return $tag;
+		}
+		$async = str_replace( "media='all'", "media='print' onload=\"this.media='all'\"", $tag );
+		return $async . '<noscript>' . $tag . '</noscript>';
+	},
+	10,
+	2
 );

@@ -62,16 +62,25 @@
 	align-self: flex-start;
 	display: inline-flex;
 	align-items: center;
-	gap: 6px;
-	min-height: 28px;
-	padding: 0 12px;
+	gap: 8px;
+	min-height: 30px;
+	padding: 0 14px;
 	border-radius: var(--th-r-pill);
-	background: var(--th-on-dark-card);
-	color: var(--th-white);
+	background: var(--th-white);
+	color: var(--th-ink);
 	font-size: var(--th-fs-micro);
 	font-weight: var(--th-fw-bold);
 	letter-spacing: 0.1em;
 	text-transform: uppercase;
+}
+
+/* Orange status dot (design P-01 hero). */
+.th-module__eyebrow-pill::before {
+	content: "";
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--th-orange);
 }
 
 /* Orange "This weekend" */

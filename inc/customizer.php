@@ -1,0 +1,226 @@
+<?php
+/**
+ * Customizer: home blocks (on/off + copy), footer, default town.
+ *
+ * Copy fields are optional overrides: empty = the translatable default from th_mod_defaults().
+ *
+ * @package Torrehub
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Translatable defaults (resolved at read time so the active locale applies).
+ *
+ * @return array<string,mixed>
+ */
+function th_mod_defaults(): array {
+	return array(
+		'th_home_hero'        => true,
+		'th_home_weekend'     => true,
+		'th_home_stats'       => true,
+		'th_home_explore'     => true,
+		'th_home_new'         => true,
+		'th_home_towns'       => true,
+		'th_home_sellers'     => true,
+		'th_home_why'         => true,
+		'th_hero_title'       => __( 'What’s around you, all in one place.', 'torrehub' ),
+		'th_hero_lead'        => __( 'Tradespeople, homes, cars, jobs, restaurants and what’s on this weekend — from Alicante down to Pilar de la Horadada.', 'torrehub' ),
+		'th_hero_chips'       => __( 'Plumber, Rentals, Beach bars, Jobs', 'torrehub' ),
+		'th_sellers_title'    => __( 'Five free listings every 30 days', 'torrehub' ),
+		'th_sellers_text'     => __( 'Private sellers register with a NIE, businesses with a NIF. No commission, no subscription.', 'torrehub' ),
+		'th_sellers_link'     => '',
+		'th_why_1_title'      => __( 'Search where you actually are', 'torrehub' ),
+		'th_why_1_text'       => __( 'Every listing is tied to a Costa Blanca town.', 'torrehub' ),
+		'th_why_2_title'      => __( 'Verified sellers', 'torrehub' ),
+		'th_why_2_text'       => __( 'NIE and NIF documents checked by a person.', 'torrehub' ),
+		'th_why_3_title'      => __( 'Contact directly', 'torrehub' ),
+		'th_why_3_text'       => __( 'Phone, WhatsApp, chat or email. No middleman taking a cut.', 'torrehub' ),
+		'th_footer_blurb'     => __( 'The Costa Blanca local hub — directory, classifieds and local discovery in one place.', 'torrehub' ),
+		'th_social_facebook'  => '',
+		'th_social_instagram' => '',
+		'th_default_town'     => 'torrevieja',
+		'th_use_custom_logo'  => false,
+	);
+}
+
+/**
+ * Theme mod with the translatable default.
+ *
+ * @param string $key Mod key.
+ * @return mixed
+ */
+function th_mod( string $key ) {
+	$defaults = th_mod_defaults();
+	$value    = get_theme_mod( $key, null );
+	if ( null === $value || '' === $value ) {
+		return $defaults[ $key ] ?? '';
+	}
+	return $value;
+}
+
+add_action(
+	'customize_register',
+	static function ( WP_Customize_Manager $wp_customize ) {
+		$defaults = th_mod_defaults();
+
+		$wp_customize->add_panel(
+			'th_panel',
+			array(
+				'title'    => __( 'Torrehub', 'torrehub' ),
+				'priority' => 30,
+			)
+		);
+
+		// Home blocks.
+		$wp_customize->add_section(
+			'th_home',
+			array(
+				'title' => __( 'Home page', 'torrehub' ),
+				'panel' => 'th_panel',
+			)
+		);
+		$blocks = array(
+			'th_home_hero'    => __( 'Show hero search', 'torrehub' ),
+			'th_home_weekend' => __( 'Show “This weekend”', 'torrehub' ),
+			'th_home_stats'   => __( 'Show stats card', 'torrehub' ),
+			'th_home_explore' => __( 'Show “Explore the hub”', 'torrehub' ),
+			'th_home_new'     => __( 'Show “New near you”', 'torrehub' ),
+			'th_home_towns'   => __( 'Show “Towns worth exploring”', 'torrehub' ),
+			'th_home_sellers' => __( 'Show seller call-to-action', 'torrehub' ),
+			'th_home_why'     => __( 'Show “Why Torrehub”', 'torrehub' ),
+		);
+		foreach ( $blocks as $key => $label ) {
+			$wp_customize->add_setting(
+				$key,
+				array(
+					'default'           => true,
+					'sanitize_callback' => 'rest_sanitize_boolean',
+				)
+			);
+			$wp_customize->add_control(
+				$key,
+				array(
+					'label'   => $label,
+					'section' => 'th_home',
+					'type'    => 'checkbox',
+				)
+			);
+		}
+
+		$texts = array(
+			'th_hero_title'    => array( __( 'Hero title', 'torrehub' ), 'text' ),
+			'th_hero_lead'     => array( __( 'Hero lead', 'torrehub' ), 'textarea' ),
+			'th_hero_chips'    => array( __( 'Suggestion chips (comma separated)', 'torrehub' ), 'text' ),
+			'th_sellers_title' => array( __( 'Seller CTA title', 'torrehub' ), 'text' ),
+			'th_sellers_text'  => array( __( 'Seller CTA text', 'torrehub' ), 'textarea' ),
+			'th_sellers_link'  => array( __( '“How it works” URL', 'torrehub' ), 'url' ),
+			'th_why_1_title'   => array( __( 'Why Torrehub · 1 title', 'torrehub' ), 'text' ),
+			'th_why_1_text'    => array( __( 'Why Torrehub · 1 text', 'torrehub' ), 'text' ),
+			'th_why_2_title'   => array( __( 'Why Torrehub · 2 title', 'torrehub' ), 'text' ),
+			'th_why_2_text'    => array( __( 'Why Torrehub · 2 text', 'torrehub' ), 'text' ),
+			'th_why_3_title'   => array( __( 'Why Torrehub · 3 title', 'torrehub' ), 'text' ),
+			'th_why_3_text'    => array( __( 'Why Torrehub · 3 text', 'torrehub' ), 'text' ),
+		);
+		foreach ( $texts as $key => list( $label, $type ) ) {
+			$wp_customize->add_setting(
+				$key,
+				array(
+					'default'           => '',
+					'sanitize_callback' => 'url' === $type ? 'esc_url_raw' : ( 'textarea' === $type ? 'sanitize_textarea_field' : 'sanitize_text_field' ),
+				)
+			);
+			$wp_customize->add_control(
+				$key,
+				array(
+					'label'       => $label,
+					'section'     => 'th_home',
+					'type'        => $type,
+					/* translators: %s: default text */
+					'description' => 'url' === $type ? '' : sprintf( __( 'Empty = “%s”', 'torrehub' ), wp_trim_words( (string) $defaults[ $key ], 12 ) ),
+				)
+			);
+		}
+
+		// Logo source (Site Identity).
+		$wp_customize->add_setting(
+			'th_use_custom_logo',
+			array(
+				'default'           => false,
+				'sanitize_callback' => 'rest_sanitize_boolean',
+			)
+		);
+		$wp_customize->add_control(
+			'th_use_custom_logo',
+			array(
+				'label'    => __( 'Use the logo above instead of the Torrehub brand logo', 'torrehub' ),
+				'section'  => 'title_tagline',
+				'type'     => 'checkbox',
+				'priority' => 9,
+			)
+		);
+
+		// Footer.
+		$wp_customize->add_section(
+			'th_footer',
+			array(
+				'title' => __( 'Footer', 'torrehub' ),
+				'panel' => 'th_panel',
+			)
+		);
+		$footer = array(
+			'th_footer_blurb'     => array( __( 'Footer text', 'torrehub' ), 'textarea' ),
+			'th_social_facebook'  => array( __( 'Facebook URL', 'torrehub' ), 'url' ),
+			'th_social_instagram' => array( __( 'Instagram URL', 'torrehub' ), 'url' ),
+		);
+		foreach ( $footer as $key => list( $label, $type ) ) {
+			$wp_customize->add_setting(
+				$key,
+				array(
+					'default'           => '',
+					'sanitize_callback' => 'url' === $type ? 'esc_url_raw' : 'sanitize_textarea_field',
+				)
+			);
+			$wp_customize->add_control(
+				$key,
+				array(
+					'label'   => $label,
+					'section' => 'th_footer',
+					'type'    => $type,
+				)
+			);
+		}
+
+		// Location.
+		$wp_customize->add_section(
+			'th_location',
+			array(
+				'title' => __( 'Location', 'torrehub' ),
+				'panel' => 'th_panel',
+			)
+		);
+		$choices = array();
+		if ( th_has_rtcl() ) {
+			foreach ( Torrehub\Data\Directory::towns() as $town ) {
+				$choices[ $town['slug'] ] = $town['name'];
+			}
+		}
+		$wp_customize->add_setting(
+			'th_default_town',
+			array(
+				'default'           => 'torrevieja',
+				'sanitize_callback' => static fn( $v ) => isset( $choices[ $v ] ) ? $v : 'torrevieja',
+			)
+		);
+		$wp_customize->add_control(
+			'th_default_town',
+			array(
+				'label'       => __( 'Default town', 'torrehub' ),
+				'description' => __( 'Used until the visitor picks a town.', 'torrehub' ),
+				'section'     => 'th_location',
+				'type'        => 'select',
+				'choices'     => $choices,
+			)
+		);
+	}
+);

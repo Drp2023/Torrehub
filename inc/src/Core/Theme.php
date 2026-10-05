@@ -51,6 +51,8 @@ final class Theme {
 	private function module_classes(): array {
 		$classes = array(
 			\Torrehub\Modules\RtclCompat\Module::class,
+			\Torrehub\Modules\Location\Module::class,
+			\Torrehub\Modules\Languages\Module::class,
 			\Torrehub\Modules\Styleguide\Module::class,
 		);
 

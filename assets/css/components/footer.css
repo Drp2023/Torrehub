@@ -1,0 +1,212 @@
+/* Footer (G-11) and mobile bottom nav (G-10). */
+
+.th-footer {
+	padding: 44px 0 28px;
+	background: var(--th-ink);
+	color: var(--th-footer-text);
+	font-size: var(--th-fs-sm);
+}
+
+.th-footer__grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--th-s-7) var(--th-s-5);
+}
+
+.th-footer__brand {
+	grid-column: 1 / -1;
+	display: grid;
+	gap: var(--th-s-4);
+	align-content: start;
+}
+
+.th-footer__brand p {
+	max-width: 34ch;
+	line-height: var(--th-lh-body);
+}
+
+@media (min-width: 900px) {
+	.th-footer__grid {
+		grid-template-columns: 1.4fr repeat(4, minmax(0, 1fr));
+	}
+
+	.th-footer__brand {
+		grid-column: auto;
+	}
+}
+
+.th-footer__title {
+	margin-bottom: var(--th-s-3);
+	font-family: var(--th-font-body);
+	font-size: var(--th-fs-micro);
+	font-weight: var(--th-fw-bold);
+	letter-spacing: var(--th-ls-micro);
+	text-transform: uppercase;
+	color: var(--th-white);
+}
+
+.th-footer__col ul {
+	display: grid;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.th-footer a {
+	color: var(--th-footer-text);
+	text-decoration: none;
+}
+
+.th-footer a:hover {
+	color: var(--th-white);
+	text-decoration: underline;
+}
+
+@media (pointer: coarse) {
+	.th-footer__col a {
+		display: inline-block;
+		padding-block: 6px;
+	}
+}
+
+.th-footer__social {
+	display: flex;
+	gap: var(--th-s-2);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.th-footer__social a {
+	display: grid;
+	place-items: center;
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	background: var(--th-footer-chip);
+	color: var(--th-footer-text);
+}
+
+@media (pointer: coarse) {
+	.th-footer__social a {
+		width: var(--th-tap);
+		height: var(--th-tap);
+	}
+}
+
+.th-footer__bottom {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--th-s-4);
+	margin-top: var(--th-s-7);
+	padding-top: var(--th-s-5);
+	border-top: 1px solid var(--th-footer-chip);
+}
+
+.th-footer__copy {
+	font-size: var(--th-fs-meta);
+	color: var(--th-footer-muted);
+}
+
+.th-footer .th-lang-list__item {
+	background: transparent;
+	color: var(--th-footer-text);
+	min-height: 28px;
+	font-size: var(--th-fs-meta);
+}
+
+.th-footer .th-lang-list__item.gt-current-lang {
+	background: var(--th-footer-chip);
+	color: var(--th-white);
+}
+
+.th-footer .th-lang-list__item:hover {
+	text-decoration: none;
+	color: var(--th-white);
+}
+
+/* --------------------------------------------------------------- bottom nav (mobile only) */
+.th-bottom-nav {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: var(--th-z-header);
+	padding: 8px 10px calc(10px + env(safe-area-inset-bottom));
+	border-top: 1px solid var(--th-line);
+	background: var(--th-white);
+}
+
+.th-bottom-nav ul {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.th-bottom-nav__item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+	min-height: 52px;
+	color: var(--th-muted);
+	font-size: var(--th-fs-micro);
+	font-weight: var(--th-fw-semibold);
+	text-decoration: none;
+}
+
+.th-bottom-nav__icon {
+	display: grid;
+	place-items: center;
+	width: 48px;
+	height: 30px;
+	border-radius: var(--th-r-pill);
+}
+
+.th-bottom-nav__item[aria-current="page"] {
+	color: var(--th-blue);
+	font-weight: var(--th-fw-bold);
+}
+
+.th-bottom-nav__item[aria-current="page"] .th-bottom-nav__icon {
+	background: var(--th-tint-blue);
+}
+
+.th-bottom-nav__item--post {
+	color: var(--th-ink);
+}
+
+.th-bottom-nav__item--post .th-bottom-nav__icon {
+	width: 48px;
+	height: 44px;
+	margin-top: -10px;
+	background: var(--th-orange);
+	color: var(--th-ink);
+}
+
+/* Room for the fixed bar so it never covers content. */
+body {
+	padding-bottom: calc(86px + env(safe-area-inset-bottom));
+}
+
+@media (min-width: 900px) {
+	.th-bottom-nav {
+		display: none;
+	}
+
+	body {
+		padding-bottom: 0;
+	}
+}
+
+/* Keep third-party floating UI (cookie banner) above the bottom nav. */
+@media (max-width: 899px) {
+	#moove_gdpr_cookie_info_bar {
+		bottom: calc(86px + env(safe-area-inset-bottom)) !important;
+	}
+}

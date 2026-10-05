@@ -88,3 +88,36 @@ function th_get_component( string $name, array $args = array() ): string {
 	th_component( $name, $args );
 	return (string) ob_get_clean();
 }
+
+/**
+ * User avatar: RTCL profile photo (`_rtcl_pp_id`) or initials. DECISION: no Gravatar (external request, privacy).
+ *
+ * @param int $user_id User id.
+ * @param int $size    CSS pixel size.
+ */
+function th_get_avatar( int $user_id, int $size = 38 ): string {
+	$user = get_userdata( $user_id );
+	if ( ! $user ) {
+		return '';
+	}
+	$photo = (int) get_user_meta( $user_id, '_rtcl_pp_id', true );
+	if ( $photo && wp_attachment_is_image( $photo ) ) {
+		return wp_get_attachment_image(
+			$photo,
+			array( $size * 2, $size * 2 ),
+			false,
+			array(
+				'class'   => 'th-avatar',
+				'alt'     => '',
+				'width'   => $size,
+				'height'  => $size,
+				'loading' => 'lazy',
+			)
+		);
+	}
+	$name     = trim( $user->first_name . ' ' . $user->last_name );
+	$name     = '' !== $name ? $name : $user->display_name;
+	$parts    = preg_split( '/\s+/u', $name );
+	$initials = mb_strtoupper( mb_substr( (string) ( $parts[0] ?? '' ), 0, 1 ) . mb_substr( (string) ( $parts[1] ?? '' ), 0, 1 ) );
+	return sprintf( '<span class="th-avatar th-avatar--initials" style="--th-avatar-size:%dpx" aria-hidden="true">%s</span>', $size, esc_html( $initials ? $initials : '?' ) );
+}

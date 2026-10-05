@@ -15,7 +15,9 @@ $name    = get_bloginfo( 'name' );
 ?>
 <a class="<?php echo esc_attr( th_classes( 'th-logo', 'th-logo--' . $variant ) ); ?>" href="<?php echo esc_url( $home ); ?>" rel="home">
 	<?php
-	$logo_id = (int) get_theme_mod( 'custom_logo' );
+	// DECISION: the brand logo ships with the theme. WordPress mirrors the site-wide `site_logo` option into every
+	// theme's custom_logo, so the old site's logo would silently win; a custom logo is used only when switched on.
+	$logo_id = th_mod( 'th_use_custom_logo' ) ? (int) get_theme_mod( 'custom_logo' ) : 0;
 	if ( $logo_id ) {
 		echo wp_get_attachment_image(
 			$logo_id,

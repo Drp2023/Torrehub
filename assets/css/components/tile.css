@@ -1,9 +1,12 @@
 /* Category tile (10 roots, 5 tint families) + town card. */
 
-.th-cat-tile {
+/* Default tint at zero specificity so .th-tint--* always wins regardless of source order. */
+:where(.th-cat-tile, .th-cat-row) {
 	--tile-bg: var(--th-cat-grey-bg);
 	--tile-fg: var(--th-cat-grey-fg);
+}
 
+.th-cat-tile {
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -79,9 +82,6 @@
 
 /* Row variant (drawer, mega-panel roots). */
 .th-cat-row {
-	--tile-bg: var(--th-cat-grey-bg);
-	--tile-fg: var(--th-cat-grey-fg);
-
 	display: flex;
 	align-items: center;
 	gap: var(--th-s-3);

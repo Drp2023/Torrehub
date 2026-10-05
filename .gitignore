@@ -14,3 +14,4 @@ _reference/design/extracted/assets/*.js.map
 /node_modules/
 /vendor/
 /_dev/tools/composer.phar
+/_dev/reports/
