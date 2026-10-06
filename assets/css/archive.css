@@ -527,3 +527,41 @@
 	color: var(--th-muted);
 }
 
+
+/* --------------------------------------------------------------- save this search (SearchAlerts) */
+.th-save-search {
+	display: grid;
+	justify-items: end;
+	gap: 6px;
+}
+
+.th-save-search__notice {
+	margin: 0;
+	color: var(--th-success-text);
+	font-size: var(--th-fs-meta);
+	font-weight: var(--th-fw-semibold);
+}
+
+.th-save-search__notice.is-error {
+	color: var(--th-error-text);
+}
+
+.th-save-search__dialog {
+	width: min(440px, calc(100vw - 2 * var(--th-gutter)));
+}
+
+.th-save-search__summary {
+	margin: 0;
+	padding: 10px 14px;
+	border-radius: var(--th-r-tile);
+	background: var(--th-tint-blue);
+	color: var(--th-blue-ink);
+	font-size: var(--th-fs-sm);
+	font-weight: var(--th-fw-semibold);
+}
+
+@media (max-width: 599px) {
+	.th-save-search {
+		justify-items: start;
+	}
+}

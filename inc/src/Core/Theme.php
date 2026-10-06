@@ -62,6 +62,9 @@ final class Theme {
 			\Torrehub\Modules\Account\Module::class,
 			\Torrehub\Modules\Verification\Module::class,
 			\Torrehub\Modules\Chat\Module::class,
+			\Torrehub\Modules\SearchAlerts\Module::class,
+			\Torrehub\Modules\Guides\Module::class,
+			\Torrehub\Modules\Content\Module::class,
 			\Torrehub\Modules\Styleguide\Module::class,
 		);
 

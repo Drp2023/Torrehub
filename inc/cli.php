@@ -2,7 +2,9 @@
 /**
  * WP-CLI commands shipped with the theme (loaded only under WP-CLI).
  *
- * Commands: wp torrehub fix-option-values · purge-nie · purge-old-verification-docs · import-chat (each with [--apply])
+ * Commands: wp torrehub fix-option-values · purge-nie · purge-old-verification-docs · import-chat · import-search-alerts ·
+ * migrate-pages
+ * (each with [--apply])
  *
  * @package Torrehub
  */
@@ -261,5 +263,151 @@ WP_CLI::add_command(
 		// phpcs:enable
 		$verb = $apply ? 'Imported' : 'Would import';
 		WP_CLI::success( "{$verb} {$threads} conversations with {$messages} messages ({$skipped} skipped: already imported, or the listing/user is gone)." );
+	}
+);
+
+/**
+ * Import rtcl-search-alert's saved searches (`{prefix}rtcl_search_alerts`) into the theme's alerts. Run once at
+ * go-live, before the add-on's table is dropped (runbook). Keyword, category and town are kept (the add-on's ad type
+ * filter has no equivalent — a search is per category); "monthly" becomes weekly; inactive ones are imported switched
+ * off. Alerts without an account stay e-mail-only (they keep working, managed by their unsubscribe link).
+ * Already imported searches (same account/e-mail + same search) are skipped. Dry run without --apply.
+ *
+ * ## OPTIONS
+ *
+ * [--apply]
+ * : Write the alerts (default: report only).
+ *
+ * @param array<int,string>    $args       Positional args.
+ * @param array<string,string> $assoc_args Flags.
+ */
+WP_CLI::add_command(
+	'torrehub import-search-alerts',
+	static function ( $args, $assoc_args ) {
+		global $wpdb;
+		$apply = ! empty( $assoc_args['apply'] );
+		$old   = $wpdb->prefix . 'rtcl_search_alerts';
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- CLI migration; table names are fixed.
+		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $old ) ) !== $old ) {
+			WP_CLI::success( 'No rtcl-search-alert table — nothing to import.' );
+			return;
+		}
+		$store = Torrehub\Modules\SearchAlerts\Store::class;
+		$new   = $store::table();
+		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $new ) ) !== $new ) {
+			WP_CLI::error( 'The theme alerts table is missing: open wp-admin once (installer) or enable the module.' );
+		}
+		$rows       = $wpdb->get_results( "SELECT * FROM {$old} ORDER BY id ASC" );
+		$counts     = array(
+			'import' => 0,
+			'skip'   => 0,
+		);
+		$first_term = static function ( $ids, string $tax ): string {
+			$best  = '';
+			$depth = -1;
+			foreach ( array_map( 'absint', (array) $ids ) as $id ) {
+				$term = get_term( $id, $tax );
+				if ( $term instanceof WP_Term ) {
+					$d = count( get_ancestors( $term->term_id, $tax, 'taxonomy' ) );
+					if ( $d > $depth ) {
+						$depth = $d;
+						$best  = $term->slug;
+					}
+				}
+			}
+			return $best;
+		};
+		foreach ( $rows as $row ) {
+			$filter = json_decode( (string) $row->filter, true );
+			$p      = is_array( $filter ) ? (array) ( $filter['params'] ?? $filter ) : array();
+			$params = array();
+			if ( ! empty( $p['q'] ) && is_string( $p['q'] ) ) {
+				$params['q'] = sanitize_text_field( $p['q'] );
+			}
+			$cat = $first_term( $p['filter_category'] ?? array(), 'rtcl_category' );
+			if ( $cat ) {
+				$params['rtcl_category'] = $cat;
+			}
+			$loc = $first_term( $p['filter_location'] ?? array(), 'rtcl_location' );
+			if ( $loc ) {
+				$params['rtcl_location'] = $loc;
+			}
+			$params = Torrehub\Modules\Archive\Search::from_array( $params )->params();
+			$user   = (int) $row->user_id;
+			if ( ! $user && is_email( (string) $row->email ) ) {
+				$match = get_user_by( 'email', (string) $row->email );
+				$user  = $match ? (int) $match->ID : 0;
+			}
+			$hash = $store::hash( $params );
+			$dupe = $user
+				? $store::find( $user, $hash )
+				: $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$new} WHERE user_id = 0 AND email = %s AND hash = %s", (string) $row->email, $hash ) );
+			if ( $dupe || ( ! $user && ! is_email( (string) $row->email ) ) ) {
+				++$counts['skip'];
+				continue;
+			}
+			++$counts['import'];
+			if ( $apply ) {
+				$freq = array(
+					'daily'   => 'daily',
+					'weekly'  => 'weekly',
+					'monthly' => 'weekly',
+				);
+				$store::create(
+					array(
+						'user_id'   => $user,
+						'email'     => $user ? '' : sanitize_email( (string) $row->email ),
+						'label'     => sanitize_text_field( (string) $row->title ),
+						'params'    => $params,
+						'frequency' => 'active' === (string) $row->status ? ( $freq[ (string) $row->scheduler_type ] ?? 'daily' ) : 'off',
+					)
+				);
+			}
+		}
+		// phpcs:enable
+		$verb = $apply ? 'Imported' : 'Would import';
+		WP_CLI::success( "{$verb} {$counts['import']} saved searches ({$counts['skip']} skipped: already imported or no address)." );
+	}
+);
+
+/**
+ * Move the content pages from Elementor to the block editor and the theme's page templates (About, Contact, FAQ,
+ * Privacy, Terms, Legal notice — Content\Migrator::plan()). Dry run reports blocks and word counts; --apply writes
+ * (originals kept in post meta + revision); --rollback restores them. Run before Elementor is removed (runbook).
+ *
+ * ## OPTIONS
+ *
+ * [--apply]
+ * : Write the changes (default: report only).
+ *
+ * [--rollback]
+ * : Restore the migrated pages.
+ *
+ * @param array<int,string>    $args       Positional args.
+ * @param array<string,string> $assoc_args Flags.
+ */
+WP_CLI::add_command(
+	'torrehub migrate-pages',
+	static function ( $args, $assoc_args ) {
+		$apply    = ! empty( $assoc_args['apply'] );
+		$rollback = ! empty( $assoc_args['rollback'] );
+		foreach ( Torrehub\Modules\Content\Migrator::plan() as $slug => $conf ) {
+			$page = get_page_by_path( $slug );
+			if ( ! $page ) {
+				WP_CLI::warning( "{$slug}: page not found." );
+				continue;
+			}
+			if ( $rollback ) {
+				WP_CLI::line( $slug . ': ' . ( Torrehub\Modules\Content\Migrator::rollback( $page ) ? 'restored' : 'not migrated' ) );
+				continue;
+			}
+			$r = Torrehub\Modules\Content\Migrator::migrate( $page, $conf, $apply );
+			WP_CLI::line(
+				$r['skipped']
+					? "{$slug}: {$r['skipped']}"
+					: sprintf( '%s → %s (%s): %d blocks, %d → %d words', $slug, basename( $conf['template'] ), $conf['mode'], $r['blocks'], $r['words_before'], $r['words_after'] )
+			);
+		}
+		WP_CLI::success( $rollback ? 'Rollback done.' : ( $apply ? 'Pages migrated.' : 'Dry run — add --apply to write.' ) );
 	}
 );

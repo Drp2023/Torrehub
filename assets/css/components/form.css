@@ -580,3 +580,12 @@
 .th-choice:has(input:checked) .th-choice__radio .th-icon {
 	opacity: 1;
 }
+
+/* Honeypot: off-screen, not display:none (some bots skip hidden fields). */
+.th-hp {
+	position: absolute;
+	left: -9999px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}

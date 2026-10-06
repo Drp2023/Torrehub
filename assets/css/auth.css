@@ -351,12 +351,3 @@
 	background: var(--th-white);
 	color: var(--th-ink);
 }
-
-/* Honeypot: off-screen, not display:none (some bots skip hidden fields). */
-.th-hp {
-	position: absolute;
-	left: -9999px;
-	width: 1px;
-	height: 1px;
-	overflow: hidden;
-}

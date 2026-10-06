@@ -1,0 +1,77 @@
+/* Account › Saved searches; alert unsubscribe page uses the error panel (feedback.css). */
+
+.th-alerts__list {
+	display: grid;
+	gap: 10px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.th-alert-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto auto;
+	align-items: center;
+	gap: var(--th-s-3);
+	padding: var(--th-s-4);
+	border: 1px solid var(--th-line);
+	border-radius: var(--th-r-card);
+	background: var(--th-white);
+}
+
+.th-alert-row.is-off {
+	background: var(--th-bg);
+}
+
+.th-alert-row__main {
+	display: grid;
+	gap: 2px;
+	min-width: 0;
+}
+
+.th-alert-row__name {
+	margin: 0;
+	font-family: var(--th-font-body);
+	font-size: var(--th-fs-ui);
+}
+
+.th-alert-row.is-off .th-alert-row__name {
+	color: var(--th-muted);
+}
+
+.th-alert-row__summary {
+	margin: 0;
+	overflow: hidden;
+	color: var(--th-muted);
+	font-size: var(--th-fs-meta);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.th-alert-row__link {
+	justify-self: start;
+	color: var(--th-blue);
+	font-size: var(--th-fs-meta);
+	font-weight: var(--th-fw-bold);
+}
+
+.th-alert-row__form {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.th-alert-row__form .th-select {
+	min-height: 40px;
+	padding-block: 8px;
+}
+
+@media (max-width: 599px) {
+	.th-alert-row {
+		grid-template-columns: minmax(0, 1fr) auto;
+	}
+
+	.th-alert-row__main {
+		grid-column: 1 / -1;
+	}
+}

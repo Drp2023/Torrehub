@@ -75,9 +75,9 @@ A modulok `inc/modules/<modul>/` alatt, mindegyik saját osztállyal (`Torrehub\
 | Online státusz | Pro | **nem épül** (nincs a designban) | — | — |
 | Mark as sold | Pro | **nem épül** (nincs a designban; hook-pont marad) | — | — |
 | Értékelések + összesítő + eloszlás | review-schema(-pro) / Pro (a számítás free-ben van, csak a hookok Pro-ban) | `Reviews` | WP comments `comment_type=review`, meta `rating` (a meglévő 2 értékelés marad) + az RTCL free által olvasott `_rtcl_average_rating` frissítése | 4 ✅ |
-| JSON-LD (Product/LocalBusiness + AggregateRating, BreadcrumbList, ItemList, Article, FAQPage) | review-schema(-pro) | listing: `Listing\Schema` (4 ✅); guide/FAQ: 7 | — | 4, 7 |
+| JSON-LD (Product/LocalBusiness + AggregateRating, BreadcrumbList, ItemList, Article, FAQPage) | review-schema(-pro) | listing: `Listing\Schema` (4 ✅); guide: `Guides` Article, FAQ: `Content` FAQPage (7 ✅) | — | 4, 7 ✅ |
 | Eladó-hitelesítés | rtcl-seller-verification | `Verification` | **privát** feltöltési mappa (nem Media Library, nincs publikus URL), meta `photo_id`, `other_document_id`, `rtcl_verified_seller` (+ `th_verification_status`, elutasítási ok) | 5 |
-| Keresési értesítő | rtcl-search-alert | `SearchAlerts` | saját tábla `th_search_alerts`; WP-Cron napi/heti + azonnali (publish hook); aláírt leiratkozó link | 7 |
+| Keresési értesítő | rtcl-search-alert | `SearchAlerts` — „Save this search” az archive fejlécben, fiók › Saved searches, azonnali / napi / heti e-mail, egykattintásos leiratkozás, `wp torrehub import-search-alerts` | saját tábla `th_search_alerts` | 7 ✅ |
 | Ingyenes kvóta (5 / 30 nap) | Store | `Quota` — **alapból kikapcsolva** (döntés 9); beállítás: Megjelenés › Torrehub | számolás a szerző `rtcl_listing` posztjaiból | 6 ✅ |
 | Hirdetésfeladás munkaterület | — (új UX) | `ListingForm` — a téma rendereli a Form Builder definíciókból, az RTCL saját AJAX-ával ment (20.1) + Leaflet pin-választó + piszkozatok | RTCL meta (változatlan); piszkozat: `rtcl-temp` poszt `th_draft*` metával | 6 ✅ |
 | Kedvencek UI | RTCL core (`has_favourites`, jelenleg ki) | `Favourites` (UI, rejtve amíg az RTCL opció ki van) | RTCL core meta `rtcl_favourites` | 3 |
@@ -168,7 +168,7 @@ torrehub/                               (= repo gyökér = téma gyökér)
 | 4 ✅ | Single listing (10 form) + kontakt + galéria + `Reviews` + JSON-LD + lejárt/pending + bejelentés (TLRS port) | + 10 form render-teszt, `_dev/tests/e2e/listing.mjs` (25 ellenőrzés) |
 | 5 ✅ | `Auth` + `Account` dashboard + `Verification` · WPCode 7263/7264/7280 · jQuery a footerbe | + `_dev/tests/e2e/auth.mjs` (26) és `account.mjs` (22): regisztráció, Mailpit, admin jóváhagyás, jelszó-visszaállítás, hitelesítés |
 | 6 ✅ | `ListingForm` munkaterület + `Quota` + `Chat` · **térképes pin-választó a hirdetésfeladásnál** (Leaflet, a 3. fázis térképével közös; a listing `latitude`/`longitude` metája → pontos sugár- és térképkeresés, a város-közép közelítés csak tartalék) | + `_dev/tests/e2e/listing-form.mjs` (37: 1 hirdetés/kategória mind a 10 formmal, pin → térkép, piszkozat, szerkesztés) és `chat.mjs` (23: polling, Seen, e-mail, REST-jogosultság, no-JS, rate limit) |
-| 7 | `SearchAlerts` + Guides + statikus oldalak (Elementor → blokk tartalom-migráció) + 404/401/403 | + értesítő cron e-mail |
+| 7 ✅ | `SearchAlerts` + Guides + statikus oldalak (Elementor → blokk tartalom-migráció) + 404/401/403 · Form Builder admin-ellenőrzés (21.1) | + `_dev/tests/e2e/search-alerts.mjs` (19: napi/azonnali e-mail cronnal, leiratkozás), `content.mjs` (26: guides, oldalak, kapcsolat-űrlap, 404/403), `admin-forms.mjs` (13: Form Builder szerkesztés Pro nélkül) |
 | 8 | i18n, a11y, performance, SEO audit · **`Consent` modul** (döntés 10) · **élesítési runbook** (plugin-eltávolítási sorrend, hotfix, adat-ellenőrzés, cron) | DoD |
 
 Minden fázis előtt `bin/reset-db.sh`; témaváltás `wp theme activate torrehub|cldirectory-child`; **egyetlen branch: `main`**, fázisonként egy commit.
@@ -194,8 +194,10 @@ Minden fázis előtt `bin/reset-db.sh`; témaváltás `wp theme activate torrehu
 ## 8. Nyitott kérdések
 
 1. Nyelvlista — a 8-as döntés szerint a GTranslate beállítása az igazság (élesben 9: en, fi, de, hu, ro, ru, es, sv, uk). A design 8-at mutat — a komponens dinamikus, nincs teendő, csak tudomásul.
-2. Guides: URL (`/blog/` oldal létezik, `page_for_posts=0`) — javaslat: új `/guides/` oldal posts page-nek; a 8 demo-poszt (Bangkok stb.) törlése/piszkozatba tétele a te döntésed.
-3. Élesítéskor mi a front page (most „Coming Soon” 6513)?
+2. Guides: ~~URL~~ — kész (7. fázis, DECISION): `/guides/` oldal, posts page-ként (Beállítások › Olvasás felülírhatja). **Nyitott:** a 8 demo-poszt (Bangkok, Attleborough stb.) és a demo-oldalak (home-one…home-new, about-us-2, pricing, practice, compare, listing-map) törlése / piszkozatba tétele — a te döntésed; addig a Guides-ban látszanak.
+3. Élesítéskor mi a front page (most „Coming Soon” 6513)? A téma `front-page.php`-ja a beállítástól függetlenül a saját főoldalát mutatja; a „Coming Soon” oldal csak akkor kell, ha élesítés előtt zárva tartanátok az oldalt.
+10. FAQ (7. fázis): a régi FAQ-oldal demo-szöveg volt; a migráció **vázlatot** ír a site tényleges működéséből (8 kérdés) — átnézendő. Kimaradt: „Meddig él egy hirdetés?” — a Classified Listing beállítása 15 nap, a meglévő hirdetések lejárata viszont 2029; ezt tisztázni kell. A főoldal szövege („Five free listings every 30 days”) a kvóta bekapcsolásáig nem igaz.
+11. Kapcsolat: iroda-cím és nyitvatartás a Customizerben üres (rejtve) — az Aviso Legal-ban szerepel egy cím; ha az a nyilvános iroda, töltsétek ki.
 4. Logó SVG (header, favicon, sötét változat).
 5. Lokális demo-seed adat mehet? (R4)
 6. ~~„Typical reply within 1 hour”~~ — kész (6. fázis): a `Chat` modul méri (medián első válasz, 90 nap, ≥ 3 beszélgetés); megjelenítés a Customizerben kapcsolható (Listing page › Show “Typical reply”), alapból ki. „Comes to you” = Service form `Mobile Service` mezőjéből.
@@ -274,6 +276,13 @@ Részletek: **`WPCODE-AUDIT.md`**. Röviden:
 16. **Page cache kizárás:** a `/listing-form/` és a `/my-account/` minden aloldala (a téma `nocache` fejlécet küld). A REST (`/wp-json/torrehub/v1/chat/…`) belépett felhasználóknak legyen elérhető (biztonsági plugin ne tiltsa).
 17. **Kvóta:** alapból ki (döntés 9). Ha az ügyfél kéri: Megjelenés › Torrehub › modul be + limit/napok (alap 5 / 30).
 18. **Füstteszt:** hirdetésfeladás egy kategóriában fotóval és pinnel → pending → admin jóváhagyás → a pin a térképen és a sugárkeresésben; chat tag ↔ eladó (e-mail megérkezik, a válasz polling-gal megjelenik).
+19. **Oldalak Elementorról:** `wp torrehub migrate-pages` (dry run: blokkszám, szószám), majd `--apply` — About, Contact, FAQ, Privacy, Terms, Aviso Legal → blokkok + téma-sablonok; az eredeti tartalom post metában + revízióban, `--rollback` visszaállít. **Az Elementor csak ezután kapcsolható ki.** Lokálisan lefuttatva.
+20. **Guides oldal:** az első admin-kérés létrehozza a `/guides/` oldalt és posts page-nek állítja (ha nincs beállítva). Demo-posztok/oldalak: 8. nyitott kérdés 2.
+21. **Mentett keresések átvétele:** az rtcl-search-alert táblája törlése előtt `wp torrehub import-search-alerts`, majd `--apply` (idempotens; a fiók nélküli e-mail-riasztások e-mail-alapon működnek tovább). Lokálisan a tábla üres; szintetikus adattal tesztelve.
+22. **Cron:** a riasztások óránkénti WP-Cron eseménye (`th_search_alerts_digest`) és az azonnali egyszeri események miatt valódi rendszer-cron (`*/5 * * * * wp cron event run --due-now`). E-mail: List-Unsubscribe fejléc — az SMTP-szolgáltató (FluentSMTP) ne írja felül.
+23. **Kapcsolat-űrlap:** címzett a Customizerben (*Guides & pages*), üresen az admin e-mail; a nyilvános cím alapból `info@torrehub.com` (a régi oldalról). Teszt-üzenet élesen.
+24. **Form Builder (Classified Listing › Form Builder):** Pro nélkül is szerkeszthető (21.1). Az opció átnevezésekor a használt értékeket a téma megtartja; a „Display at archive page” helyett *Megjelenés › Listing cards*. A Classified Listing 6.1.5 debug-fájlt ír mentéskor (`wp-content/rtcl-fb-debug.log`) — a téma törli; plugin-frissítéskor ellenőrizni, hogy kikerült-e a kódból.
+25. **Kártya-mezők:** *Megjelenés › Listing cards* — ma csak 2 mező van bekapcsolva a 10 formban; a kártyákon látszó részletek kiválasztása tartalmi döntés.
 
 ## 16. Mérési napló (Lighthouse 12, mobil, lokális Local site)
 
@@ -298,6 +307,10 @@ Részletek: **`WPCODE-AUDIT.md`**. Röviden:
 | 2026-10-06 | fiók › Messages (belépve) | 6. fázis, RTCL-kit még betöltve | 46 | 100 | 100 | — | 9,0 s | 6,8 s | 0 | 450 ms |
 | 2026-10-06 | fiók › Messages / dashboard | a téma által renderelt fiók-szekciókon az RTCL-kit lekapcsolva | 93 / 94 | 100 / 100 | 100 | — | 3,1 / 3,0 s | 1,3 / 1,2 s | 0 | 30 / 0 ms |
 | 2026-10-06 | főoldal / listing | 6. fázis regresszió | 94 / 86 | 100 / 100 | 100 | — | 3,0 / 3,8 s | 1,3 / 1,6 s | 0 | 0 / 70 ms |
+| 2026-10-07 | Guides / guide / About / FAQ / Contact / Privacy | 7. fázis | 91 / 95 / 93 / 93 / 93 / 94 | 100 (mind) | 100 | — | 2,9–3,4 s | 1,2–1,3 s | 0–0,001 (FAQ: 0,043 → 0) | 0–30 ms |
+| 2026-10-07 | archive (Save this search) / fiók › Saved searches | 7. fázis | 89 / 95 | 100 / 100 | 100 | — | 3,7 / 2,9 s | 1,3 / 1,3 s | 0 | 0 ms |
+
+A 404-oldalt a Lighthouse nem méri (nem 2xx válasz); a `content.mjs` ellenőrzi.
 
 \* SEO lokálisan a szándékos `noindex` miatt alacsony (is-crawlable). A nyers JSON-riportok `_dev/reports/` alatt, gitignore-olva (URL-ekben kulcs lehet).
 
@@ -358,3 +371,17 @@ Részletek: **`WPCODE-AUDIT.md`**. Röviden:
 7. **Kvóta** (`Quota`, alapból ki): a szerző utolsó N napban létrehozott hirdetései (bármilyen állapot, a kukában lévő is; a piszkozat nem), staff kivétel; szerveroldali tiltás az RTCL mentésén (`rtcl_fb_extra_form_validation`, csak új hirdetésre), a munkaterület helyett „No free listings left” panel dátummal, sáv a rail-ben és a dashboardon. A modul-kernel új `always()` hookja miatt a beállítás kikapcsolt modulnál is szerkeszthető.
 8. **Teljesítmény:** a fiók téma által renderelt szekcióin (dashboard, My listings, Messages, Verification) az RTCL front-end kitje (fejbeli jQuery, Google Maps, Swiper, moment, Font Awesome) nem töltődik (Messages: Perf 46 → 93); az RTCL saját űrlapjain (Account details, Privacy settings) marad. A hirdetésfeladó oldalon sem töltődik az RTCL kit, a React app és a TinyMCE.
 9. **Ismert:** az RTCL a fiók saját űrlap-oldalain a Google Maps-et a *live* kulccsal tölti; lokálisan ez időnként `google is not defined` hibát dob (a 6. fázis előtt is így volt). A 8. fázis teljesítmény-auditjában kezeljük.
+
+## 21. 7. fázis — döntések és tények
+
+1. **Form Builder Pro nélkül (ügyfél-kérdés):** a free Classified Listing 6.1.5 tartalmazza a teljes admin Form Buildert (*Classified Listing › Form Builder*): mezők, opciók, szekciók, feltételes logika, mentés — Pro nélkül tesztelve (`admin-forms.mjs`). Saját szerkesztő ezért **nem kell**. Megállapítások és amit a téma tesz:
+   - mentéskor a free plugin **eldobja** az általa nem ismert mezőtípusokat → a `repeater`-t a téma regisztrálja (1. fázis óta) — enélkül egy mentés törölné a Service/Property „Amenities” mezőt;
+   - az opció átnevezése („Show Values” nélkül) **az értéket is átírja** → a meglévő hirdetések és a feltételes szekciók („Item type = Motorbike”) elvesztenék a kapcsolatot. `RtclCompat\FormBuilderGuard`: ha egy használt érték (hirdetésen tárolt vagy feltételben szereplő) eltűnne, a téma visszaírja; a címke változik;
+   - a „Display at archive page” és a „Filterable” Pro-kapcsoló. A szűrőket a téma saját oldala kezeli (*Megjelenés › Archive filters*), a kártya-mezőket az új *Megjelenés › Listing cards* (ugyanazt az `archive_view` jelzőt írja);
+   - a 6.1.5-ben bennmaradt debug-kód minden mentéskor nyilvános `wp-content/rtcl-fb-debug.log`-ot ír (szekciócímek) → a téma a mentés után törli.
+2. **Mentett keresések** (`SearchAlerts`): a mentés a kanonikus archive-paramétereket tárolja (`Archive\Search::params()`), az e-mail ugyanazzal a logikával keres (kategória-részfa, város vagy sugár, ár, mezőszűrők, verified, eladó). A kulcsszó a WordPress saját keresése (cím + leírás) — DECISION, inkább kevesebbet küld, mint rosszat. A jóváhagyás nem változtatja a post dátumát, ezért a téma élesítéskor időbélyeget tesz (`th_published_at`) — az „új” ehhez mér. Saját hirdetést nem jelez a szerzőnek. Fiókonként max. 20 keresés (DECISION). Azonnali: 1 perccel az élesítés után; napi/heti: óránkénti ellenőrzés, max. 10 hirdetés + „See all results”. Leiratkozás: aláírt (riasztásonkénti titkos tokenes) link + RFC 8058 egykattintásos POST + „Undo”. Fióktörléskor a riasztások is törlődnek.
+3. **Guides:** `/guides/` (DECISION, Q2), kiemelt = legújabb sticky, különben legújabb; témachipek = WP-kategóriák; 10 / oldal, „Load more guides” = következő oldal. Cikk: olvasási idő, „In this guide” a h2-kből (görgetéskövetés), megosztás/nyomtatás, mobilon olvasási csík, Article JSON-LD. Szerkesztőben „Related listing categories” (max. 2) → „Need help with this?” kártya + „Mentioned in this guide” élő darabszámmal. A meglévő 2 valódi cikk félkövér bekezdésekkel tagol (nincs h2) → náluk nincs tartalomjegyzék, a cikk középre igazodik.
+4. **Statikus oldalak:** sablonok `page-templates/` alatt (About T-01: kék hero + élő számok + tartalom-kártya + kiemelt kép; Contact T-02; FAQ T-03: Details blokkok = kérdések, kereső, FAQPage JSON-LD; Legal T-04/05: „Last updated”, számozott tartalomjegyzék). **Elementor → blokk migráció** (`wp torrehub migrate-pages`): a renderelt HTML-ből fejléc / bekezdés / lista / táblázat / kép / gomb-link blokkok; a jogi szövegek „címsor-sorai” (rövid, írásjel nélküli bekezdés) h2-vé, a „·” sorok listává, a „---” elválasztóvá válnak; About: az első kép kiemelt kép, az első rövid sor a hero bevezetője. Szószám a migráció előtt/után egyezik (a különbség az összeragadt szavak szétválása).
+5. **Kapcsolat-űrlap** a témában (Fluent Forms nélkül): név, e-mail, tárgy (*Report a listing*, *Upgrade to a seller account* …), üzenet ≤ 2000; honeypot + aláírt kitöltési idő (3 s – 12 h) + 5 / óra / IP; robotnak „sikert” mutat, nem küld. Reply-To a látogató. A 403 „Contact us to upgrade” gombja előre kiválasztja a tárgyat.
+6. **Hibaoldalak:** 404 (élő hirdetésszám, kereső, főoldal / kategóriák), 403 a tagoknak a hirdetésfeladásnál (T-08: fiók-chip „Member”, „Contact us to upgrade”). **401**: a komponens kész (styleguide), de élő használata nincs — a kijelentkezett fiók-URL-ek a 5. fázis döntése szerint a loginra visznek (kontextussal); a kedvencek bekapcsolásakor ott jelenik meg.
+7. **E-mail réteg:** `Core\Mailer::send()` új opcionális paramétere: listázott hirdetés-sorok, extra fejlécek (List-Unsubscribe), lábléc-link.

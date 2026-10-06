@@ -13,6 +13,7 @@
 		"components/module.css",
 		"components/navigation.css",
 		"components/sheet.css",
+		"components/prose.css",
 		"components/feedback.css",
 		"components/header.css",
 		"components/footer.css"
@@ -35,10 +36,14 @@
 	"account": [
 		"auth.css",
 		"account.css",
-		"chat.css"
+		"chat.css",
+		"alerts.css"
 	],
 	"listing-form": [
 		"auth.css",
 		"listing-form.css"
+	],
+	"content": [
+		"content.css"
 	]
 }

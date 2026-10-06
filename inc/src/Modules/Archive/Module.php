@@ -89,6 +89,7 @@ final class Module extends BaseModule {
 
 		if ( is_admin() ) {
 			( new AdminScreen() )->register();
+			( new CardFields() )->register();
 		}
 	}
 

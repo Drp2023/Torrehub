@@ -47,6 +47,12 @@ function th_mod_defaults(): array {
 		'th_safety_text'         => __( 'Meet in a public place or agree a written quote before work starts. Never pay in advance for something you haven’t seen. Torrehub is a directory: we don’t take part in deals or verify every claim.', 'torrehub' ),
 		'th_use_custom_logo'     => false,
 		'th_chat_reply_time'     => false,
+		'th_guides_title'        => __( 'Living and getting things done on the Costa Blanca', 'torrehub' ),
+		// DECISION: the address from the old Contact page; office and hours stay empty (hidden) until the client fills them.
+		'th_contact_email'       => 'info@torrehub.com',
+		'th_contact_office'      => '',
+		'th_contact_hours'       => '',
+		'th_contact_to'          => '',
 	);
 }
 
@@ -319,5 +325,44 @@ add_action(
 				'type'        => 'textarea',
 			)
 		);
+	}
+);
+
+/* Guides & static pages. */
+add_action(
+	'customize_register',
+	static function ( WP_Customize_Manager $wp_customize ): void {
+		$wp_customize->add_section(
+			'th_pages',
+			array(
+				'title' => __( 'Guides & pages', 'torrehub' ),
+				'panel' => 'th_panel',
+			)
+		);
+		$fields = array(
+			'th_guides_title'   => array( __( 'Guides — page title', 'torrehub' ), 'text', 'sanitize_text_field', '' ),
+			'th_contact_email'  => array( __( 'Contact — public e-mail address', 'torrehub' ), 'email', 'sanitize_email', __( 'Shown on the Contact page.', 'torrehub' ) ),
+			'th_contact_to'     => array( __( 'Contact form — send messages to', 'torrehub' ), 'email', 'sanitize_email', __( 'Empty: the site administration e-mail.', 'torrehub' ) ),
+			'th_contact_office' => array( __( 'Contact — office address', 'torrehub' ), 'textarea', 'sanitize_textarea_field', __( 'Empty: not shown.', 'torrehub' ) ),
+			'th_contact_hours'  => array( __( 'Contact — opening hours', 'torrehub' ), 'text', 'sanitize_text_field', __( 'Empty: not shown.', 'torrehub' ) ),
+		);
+		foreach ( $fields as $key => $conf ) {
+			$wp_customize->add_setting(
+				$key,
+				array(
+					'default'           => th_mod_defaults()[ $key ],
+					'sanitize_callback' => $conf[2],
+				)
+			);
+			$wp_customize->add_control(
+				$key,
+				array(
+					'label'       => $conf[0],
+					'type'        => $conf[1],
+					'section'     => 'th_pages',
+					'description' => $conf[3],
+				)
+			);
+		}
 	}
 );

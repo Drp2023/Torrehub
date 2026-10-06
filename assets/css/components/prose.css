@@ -1,0 +1,201 @@
+/* Long-form content from the block editor: guides, static pages, legal texts. */
+
+.th-prose {
+	color: var(--th-text);
+	font-size: var(--th-fs-body);
+	line-height: var(--th-lh-body);
+	overflow-wrap: break-word;
+}
+
+.th-prose > * {
+	margin-block: 0;
+}
+
+.th-prose > * + * {
+	margin-top: 1em;
+}
+
+.th-prose h2,
+.th-prose h3,
+.th-prose h4 {
+	color: var(--th-ink);
+	scroll-margin-top: var(--th-s-6);
+}
+
+.th-prose > h2 {
+	margin-top: 1.8em;
+	font-size: var(--th-fs-h3);
+}
+
+.th-prose > h3 {
+	margin-top: 1.5em;
+	font-size: 1.1875rem;
+}
+
+.th-prose > h4 {
+	margin-top: 1.3em;
+	font-size: var(--th-fs-ui);
+}
+
+.th-prose > :first-child {
+	margin-top: 0;
+}
+
+.th-prose a {
+	color: var(--th-blue);
+	font-weight: var(--th-fw-semibold);
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+.th-prose a:hover {
+	color: var(--th-blue-deep);
+}
+
+.th-prose strong {
+	color: var(--th-ink);
+}
+
+.th-prose ul,
+.th-prose ol {
+	padding-left: 1.3em;
+}
+
+.th-prose li + li {
+	margin-top: 0.35em;
+}
+
+.th-prose li::marker {
+	color: var(--th-muted);
+}
+
+.th-prose img {
+	height: auto;
+	border-radius: var(--th-r-tile);
+}
+
+.th-prose figure {
+	margin-inline: 0;
+}
+
+.th-prose figcaption {
+	margin-top: 6px;
+	color: var(--th-muted);
+	font-size: var(--th-fs-meta);
+}
+
+/* Quote / pullquote: the amber tip box (B-02). */
+.th-prose blockquote,
+.th-prose .wp-block-pullquote {
+	margin-inline: 0;
+	padding: var(--th-s-4) var(--th-s-5);
+	border: 0;
+	border-radius: var(--th-r-tile);
+	background: var(--th-tint-amber);
+	color: var(--th-tint-amber-text);
+	font-size: 1.0625rem;
+	font-weight: var(--th-fw-semibold);
+	line-height: var(--th-lh-snug);
+}
+
+.th-prose .wp-block-pullquote blockquote {
+	padding: 0;
+	background: none;
+}
+
+.th-prose blockquote p {
+	margin: 0;
+}
+
+.th-prose blockquote cite {
+	display: block;
+	margin-top: 8px;
+	font-size: var(--th-fs-meta);
+	font-style: normal;
+	font-weight: var(--th-fw-regular);
+}
+
+.th-prose hr {
+	border: 0;
+	border-top: 1px solid var(--th-line);
+}
+
+.th-prose table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: var(--th-fs-sm);
+}
+
+.th-prose th,
+.th-prose td {
+	padding: 8px 10px;
+	border-bottom: 1px solid var(--th-line);
+	text-align: left;
+}
+
+/* Details block = accordion (FAQ). */
+.th-prose details {
+	border: 1px solid var(--th-line);
+	border-radius: var(--th-r-tile);
+	background: var(--th-white);
+}
+
+.th-prose details + details {
+	margin-top: 10px;
+}
+
+.th-prose details[open] {
+	border-color: transparent;
+	background: var(--th-tint-blue);
+}
+
+.th-prose summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--th-s-3);
+	min-height: var(--th-tap);
+	padding: 12px 16px;
+	color: var(--th-ink);
+	font-weight: var(--th-fw-bold);
+	cursor: pointer;
+	list-style: none;
+}
+
+.th-prose summary::-webkit-details-marker {
+	display: none;
+}
+
+.th-prose summary::after {
+	content: "+";
+	flex: none;
+	color: var(--th-muted);
+	font-size: 1.25rem;
+	font-weight: var(--th-fw-regular);
+	line-height: 1;
+}
+
+.th-prose details[open] summary {
+	color: var(--th-blue-ink);
+}
+
+.th-prose details[open] summary::after {
+	content: "−";
+	color: var(--th-blue-ink);
+}
+
+.th-prose summary:focus-visible {
+	border-radius: var(--th-r-tile);
+	outline: 3px solid var(--th-focus-ring);
+	outline-offset: 2px;
+}
+
+.th-prose details > :not(summary) {
+	margin: 0;
+	padding: 0 16px 14px;
+	font-size: var(--th-fs-sm);
+}
+
+.th-prose details > :not(summary) + :not(summary) {
+	padding-top: 0;
+}

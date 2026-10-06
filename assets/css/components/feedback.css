@@ -229,3 +229,18 @@ body:has(.th-bottom-nav) .th-toasts {
 .th-error-panel .th-icon-circle {
 	background: var(--th-white);
 }
+
+.th-error-panel--401 .th-icon-circle {
+	color: var(--th-blue);
+}
+
+.th-error-panel--403 .th-icon-circle {
+	color: var(--th-clay);
+}
+
+/* Full-page panels (404, alert unsubscribe). */
+.th-error-panel--page,
+.th-alerts-panel {
+	max-width: 640px;
+	margin-inline: auto;
+}

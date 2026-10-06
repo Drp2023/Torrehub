@@ -69,6 +69,9 @@ final class Module extends BaseModule {
 	public function register(): void {
 		add_filter( 'rtcl_fb_fields', array( $this, 'register_repeater' ), 5 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'trim_assets' ), 1000 ); // After RTCL (priority 999).
+		if ( is_admin() ) {
+			( new FormBuilderGuard() )->register();
+		}
 	}
 
 	/**

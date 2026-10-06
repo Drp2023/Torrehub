@@ -20,6 +20,7 @@ const lazy = [
 	['[data-th-fav]', () => import('./components/favourites.js')],
 	['[data-th-listing-form]', () => import('./components/listing-form.js')],
 	['[data-th-chat]', () => import('./components/chat.js')],
+	['[data-th-toc], [data-th-guide], [data-th-faq]', () => import('./components/content.js')],
 ];
 
 function boot(root = document) {
