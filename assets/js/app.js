@@ -13,7 +13,9 @@ const lazy = [
 	['[data-th-counter]', () => import('./components/counter.js')],
 	['[data-th-toast-demo]', () => import('./components/toast.js')],
 	['[data-th-archive]', () => import('./components/archive.js')],
-	['[data-th-map]', () => import('./components/map.js')],
+	['[data-th-map], [data-th-map-single]', () => import('./components/map.js')],
+	['[data-th-listing]', () => import('./components/listing.js')],
+	['[data-th-gallery]', () => import('./components/gallery.js')],
 	['[data-th-fav]', () => import('./components/favourites.js')],
 ];
 

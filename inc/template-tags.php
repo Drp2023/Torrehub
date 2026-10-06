@@ -92,13 +92,20 @@ function th_get_component( string $name, array $args = array() ): string {
 /**
  * User avatar: RTCL profile photo (`_rtcl_pp_id`) or initials. DECISION: no Gravatar (external request, privacy).
  *
- * @param int $user_id User id.
- * @param int $size    CSS pixel size.
+ * @param int    $user_id       User id.
+ * @param int    $size          CSS pixel size.
+ * @param string $fallback_name Name for initials when there is no user (guest reviews).
  */
-function th_get_avatar( int $user_id, int $size = 38 ): string {
-	$user = get_userdata( $user_id );
+function th_get_avatar( int $user_id, int $size = 38, string $fallback_name = '' ): string {
+	$user = $user_id ? get_userdata( $user_id ) : false;
 	if ( ! $user ) {
-		return '';
+		if ( '' === trim( $fallback_name ) ) {
+			return '';
+		}
+		// Guests (e.g. older reviews): initials of the given name.
+		$parts    = preg_split( '/\s+/u', trim( $fallback_name ) );
+		$initials = mb_strtoupper( mb_substr( (string) ( $parts[0] ?? '' ), 0, 1 ) . mb_substr( (string) ( $parts[1] ?? '' ), 0, 1 ) );
+		return sprintf( '<span class="th-avatar th-avatar--initials" style="--th-avatar-size:%dpx" aria-hidden="true">%s</span>', $size, esc_html( $initials ) );
 	}
 	$photo = (int) get_user_meta( $user_id, '_rtcl_pp_id', true );
 	if ( $photo && wp_attachment_is_image( $photo ) ) {

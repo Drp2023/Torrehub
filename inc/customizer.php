@@ -16,32 +16,36 @@ defined( 'ABSPATH' ) || exit;
  */
 function th_mod_defaults(): array {
 	return array(
-		'th_home_hero'        => true,
-		'th_home_weekend'     => true,
-		'th_home_stats'       => true,
-		'th_home_explore'     => true,
-		'th_home_new'         => true,
-		'th_home_towns'       => true,
-		'th_home_sellers'     => true,
-		'th_home_why'         => true,
-		'th_hero_title'       => __( 'What’s around you, all in one place.', 'torrehub' ),
-		'th_hero_lead'        => __( 'Tradespeople, homes, cars, jobs, restaurants and what’s on this weekend — from Alicante down to Pilar de la Horadada.', 'torrehub' ),
-		'th_hero_chips'       => __( 'Plumber, Rentals, Beach bars, Jobs', 'torrehub' ),
-		'th_sellers_title'    => __( 'Five free listings every 30 days', 'torrehub' ),
-		'th_sellers_text'     => __( 'Private sellers register with a NIE, businesses with a NIF. No commission, no subscription.', 'torrehub' ),
-		'th_sellers_link'     => '',
-		'th_why_1_title'      => __( 'Search where you actually are', 'torrehub' ),
-		'th_why_1_text'       => __( 'Every listing is tied to a Costa Blanca town.', 'torrehub' ),
-		'th_why_2_title'      => __( 'Verified sellers', 'torrehub' ),
-		'th_why_2_text'       => __( 'NIE and NIF documents checked by a person.', 'torrehub' ),
-		'th_why_3_title'      => __( 'Contact directly', 'torrehub' ),
-		'th_why_3_text'       => __( 'Phone, WhatsApp, chat or email. No middleman taking a cut.', 'torrehub' ),
-		'th_footer_blurb'     => __( 'The Costa Blanca local hub — directory, classifieds and local discovery in one place.', 'torrehub' ),
-		'th_social_facebook'  => '',
-		'th_social_instagram' => '',
-		'th_default_town'     => 'torrevieja',
-		'th_archive_per_page' => 12,
-		'th_use_custom_logo'  => false,
+		'th_home_hero'           => true,
+		'th_home_weekend'        => true,
+		'th_home_stats'          => true,
+		'th_home_explore'        => true,
+		'th_home_new'            => true,
+		'th_home_towns'          => true,
+		'th_home_sellers'        => true,
+		'th_home_why'            => true,
+		'th_hero_title'          => __( 'What’s around you, all in one place.', 'torrehub' ),
+		'th_hero_lead'           => __( 'Tradespeople, homes, cars, jobs, restaurants and what’s on this weekend — from Alicante down to Pilar de la Horadada.', 'torrehub' ),
+		'th_hero_chips'          => __( 'Plumber, Rentals, Beach bars, Jobs', 'torrehub' ),
+		'th_sellers_title'       => __( 'Five free listings every 30 days', 'torrehub' ),
+		'th_sellers_text'        => __( 'Private sellers register with a NIE, businesses with a NIF. No commission, no subscription.', 'torrehub' ),
+		'th_sellers_link'        => '',
+		'th_why_1_title'         => __( 'Search where you actually are', 'torrehub' ),
+		'th_why_1_text'          => __( 'Every listing is tied to a Costa Blanca town.', 'torrehub' ),
+		'th_why_2_title'         => __( 'Verified sellers', 'torrehub' ),
+		'th_why_2_text'          => __( 'NIE and NIF documents checked by a person.', 'torrehub' ),
+		'th_why_3_title'         => __( 'Contact directly', 'torrehub' ),
+		'th_why_3_text'          => __( 'Phone, WhatsApp, chat or email. No middleman taking a cut.', 'torrehub' ),
+		'th_footer_blurb'        => __( 'The Costa Blanca local hub — directory, classifieds and local discovery in one place.', 'torrehub' ),
+		'th_social_facebook'     => '',
+		'th_social_instagram'    => '',
+		'th_default_town'        => 'torrevieja',
+		'th_archive_per_page'    => 12,
+		'th_contact_email_login' => true,
+		'th_contact_phone_login' => false,
+		'th_safety_title'        => __( 'Staying safe', 'torrehub' ),
+		'th_safety_text'         => __( 'Meet in a public place or agree a written quote before work starts. Never pay in advance for something you haven’t seen. Torrehub is a directory: we don’t take part in deals or verify every claim.', 'torrehub' ),
+		'th_use_custom_logo'     => false,
 	);
 }
 
@@ -252,6 +256,66 @@ add_action(
 					'max'  => 48,
 					'step' => 3,
 				),
+			)
+		);
+
+		// Listing page.
+		$wp_customize->add_section(
+			'th_listing',
+			array(
+				'title' => __( 'Listing page', 'torrehub' ),
+				'panel' => 'th_panel',
+			)
+		);
+		// DECISION (CLIENT A5, open): design says "Chat and email need an account. Phone and WhatsApp are open to everyone".
+		foreach ( array(
+			'th_contact_email_login' => array( __( 'E-mail enquiries need an account', 'torrehub' ), true ),
+			'th_contact_phone_login' => array( __( 'Phone and WhatsApp need an account', 'torrehub' ), false ),
+		) as $key => $conf ) {
+			$wp_customize->add_setting(
+				$key,
+				array(
+					'default'           => $conf[1],
+					'sanitize_callback' => 'rest_sanitize_boolean',
+				)
+			);
+			$wp_customize->add_control(
+				$key,
+				array(
+					'label'   => $conf[0],
+					'section' => 'th_listing',
+					'type'    => 'checkbox',
+				)
+			);
+		}
+		$wp_customize->add_setting(
+			'th_safety_title',
+			array(
+				'default'           => th_mod_defaults()['th_safety_title'],
+				'sanitize_callback' => 'sanitize_text_field',
+			)
+		);
+		$wp_customize->add_control(
+			'th_safety_title',
+			array(
+				'label'   => __( 'Safety note — title', 'torrehub' ),
+				'section' => 'th_listing',
+			)
+		);
+		$wp_customize->add_setting(
+			'th_safety_text',
+			array(
+				'default'           => th_mod_defaults()['th_safety_text'],
+				'sanitize_callback' => 'sanitize_textarea_field',
+			)
+		);
+		$wp_customize->add_control(
+			'th_safety_text',
+			array(
+				'label'       => __( 'Safety note — text', 'torrehub' ),
+				'description' => __( 'Shown under the seller card.', 'torrehub' ),
+				'section'     => 'th_listing',
+				'type'        => 'textarea',
 			)
 		);
 	}

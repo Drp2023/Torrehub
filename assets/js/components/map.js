@@ -30,24 +30,43 @@ function loadLeaflet() {
 }
 
 export function init(root = document) {
-	root.querySelectorAll('[data-th-map]').forEach((wrap) => {
-		if (wrap.dataset.thReady) {
-			return;
-		}
-		wrap.dataset.thReady = '1';
-		const start = () => loadLeaflet().then((L) => build(L, wrap)).catch(() => {});
-		if ('IntersectionObserver' in window) {
-			const io = new IntersectionObserver((entries) => {
-				if (entries.some((e) => e.isIntersecting)) {
-					io.disconnect();
-					start();
-				}
-			}, { rootMargin: '200px' });
-			io.observe(wrap);
-		} else {
-			start();
-		}
-	});
+	root.querySelectorAll('[data-th-map]').forEach((wrap) => whenVisible(wrap, (L) => build(L, wrap)));
+	root.querySelectorAll('[data-th-map-single]').forEach((el) => whenVisible(el, (L) => buildSingle(L, el)));
+}
+
+/** Load Leaflet and run `fn` once the element is (nearly) on screen. */
+function whenVisible(el, fn) {
+	if (el.dataset.thReady) {
+		return;
+	}
+	el.dataset.thReady = '1';
+	const start = () => loadLeaflet().then(fn).catch(() => {});
+	if ('IntersectionObserver' in window) {
+		const io = new IntersectionObserver((entries) => {
+			if (entries.some((e) => e.isIntersecting)) {
+				io.disconnect();
+				start();
+			}
+		}, { rootMargin: '200px' });
+		io.observe(el);
+	} else {
+		start();
+	}
+}
+
+/** Single listing: one pin (or a circle around the town centre when the position is approximate). */
+function buildSingle(L, el) {
+	const tiles = settings.tiles || {};
+	const at = [Number(el.dataset.lat), Number(el.dataset.lng)];
+	const approx = el.dataset.approx === '1';
+	const map = L.map(el, { zoomControl: true, scrollWheelZoom: false, attributionControl: true }).setView(at, approx ? 13 : 15);
+	L.tileLayer(tiles.url, { attribution: tiles.attribution, maxZoom: tiles.maxZoom || 18 }).addTo(map);
+	if (approx) {
+		L.circle(at, { radius: 900, color: '#0056b3', weight: 2, fillOpacity: 0.12 }).addTo(map);
+	} else {
+		L.marker(at, { icon: L.divIcon({ className: 'th-marker', html: '<span class="th-pin th-pin--accent">●</span>', iconSize: null }), keyboard: false }).addTo(map);
+	}
+	requestAnimationFrame(() => map.invalidateSize());
 }
 
 function escapeHtml(s) {

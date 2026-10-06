@@ -1,7 +1,7 @@
 # BUILD-PLAN.md — Torrehub téma (Direction C · Modern Local Hub)
 
 **Verzió:** 2.0 — a 2026-10-02-i döntések szerint (felülírja a promptot és a v1 tervet)
-**Állapot:** 0–2. fázis jóváhagyva · 3. fázis kész, jóváhagyásra vár
+**Állapot:** 0–3. fázis jóváhagyva · 4. fázis kész, jóváhagyásra vár
 **Kapcsolódó:** `RTCL-INTEGRATION-MAP.md`, `RTCL-FREE-CAPABILITIES.md`, `../design/INVENTORY.md`, `../../hotfix/README.md`
 
 ---
@@ -57,8 +57,8 @@ A modulok `inc/modules/<modul>/` alatt, mindegyik saját osztállyal (`Torrehub\
 
 | Kiváltott funkció | Eredeti forrás | Téma-modul | Adattárolás | Fázis |
 |---|---|---|---|---|
-| Single listing oldal (per-form layout) | rtcl-elementor-builder + Elementor | `Listing\Single` + közös mező-renderer | RTCL meta (változatlan) | 4 |
-| Galéria + lightbox (PhotoSwipe) | Pro | `Listing\Gallery` (vanilla) | — | 4 |
+| Single listing oldal (mind a 10 form) | rtcl-elementor-builder + Elementor | `Listing` modul (`View` + `template-parts/listing/*`) + közös mező-formázó `Data\ListingFields` | RTCL meta (változatlan) | 4 ✅ |
+| Galéria + lightbox (PhotoSwipe) | Pro | `gallery.js` (vanilla, `<dialog>`) | — | 4 ✅ |
 | Kártyán megjelenő FB mezők (listable fields) | Pro | `Listing\Card` | — | 2–3 |
 | Grid/list nézetváltó | Pro | `Archive\View` | — | 3 |
 | FB custom-field szűrők az archive-on (+ a WPCode „Filter Builder Active” snippet) | Pro UI + snippet 6510 | `Archive` modul: saját meta_query (`f[mező]`), ár, város + sugár, verified, rendezés, nézetek | téma-opció `th_archive_filters` (az LFB 14 csoportjából importálva; admin: Megjelenés › Archive filters); fallback: a form `filterable` flagje | 3 ✅ |
@@ -69,11 +69,11 @@ A modulok `inc/modules/<modul>/` alatt, mindegyik saját osztállyal (`Torrehub\
 | E-mail megerősítés regisztrációnál | Pro (`user_verification`) | `Auth` | user meta `th_account_status`, hash-elt token | 5 |
 | Login / regisztráció / jelszó-visszaállítás | wppb (hiányzik) + RTCL | `Auth` | core `wp_users` + meta; `custom_field_1/2` megtartva | 5 |
 | Admin-jóváhagyás | wppb | `Auth\Approval` (Users lista oszlop, szűrő, sor- és tömeges művelet, e-mailek) | `th_account_status` | 5 |
-| Seller-info csak belépve („registered_only”) | Pro | `Listing\Contact` (Customizer, DECISION A5) | theme_mod | 4 |
+| Seller-info csak belépve („registered_only”) | Pro | `Listing` kontakt (Customizer: `th_contact_email_login` igen, `th_contact_phone_login` nem — a design szerint; A5 nyitott) | theme_mod | 4 ✅ |
 | Online státusz | Pro | **nem épül** (nincs a designban) | — | — |
 | Mark as sold | Pro | **nem épül** (nincs a designban; hook-pont marad) | — | — |
-| Értékelések + összesítő + eloszlás | review-schema(-pro) / Pro (a számítás free-ben van, csak a hookok Pro-ban) | `Reviews` | WP comments `comment_type=review`, meta `rating` (a meglévő 2 értékelés marad) + az RTCL free által olvasott `_rtcl_average_rating` frissítése | 4 |
-| JSON-LD (Product/LocalBusiness + AggregateRating, BreadcrumbList, ItemList, Article, FAQPage) | review-schema(-pro) | `Seo\Schema` | — | 4, 7 |
+| Értékelések + összesítő + eloszlás | review-schema(-pro) / Pro (a számítás free-ben van, csak a hookok Pro-ban) | `Reviews` | WP comments `comment_type=review`, meta `rating` (a meglévő 2 értékelés marad) + az RTCL free által olvasott `_rtcl_average_rating` frissítése | 4 ✅ |
+| JSON-LD (Product/LocalBusiness + AggregateRating, BreadcrumbList, ItemList, Article, FAQPage) | review-schema(-pro) | listing: `Listing\Schema` (4 ✅); guide/FAQ: 7 | — | 4, 7 |
 | Eladó-hitelesítés | rtcl-seller-verification | `Verification` | **privát** feltöltési mappa (nem Media Library, nincs publikus URL), meta `photo_id`, `other_document_id`, `rtcl_verified_seller` (+ `th_verification_status`, elutasítási ok) | 5 |
 | Keresési értesítő | rtcl-search-alert | `SearchAlerts` | saját tábla `th_search_alerts`; WP-Cron napi/heti + azonnali (publish hook); aláírt leiratkozó link | 7 |
 | Ingyenes kvóta (5 / 30 nap) | Store | `Quota` — **alapból kikapcsolva** (döntés 9) | számolás a szerző `rtcl_listing` posztjaiból | 6 |
@@ -163,9 +163,9 @@ torrehub/                               (= repo gyökér = téma gyökér)
 | 1 ✅ | Téma-váz: `style.css`, bootstrap/autoloader, ModuleRegistry, Settings oldal váz, Installer · tokenek, fontok, ikon-sprite · komponens-könyvtár (PHP partials + CSS + vanilla JS) · rejtett `/styleguide` (F-01…F-05) · `build-zip.sh` · `Compat\FormBuilderRepeater` (élesítési kapu) · **baseline: a site csak free pluginokkal + új témával fatal nélkül fut** | Playwright 1440/390 vs design; `php -l`, PHPCS, Stylelint, ESLint |
 | 2 ✅ | Header/footer/drawer/bottom nav/location/nyelvválasztó (GTranslate) + főoldal | + Lighthouse mobil ≥ 90 |
 | 3 ✅ | Archive + szűrők (meta_query) + sheet + térkép + nézetváltó + skeleton/üres/vég + kedvencek UI · WPCode audit | + keresés-smoke (`_dev/tests/e2e/archive.mjs`, 39 ellenőrzés) |
-| 4 | Single listing (10 form) + kontakt + galéria + `Reviews` + JSON-LD + lejárt/pending | + 10 form vizuális teszt |
+| 4 ✅ | Single listing (10 form) + kontakt + galéria + `Reviews` + JSON-LD + lejárt/pending + bejelentés (TLRS port) | + 10 form render-teszt, `_dev/tests/e2e/listing.mjs` (25 ellenőrzés) |
 | 5 | `Auth` + `Account` dashboard + `Verification` | + regisztráció 3 role, Mailpit, admin jóváhagyás |
-| 6 | `ListingForm` munkaterület + `Quota` + `Chat` | + 1 hirdetés/kategória, chat polling |
+| 6 | `ListingForm` munkaterület + `Quota` + `Chat` · **térképes pin-választó a hirdetésfeladásnál** (Leaflet, a 3. fázis térképével közös; a listing `latitude`/`longitude` metája → pontos sugár- és térképkeresés, a város-közép közelítés csak tartalék) | + 1 hirdetés/kategória, chat polling, pin mentése és megjelenése a térképen |
 | 7 | `SearchAlerts` + Guides + statikus oldalak (Elementor → blokk tartalom-migráció) + 404/401/403 | + értesítő cron e-mail |
 | 8 | i18n, a11y, performance, SEO audit · **`Consent` modul** (döntés 10) · **élesítési runbook** (plugin-eltávolítási sorrend, hotfix, adat-ellenőrzés, cron) | DoD |
 
@@ -258,8 +258,9 @@ Részletek: **`WPCODE-AUDIT.md`**. Röviden:
 2. Téma-zip telepítése (`bin/build-zip.sh`), aktiválás előtt backup.
 3. **`wp media regenerate --skip-delete --yes`** — a téma kép-méretei (`th-card`, `th-town` …) a meglévő képekhez, **WebP-ben** (3. fázis DECISION: az alméretek WebP-k, az eredeti marad; a `--skip-delete` megtartja a régi fájlokat, ha tartalom hivatkozik rájuk). Lokálisan 182 kép.
 4. Pluginok kivezetése a 1. pont sorrendjében — **Pro csak a `repeater` kapu ellenőrzése után** (R0).
-5. WPCode snippetek kivezetése a 14. pont szerint (portolt funkciók tesztje után), majd a WPCode plugin.
-7. Form Builder adathiba (kliens): a `€`-opciók értéke üres (Restaurants „Price Range”, Leisure „Price”) — értéket kell adni, különben nem szűrhetők.
+5. WPCode snippetek kivezetése a 14. pont szerint, **a téma aktiválásával egy időben** a már portolt/felesleges snippeteket kikapcsolni: 6030, 6472 (3. fázis), 5643 TLRS, 6476 (4. fázis) — különben a TLRS lebegő „Report” gombja duplán jelenik meg. Lokálisan kikapcsolva 2026-10-06. A többi (7263, 7264, 7280, 6510, 5120) az 5. fázis után; végül a WPCode plugin.
+8. `review-schema` (free) plugin kikapcsolása a téma aktiválásakor (a téma adja az értékeléseket és a JSON-LD-t; két séma-forrás ütközne).
+7. **Form Builder adathiba javítása élesen:** `wp torrehub fix-option-values` (dry run, kiírja a változásokat), majd `wp torrehub fix-option-values --apply`. A parancs a témával érkezik (csak WP-CLI alatt töltődik). Az üres értékű opciók a címkéjüket kapják értéknek (Restaurants „Price Range” `€`, Leisure „Price” `€`/`€€`/`€€€`). Idempotens; csak a `rtcl_forms.fields`-et írja. Lokálisan lefuttatva 2026-10-06 (4 opció).
 6. Site időzóna `Europe/Madrid`; valódi rendszer-cron.
 
 ## 17. 3. fázis — döntések és tények
@@ -267,7 +268,7 @@ Részletek: **`WPCODE-AUDIT.md`**. Röviden:
 - **Szűrők forrása:** a WPCode „Filter Builder Active” 14 csoportja importálva → `th_archive_filters` (65 mező; 3 kulcs nélküli bejegyzés kimaradt; az Auto/Moto/Boats „füles” gyökér csak a közös szűrőket kapja, az alkategóriák a sajátjukat). A legközelebbi konfigurált ős nyer. Admin: *Megjelenés › Archive filters* (mezők be/ki, címke, sorrend, újra-import). Az LFB opciók érintetlenek.
 - **Szűrő-UI mezőtípusonként:** select/checkbox → chipek (több választás, `IN`), ≤ 3 opciós radio → szegmentált (Any + opciók), sok opció → legördülő, egyetlen „yes” checkbox → kapcsoló, number → min–max (adatból számolt határokkal; ha minden érték azonos, rejtve), date → nap. Szöveges mezők (pl. Car Make) → a meglévő értékekből választható lista. **Üres értékű opciók kimaradnak** (a `€` opciók adathibája, runbook 7).
 - **URL-ek:** egy keresés = egy URL (`/listing-category/x/?…`, `/listing-location/y/`, `/listings/?…`); üres paraméterek nélkül (302 a tiszta URL-re; utm/gclid megmarad); `f[mező][]=…`. Szűrt/rendezett/lapozott változat `noindex,follow`.
-- **Sugár (DECISION):** a listingeknek nincs koordinátája → a sugár a **városközpontok** távolságával számol (10/25/50 km, „Csak ez a város”); „Nearest” rendezés ugyanígy, városonként.
+- **Sugár (DECISION):** a listingeknek nincs koordinátája → a sugár a **városközpontok** távolságával számol (10/25/50 km, „Csak ez a város”); „Nearest” rendezés ugyanígy, városonként. **6. fázis:** pin-választó a hirdetésfeladásnál; ahol van saját koordináta, a sugár és a „Nearest” azt használja (Haversine a `latitude/longitude` metán), a város-közép csak tartalék.
 - **Térkép:** pin = listing koordináta, ha van; egyébként a város közepe + determinisztikus szórás (≈ 300–900 m), a térkép kiírja: „Pins show the town, not the exact address”.
 - **Darabszám:** `?th_count=1` ugyanarra az URL-re → JSON (ugyanaz a fő lekérdezés, nem tér el a megjelenítettől). Oldalméret: Customizer `th_archive_per_page` (12); „Load N more” = sima link a következő oldalra, JS-sel helyben fűz.
 - **JS nélkül** minden működik: a Filters link `?th_sheet=1`-gyel nyitott sheetet renderel, sima GET submit, rendezés gombbal.
@@ -276,6 +277,22 @@ Részletek: **`WPCODE-AUDIT.md`**. Röviden:
 - **„Save this search”:** hook-pont `th_archive_head_actions` (SearchAlerts, 7. fázis).
 - **Teljesítmény:** az archive CSS-e inline (mint a főoldalé); RTCL front-end kit nem töltődik az archive-on; Leaflet csak a térkép-nézetben. Kép-alméretek WebP-ben (fent, runbook 3).
 - **Javított globális hiba:** a dialógus scroll-lock (`html:has(dialog[open])`) JS nélkül, nem modális sheetnél a teljes oldalt görgethetetlenné tette → csak `:modal`.
+
+## 18. 4. fázis — döntések és tények
+
+- **Mezők:** az RTCL a tárolt *értéket* adja („full_time”, „private_owner”) — a `Data\ListingFields` az opció *címkéjét* mutatja (kártyán és single-on is). Csoportok: részletek (csempék), jellemzők (✓ chipek: igen-checkbox, több-checkbox, repeater sorok), linkek (url, fájl), cím, logó.
+- **Személyes azonosítók rejtve (DECISION):** NIF/NIE/DNI/CIF, VIN, rendszám nem jelenik meg nyilvánosan, bár a formok „single-on mutasd”-ra vannak állítva. A VUT/RAICV (turisztikai engedélyszám) látszik — a valenciai szabály szerint kötelező a hirdetésben. Filter: `th_listing_private_field`.
+- **Kontakt:** a telefonszám/WhatsApp nincs a HTML-ben; kattintásra jön (AJAX, IP-nkénti limit 30/10 perc, az RTCL `_rtcl_reveal_phone_whatsapp` számlálója nő). E-mail üzenet csak belépve (design), az RTCL saját kontakt-e-mailjeivel (Mailpitben ellenőrizve), 5 üzenet/10 perc. JS nélkül minden működik (`?th_contact=1`, sima POST).
+- **Az űrlapok a listing URL-jére postolnak, nem az `admin-post.php`-ra:** a WPCode 7280 minden admin-kérést (az admin-post-ot is) a főoldalra irányít nem-admin felhasználóknál. Közös segéd: `th_on_front_post()`.
+- **Értékelések:** belépve, hirdetésenként egyszer, a saját hirdetésre nem; moderálás után jelennek meg (a moderátor a WP szokásos e-mailjét kapja); az összesítők az RTCL saját metáiban (`_rtcl_average_rating`, `_rtcl_review_count`, `_rtcl_rating_count`) — jóváhagyás/szerkesztés/törlés után újraszámolva (ellenőrizve). IP-cím nem tárolódik.
+- **Bejelentés (TLRS port):** a meta-kulcsok és a `tlrs_threshold` (élesen 50) maradnak; az ok is mentődik (`th_report_log` — a TLRS elnyelte); admin e-mail; a küszöbnél **pending** lesz a hirdetés (nem draft). Admin: *Listings › Reports* (küszöb, okok, „Clear reports”).
+- **Lejárt / függő oldal:** az RTCL a sellereknek nem ad WP-szerkesztési jogot, így a WP 404-et adna. A téma a lejárt hirdetést mindenkinek mutatja („See similar”), a függőt/piszkozatot csak a szerzőjének (ID-alapú URL, mert a függő hirdetésnek még nincs slugja); mindkettő `noindex`.
+- **JSON-LD:** Product+Offer / LocalBusiness (Restaurant) / TouristAttraction / Event (kezdő dátummal); Jobs-nál nincs (a JobPosting kötelező mezői hiányoznak); AggregateRating, ha van jóváhagyott értékelés; BreadcrumbList, ha nincs SEO-plugin.
+- **Térkép:** Leaflet, csak görgetésre tölt; közelítő pozíciónál kör a város körül és „Approximate location” felirat. „Open in Google Maps” link (kulcs nélkül).
+- **Videó:** lejátszás előtt semmi nem töltődik a YouTube-ról (kattintás után youtube-nocookie).
+- **„Staying safe”:** Customizer-szöveg (a nem publikált 5642 disclaimer helyett). **„Typical reply”** rejtve (Chat, 6. fázis). **Chat gomb** hook-pont: `th_listing_contact_buttons`.
+- **„All listings from this seller”** → `/listings/?seller=<nicename>` (új archive-szűrő, „By …” chip).
+- **Kapcsolódó hirdetések:** „More in {gyökérkategória}”, 4 kártya, a legközelebbi kategória elöl.
 
 ## 16. Mérési napló (Lighthouse 12, mobil, lokális Local site)
 
@@ -291,5 +308,8 @@ Részletek: **`WPCODE-AUDIT.md`**. Röviden:
 | 2026-10-06 | főoldal | 3. fázis után (regresszió-ellenőrzés) | 92 | 100 | 100 | 69 | 3,1 s | 2,2 s | 0 | 0 ms |
 
 ⚠ **Archive LCP-büdzsé (< 2,0 s) még nincs meg.** A maradék: (1) a fejben render-blokkoló jQuery + migrate (100 KB) — a WPCode 7263 inline jQuery-je miatt, 5. fázisban megszűnik; (2) a cookie-plugin (8. fázis: saját consent); (3) lokális, cache nélküli TTFB 0,55–0,77 s. A téma saját értéke 2,6 s; a TTFB-t élesben a hosting page cache viszi le. A 8. fázisban újramérjük.
+
+| 2026-10-06 | listing (`/listings/amrit-restaurant/`) | 4. fázis | 83–86 | 100 | 100 | 69 | 3,8–4,1 s | 2,3–2,4 s | 0 | 0–50 ms |
+| 2026-10-06 | listing | ugyanez jQuery és cookie-plugin nélkül | 96 | 100 | — | — | 2,7 s | 1,4 s | 0 | 30–40 ms |
 
 \* SEO lokálisan a szándékos `noindex` miatt alacsony (is-crawlable). A nyers JSON-riportok `_dev/reports/` alatt, gitignore-olva (URL-ekben kulcs lehet).

@@ -172,7 +172,7 @@ final class Module extends BaseModule {
 			return;
 		}
 		$search = Search::current();
-		$known  = array( 'q', 'rtcl_category', 'rtcl_location', 'radius', 'min_price', 'max_price', 'verified', 'f', 'orderby', 'view', 'page' );
+		$known  = array( 'q', 'rtcl_category', 'rtcl_location', 'radius', 'min_price', 'max_price', 'verified', 'seller', 'f', 'orderby', 'view', 'page' );
 		$get    = wp_unslash( $_GET ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- compared, never stored.
 		$extra  = array_diff_key( $get, array_flip( $known ) );
 		$target = Search::build_url( $search->params() );

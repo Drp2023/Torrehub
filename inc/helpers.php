@@ -81,3 +81,27 @@ function th_attrs( array $attrs ): string {
 	}
 	return $html;
 }
+
+/**
+ * Handle a front-end form POST (hidden field `th_action`) on `wp_loaded`. The handler redirects and exits.
+ *
+ * Front-end forms post to the page they're on rather than admin-post.php: sites often restrict wp-admin for
+ * non-admins (the live WPCode snippet 7280 redirects every admin request, admin-post.php included, to the home page).
+ *
+ * @param string   $action  Value of th_action.
+ * @param callable $handler Handler.
+ */
+function th_on_front_post( string $action, callable $handler ): void {
+	add_action(
+		'wp_loaded',
+		static function () use ( $action, $handler ) {
+			if ( is_admin() || wp_doing_ajax() || 'post' !== sanitize_key( wp_unslash( $_SERVER['REQUEST_METHOD'] ?? '' ) ) ) {
+				return;
+			}
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- routing only; handlers verify their nonce.
+			if ( isset( $_POST['th_action'] ) && sanitize_key( wp_unslash( $_POST['th_action'] ) ) === $action ) {
+				$handler();
+			}
+		}
+	);
+}

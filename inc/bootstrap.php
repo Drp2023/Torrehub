@@ -33,6 +33,7 @@ require_once TH_DIR . '/inc/languages.php';
 require_once TH_DIR . '/inc/listing-card.php';
 require_once TH_DIR . '/inc/customizer.php';
 require_once TH_DIR . '/inc/seo.php';
+require_once TH_DIR . '/inc/cli.php';
 
 Torrehub\Data\Directory::register_invalidation();
 

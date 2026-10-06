@@ -447,13 +447,6 @@
 	padding-top: 0;
 }
 
-.th-filters__form {
-	display: flex;
-	flex: 1;
-	flex-direction: column;
-	min-height: 0;
-}
-
 .th-filters .th-sheet-section__title {
 	color: var(--th-muted);
 	font-size: var(--th-fs-micro);
@@ -534,12 +527,3 @@
 	color: var(--th-muted);
 }
 
-/* Rendered open without JS (?th_sheet=1): a normal in-flow panel instead of a modal. */
-.th-filters[open]:not(:modal) {
-	position: relative;
-	z-index: auto;
-	max-height: none;
-	margin: var(--th-s-5) auto;
-	border: 1px solid var(--th-line);
-	box-shadow: none;
-}

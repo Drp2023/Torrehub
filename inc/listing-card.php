@@ -122,11 +122,12 @@ function th_listing_card_attrs( $listing, int $limit = 3 ): array {
 		if ( ! $field->isArchiveViewAble() ) {
 			continue;
 		}
-		$value = $field->getFormattedCustomFieldValue( (int) $listing->get_id() );
-		if ( is_array( $value ) ) {
-			$value = implode( ', ', array_filter( array_map( 'strval', $value ) ) );
+		if ( \Torrehub\Data\ListingFields::is_private( $raw ) ) {
+			continue;
 		}
-		$value = trim( wp_strip_all_tags( (string) $value ) );
+		$value = $field->getFormattedCustomFieldValue( (int) $listing->get_id() );
+		// Option labels, not stored values ("Full time", not "full_time").
+		$value = trim( wp_strip_all_tags( \Torrehub\Data\ListingFields::display_value( $raw, is_array( $value ) ? array_filter( $value, 'is_scalar' ) : $value ) ) );
 		if ( '' !== $value ) {
 			$out[] = $value;
 		}

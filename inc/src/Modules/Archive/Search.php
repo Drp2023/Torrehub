@@ -78,6 +78,13 @@ final class Search {
 	public ?int $price_max = null;
 
 	/**
+	 * One seller's listings (?seller=user_nicename).
+	 *
+	 * @var \WP_User|null
+	 */
+	public ?\WP_User $seller = null;
+
+	/**
 	 * Verified sellers only.
 	 *
 	 * @var bool
@@ -191,6 +198,11 @@ final class Search {
 		}
 
 		$s->verified = ! empty( $get['verified'] );
+
+		if ( ! empty( $get['seller'] ) && is_string( $get['seller'] ) ) {
+			$user      = get_user_by( 'slug', sanitize_title( $get['seller'] ) );
+			$s->seller = $user instanceof \WP_User ? $user : null;
+		}
 
 		$orderby    = isset( $get['orderby'] ) && is_string( $get['orderby'] ) ? sanitize_key( $get['orderby'] ) : '';
 		$s->orderby = in_array( $orderby, self::ORDERS, true ) ? $orderby : '';
@@ -391,8 +403,15 @@ final class Search {
 			$q->set( 'meta_query', array_merge( array( 'relation' => 'AND' ), $has_own ? array( $existing ) : array(), $add ) );
 		}
 
+		$authors = null;
 		if ( $this->verified ) {
-			$q->set( 'author__in', $this->verified_authors() );
+			$authors = $this->verified_authors();
+		}
+		if ( $this->seller ) {
+			$authors = null === $authors ? array( $this->seller->ID ) : ( in_array( $this->seller->ID, $authors, true ) ? array( $this->seller->ID ) : array( 0 ) );
+		}
+		if ( null !== $authors ) {
+			$q->set( 'author__in', $authors );
 		}
 
 		if ( $this->town && $this->radius ) {
@@ -541,6 +560,9 @@ final class Search {
 		if ( $this->verified ) {
 			$p['verified'] = 1;
 		}
+		if ( $this->seller ) {
+			$p['seller'] = $this->seller->user_nicename;
+		}
 		foreach ( $this->fields as $name => $value ) {
 			if ( isset( $value['day'] ) ) {
 				$p['f'][ $name ] = $value['day'];
@@ -644,7 +666,7 @@ final class Search {
 	 * URL keeping only keyword, category and town (Clear all).
 	 */
 	public function url_cleared(): string {
-		$p = array_intersect_key( $this->params(), array_flip( array( 'q', 'rtcl_category', 'rtcl_location', 'radius', 'view' ) ) );
+		$p = array_intersect_key( $this->params(), array_flip( array( 'q', 'rtcl_category', 'rtcl_location', 'radius', 'view', 'seller' ) ) );
 		return self::build_url( $p );
 	}
 
@@ -770,6 +792,14 @@ final class Search {
 				}
 			}
 		}
+		if ( $this->seller ) {
+			$chips[] = array(
+				/* translators: %s: seller name */
+				'label'   => sprintf( __( 'By %s', 'torrehub' ), $this->seller->display_name ),
+				'url'     => $this->url( array( 'seller' => null ) ),
+				'variant' => '',
+			);
+		}
 		if ( $this->verified ) {
 			$chips[] = array(
 				'label'   => __( 'Verified only', 'torrehub' ),
@@ -791,7 +821,7 @@ final class Search {
 	 * Does anything beyond category/town/keyword narrow the results?
 	 */
 	public function has_refinements(): bool {
-		return $this->fields || null !== $this->price_min || null !== $this->price_max || $this->verified || $this->radius;
+		return $this->fields || null !== $this->price_min || null !== $this->price_max || $this->verified || $this->radius || $this->seller;
 	}
 
 	/**
@@ -831,6 +861,10 @@ final class Search {
 		if ( $town ) {
 			/* translators: %s: town */
 			return sprintf( __( 'Listings in %s', 'torrehub' ), $town );
+		}
+		if ( $this->seller ) {
+			/* translators: %s: seller name */
+			return sprintf( __( 'Listings by %s', 'torrehub' ), $this->seller->display_name );
 		}
 		if ( '' !== $this->q ) {
 			/* translators: %s: search keyword */

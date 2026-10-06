@@ -8,17 +8,17 @@ Döntés (2026-10-06): **minden snippet abban a fázisban kerül át a témába,
 | ID | Állapot | Cím | Mit csinál valójában | Ítélet | Fázis |
 |---|---|---|---|---|---|
 | **6510** | publish | Filter Builder Active (138 KB, „LFB 3.3.0”) | saját szűrő-építő: admin oldal (jQuery UI), `[listing_filters]` shortcode, AJAX függő opciók, `pre_get_posts` meta/tax query, „online” követés, kézi „verified” jelölő a user profilon | **kiváltja az `Archive` modul**; a beállított szűrő-csoportok **importálva** (lásd lent) | 3 |
-| 5643 | publish | Torrehub Listing Report System (TLRS) | bejelentés gomb (login kell), AJAX + nonce, `tlrs_report_count` / `tlrs_reported_users` meta, admin lista + beállítások, küszöb felett piszkozatba tesz; elrejti az RTCL saját report modalját | **átírás** `Listing\Report`-ba a meglévő meta-kulcsokkal (1 bejelentett listing van; küszöb `tlrs_threshold=50`) | 4 |
-| 6476 | publish | Keep the form open in the single list | JS: a single oldalon automatikusan kinyitja az RTCL e-mail űrlapot | **felesleges** — a téma single oldalán az e-mail űrlap eleve nyitva van (L-01 kontakt modul) | 4 |
+| 5643 | publish | Torrehub Listing Report System (TLRS) | bejelentés gomb (login kell), AJAX + nonce, `tlrs_report_count` / `tlrs_reported_users` meta, admin lista + beállítások, küszöb felett piszkozatba tesz; elrejti az RTCL saját report modalját | ✅ **átírva** `Listing\Report`-ba a meglévő meta-kulcsokkal (+ ok mentése, admin e-mail, küszöbnél pending); lokálisan kikapcsolva | 4 |
+| 6476 | publish | Keep the form open in the single list | JS: a single oldalon automatikusan kinyitja az RTCL e-mail űrlapot | ✅ **felesleges** — a téma kontakt modulja nyitott e-mail űrlapot ad; lokálisan kikapcsolva | 4 |
 | 5120 | publish | Add gallery image as featured image | `save_post`-on az első galéria-képet thumbnailnek állítja | **hibás, sosem futott**: `get_post_type() !== 'listing'` (a post type `rtcl_listing`). 17/19 listingnek így is van `_thumbnail_id` (RTCL állítja). A téma kártyája az első galéria-képet használja → **elvetve** | — |
 | 7263 | publish | Add NIF/NIE field to the registration form | RTCL regisztrációs űrlapra `nif_nie` mező + validálás + fiók/admin profil | **kiváltja az `Auth` modul**. ⚠ Más meta-kulcsot használ (`nif_nie`, 0 db érték) mint a régi wppb (`custom_field_1` NIE: 4, `custom_field_2` NIF: 4) → a téma a `custom_field_1/2`-t tartja meg | 5 |
 | 7280 | publish | Restrict WordPress Dashboard Access | admin bar elrejtése + wp-admin tiltása admin/editor kivételével (AJAX engedve) | **átírás** `Auth`-ba (capability alapon, nem szerepkör-névre) | 5 |
 | 7264 | publish | My account edit page design (CSS) | RTCL fiók-űrlap margók | **felesleges** (saját account sablonok) | 5 |
-| 6030 | publish | Favorites issue fix (JS) | RTCL kedvenc-link `href` javítás jQuery-vel | **felesleges** (kedvencek ki; a téma saját gombja `<button>`) | 3 |
-| 6472 | publish | Listing style correction (CSS) | régi RTCL kártya/slider képarány | **felesleges** (saját kártya, fix képarány) | 3 |
+| 6030 | publish | Favorites issue fix (JS) | RTCL kedvenc-link `href` javítás jQuery-vel | ✅ **felesleges** (kedvencek ki; a téma saját gombja `<button>`); lokálisan kikapcsolva | 3 |
+| 6472 | publish | Listing style correction (CSS) | régi RTCL kártya/slider képarány | ✅ **felesleges** (saját kártya, fix képarány); lokálisan kikapcsolva | 3 |
 | 5121 | draft | Hide Button for Customers and Redirect Users Correctly | szerepkör szerinti menü-rejtés CSS-sel, login/logout redirectek, wp-admin tiltás | nem fut; az ötletek az `Auth`/`Account` tervben vannak | — |
 | 5123 | draft | Hide Listing Forms For Seller Role | (vázlat) | nem fut, elvetve | — |
-| 5642 | draft | Add disclaimer to every listing | JS-sel beszúrt sárga jogi nyilatkozat a single oldal aljára | nem fut; a single „Staying safe” blokk (L-01) fedi → szöveg a 4. fázisban Customizerből | 4 |
+| 5642 | draft | Add disclaimer to every listing | JS-sel beszúrt sárga jogi nyilatkozat a single oldal aljára | ✅ nem fut; a „Staying safe” blokk Customizer-szövege váltja ki | 4 |
 | 5684 | draft | Fix login stability | `DONOTCACHE*` belépve + 7 napos auth cookie | nem fut; a cache-kizárás hosting-feladat, runbookba | 8 |
 | 6040 | draft | Test Field Value collect | admin debug: összes post meta kiírása a single oldalon | nem fut, **elvetve** (adatszivárgás veszélyes, ha élesítik) | — |
 

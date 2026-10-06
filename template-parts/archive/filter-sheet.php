@@ -50,7 +50,7 @@ $label = 0 === $total
 $price_step = $bounds ? max( 1, 10 ** max( 0, (int) floor( log10( max( 1, $bounds['max'] ) ) ) - 2 ) ) : 1;
 ?>
 <dialog class="th-dialog th-dialog--sheet th-filters" id="th-filters" data-th-dialog aria-labelledby="th-filters-title"<?php echo $is_open ? ' open' : ''; ?>>
-	<form class="th-filters__form" method="get" action="<?php echo esc_url( th_url_listings() ); ?>" data-th-filter-form>
+	<form class="th-dialog__form" method="get" action="<?php echo esc_url( th_url_listings() ); ?>" data-th-filter-form>
 		<div class="th-dialog__head">
 			<h2 class="th-dialog__title" id="th-filters-title"><?php esc_html_e( 'Filters', 'torrehub' ); ?></h2>
 			<div class="th-cluster">

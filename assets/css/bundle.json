@@ -25,5 +25,8 @@
 	],
 	"archive": [
 		"archive.css"
+	],
+	"listing": [
+		"listing.css"
 	]
 }

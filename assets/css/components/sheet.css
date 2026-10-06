@@ -58,6 +58,28 @@
 	background: var(--th-white);
 }
 
+/* A <form> wrapping head/body/foot keeps the dialog's column layout (body scrolls). */
+.th-dialog__form {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	min-height: 0;
+}
+
+.th-dialog__context {
+	color: var(--th-muted);
+	font-size: var(--th-fs-sm);
+}
+
+/* Rendered open without JS (?…_form=1): an in-flow panel instead of a modal. */
+.th-dialog[open]:not(:modal) {
+	position: relative;
+	max-height: none;
+	margin: var(--th-s-5) auto;
+	border: 1px solid var(--th-line);
+	box-shadow: none;
+}
+
 /* Bottom sheet below 900px */
 @media (max-width: 899px) {
 	.th-dialog--sheet {
