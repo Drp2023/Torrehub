@@ -34,9 +34,7 @@ function th_url_listings( array $args = array() ): string {
 }
 
 /**
- * Login URL with a return target.
- *
- * DECISION: phase 5 replaces this with the theme's /login/ page.
+ * Login URL with a return target (the Auth module points wp_login_url() at the theme's /login/ page).
  *
  * @param string $redirect_to Where to return after login.
  */

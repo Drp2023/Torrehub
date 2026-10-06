@@ -1,0 +1,314 @@
+/* My account — G-02 / G-03 dashboard, my listings, verification. Bundled with auth.css (shared panels). */
+
+.th-account {
+	padding-block: var(--th-s-5) var(--th-s-8);
+}
+
+.th-account__layout {
+	display: grid;
+	gap: var(--th-s-5);
+	align-items: start;
+}
+
+.th-account__layout > * {
+	min-width: 0;
+}
+
+@media (min-width: 900px) {
+	.th-account__layout {
+		grid-template-columns: 240px minmax(0, 1fr);
+	}
+
+	.th-account__nav {
+		position: sticky;
+		top: var(--th-s-4);
+	}
+}
+
+.th-account__menu {
+	display: flex;
+	gap: 6px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+
+.th-account__menu::-webkit-scrollbar {
+	display: none;
+}
+
+.th-account__link {
+	display: flex;
+	flex: none;
+	align-items: center;
+	gap: 10px;
+	min-height: var(--th-tap);
+	padding: 0 14px;
+	border-radius: var(--th-r-pill);
+	background: var(--th-white);
+	color: var(--th-text);
+	font-size: var(--th-fs-sm);
+	font-weight: var(--th-fw-semibold);
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+.th-account__link:hover {
+	color: var(--th-ink);
+	background: var(--th-surface-2);
+}
+
+.th-account__link[aria-current="page"] {
+	background: var(--th-ink);
+	color: var(--th-white);
+	font-weight: var(--th-fw-bold);
+}
+
+.th-account__link.is-logout {
+	color: var(--th-muted);
+}
+
+@media (min-width: 900px) {
+	.th-account__menu {
+		flex-direction: column;
+		padding: 8px;
+		border: 1px solid var(--th-line);
+		border-radius: var(--th-r-card);
+		background: var(--th-white);
+	}
+
+	.th-account__link {
+		border-radius: var(--th-r-tile);
+		background: transparent;
+	}
+}
+
+.th-account__content {
+	min-width: 0;
+}
+
+/* Classified Listing's stylesheet (loaded on the account page) colours every link; theme controls keep theirs. */
+.th-account a.th-btn {
+	color: var(--btn-fg);
+}
+
+.th-account a.th-chip {
+	color: var(--chip-fg);
+}
+
+.th-account__title {
+	font-size: clamp(1.625rem, 1.2rem + 1.4vw, 2.25rem);
+	letter-spacing: var(--th-ls-display-tight);
+}
+
+/* ----------------------------------------------------------------- dashboard */
+
+.th-account-dash__sub {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--th-s-2);
+	margin-top: 4px;
+	color: var(--th-muted);
+}
+
+.th-account-stats {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: var(--th-s-2);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.th-account-stats__tile {
+	display: grid;
+	gap: 2px;
+	padding: var(--th-s-4);
+	border-radius: var(--th-r-tile);
+	background: var(--th-tint-blue);
+	color: var(--th-blue-ink);
+}
+
+.th-account-stats__tile--green {
+	background: var(--th-success-bg);
+	color: var(--th-success-text);
+}
+
+.th-account-stats__tile--clay {
+	background: var(--th-error-bg);
+	color: var(--th-error-text);
+}
+
+.th-account-stats__tile--amber {
+	background: var(--th-tint-amber);
+	color: var(--th-tint-amber-text);
+}
+
+.th-account-stats__value {
+	font-family: var(--th-font-display);
+	font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+	font-weight: var(--th-fw-bold);
+	line-height: 1.1;
+}
+
+.th-account-stats__label {
+	font-size: var(--th-fs-micro);
+	font-weight: var(--th-fw-bold);
+	letter-spacing: var(--th-ls-micro);
+	text-transform: uppercase;
+}
+
+.th-account-card {
+	display: grid;
+	gap: var(--th-s-4);
+	padding: clamp(18px, 2.4vw, 24px);
+	border: 1px solid var(--th-line);
+	border-radius: var(--th-r-card);
+	background: var(--th-white);
+}
+
+.th-account-card h2 {
+	font-size: 1.1875rem;
+}
+
+.th-account-verify {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: var(--th-s-3) var(--th-s-4);
+	align-items: center;
+	padding: var(--th-s-5);
+	border-radius: var(--th-r-card);
+	background: var(--th-tint-clay);
+	color: var(--th-clay-text);
+}
+
+.th-account-verify .th-icon-circle {
+	--tile-bg: var(--th-white);
+
+	color: var(--th-clay-text);
+}
+
+.th-account-verify__title {
+	color: var(--th-clay-text);
+	font-family: var(--th-font-body);
+	font-size: 1.0625rem;
+}
+
+.th-account-verify__cta {
+	grid-column: 1 / -1;
+}
+
+@media (min-width: 700px) {
+	.th-account-verify {
+		grid-template-columns: auto minmax(0, 1fr) auto;
+	}
+
+	.th-account-verify__cta {
+		grid-column: auto;
+	}
+}
+
+.th-account-verify--pending {
+	background: var(--th-tint-amber);
+	color: var(--th-tint-amber-text);
+}
+
+.th-account-verify--pending .th-account-verify__title {
+	color: var(--th-tint-amber-text);
+}
+
+.th-account-verify--approved {
+	border-color: transparent;
+	background: var(--th-success-bg);
+	color: var(--th-success-text);
+}
+
+.th-account-verify__steps {
+	display: grid;
+	gap: 6px;
+	margin: 0;
+	padding-left: 1.25em;
+}
+
+.th-input--file {
+	padding-block: 10px;
+	height: auto;
+}
+
+/* ----------------------------------------------------------------- my listings */
+
+.th-account-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: var(--th-s-2);
+	align-items: center;
+}
+
+.th-account-row__delete {
+	margin: 0;
+}
+
+.th-pagination ul {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.th-pagination a,
+.th-pagination span {
+	display: grid;
+	place-items: center;
+	min-width: var(--th-tap);
+	min-height: var(--th-tap);
+	padding: 0 12px;
+	border-radius: var(--th-r-pill);
+	background: var(--th-white);
+	color: var(--th-ink);
+	text-decoration: none;
+}
+
+/* stylelint-disable-next-line selector-class-pattern -- WordPress paginate_links() markup. */
+.th-pagination .current {
+	background: var(--th-ink);
+	color: var(--th-white);
+}
+
+/* ----------------------------------------------------------------- Classified Listing forms inside the account */
+/* stylelint-disable selector-class-pattern -- Classified Listing's own form markup (edit account, profile settings). */
+
+.th-account__content .rtcl-form-control,
+.th-account__content input[type="text"],
+.th-account__content input[type="email"],
+.th-account__content input[type="tel"],
+.th-account__content input[type="password"],
+.th-account__content select,
+.th-account__content textarea {
+	min-height: var(--th-h-control);
+	border: 1px solid var(--th-line-2);
+	border-radius: var(--th-r-input);
+	background: var(--th-white);
+	font: inherit;
+}
+
+.th-account__content .rtcl-form-group,
+.th-account__content .form-group {
+	margin-bottom: var(--th-s-4);
+}
+
+.th-account__content .rtcl-btn,
+.th-account__content .btn-primary {
+	min-height: var(--th-h-btn);
+	padding: 0 22px;
+	border: 0;
+	border-radius: var(--th-r-pill);
+	background: var(--th-blue);
+	color: var(--th-white);
+	font-weight: var(--th-fw-bold);
+}
+/* stylelint-enable selector-class-pattern */

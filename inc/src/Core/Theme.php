@@ -52,10 +52,13 @@ final class Theme {
 		$classes = array(
 			\Torrehub\Modules\RtclCompat\Module::class,
 			\Torrehub\Modules\Location\Module::class,
+			\Torrehub\Modules\Auth\Module::class,
 			\Torrehub\Modules\Languages\Module::class,
 			\Torrehub\Modules\Archive\Module::class,
 			\Torrehub\Modules\Listing\Module::class,
 			\Torrehub\Modules\Reviews\Module::class,
+			\Torrehub\Modules\Account\Module::class,
+			\Torrehub\Modules\Verification\Module::class,
 			\Torrehub\Modules\Styleguide\Module::class,
 		);
 

@@ -1,7 +1,7 @@
 # BUILD-PLAN.md — Torrehub téma (Direction C · Modern Local Hub)
 
 **Verzió:** 2.0 — a 2026-10-02-i döntések szerint (felülírja a promptot és a v1 tervet)
-**Állapot:** 0–3. fázis jóváhagyva · 4. fázis kész, jóváhagyásra vár
+**Állapot:** 0–4. fázis jóváhagyva · 5. fázis kész, jóváhagyásra vár
 **Kapcsolódó:** `RTCL-INTEGRATION-MAP.md`, `RTCL-FREE-CAPABILITIES.md`, `../design/INVENTORY.md`, `../../hotfix/README.md`
 
 ---
@@ -20,6 +20,8 @@
 10. **(2026-10-06)** Cookie banner: a 8. fázisban saját, könnyű, témába épített consent sáv, amely a hozzájárulásig **ténylegesen blokkolja** a nem szükséges scripteket; utána a `gdpr-cookie-compliance` plugin megy.
 11. **(2026-10-06)** WPCode snippetek: mindegyik abban a fázisban kerül a témába, ahová tartozik (NIE/NIF az 5.-ben), a feleslegesek kimaradnak; a végén a WPCode plugin is megy. Audit: `WPCODE-AUDIT.md`.
 12. **(2026-10-06)** Városképek: placeholder marad, a képeket a tartalomfeltöltésnél kapják.
+13. **(2026-10-06, ügyfél, GDPR)** Private Seller regisztráció: **nincs NIE mező** (se kötelező, se opcionális). Business Seller: a **NIF (`custom_field_2`) kötelező**, ellenőrzőkarakteres validációval (DNI / NIE-formájú NIF / CIF). A meglévő NIE-értékek (`custom_field_1`, és a 7263-as snippet `nif_nie` kulcsa) **élesítéskor törlendők**; lokálisan már törölve, és sehol nem jelennek meg.
+14. **(2026-10-06)** Bejelentési küszöb: **3** (beállítható: *Listings › Reports*).
 
 ---
 
@@ -45,7 +47,7 @@
 | `review-schema` (free) | aktív | **feleslegessé válik** ⚠ | saját értékelés-rendszer + JSON-LD; két séma-forrás ütközne |
 | `classified-listing-toolkits` (free) | aktív | **feleslegessé válik** ⚠ | csak Elementor-widgetek / kereső-widgetek — a téma adja |
 | `advanced-custom-fields` (free) | aktív | **valószínűleg felesleges** ⚠ | a téma saját metaboxokat használ; ellenőrizni, van-e mezőcsoport (DB) |
-| `insert-headers-and-footers` (free, **WPCode**) | aktív | **eltávolítva a végén** | döntés 11: a 14 snippet fázisonként a témába (audit: `WPCODE-AUDIT.md`, 14. pont); utolsóként a plugin |
+| `insert-headers-and-footers` (free, **WPCode**) | aktív | **eltávolítható** (5. fázis után) | döntés 11: mind a 14 snippet átvéve vagy elvetve (audit: `WPCODE-AUDIT.md`) |
 | `duplicate-page` (free) | aktív | **felesleges** ⚠ | admin-kényelmi; nem a termék része |
 | `filester` (free) | aktív | **eltávolítandó** ⚠ | böngészős fájlkezelő az élesen = felesleges támadási felület |
 
@@ -144,7 +146,7 @@ torrehub/                               (= repo gyökér = téma gyökér)
 | Lépés | Megvalósítás |
 |---|---|
 | Oldalak | `/login/` (4999 újrahasznosítva), `/register/` (5014), `/lost-password/` (új) — page template-tel; a téma aktiváláskor létrehozza/hozzárendeli, ha hiányzik |
-| Regisztráció | 1. lépés: 3 fiókkártya (radio szemantika) → 2. lépés: mezők; NIE (`custom_field_1`, csak seller) / NIF (`custom_field_2`, csak business) **szerveroldali** validáció mod-23 kontrolbetűvel (NIE `^[XYZ]\d{7}[A-Z]$`, NIF/DNI `^\d{8}[A-Z]$`, CIF `^[ABCDEFGHJNPQRSUVW]\d{7}[0-9A-J]$`), kliensoldalon ugyanez; username/email egyediség; jelszó-erősség; ÁSZF checkbox; honeypot + időzítés-alapú bot-szűrő (reCAPTCHA nélkül) |
+| Regisztráció | 1. lépés: 3 fiókkártya (radio szemantika) → 2. lépés: mezők; **NIF (`custom_field_2`) csak business, kötelező** — **szerveroldali** validáció kontrolkarakterrel (DNI `^\d{8}[A-Z]$` mod-23, NIE-formájú NIF `^[XYZ]\d{7}[A-Z]$`, CIF `^[ABCDEFGHJNPQRSUVW]\d{7}[0-9A-J]$`), kliensoldalon ugyanez; **Private Seller: nincs NIE mező (döntés 13)**; username/email egyediség; jelszó-erősség; ÁSZF checkbox; honeypot + időzítés-alapú bot-szűrő (reCAPTCHA nélkül) |
 | Állapotgép | `unconfirmed` → (e-mail link, 48 óra, hash-elt token) → `pending_approval` → (admin) → `active`; `rejected` |
 | Login | e-mail vagy username; állapot szerinti üzenetek (A-02: awaiting approval / megerősítetlen + „küldd újra”); `authenticate` filter tiltja a nem-aktívakat; rate-limit (IP+user transient, „X próbálkozás maradt”); `redirect_to` validálva (`wp_validate_redirect`); kontextus-kártya listingről érkezéskor |
 | Jelszó-visszaállítás | core `get_password_reset_key` / `check_password_reset_key` / `reset_password`, téma UI és e-mail; egységes válasz (nem árulja el, létezik-e a fiók) |
@@ -164,7 +166,7 @@ torrehub/                               (= repo gyökér = téma gyökér)
 | 2 ✅ | Header/footer/drawer/bottom nav/location/nyelvválasztó (GTranslate) + főoldal | + Lighthouse mobil ≥ 90 |
 | 3 ✅ | Archive + szűrők (meta_query) + sheet + térkép + nézetváltó + skeleton/üres/vég + kedvencek UI · WPCode audit | + keresés-smoke (`_dev/tests/e2e/archive.mjs`, 39 ellenőrzés) |
 | 4 ✅ | Single listing (10 form) + kontakt + galéria + `Reviews` + JSON-LD + lejárt/pending + bejelentés (TLRS port) | + 10 form render-teszt, `_dev/tests/e2e/listing.mjs` (25 ellenőrzés) |
-| 5 | `Auth` + `Account` dashboard + `Verification` | + regisztráció 3 role, Mailpit, admin jóváhagyás |
+| 5 ✅ | `Auth` + `Account` dashboard + `Verification` · WPCode 7263/7264/7280 · jQuery a footerbe | + `_dev/tests/e2e/auth.mjs` (26) és `account.mjs` (22): regisztráció, Mailpit, admin jóváhagyás, jelszó-visszaállítás, hitelesítés |
 | 6 | `ListingForm` munkaterület + `Quota` + `Chat` · **térképes pin-választó a hirdetésfeladásnál** (Leaflet, a 3. fázis térképével közös; a listing `latitude`/`longitude` metája → pontos sugár- és térképkeresés, a város-közép közelítés csak tartalék) | + 1 hirdetés/kategória, chat polling, pin mentése és megjelenése a térképen |
 | 7 | `SearchAlerts` + Guides + statikus oldalak (Elementor → blokk tartalom-migráció) + 404/401/403 | + értesítő cron e-mail |
 | 8 | i18n, a11y, performance, SEO audit · **`Consent` modul** (döntés 10) · **élesítési runbook** (plugin-eltávolítási sorrend, hotfix, adat-ellenőrzés, cron) | DoD |
@@ -258,10 +260,36 @@ Részletek: **`WPCODE-AUDIT.md`**. Röviden:
 2. Téma-zip telepítése (`bin/build-zip.sh`), aktiválás előtt backup.
 3. **`wp media regenerate --skip-delete --yes`** — a téma kép-méretei (`th-card`, `th-town` …) a meglévő képekhez, **WebP-ben** (3. fázis DECISION: az alméretek WebP-k, az eredeti marad; a `--skip-delete` megtartja a régi fájlokat, ha tartalom hivatkozik rájuk). Lokálisan 182 kép.
 4. Pluginok kivezetése a 1. pont sorrendjében — **Pro csak a `repeater` kapu ellenőrzése után** (R0).
-5. WPCode snippetek kivezetése a 14. pont szerint, **a téma aktiválásával egy időben** a már portolt/felesleges snippeteket kikapcsolni: 6030, 6472 (3. fázis), 5643 TLRS, 6476 (4. fázis) — különben a TLRS lebegő „Report” gombja duplán jelenik meg. Lokálisan kikapcsolva 2026-10-06. A többi (7263, 7264, 7280, 6510, 5120) az 5. fázis után; végül a WPCode plugin.
-8. `review-schema` (free) plugin kikapcsolása a téma aktiválásakor (a téma adja az értékeléseket és a JSON-LD-t; két séma-forrás ütközne).
-7. **Form Builder adathiba javítása élesen:** `wp torrehub fix-option-values` (dry run, kiírja a változásokat), majd `wp torrehub fix-option-values --apply`. A parancs a témával érkezik (csak WP-CLI alatt töltődik). Az üres értékű opciók a címkéjüket kapják értéknek (Restaurants „Price Range” `€`, Leisure „Price” `€`/`€€`/`€€€`). Idempotens; csak a `rtcl_forms.fields`-et írja. Lokálisan lefuttatva 2026-10-06 (4 opció).
-6. Site időzóna `Europe/Madrid`; valódi rendszer-cron.
+5. **WPCode:** a téma aktiválásával egy időben **mind a 14 snippet kikapcsolása** (különben pl. a TLRS „Report” gombja és a régi NIF/NIE mező duplán jelenik meg; a 7280 a nem-adminokat az `admin-post.php`-ról is kitiltaná), majd a WPCode plugin eltávolítása. Lokálisan mind kikapcsolva 2026-10-06.
+6. `review-schema` (free) plugin kikapcsolása a téma aktiválásakor (a téma adja az értékeléseket és a JSON-LD-t; két séma-forrás ütközne).
+7. **Bejelentési küszöb:** `wp option update tlrs_threshold 3` (élesen most 50; döntés 14).
+8. **NIE-adatok törlése (GDPR, döntés 13):** `wp torrehub purge-nie` (dry run, darabszám), majd `wp torrehub purge-nie --apply` — törli a `custom_field_1` és `nif_nie` user metát; a business NIF (`custom_field_2`) marad. Előtte DB-backup.
+9. **Form Builder adathiba javítása élesen:** `wp torrehub fix-option-values` (dry run, kiírja a változásokat), majd `wp torrehub fix-option-values --apply`. A parancs a témával érkezik (csak WP-CLI alatt töltődik). Az üres értékű opciók a címkéjüket kapják értéknek (Restaurants „Price Range” `€`, Leisure „Price” `€`/`€€`/`€€€`). Idempotens; csak a `rtcl_forms.fields`-et írja. Lokálisan lefuttatva 2026-10-06 (4 opció).
+10. **Régi hitelesítési dokumentumok (GDPR):** a rtcl-seller-verification kikapcsolása után `wp torrehub purge-old-verification-docs`, majd `--apply` — a Media Libraryben *nyilvánosan* tárolt személyi okmányokat és hivatkozásaikat törli; a már hitelesített eladók badge-e marad. Addig a `hotfix/torrehub-security.php` maradjon fent.
+11. **Auth oldalak:** a téma aktiválása után egy admin-oldal megnyitása létrehozza a `/lost-password/` oldalt; ellenőrizni, hogy a `/login/`, `/register/`, `/lost-password/`, `/my-account/` **ki van zárva a hosting page cache-ből** (a téma `nocache` fejlécet küld, de a szerveroldali cache-t érdemes külön is kizárni).
+12. **Füstteszt élesen:** regisztráció (business, valós NIF) → megerősítő e-mail → admin jóváhagyás → belépés; jelszó-visszaállítás; hitelesítési feltöltés → döntés → a fájl törlődött.
+13. Site időzóna `Europe/Madrid`; valódi rendszer-cron.
+
+## 16. Mérési napló (Lighthouse 12, mobil, lokális Local site)
+
+| Dátum | Oldal | Állapot | Perf | A11y | BP | SEO* | LCP | FCP | CLS | TBT |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 2026-10-06 | főoldal | RTCL assetek mindenhol (kiinduló) | 55 | 100 | 100 | 61 | 10,0 s | 6,6 s | 0 | 190 ms |
+| 2026-10-06 | főoldal | RTCL-asset trim + képméretek + meta description + inline CSS + async cookie CSS | 91–92 | 100 | 100 | 69 | 3,0 s | 2,2 s | 0 | 0 ms |
+| 2026-10-06 | főoldal | ugyanez, cookie-banner plugin nélkül (a téma saját értéke) | 97–100 | — | — | — | 1,6–1,7 s | 1,1 s | 0 | — |
+
+| 2026-10-06 | `/listings/` (archive) | első mérés (PNG kártyakép 514 KB, CSS linkelve) | 74 | 100 | 100 | 58 | 6,5 s | 2,4 s | 0 | 0 ms |
+| 2026-10-06 | `/listings/` | WebP alméretek + inline CSS + LCP-kép preload + modálisok a footerben + block-stílusok le | 85–88 | 100 | 100 | 58 | 3,8–3,9 s | 1,8–2,3 s | 0 | 0 ms |
+| 2026-10-06 | `/listings/` | ugyanez jQuery és cookie-plugin nélkül (a téma saját értéke) | 97 | 100 | — | — | 2,6 s | 1,2 s | 0 | 30 ms |
+| 2026-10-06 | főoldal | 3. fázis után (regresszió-ellenőrzés) | 92 | 100 | 100 | 69 | 3,1 s | 2,2 s | 0 | 0 ms |
+
+⚠ **Archive LCP-büdzsé (< 2,0 s) még nincs meg.** A maradék: (1) a fejben render-blokkoló jQuery + migrate (100 KB) — a WPCode 7263 inline jQuery-je miatt, 5. fázisban megszűnik; (2) a cookie-plugin (8. fázis: saját consent); (3) lokális, cache nélküli TTFB 0,55–0,77 s. A téma saját értéke 2,6 s; a TTFB-t élesben a hosting page cache viszi le. A 8. fázisban újramérjük.
+
+| 2026-10-06 | listing (`/listings/amrit-restaurant/`) | 4. fázis | 83–86 | 100 | 100 | 69 | 3,8–4,1 s | 2,3–2,4 s | 0 | 0–50 ms |
+| 2026-10-06 | listing | ugyanez jQuery és cookie-plugin nélkül | 96 | 100 | — | — | 2,7 s | 1,4 s | 0 | 30–40 ms |
+| 2026-10-06 | főoldal / archive / listing / login | 5. fázis: jQuery a footerben (WPCode kivezetve), cookie-plugin még fent | 92–94 / 87–89 / 90 / 96 | 100 / 100 / 100 / 100 | 100 | 58–69 | 3,0 / 3,7–3,9 / 3,5 / 2,7 s | 1,2 / 1,1–1,4 / 1,3 / 1,1 s | 0 | 0–30 ms |
+
+\* SEO lokálisan a szándékos `noindex` miatt alacsony (is-crawlable). A nyers JSON-riportok `_dev/reports/` alatt, gitignore-olva (URL-ekben kulcs lehet).
 
 ## 17. 3. fázis — döntések és tények
 
@@ -294,22 +322,17 @@ Részletek: **`WPCODE-AUDIT.md`**. Röviden:
 - **„All listings from this seller”** → `/listings/?seller=<nicename>` (új archive-szűrő, „By …” chip).
 - **Kapcsolódó hirdetések:** „More in {gyökérkategória}”, 4 kártya, a legközelebbi kategória elöl.
 
-## 16. Mérési napló (Lighthouse 12, mobil, lokális Local site)
+## 19. 5. fázis — döntések és tények
 
-| Dátum | Oldal | Állapot | Perf | A11y | BP | SEO* | LCP | FCP | CLS | TBT |
-|---|---|---|---|---|---|---|---|---|---|---|
-| 2026-10-06 | főoldal | RTCL assetek mindenhol (kiinduló) | 55 | 100 | 100 | 61 | 10,0 s | 6,6 s | 0 | 190 ms |
-| 2026-10-06 | főoldal | RTCL-asset trim + képméretek + meta description + inline CSS + async cookie CSS | 91–92 | 100 | 100 | 69 | 3,0 s | 2,2 s | 0 | 0 ms |
-| 2026-10-06 | főoldal | ugyanez, cookie-banner plugin nélkül (a téma saját értéke) | 97–100 | — | — | — | 1,6–1,7 s | 1,1 s | 0 | — |
-
-| 2026-10-06 | `/listings/` (archive) | első mérés (PNG kártyakép 514 KB, CSS linkelve) | 74 | 100 | 100 | 58 | 6,5 s | 2,4 s | 0 | 0 ms |
-| 2026-10-06 | `/listings/` | WebP alméretek + inline CSS + LCP-kép preload + modálisok a footerben + block-stílusok le | 85–88 | 100 | 100 | 58 | 3,8–3,9 s | 1,8–2,3 s | 0 | 0 ms |
-| 2026-10-06 | `/listings/` | ugyanez jQuery és cookie-plugin nélkül (a téma saját értéke) | 97 | 100 | — | — | 2,6 s | 1,2 s | 0 | 30 ms |
-| 2026-10-06 | főoldal | 3. fázis után (regresszió-ellenőrzés) | 92 | 100 | 100 | 69 | 3,1 s | 2,2 s | 0 | 0 ms |
-
-⚠ **Archive LCP-büdzsé (< 2,0 s) még nincs meg.** A maradék: (1) a fejben render-blokkoló jQuery + migrate (100 KB) — a WPCode 7263 inline jQuery-je miatt, 5. fázisban megszűnik; (2) a cookie-plugin (8. fázis: saját consent); (3) lokális, cache nélküli TTFB 0,55–0,77 s. A téma saját értéke 2,6 s; a TTFB-t élesben a hosting page cache viszi le. A 8. fázisban újramérjük.
-
-| 2026-10-06 | listing (`/listings/amrit-restaurant/`) | 4. fázis | 83–86 | 100 | 100 | 69 | 3,8–4,1 s | 2,3–2,4 s | 0 | 0–50 ms |
-| 2026-10-06 | listing | ugyanez jQuery és cookie-plugin nélkül | 96 | 100 | — | — | 2,7 s | 1,4 s | 0 | 30–40 ms |
-
-\* SEO lokálisan a szándékos `noindex` miatt alacsony (is-crawlable). A nyers JSON-riportok `_dev/reports/` alatt, gitignore-olva (URL-ekben kulcs lehet).
+- **Auth a témában** (`Auth` modul): `/login/` (4999), `/register/` (5014) a téma sablonjával renderel (a régi Elementor-tartalom figyelmen kívül marad), `/lost-password/` az első admin-kéréskor jön létre (lokálisan: 7357). A `wp_login_url`, `wp_registration_url`, `wp_lostpassword_url` ezekre mutat; a `wp-login.php` a staffnak működik, a register/lostpassword akciói a téma oldalaira irányítanak. Az RTCL saját login/regisztráció/jelszó-handlerei és AJAX-ai kikapcsolva, a kijelentkezett fiókoldal a `/login/`-ra visz.
+- **Regisztráció:** 1. lépés fióktípus (GET, JS nélkül is), 2. lépés adatok. **Private Seller: nincs NIE** (döntés 13). **Business: NIF kötelező**, kontrolkarakteres ellenőrzés szerveren és böngészőben ugyanazzal az algoritmussal (DNI, NIE-formájú NIF, CIF; 8 esetre egyezik). Jelszó ≥ 10 karakter, nem a név/e-mail. Bot-szűrés captcha nélkül: honeypot + aláírt kitöltési idő (3 s alatt vagy 12 h fölött elutasítva) + IP-nkénti limit (5 fiók/óra). Fióktípus → szerepkör (member → customer, seller, business) + az RTCL buyer/seller jelzője.
+- **Állapotgép:** `unconfirmed` → e-mail link (48 h, hash-elt token) → `pending` → admin → `active` | `rejected`. A meglévő fiókok (állapot-meta nélkül) **aktívak** (13 felhasználónak van be nem váltott RTCL e-mail-kulcsa — nem blokkoljuk őket). A nem aktív fiók nem tud belépni (staff kivétel), az oldal állapot szerint válaszol („Awaiting approval”, „Confirm your e-mail first” + újraküldés).
+- **Login:** e-mail vagy felhasználónév; 5 hibás próbálkozás IP-re vagy fiókra → 15 perc zár, az utolsó két próbánál figyelmeztet; `redirect_to` validálva; hirdetésről érkezve kontextus-kártya. Elfelejtett jelszó: mindig ugyanaz a válasz, 24 órás, egyszer használható link.
+- **Admin:** Users lista „Account” oszlop (típus, állapot, „NIF on file” — a szám soha), nézetek (Awaiting approval / E-mail not confirmed / Rejected), Approve / Reject / Resend sor- és tömeges műveletek, profilon állapot + elutasítási ok + NIF (validálva). Minden döntésről e-mail megy (`Core\Mailer`, HTML + szöveges változat).
+- **wp-admin csak staffnak** (a WPCode 7280 portja, képesség alapon: `edit_others_posts`); admin bar is csak nekik. Az AJAX, `admin-post.php`, `async-upload.php` nyitva marad.
+- **Fiók** (`Account` modul): a fiókoldal a téma elrendezésében (oldalsó menü, mobilon fülsor), saját dashboard (G-02/G-03: köszöntés madridi idő szerint, Active / Views / Pending csempék, hitelesítési kártya, legutóbbi hirdetések), saját „My listings” (állapot-fülek, szerkesztés, törlés kukába megerősítéssel és tulajdonos-ellenőrzéssel). A kvóta-sáv rejtve (döntés v1 #9); „Unread” a Chat modullal (6. fázis). A tagok (member) menüjéből a My listings / Add listing kimarad. Az RTCL saját fiók-űrlapjai (Account details, Privacy settings) maradnak, a téma stílusával.
+- **Eladó-hitelesítés** (`Verification` modul, a rtcl-seller-verification helyett): feltöltés (JPG/PNG/WebP/PDF ≤ 10 MB, tartalom-ellenőrzés, beleegyezés), admin felület (*Users › Verification*, dokumentum megtekintése csak adminnak, nosniff), jóváhagyás → `rtcl_verified_seller` = 1 + e-mail. **DECISION (GDPR): a dokumentum a döntés után azonnal törlődik**, csak az eredmény marad. Tárolás: `uploads/th-private/` véletlen névvel és `<?php exit; ?>` védőfejjel (`.php` kiterjesztés) — közvetlen URL-en üres választ ad Apache-on és nginx-en is (a `.htaccess` egyedül nem elég: a lokális nginx figyelmen kívül hagyja).
+- **WPCode:** mind a 14 snippet kivezetve (lokálisan mind draft) — a WPCode plugin élesítéskor eltávolítható.
+- **jQuery a footerben** a téma által renderelt oldalakon (főoldal, archive, listing, auth); az RTCL saját képernyőin (hirdetésfeladás, fiók-űrlapok) a fejben marad. Az RTCL jQuery-validátora a listing oldalon le van szedve (a téma nem az RTCL űrlapját használja). FCP ~2,3 s → ~1,2 s.
+- **Design-eltérés (a11y):** a login kártyán a „Forgot?” link narancs helyett fehér, aláhúzott (narancs a kéken 3,0:1).
+- **E-mailek lokálisan** Mailpitben ellenőrizve: megerősítés, admin-értesítés, jóváhagyás, jelszó-visszaállítás, hitelesítési kérés és döntés.

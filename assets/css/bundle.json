@@ -28,5 +28,12 @@
 	],
 	"listing": [
 		"listing.css"
+	],
+	"auth": [
+		"auth.css"
+	],
+	"account": [
+		"auth.css",
+		"account.css"
 	]
 }

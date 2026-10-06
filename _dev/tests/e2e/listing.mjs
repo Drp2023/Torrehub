@@ -133,7 +133,7 @@ const mailCount = async () => (await (await fetch(mailpit)).json()).total;
 	const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 });
 	const page = await ctx.newPage();
 	await page.goto(base + slug, { waitUntil: 'networkidle' });
-	const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+	const overflow = await page.evaluate(() => document.documentElement.scrollWidth - 390);
 	check('mobile: no horizontal overflow', overflow === 0, `${overflow}px`);
 	check('mobile: sticky contact bar visible', await page.locator('[data-th-contact-bar]').isVisible());
 	check('mobile: bottom nav hidden behind the contact bar', !(await page.locator('.th-bottom-nav').isVisible().catch(() => false)));

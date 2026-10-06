@@ -383,8 +383,8 @@ $cat_map    = th_category_map();
 						'field',
 						array(
 							'id'    => 'sg-f3',
-							'label' => 'NIE',
-							'value' => 'X1234567L',
+							'label' => 'NIF',
+							'value' => 'B12345674',
 							'valid' => true,
 							'help'  => __( 'Format and check letter OK', 'torrehub' ),
 						)
@@ -589,7 +589,7 @@ $cat_map    = th_category_map();
 					<?php
 					foreach ( array(
 						'member'   => array( 'user', __( 'Member', 'torrehub' ), __( 'Browse, save and message sellers.', 'torrehub' ) ),
-						'seller'   => array( 'account-private-seller', __( 'Private Seller', 'torrehub' ), __( 'Sell your own things. NIE required.', 'torrehub' ) ),
+						'seller'   => array( 'account-private-seller', __( 'Private Seller', 'torrehub' ), __( 'Sell your own things.', 'torrehub' ) ),
 						'business' => array( 'account-business-seller', __( 'Business Seller', 'torrehub' ), __( 'List your business. NIF required.', 'torrehub' ) ),
 					) as $value => $c ) :
 						?>
@@ -1161,7 +1161,7 @@ $cat_map    = th_category_map();
 				</div>
 				<div class="th-grid sg-gap" style="--th-cols-md:2;--th-cols-lg:2">
 					<div class="th-accordion">
-						<details open><summary><?php esc_html_e( 'Do I need a NIE to sell?', 'torrehub' ); ?><?php th_icon( 'plus' ); ?><?php th_icon( 'minus' ); ?></summary><div class="th-accordion__body"><p><?php esc_html_e( 'Private sellers need a NIE; businesses a NIF. It keeps the marketplace accountable.', 'torrehub' ); ?></p></div></details>
+						<details open><summary><?php esc_html_e( 'Do I need a NIF to sell?', 'torrehub' ); ?><?php th_icon( 'plus' ); ?><?php th_icon( 'minus' ); ?></summary><div class="th-accordion__body"><p><?php esc_html_e( 'Only businesses: they register with their NIF. Private sellers just need an e-mail address.', 'torrehub' ); ?></p></div></details>
 						<details><summary><?php esc_html_e( 'How long does approval take?', 'torrehub' ); ?><?php th_icon( 'plus' ); ?><?php th_icon( 'minus' ); ?></summary><div class="th-accordion__body"><p><?php esc_html_e( 'Usually within 48 hours.', 'torrehub' ); ?></p></div></details>
 					</div>
 					<table class="th-hours">
@@ -1302,7 +1302,7 @@ $cat_map    = th_category_map();
 						<p class="th-module__title" style="font-size:var(--th-fs-h2)"><?php esc_html_e( 'What happens next', 'torrehub' ); ?></p>
 						<ol class="th-steps">
 							<li><div><strong><?php esc_html_e( 'Confirm your email', 'torrehub' ); ?></strong><?php esc_html_e( 'We send a link straight away.', 'torrehub' ); ?></div></li>
-							<li><div><strong><?php esc_html_e( 'We check your NIE', 'torrehub' ); ?></strong><?php esc_html_e( 'Usually within 48 hours.', 'torrehub' ); ?></div></li>
+							<li><div><strong><?php esc_html_e( 'A person reviews it', 'torrehub' ); ?></strong><?php esc_html_e( 'Usually within 48 hours.', 'torrehub' ); ?></div></li>
 							<li><div><strong><?php esc_html_e( 'Start listing', 'torrehub' ); ?></strong><?php esc_html_e( 'Five free listings every 30 days.', 'torrehub' ); ?></div></li>
 						</ol>
 					</div>

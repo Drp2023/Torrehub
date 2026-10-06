@@ -2,7 +2,7 @@
 /**
  * WP-CLI commands shipped with the theme (loaded only under WP-CLI).
  *
- * Commands: wp torrehub fix-option-values [--apply]
+ * Commands: wp torrehub fix-option-values · purge-nie · purge-old-verification-docs (each with [--apply])
  *
  * @package Torrehub
  */
@@ -90,5 +90,68 @@ WP_CLI::add_command(
 		} else {
 			WP_CLI::success( 'No empty option values.' );
 		}
+	}
+);
+
+/**
+ * GDPR (client decision 2026-10-06): private sellers' NIE numbers are not kept. Deletes every stored NIE —
+ * user meta `custom_field_1` (old registration form) and `nif_nie` (WPCode snippet 7263, mixed NIE/NIF field).
+ * Business NIFs (`custom_field_2`) stay. Dry run without --apply. Go-live runbook item.
+ *
+ * ## OPTIONS
+ *
+ * [--apply]
+ * : Delete (default: count only).
+ *
+ * @param array<int,string>    $args       Positional args.
+ * @param array<string,string> $assoc_args Flags.
+ */
+WP_CLI::add_command(
+	'torrehub purge-nie',
+	static function ( $args, $assoc_args ) {
+		global $wpdb;
+		$keys  = array( 'custom_field_1', 'nif_nie' );
+		$count = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->usermeta} WHERE meta_key IN ('custom_field_1','nif_nie')" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery -- CLI maintenance.
+		if ( empty( $assoc_args['apply'] ) ) {
+			WP_CLI::log( sprintf( '%d NIE meta row(s) (%s) would be deleted. Run again with --apply.', $count, implode( ', ', $keys ) ) );
+			return;
+		}
+		foreach ( $keys as $key ) {
+			delete_metadata( 'user', 0, $key, '', true );
+		}
+		WP_CLI::success( sprintf( '%d NIE meta row(s) deleted.', $count ) );
+	}
+);
+
+/**
+ * GDPR: the old rtcl-seller-verification plugin stored ID documents as public Media Library attachments
+ * (user meta `photo_id`, `other_document_id`). Already-verified sellers keep their badge (`rtcl_verified_seller`);
+ * the documents and references are deleted. Dry run without --apply. Go-live runbook item, after the plugin is gone.
+ *
+ * ## OPTIONS
+ *
+ * [--apply]
+ * : Delete (default: count only).
+ *
+ * @param array<int,string>    $args       Positional args.
+ * @param array<string,string> $assoc_args Flags.
+ */
+WP_CLI::add_command(
+	'torrehub purge-old-verification-docs',
+	static function ( $args, $assoc_args ) {
+		global $wpdb;
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- CLI maintenance.
+		$ids = array_unique( array_map( 'intval', $wpdb->get_col( "SELECT meta_value FROM {$wpdb->usermeta} WHERE meta_key IN ('photo_id','other_document_id') AND meta_value REGEXP '^[0-9]+$'" ) ) );
+		$ids = array_filter( $ids, static fn( $id ) => $id && 'attachment' === get_post_type( $id ) );
+		if ( empty( $assoc_args['apply'] ) ) {
+			WP_CLI::log( sprintf( '%d document attachment(s) would be deleted. Run again with --apply.', count( $ids ) ) );
+			return;
+		}
+		foreach ( $ids as $id ) {
+			wp_delete_attachment( $id, true );
+		}
+		delete_metadata( 'user', 0, 'photo_id', '', true );
+		delete_metadata( 'user', 0, 'other_document_id', '', true );
+		WP_CLI::success( sprintf( '%d document attachment(s) deleted; references removed.', count( $ids ) ) );
 	}
 );

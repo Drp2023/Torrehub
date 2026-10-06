@@ -19,4 +19,8 @@ mysql $LOCAL_MYSQL_ARGS --default-character-set=utf8mb4 --init-command="SET SESS
 rm -f "$WP_PATH/.maintenance"
 wp cache flush --quiet 2>/dev/null || true
 wp rewrite flush --skip-themes --quiet 2>/dev/null || true
+# Decisions applied after the snapshot was taken (snapshots made before 2026-10-06 still carry them).
+wp torrehub purge-nie --apply --quiet 2>/dev/null || true          # GDPR: no NIE numbers are kept.
+wp torrehub fix-option-values --apply --quiet 2>/dev/null || true  # Empty € option values.
+wp option update tlrs_threshold 3 --quiet 2>/dev/null || true      # Report threshold (client decision).
 echo "Restored $(basename "$SNAP") — active theme: $(wp option get stylesheet --skip-plugins --skip-themes)"

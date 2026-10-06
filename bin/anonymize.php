@@ -18,17 +18,6 @@ global $wpdb;
 $keep_login = getenv( 'TH_KEEP_USER' ) ?: 'dev';
 
 /**
- * Valid-looking Spanish NIE: [XYZ] + 7 digits + mod-23 control letter.
- */
-function th_fake_nie( int $seed ): string {
-	$letters = 'TRWAGMYFPDXBNJZSQVHLCKE';
-	$prefix  = array( 'X', 'Y', 'Z' )[ $seed % 3 ];
-	$digits  = str_pad( (string) ( ( $seed * 7919 + 1234567 ) % 10000000 ), 7, '0', STR_PAD_LEFT );
-	$num     = (int) ( strpos( 'XYZ', $prefix ) . $digits );
-	return $prefix . $digits . $letters[ $num % 23 ];
-}
-
-/**
  * Valid-looking Spanish NIF (DNI form): 8 digits + mod-23 control letter.
  */
 function th_fake_nif( int $seed ): string {
@@ -65,7 +54,6 @@ foreach ( $users as $id ) {
 		'last_name'              => (string) $id,
 		'nickname'               => "user{$id}",
 		'description'            => '',
-		'custom_field_1'         => th_fake_nie( $id ),
 		'custom_field_2'         => th_fake_nif( $id ),
 		'_rtcl_phone'            => th_fake_phone( $id, '600' ),
 		'_rtcl_whatsapp_number'  => th_fake_phone( $id, '611' ),
@@ -81,6 +69,9 @@ foreach ( $users as $id ) {
 	}
 }
 $report['users anonymised'] = count( $users );
+
+/* NIE numbers are not kept at all (client decision 2026-10-06, GDPR): delete, don't fake. */
+$report['NIE meta rows deleted'] = (int) $wpdb->query( "DELETE FROM {$wpdb->usermeta} WHERE meta_key IN ('custom_field_1','nif_nie')" );
 
 /* Seller-verification document references (ID scans) — remove meta AND the attachment files. */
 $doc_ids = $wpdb->get_col( "SELECT meta_value FROM {$wpdb->usermeta} WHERE meta_key IN ('photo_id','other_document_id') AND meta_value REGEXP '^[0-9]+$'" );

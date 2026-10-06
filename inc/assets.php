@@ -148,10 +148,26 @@ function th_inline_css_bundles( array $bundles ): bool {
 }
 
 /*
+ * jQuery moves to the footer on pages the theme renders itself (home, archive, listing, auth): no theme code needs
+ * it, and in the <head> it was the main render-blocking request. Classified Listing's own screens (listing form,
+ * account forms) keep it where their inline scripts expect it. Possible since the WPCode snippets that printed
+ * inline jQuery in the body were retired (phase 5).
+ */
+add_action(
+	'wp_enqueue_scripts',
+	static function () {
+		if ( is_admin() || \Torrehub\Modules\RtclCompat\Module::is_rtcl_screen() ) {
+			return;
+		}
+		foreach ( array( 'jquery', 'jquery-core', 'jquery-migrate' ) as $handle ) {
+			wp_scripts()->add_data( $handle, 'group', 1 );
+		}
+	},
+	100
+);
+
+/*
  * Cookie-banner CSS loads asynchronously (not needed for first paint).
- *
- * DECISION: jQuery stays in <head> for now — live WPCode snippets ("Favorites issue fix", "Add NIF/NIE field…")
- * print inline jQuery in the body. Moving it to the footer is part of the snippet port (phase 5, BUILD-PLAN).
  */
 add_filter(
 	'style_loader_tag',

@@ -16,6 +16,7 @@ const lazy = [
 	['[data-th-map], [data-th-map-single]', () => import('./components/map.js')],
 	['[data-th-listing]', () => import('./components/listing.js')],
 	['[data-th-gallery]', () => import('./components/gallery.js')],
+	['form[data-th-confirm], input[data-th-nif]', () => import('./components/forms.js')],
 	['[data-th-fav]', () => import('./components/favourites.js')],
 ];
 

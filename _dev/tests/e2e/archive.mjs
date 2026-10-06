@@ -120,7 +120,7 @@ const count = async (page) => Number((await page.locator('.th-result-count stron
 	page.on('pageerror', (e) => errors.push(String(e)));
 	for (const path of ['/listings/', '/listings/?rtcl_location=torrevieja&radius=25', '/listings/?view=map', '/listings/?view=list', '/listing-category/services/?rtcl_location=alcoi']) {
 		await page.goto(base + path, { waitUntil: 'networkidle' });
-		const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+		const overflow = await page.evaluate(() => document.documentElement.scrollWidth - 390);
 		check(`no horizontal overflow ${path}`, overflow === 0, `${overflow}px`);
 	}
 	await page.goto(base + '/listings/', { waitUntil: 'networkidle' });

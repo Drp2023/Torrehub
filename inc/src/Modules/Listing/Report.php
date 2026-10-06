@@ -3,7 +3,7 @@
  * "Report this listing" — port of the WPCode snippet "Torrehub Listing Report System (TLRS)" (5643).
  *
  * Kept from TLRS: logged-in users only, one report per user, meta `tlrs_reported_users` (user ids) and
- * `tlrs_report_count`, option `tlrs_threshold` (live: 50; 0 = off), an admin column and a reports screen.
+ * `tlrs_report_count`, option `tlrs_threshold` (default 3 — client decision 2026-10-06; live was 50; 0 = off), an admin column and a reports screen.
  * Changed: the reason is stored (TLRS collected it and dropped it) in `th_report_log`; the admin gets an e-mail;
  * at the threshold the listing goes to **pending** (back into the review queue) instead of draft (DECISION).
  * Classified Listing's own "Report abuse" modal isn't rendered by the theme's single template.
@@ -104,7 +104,7 @@ final class Report {
 		);
 		update_post_meta( $listing_id, 'th_report_log', $log );
 
-		$threshold = (int) get_option( 'tlrs_threshold', 5 );
+		$threshold = (int) get_option( 'tlrs_threshold', 3 );
 		$hidden    = false;
 		if ( $threshold > 0 && $count >= $threshold ) {
 			wp_update_post(
@@ -295,7 +295,7 @@ final class Report {
 				<?php wp_nonce_field( 'th_reports_admin' ); ?>
 				<p>
 					<label for="th-threshold"><?php esc_html_e( 'Move a listing back to “Pending” after this many reports (0 = never):', 'torrehub' ); ?></label>
-					<input type="number" class="small-text" id="th-threshold" name="threshold" min="0" max="1000" value="<?php echo esc_attr( (string) (int) get_option( 'tlrs_threshold', 5 ) ); ?>">
+					<input type="number" class="small-text" id="th-threshold" name="threshold" min="0" max="1000" value="<?php echo esc_attr( (string) (int) get_option( 'tlrs_threshold', 3 ) ); ?>">
 					<?php submit_button( __( 'Save', 'torrehub' ), 'secondary', 'submit', false ); ?>
 				</p>
 			</form>

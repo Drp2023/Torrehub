@@ -101,6 +101,17 @@ final class Module extends BaseModule {
 		add_filter( 'wp_robots', array( $this, 'robots' ) );
 		add_filter( 'th_page_css_bundles', array( $this, 'css_bundles' ) );
 		add_filter( 'th_rtcl_assets_needed', array( $this, 'no_rtcl_assets' ) );
+		add_action(
+			'wp_enqueue_scripts',
+			static function () {
+				// Classified Listing's jQuery validator serves its own contact form, which this page doesn't render.
+				if ( self::is_single() ) {
+					wp_dequeue_script( 'rtcl-validator' );
+					wp_dequeue_script( 'jquery-validator' );
+				}
+			},
+			1000
+		);
 		add_action( 'wp_head', array( $this, 'preload_lcp_image' ), 2 );
 		add_filter( 'script_module_data_th-app', array( $this, 'module_data' ) );
 	}
