@@ -279,7 +279,8 @@
 }
 
 .th-auth-type__item.is-no {
-	color: var(--th-disabled);
+	color: var(--th-muted);
+	text-decoration: line-through;
 }
 
 .th-auth-type__item.is-no .th-icon {

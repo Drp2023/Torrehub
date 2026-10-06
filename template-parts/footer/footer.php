@@ -112,7 +112,15 @@ $socials   = array_filter(
 		</div>
 
 		<div class="th-footer__bottom">
-			<p class="th-footer__copy">&copy; <?php echo esc_html( wp_date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?> · <?php esc_html_e( 'Costa Blanca, Spain', 'torrehub' ); ?></p>
+			<p class="th-footer__copy">
+				&copy; <?php echo esc_html( wp_date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?> · <?php esc_html_e( 'Costa Blanca, Spain', 'torrehub' ); ?>
+				<?php
+				/**
+				 * Extra legal links in the footers (Consent: "Cookie settings").
+				 */
+				do_action( 'th_footer_legal_links' );
+				?>
+			</p>
 			<?php get_template_part( 'template-parts/header/language-switcher', null, array( 'variant' => 'row' ) ); ?>
 		</div>
 	</div>

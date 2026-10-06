@@ -13,7 +13,7 @@ $listings = th_has_rtcl() ? (int) \Torrehub\Data\Directory::stats()['listings'] 
 <main id="main" class="th-main th-section" tabindex="-1">
 	<div class="th-container">
 		<div class="th-error-panel th-error-panel--page">
-			<span class="th-error-panel__code" aria-hidden="true">404</span>
+			<span class="th-error-panel__code" data-code="404" aria-hidden="true"></span>
 			<h1 class="th-error-panel__title"><?php esc_html_e( 'This page has moved on', 'torrehub' ); ?></h1>
 			<p>
 				<?php

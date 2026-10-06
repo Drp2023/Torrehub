@@ -97,7 +97,7 @@ check('contact: ?subject= preselects', (await page.inputValue('#th-contact-subje
 
 /* ---------------------------------------------------------------- 404 / 403 */
 const res = await page.goto(base + '/this-page-does-not-exist-e2e/');
-check('404: status + panel with search and links', res.status() === 404 && (await page.locator('.th-error-panel__code').innerText()) === '404' && (await page.locator('.th-error-panel input[type="search"]').count()) === 1);
+check('404: status + panel with search and links', res.status() === 404 && (await page.locator('.th-error-panel__code').getAttribute('data-code')) === '404' && (await page.locator('.th-error-panel input[type="search"]').count()) === 1);
 await page.screenshot({ path: `${out}/404-1440.png` });
 const mctx = await browser.newContext();
 const member = await mctx.newPage();

@@ -42,7 +42,7 @@ $node = $ws->node;
 							'icon' => $meta['icon'] ?? 'cat-services',
 							'tint' => $meta['tint'] ?? 'grey',
 							'meta' => $root['children']
-								/* translators: %s: number of subcategories */
+								/* translators: %s: number of sub-categories */
 								? sprintf( _n( '%s category', '%s categories', count( $root['children'] ), 'torrehub' ), number_format_i18n( count( $root['children'] ) ) )
 								: '',
 						)

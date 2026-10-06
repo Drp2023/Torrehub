@@ -27,7 +27,8 @@ function th_mod_defaults(): array {
 		'th_hero_title'          => __( 'What’s around you, all in one place.', 'torrehub' ),
 		'th_hero_lead'           => __( 'Tradespeople, homes, cars, jobs, restaurants and what’s on this weekend — from Alicante down to Pilar de la Horadada.', 'torrehub' ),
 		'th_hero_chips'          => __( 'Plumber, Rentals, Beach bars, Jobs', 'torrehub' ),
-		'th_sellers_title'       => __( 'Five free listings every 30 days', 'torrehub' ),
+		// Empty = automatic: the free-listing allowance while the Quota module is on (th_sellers_title()).
+		'th_sellers_title'       => '',
 		'th_sellers_text'        => __( 'Private sellers just need an e-mail address, businesses add their NIF. No commission, no subscription.', 'torrehub' ),
 		'th_sellers_link'        => '',
 		'th_why_1_title'         => __( 'Search where you actually are', 'torrehub' ),
@@ -124,7 +125,7 @@ add_action(
 			'th_hero_title'    => array( __( 'Hero title', 'torrehub' ), 'text' ),
 			'th_hero_lead'     => array( __( 'Hero lead', 'torrehub' ), 'textarea' ),
 			'th_hero_chips'    => array( __( 'Suggestion chips (comma separated)', 'torrehub' ), 'text' ),
-			'th_sellers_title' => array( __( 'Seller CTA title', 'torrehub' ), 'text' ),
+			'th_sellers_title' => array( __( 'Seller CTA title (empty: automatic, follows the free-listing allowance)', 'torrehub' ), 'text' ),
 			'th_sellers_text'  => array( __( 'Seller CTA text', 'torrehub' ), 'textarea' ),
 			'th_sellers_link'  => array( __( '“How it works” URL', 'torrehub' ), 'url' ),
 			'th_why_1_title'   => array( __( 'Why Torrehub · 1 title', 'torrehub' ), 'text' ),
@@ -366,3 +367,21 @@ add_action(
 		}
 	}
 );
+
+/**
+ * Home "For sellers" title: the Customizer text when set; otherwise the free-listing allowance while the Quota
+ * module is on ("5 free listings every 30 days"), and a plain line while it is off (no allowance to promise).
+ */
+function th_sellers_title(): string {
+	$custom = trim( (string) get_theme_mod( 'th_sellers_title', '' ) );
+	if ( '' !== $custom ) {
+		return $custom;
+	}
+	$quota = Torrehub\Core\Theme::instance()->module( 'quota' );
+	if ( $quota && Torrehub\Core\Settings::module_enabled( $quota ) ) {
+		$s = Torrehub\Modules\Quota\Module::settings();
+		/* translators: 1: number of listings, 2: number of days */
+		return sprintf( _n( '%1$s free listing every %2$s days', '%1$s free listings every %2$s days', $s['limit'], 'torrehub' ), number_format_i18n( $s['limit'] ), number_format_i18n( $s['days'] ) );
+	}
+	return __( 'Post your listings for free', 'torrehub' );
+}

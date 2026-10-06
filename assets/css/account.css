@@ -86,6 +86,14 @@
 }
 
 .th-account__content {
+	/* Classified Listing paints .rtcl-btn from these with !important (its orange setting fails contrast). */
+	/* stylelint-disable custom-property-pattern */
+	--rtcl-button-bg-color: var(--th-blue);
+	--rtcl-button-color: var(--th-white);
+	--rtcl-button-hover-bg-color: var(--th-ink);
+	--rtcl-button-hover-color: var(--th-white);
+	/* stylelint-enable custom-property-pattern */
+
 	min-width: 0;
 }
 
@@ -301,8 +309,8 @@
 	margin-bottom: var(--th-s-4);
 }
 
-.th-account__content .rtcl-btn,
-.th-account__content .btn-primary {
+.th-account .th-account__content .rtcl-btn,
+.th-account .th-account__content .btn-primary {
 	min-height: var(--th-h-btn);
 	padding: 0 22px;
 	border: 0;

@@ -45,7 +45,7 @@ $is_open = ! empty( $_GET['th_review_form'] );
 						<?php th_icon( 'star-filled', array( 'size' => 30 ) ); ?>
 						<span class="th-sr-only">
 							<?php
-							/* translators: %d: number of stars */
+							/* translators: %d: stars */
 							echo esc_html( sprintf( _n( '%d star', '%d stars', $i, 'torrehub' ), $i ) );
 							?>
 						</span>

@@ -379,7 +379,11 @@ class Workspace {
 			if (pill) {
 				pill.classList.toggle('is-hidden', off);
 				pill.classList.toggle('is-done', !off && fields.length > 0 && filled === fields.length);
-				pill.toggleAttribute('aria-disabled', off);
+				if (off) {
+					pill.setAttribute('aria-disabled', 'true');
+				} else {
+					pill.removeAttribute('aria-disabled');
+				}
 				pill.tabIndex = off ? -1 : 0;
 				if (count) {
 					count.textContent = off ? (i18n.hidden || 'Hidden') : `${filled}/${fields.length}`;

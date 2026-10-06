@@ -21,6 +21,7 @@ const lazy = [
 	['[data-th-listing-form]', () => import('./components/listing-form.js')],
 	['[data-th-chat]', () => import('./components/chat.js')],
 	['[data-th-toc], [data-th-guide], [data-th-faq]', () => import('./components/content.js')],
+	['[data-th-consent-bar][data-show="1"], [data-th-embed-gate]', () => import('./components/consent.js')],
 ];
 
 function boot(root = document) {
@@ -36,6 +37,18 @@ if (document.readyState === 'loading') {
 } else {
 	boot();
 }
+
+// "Cookie settings" (footer, every page): when the page had nothing to ask, the consent module loads on first use.
+document.addEventListener('click', (e) => {
+	const opener = e.target.closest('[data-th-consent-open]');
+	if (opener && !window.torrehub.consent) {
+		e.preventDefault();
+		import('./components/consent.js').then((m) => {
+			m.init();
+			window.torrehub.consent.open(opener);
+		});
+	}
+});
 
 // Toasts are used by many modules: expose a tiny global for non-module callers (e.g. inline handlers in RTCL markup).
 window.torrehub = Object.assign(window.torrehub || {}, {

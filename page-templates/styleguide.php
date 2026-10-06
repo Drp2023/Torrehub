@@ -1340,7 +1340,7 @@ $cat_map    = th_category_map();
 
 				<h3 class="sg-sub"><?php esc_html_e( 'Error panels (404 / 401 / 403)', 'torrehub' ); ?></h3>
 				<div class="th-grid" style="--th-cols-md:1;--th-cols-lg:3">
-					<div class="th-error-panel"><span class="th-error-panel__code">404</span><h3 class="th-error-panel__title"><?php esc_html_e( 'This page has moved on', 'torrehub' ); ?></h3>
+					<div class="th-error-panel"><span class="th-error-panel__code" data-code="404" aria-hidden="true"></span><h3 class="th-error-panel__title"><?php esc_html_e( 'This page has moved on', 'torrehub' ); ?></h3>
 					<?php
 					th_component(
 						'button',

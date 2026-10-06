@@ -15,6 +15,7 @@
 		"components/sheet.css",
 		"components/prose.css",
 		"components/feedback.css",
+		"components/consent.css",
 		"components/header.css",
 		"components/footer.css"
 	],

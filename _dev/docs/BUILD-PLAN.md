@@ -1,7 +1,7 @@
 # BUILD-PLAN.md — Torrehub téma (Direction C · Modern Local Hub)
 
 **Verzió:** 2.0 — a 2026-10-02-i döntések szerint (felülírja a promptot és a v1 tervet)
-**Állapot:** 0–4. fázis jóváhagyva · 5. fázis kész, jóváhagyásra vár
+**Állapot:** 0–7. fázis jóváhagyva · 8. fázis kész, jóváhagyásra vár (élesítés: `GO-LIVE-RUNBOOK.md`)
 **Kapcsolódó:** `RTCL-INTEGRATION-MAP.md`, `RTCL-FREE-CAPABILITIES.md`, `../design/INVENTORY.md`, `../../hotfix/README.md`
 
 ---
@@ -9,7 +9,7 @@
 ## 0. Döntések (v2) — ezek az irányadók
 
 1. **Egyetlen fizetős plugin sem maradhat.** A szállított termék **egy WordPress téma**; minden funkció a témában, `inc/` alatt, modulárisan.
-2. **Ingyenes wp.org pluginok maradhatnak, ha tényleg kellenek**: `classified-listing` (free) = listing-motor, `fluentform` = kapcsolat. Minden mást a téma ad; a feleslegessé váló ingyenes pluginokat jelezzük (2. pont).
+2. **Ingyenes wp.org pluginok maradhatnak, ha tényleg kellenek**: `classified-listing` (free) = listing-motor, ~~`fluentform` = kapcsolat~~ (7. fázistól a téma kapcsolat-űrlapja; 8. fázis: felesleges). Minden mást a téma ad; a feleslegessé váló ingyenes pluginokat jelezzük (2. pont).
 3. **Nincs visszafelé kompatibilitás** (régi shortcode-ok, régi URL-ek, wppb). **Adat marad**: 19 hirdetés, userek, kategóriák (152), helyszínek (34), `custom_field_1` (NIE) / `custom_field_2` (NIF).
 4. **Auth teljesen a témában**: login, regisztráció (3 szerepkör + NIE/NIF + e-mail megerősítés + admin jóváhagyás), jelszó-visszaállítás.
 5. **A témában újraépül**: chat (polling; Pusher opcionális), eladó-hitelesítés (feltöltés + admin jóváhagyás + badge), keresési értesítő (mentett keresés + e-mail cron), értékelések, egyedi single listing oldal.
@@ -30,10 +30,10 @@
 | Plugin | Most | Végállapot | Indok |
 |---|---|---|---|
 | `classified-listing` (free) | aktív | **marad** | listing-motor: CPT, taxonómiák, Form Builder, moderáció, my-account endpointok, értesítő e-mailek |
-| `fluentform` (free) | aktív | **marad** | kapcsolat-űrlap |
+| `fluentform` (free) | aktív | **feleslegessé vált** ⚠ (8. fázis) | a kapcsolat-űrlap a témáé (7. fázis); a 4 Fluent Forms űrlapot semmi nem használja, 0 beküldés. Kivezetés: runbook D12 |
 | `gtranslate` (free) | aktív | **marad** | a nyelvválasztó a beállításából olvas (döntés 8) |
 | `fluent-smtp` (free) | aktív (lokálisan ki) | **marad (ajánlott)** | élesben a kézbesíthetőséghez (auth-, chat-, értesítő-e-mailek); a téma nem küld SMTP-n |
-| `gdpr-cookie-compliance` (free) | aktív | **eltávolítva → téma `Consent` (8. fázis)** | döntés 10: saját consent sáv, a hozzájárulásig blokkolja a nem szükséges scripteket. (A plugin bannere most az LCP-elem: 3,0 s vs 1,6 s.) |
+| `gdpr-cookie-compliance` (free) | aktív (lokálisan ki) | **eltávolítva → téma `Consent` ✅ (8. fázis)** | döntés 10: saját consent sáv, a hozzájárulásig blokkolja a nem szükséges scripteket (22. pont). |
 | `backup-backup` (free) | aktív | **marad** | üzemeltetés (backup); nem téma-feladat |
 | `classified-listing-pro` | aktív | **eltávolítva → téma** | 3. pont |
 | `classified-listing-store` | aktív | **eltávolítva** | store/membership ki van kapcsolva; a kvóta-modul a témában (rejtve) |
@@ -46,10 +46,10 @@
 | `cldirectory-core`, `rt-framework` | aktív | **eltávolítva** | csak a régi téma Elementor-widgetjei |
 | `review-schema` (free) | aktív | **feleslegessé válik** ⚠ | saját értékelés-rendszer + JSON-LD; két séma-forrás ütközne |
 | `classified-listing-toolkits` (free) | aktív | **feleslegessé válik** ⚠ | csak Elementor-widgetek / kereső-widgetek — a téma adja |
-| `advanced-custom-fields` (free) | aktív | **valószínűleg felesleges** ⚠ | a téma saját metaboxokat használ; ellenőrizni, van-e mezőcsoport (DB) |
-| `insert-headers-and-footers` (free, **WPCode**) | aktív | **eltávolítható** (5. fázis után) | döntés 11: mind a 14 snippet átvéve vagy elvetve (audit: `WPCODE-AUDIT.md`) |
+| `advanced-custom-fields` (free) | aktív | **felesleges** ⚠ (8. fázis: ellenőrizve) | egyetlen mezőcsoport (Category Image), a téma nem használja; a meta a DB-ben marad. Kivezetés: runbook D13 |
+| `insert-headers-and-footers` (free, **WPCode**) | aktív (lokálisan ki) | **eltávolítható** ✅ | döntés 11: mind a 14 snippet átvéve vagy elvetve (audit: `WPCODE-AUDIT.md`) |
 | `duplicate-page` (free) | aktív | **felesleges** ⚠ | admin-kényelmi; nem a termék része |
-| `filester` (free) | aktív | **eltávolítandó** ⚠ | böngészős fájlkezelő az élesen = felesleges támadási felület |
+| `filester` (free) | aktív (lokálisan ki) | **eltávolítandó** ⚠ | böngészős fájlkezelő az élesen = felesleges támadási felület |
 
 ---
 
@@ -169,7 +169,7 @@ torrehub/                               (= repo gyökér = téma gyökér)
 | 5 ✅ | `Auth` + `Account` dashboard + `Verification` · WPCode 7263/7264/7280 · jQuery a footerbe | + `_dev/tests/e2e/auth.mjs` (26) és `account.mjs` (22): regisztráció, Mailpit, admin jóváhagyás, jelszó-visszaállítás, hitelesítés |
 | 6 ✅ | `ListingForm` munkaterület + `Quota` + `Chat` · **térképes pin-választó a hirdetésfeladásnál** (Leaflet, a 3. fázis térképével közös; a listing `latitude`/`longitude` metája → pontos sugár- és térképkeresés, a város-közép közelítés csak tartalék) | + `_dev/tests/e2e/listing-form.mjs` (37: 1 hirdetés/kategória mind a 10 formmal, pin → térkép, piszkozat, szerkesztés) és `chat.mjs` (23: polling, Seen, e-mail, REST-jogosultság, no-JS, rate limit) |
 | 7 ✅ | `SearchAlerts` + Guides + statikus oldalak (Elementor → blokk tartalom-migráció) + 404/401/403 · Form Builder admin-ellenőrzés (21.1) | + `_dev/tests/e2e/search-alerts.mjs` (19: napi/azonnali e-mail cronnal, leiratkozás), `content.mjs` (26: guides, oldalak, kapcsolat-űrlap, 404/403), `admin-forms.mjs` (13: Form Builder szerkesztés Pro nélkül) |
-| 8 | i18n, a11y, performance, SEO audit · **`Consent` modul** (döntés 10) · **élesítési runbook** (plugin-eltávolítási sorrend, hotfix, adat-ellenőrzés, cron) | DoD |
+| 8 ✅ | i18n (`languages/torrehub.pot`), a11y, performance, SEO audit · **`Consent` modul** (döntés 10) · **élesítési runbook** (`GO-LIVE-RUNBOOK.md`) · README · demo-tartalom kukába | DoD (22.5) · `_dev/tests/a11y.mjs` (axe, 28 URL × 2 szélesség: 0 hiba), `seo.mjs` (23 URL + sitemap: 0 hiba), `e2e/consent.mjs` (19) |
 
 Minden fázis előtt `bin/reset-db.sh`; témaváltás `wp theme activate torrehub|cldirectory-child`; **egyetlen branch: `main`**, fázisonként egy commit.
 
@@ -194,10 +194,11 @@ Minden fázis előtt `bin/reset-db.sh`; témaváltás `wp theme activate torrehu
 ## 8. Nyitott kérdések
 
 1. Nyelvlista — a 8-as döntés szerint a GTranslate beállítása az igazság (élesben 9: en, fi, de, hu, ro, ru, es, sv, uk). A design 8-at mutat — a komponens dinamikus, nincs teendő, csak tudomásul.
-2. Guides: ~~URL~~ — kész (7. fázis, DECISION): `/guides/` oldal, posts page-ként (Beállítások › Olvasás felülírhatja). **Nyitott:** a 8 demo-poszt (Bangkok, Attleborough stb.) és a demo-oldalak (home-one…home-new, about-us-2, pricing, practice, compare, listing-map) törlése / piszkozatba tétele — a te döntésed; addig a Guides-ban látszanak.
+2. Guides: ~~URL~~ — kész (7. fázis, DECISION): `/guides/` oldal, posts page-ként (Beállítások › Olvasás felülírhatja). ~~Demo-posztok és -oldalak~~ — **eldöntve (8. fázis):** kukába (nem végleges törlés) `wp torrehub trash-demo`-val; lokálisan kész (19 elem), élesen runbook C5.
 3. Élesítéskor mi a front page (most „Coming Soon” 6513)? A téma `front-page.php`-ja a beállítástól függetlenül a saját főoldalát mutatja; a „Coming Soon” oldal csak akkor kell, ha élesítés előtt zárva tartanátok az oldalt.
-10. FAQ (7. fázis): a régi FAQ-oldal demo-szöveg volt; a migráció **vázlatot** ír a site tényleges működéséből (8 kérdés) — átnézendő. Kimaradt: „Meddig él egy hirdetés?” — a Classified Listing beállítása 15 nap, a meglévő hirdetések lejárata viszont 2029; ezt tisztázni kell. A főoldal szövege („Five free listings every 30 days”) a kvóta bekapcsolásáig nem igaz.
-11. Kapcsolat: iroda-cím és nyitvatartás a Customizerben üres (rejtve) — az Aviso Legal-ban szerepel egy cím; ha az a nyilvános iroda, töltsétek ki.
+10. FAQ (7. fázis): a régi FAQ-oldal demo-szöveg volt; a migráció **vázlatot** ír a site tényleges működéséből (8 kérdés) — átnézendő. **Hirdetés-élettartam: ügyfél-döntés** (CL-beállítás 15 nap, a meglévő hirdetések lejárata 2029) — addig **nem szerepel a FAQ-ban** (8. fázis, döntés). ~~„Five free listings every 30 days”~~ — kész (8. fázis): a kvóta-beállítást követi, kikapcsolt kvótánál „Post your listings for free”. Az oldal címe az adatban „Faq” — ha „FAQ” / „Frequently asked questions” kell, az oldal címét kell átírni (tartalom, nem téma).
+11. Kapcsolat: iroda-cím és nyitvatartás **üres és rejtett marad** (8. fázis, döntés) — az ügyféltől jön (Customizer › *Guides & pages*).
+12. **Webfontok vs. LCP-büdzsé (8. fázis, döntés kell):** a Lighthouse mobil szimulációban az archive és a listing LCP 2,5–2,6 s (cél < 2,0 s). Mérve: a két márka-font (Figtree + Space Grotesk, 52 KB) nélkül 1,8 s; preload nélkül, `font-display: optional`-lel vagy csak egy fonttal 2,4–2,6 s marad. Lehetőségek: (a) maradnak a fontok (Perf 97, a büdzsé laborban nincs meg, ismételt látogatásnál a fontok cache-ből jönnek); (b) rendszer-font a törzsszövegre, márka-font csak a címekre (még nem mérve); (c) teljesen rendszer-fontok. Addig (a), változtatás nélkül.
 4. Logó SVG (header, favicon, sötét változat).
 5. Lokális demo-seed adat mehet? (R4)
 6. ~~„Typical reply within 1 hour”~~ — kész (6. fázis): a `Chat` modul méri (medián első válasz, 90 nap, ≥ 3 beszélgetés); megjelenítés a Customizerben kapcsolható (Listing page › Show “Typical reply”), alapból ki. „Comes to you” = Service form `Mobile Service` mezőjéből.
@@ -283,6 +284,11 @@ Részletek: **`WPCODE-AUDIT.md`**. Röviden:
 23. **Kapcsolat-űrlap:** címzett a Customizerben (*Guides & pages*), üresen az admin e-mail; a nyilvános cím alapból `info@torrehub.com` (a régi oldalról). Teszt-üzenet élesen.
 24. **Form Builder (Classified Listing › Form Builder):** Pro nélkül is szerkeszthető (21.1). Az opció átnevezésekor a használt értékeket a téma megtartja; a „Display at archive page” helyett *Megjelenés › Listing cards*. A Classified Listing 6.1.5 debug-fájlt ír mentéskor (`wp-content/rtcl-fb-debug.log`) — a téma törli; plugin-frissítéskor ellenőrizni, hogy kikerült-e a kódból.
 25. **Kártya-mezők:** *Megjelenés › Listing cards* — ma csak 2 mező van bekapcsolva a 10 formban; a kártyákon látszó részletek kiválasztása tartalmi döntés.
+26. **Demo-tartalom (8. fázis, döntés):** `wp torrehub trash-demo` (dry run), majd `--apply` — 8 demo-poszt + 11 demo-oldal kukába; a front page / posts page-et nem érinti.
+27. **Cookie consent (8. fázis):** `gdpr-cookie-compliance` kikapcsolása; a téma `Consent` modulja veszi át. Ma nincs nem-szükséges script → nincs sáv; később analitika/pixel csak a *Megjelenés › Torrehub › Cookie consent* kategóriáiba.
+28. **WPCode és Filester** kikapcsolása (Filester törlése is); **Fluent Forms** (előtte entries-export, ha kell) és **ACF** kikapcsolása — 1. pont.
+29. **Keresők:** Beállítások › Olvasás „Discourage search engines” ki; Search Console-ba a `wp-sitemap.xml`.
+30. **A teljes, sorrendbe rendezett élesítési lépéssor: `GO-LIVE-RUNBOOK.md`** (A–I: előkészítés, telepítés, migrációk, plugin-sorrend, beállítások, biztonság, aggregált adat-ellenőrzés, füstteszt, visszaállítás).
 
 ## 16. Mérési napló (Lighthouse 12, mobil, lokális Local site)
 
@@ -309,6 +315,14 @@ Részletek: **`WPCODE-AUDIT.md`**. Röviden:
 | 2026-10-06 | főoldal / listing | 6. fázis regresszió | 94 / 86 | 100 / 100 | 100 | — | 3,0 / 3,8 s | 1,3 / 1,6 s | 0 | 0 / 70 ms |
 | 2026-10-07 | Guides / guide / About / FAQ / Contact / Privacy | 7. fázis | 91 / 95 / 93 / 93 / 93 / 94 | 100 (mind) | 100 | — | 2,9–3,4 s | 1,2–1,3 s | 0–0,001 (FAQ: 0,043 → 0) | 0–30 ms |
 | 2026-10-07 | archive (Save this search) / fiók › Saved searches | 7. fázis | 89 / 95 | 100 / 100 | 100 | — | 3,7 / 2,9 s | 1,3 / 1,3 s | 0 | 0 ms |
+
+| 2026-10-07 | főoldal / `/listings/` / kategória / listing | **8. fázis** (cookie-plugin, WPCode, jQuery nélkül; SEO a keresőknek látható módban†) | 99 / 97 / 97 / 97 | 100 | 100 | 100 | 1,8 / 2,6 / 2,5 / 2,6 s | 1,3–1,4 s | 0 | 0–30 ms |
+| 2026-10-07 | Guides / guide / FAQ / login | 8. fázis | 99 / 99 / 99 / 100 | 100 | 100 | 100 / 100 / 100 / 69‡ | 2,1 / 2,1 / 1,8 / 1,7 s | 1,1–1,2 s | 0–0,001 | 0–70 ms |
+| 2026-10-07 | hirdetésfeladás / fiók › Messages / dashboard (belépve) | 8. fázis | 99 / 99 / 99 | 100 | 100 | — | 2,0 / 1,8 / 2,0 s | 1,2–1,5 s | 0–0,014 | 0 ms |
+
+**8. fázis — LCP-elemzés:** az archive/listing LCP-je nem a szerveren múlik: ugyanaz a HTML statikus fájlként (TTFB 53 ms) is 2,6 s. A/B mérés a listing statikus másolatán: fontok nélkül **1,8 s**; font-preload nélkül 2,6; `font-display: optional` 2,6; csak Figtree 2,4; képpreload a fontok előtt 2,6; GTranslate nélkül 2,6. → A maradék a két márka-font letöltése a szimulált lassú 4G-n; döntés: 8. nyitott kérdés 12. A `consent.js` csak akkor töltődik, ha van mit kérdezni (különben az első „Cookie settings” kattintásra).
+
+† A lokális mu-plugin minden kérésre „Discourage search engines”-t kényszerít; a `_dev/tests/seo.mjs` és ezek a mérések egy `th_seo_audit` cookie-val azt a kimenetet nézik, amit az éles oldal ad. ‡ szándékos `noindex`.
 
 A 404-oldalt a Lighthouse nem méri (nem 2xx válasz); a `content.mjs` ellenőrzi.
 
@@ -385,3 +399,27 @@ A 404-oldalt a Lighthouse nem méri (nem 2xx válasz); a `content.mjs` ellenőrz
 5. **Kapcsolat-űrlap** a témában (Fluent Forms nélkül): név, e-mail, tárgy (*Report a listing*, *Upgrade to a seller account* …), üzenet ≤ 2000; honeypot + aláírt kitöltési idő (3 s – 12 h) + 5 / óra / IP; robotnak „sikert” mutat, nem küld. Reply-To a látogató. A 403 „Contact us to upgrade” gombja előre kiválasztja a tárgyat.
 6. **Hibaoldalak:** 404 (élő hirdetésszám, kereső, főoldal / kategóriák), 403 a tagoknak a hirdetésfeladásnál (T-08: fiók-chip „Member”, „Contact us to upgrade”). **401**: a komponens kész (styleguide), de élő használata nincs — a kijelentkezett fiók-URL-ek a 5. fázis döntése szerint a loginra visznek (kontextussal); a kedvencek bekapcsolásakor ott jelenik meg.
 7. **E-mail réteg:** `Core\Mailer::send()` új opcionális paramétere: listázott hirdetés-sorok, extra fejlécek (List-Unsubscribe), lábléc-link.
+
+## 22. 8. fázis — döntések és tények
+
+1. **Ügyfél-döntések (2026-10-07):** demo-posztok/oldalak kukába (`trash-demo`, lokálisan kész, élesen runbook C5); hirdetés-élettartam ügyfél-döntés, addig nincs a FAQ-ban; a „sellers” blokk címe a kvótát követi (`th_sellers_title()`: egyedi Customizer-szöveg › kvóta be: „5 free listings every 30 days” › kvóta ki: „Post your listings for free”); iroda-cím/nyitvatartás üres és rejtett; a 401-es panel marad.
+2. **Consent** (`Consent` modul, döntés 10): beállítás *Megjelenés › Torrehub › Cookie consent* — szöveg, kategóriánként (Preferences / Statistics / Marketing) beilleszthető kód (csak `unfiltered_html` joggal menthető), „ismételt hozzájárulás kérése” (verzió). A kódot a téma **inert** formában írja ki (`type="text/plain"`, iframe `data-src`, a `<noscript>` pixel eldobva) — hozzájárulás nélkül, JS nélkül sem fut. Enqueue-olt scriptek: `th_consent_script_handles` filter. Beágyazások (YouTube stb.): helyőrző „Load content” gombbal, egyenként betölthető; Marketing elfogadásával mind. Választás: első feles `th_consent` cookie (verzió + idő + kategóriák, 365 nap, SameSite=Lax). Visszavonás → oldal-újratöltés (a futó kód nem „tölthető ki”). **DECISION:** sáv csak akkor jelenik meg, ha van opcionális kód vagy beágyazás az oldalon (ma nincs: nincs analitika) — a lábléc „Cookie settings” gombja mindig ott van, a dialógus felsorolja a ténylegesen használt cookie-kat. „Reject optional” ugyanolyan hangsúlyos, mint „Accept all”. A modul JS-e csak akkor töltődik, ha kérdezni kell.
+3. **SEO** (`inc/seo.php`, csak ha nincs SEO-plugin): description minden indexelhető oldalon (guides, listings archive, guide-témák külön szöveggel; a régi pluginok shortcode-maradványai kiszűrve); **archív canonical** (szűrt/rendezett/lapozott variáns `noindex,follow` és nincs canonical); **Open Graph + Twitter card** minden indexelhető oldalon (a Classified Listing csak-listing tagjei helyett; kép: listing első képe › kiemelt kép › site icon › logó; `noindex` oldalon nincs); **Organization + WebSite (SearchAction → `/listings/?q=`) JSON-LD** a főoldalon; core sitemap **users-lista nélkül** (felhasználónevet adna ki), a `noindex` oldalak (fiók, hirdetésfeladás, checkout, login/register/lost-password) nélkül; fiók-szekciók böngészőfül-címe („Messages – My Account”). Ellenőrzés: `_dev/tests/seo.mjs`.
+4. **A11y:** axe-core WCAG 2.1 A/AA (`_dev/tests/a11y.mjs`, vendég / eladó / tag, 1440 + 390): 11 → 0 hiba. Javítva: tag-kártya „✕ Post listings” kontraszt (muted + áthúzás), 404-szám dekoratív generált tartalom, a Classified Listing „Update Account” gombja (a plugin `!important` CSS-változóit a fiók-területen a téma színeire állítja), rejtett szekció-pillek `aria-disabled="true"`, hirdetés-előnézet helyőrző-címe.
+5. **Definition of Done**
+
+| Feltétel | Állapot |
+|---|---|
+| Elementor-mentes klasszikus PHP téma, fizetős plugin nélkül | ✅ lokálisan csak `classified-listing` + `gtranslate` aktív (`reset-db.sh` végállapota = runbook D) |
+| Adat marad (hirdetések, userek, kategóriák, helyszínek, űrlapok, chat, riasztások) | ✅ importerek + aggregált ellenőrzés (runbook G1) |
+| PHPCS (WPCS), ESLint, Stylelint | ✅ 0 hiba |
+| E2E (11 csomag), a11y (axe 0), SEO-probe (0) | ✅ `_dev/tests/run-all.sh` |
+| Lighthouse mobil Perf ≥ 90, CLS < 0,05 | ✅ 97–100, CLS ≤ 0,014 |
+| Lighthouse mobil LCP < 2,0 s | ⚠ főoldal, FAQ, login, fiók, hirdetésfeladás ✅ (1,7–2,0 s); guides 2,1 s; archive/listing 2,5–2,6 s — a márka-fontok miatt, döntés: §8/12 |
+| i18n | ✅ `languages/torrehub.pot` (1175 string, figyelmeztetés nélkül); JS-szövegek PHP-ból, fordíthatók |
+| Consent: nem szükséges script csak hozzájárulás után | ✅ `consent.mjs` (19) |
+| Élesítési runbook, README | ✅ `GO-LIVE-RUNBOOK.md`, `README.md` |
+| Telepítőcsomag | ✅ `bin/build-zip.sh` (dev/érzékeny fájl nélkül) |
+| `backup/`, dump, kulcs, `.env`, plugin-forrás, uploads nincs gitben | ✅ `.gitignore` + commit előtti ellenőrzés |
+
+6. **Tények:** a `bin/reset-db.sh` mostantól aktiválja a témát a migrációk előtt (a `wp torrehub …` parancsok csak aktív témával léteznek — eddig a reset után kézzel futottak) és a végén a runbook szerinti plugin-végállapotot állítja be, valamint a lokális teszt-fiókokat (`tester`/`tester` tag, `user54`/`seller54` business eladó — az anonimizáló mindenkinek véletlen jelszót ad). Teljes tesztkör: `bin/reset-db.sh && bash _dev/tests/run-all.sh`. A `th-local-safety` mu-plugin `th_seo_audit` cookie-val a nyilvános oldal robots/sitemap kimenetét adja (csak lokális mérésekhez).

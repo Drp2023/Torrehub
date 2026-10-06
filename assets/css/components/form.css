@@ -589,3 +589,13 @@
 	height: 1px;
 	overflow: hidden;
 }
+
+/* Toggle with its label (business hours, cookie settings). */
+.th-toggle-row {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	font-size: var(--th-fs-sm);
+	font-weight: var(--th-fw-semibold);
+	cursor: pointer;
+}

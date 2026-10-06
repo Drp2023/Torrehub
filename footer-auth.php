@@ -21,6 +21,10 @@ $privacy = $privacy ? $privacy : (int) ( $rtcl['page_for_privacy_policy'] ?? 0 )
 		<?php if ( $privacy ) : ?>
 			<a href="<?php echo esc_url( (string) get_permalink( $privacy ) ); ?>"><?php esc_html_e( 'Privacy Policy', 'torrehub' ); ?></a>
 		<?php endif; ?>
+		<?php
+		/** This action is documented in template-parts/footer/footer.php */
+		do_action( 'th_footer_legal_links' );
+		?>
 	</div>
 </footer>
 <?php wp_footer(); ?>

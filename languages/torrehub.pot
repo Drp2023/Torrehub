@@ -1,0 +1,5443 @@
+# Copyright (C) 2026 Torrehub
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Torrehub 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/torrehub\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-06T23:21:13+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: torrehub\n"
+
+#. Theme Name of the theme
+#. Author of the theme
+#: style.css
+#: inc/customizer.php:83
+#: inc/src/Core/Settings.php:56
+#: template-parts/footer/footer.php:62
+msgid "Torrehub"
+msgstr ""
+
+#. Theme URI of the theme
+#: style.css
+msgid "https://torrehub.com"
+msgstr ""
+
+#. Description of the theme
+#: style.css
+msgid "Costa Blanca local hub — business directory, classifieds and local info. Classic PHP theme on top of the free Classified Listing plugin; auth, chat, seller verification, search alerts and reviews are built in."
+msgstr ""
+
+#: 404.php:17
+#: page-templates/styleguide.php:1343
+msgid "This page has moved on"
+msgstr ""
+
+#. translators: %s: number of live listings
+#: 404.php:23
+#, php-format
+msgid "The listing may have expired, or the address has a typo. There is %s live listing — try a search."
+msgid_plural "The listing may have expired, or the address has a typo. There are %s live listings — try a search."
+msgstr[0] ""
+msgstr[1] ""
+
+#: 404.php:24
+msgid "The address may have a typo, or the page was removed."
+msgstr ""
+
+#: 404.php:45
+#: page-templates/styleguide.php:1348
+msgid "Back to homepage"
+msgstr ""
+
+#: 404.php:54
+msgid "Browse all categories"
+msgstr ""
+
+#: classified-listing/myaccount/dashboard.php:30
+#: classified-listing/myaccount/my-listings.php:21
+#: inc/src/Modules/Auth/UsersAdmin.php:47
+#: template-parts/account/listing-row.php:16
+msgid "Active"
+msgstr ""
+
+#: classified-listing/myaccount/dashboard.php:31
+msgid "Views"
+msgstr ""
+
+#: classified-listing/myaccount/dashboard.php:32
+#: classified-listing/myaccount/my-listings.php:22
+msgid "Pending"
+msgstr ""
+
+#. translators: 1: greeting ("Good morning"), 2: first name
+#: classified-listing/myaccount/dashboard.php:51
+#, php-format
+msgid "%1$s, %2$s"
+msgstr ""
+
+#: classified-listing/myaccount/dashboard.php:55
+msgid "Team"
+msgstr ""
+
+#: classified-listing/myaccount/dashboard.php:61
+#: page-templates/about.php:20
+#: template-parts/components/listing-card.php:191
+#: template-parts/home/stats.php:19
+#: template-parts/listing/contact-bar.php:47
+msgid "Verified"
+msgstr ""
+
+#: classified-listing/myaccount/dashboard.php:93
+msgid "Your latest listings"
+msgstr ""
+
+#: classified-listing/myaccount/dashboard.php:95
+msgid "All my listings"
+msgstr ""
+
+#: classified-listing/myaccount/dashboard.php:112
+#: template-parts/auth/register.php:403
+msgid "Post your first listing"
+msgstr ""
+
+#: classified-listing/myaccount/dashboard.php:113
+msgid "It takes a few minutes. Every listing is checked before it goes live."
+msgstr ""
+
+#: classified-listing/myaccount/dashboard.php:117
+#: classified-listing/myaccount/my-listings.php:33
+#: classified-listing/myaccount/my-listings.php:105
+#: header.php:87
+#: inc/src/Modules/ListingForm/Workspace.php:414
+#: page-templates/styleguide.php:195
+#: template-parts/footer/footer.php:27
+#: template-parts/header/drawer.php:40
+#: template-parts/home/sellers.php:21
+#: template-parts/listing-form/choose.php:24
+#: template-parts/listing-form/choose.php:58
+msgid "Post a listing"
+msgstr ""
+
+#: classified-listing/myaccount/dashboard.php:129
+msgid "Find what’s around you"
+msgstr ""
+
+#: classified-listing/myaccount/dashboard.php:130
+msgid "Browse services, homes, cars and what’s on — and contact sellers directly."
+msgstr ""
+
+#: classified-listing/myaccount/dashboard.php:135
+#: template-parts/account/alerts.php:65
+#: template-parts/account/chat.php:107
+#: template-parts/alerts/unsubscribed.php:65
+#: template-parts/listing/notices.php:30
+msgid "Browse listings"
+msgstr ""
+
+#: classified-listing/myaccount/my-listings.php:20
+#: template-parts/guides/index.php:47
+msgid "All"
+msgstr ""
+
+#: classified-listing/myaccount/my-listings.php:23
+#: template-parts/account/listing-row.php:19
+msgid "Expired"
+msgstr ""
+
+#: classified-listing/myaccount/my-listings.php:28
+#: page-templates/styleguide.php:204
+#: page-templates/styleguide.php:999
+#: template-parts/listing/notices.php:55
+msgid "My listings"
+msgstr ""
+
+#: classified-listing/myaccount/my-listings.php:50
+msgid "Listing deleted."
+msgstr ""
+
+#: classified-listing/myaccount/my-listings.php:61
+msgid "That listing couldn’t be deleted."
+msgstr ""
+
+#: classified-listing/myaccount/my-listings.php:67
+msgid "Filter by status"
+msgstr ""
+
+#: classified-listing/myaccount/my-listings.php:92
+msgid "Pages"
+msgstr ""
+
+#: classified-listing/myaccount/my-listings.php:101
+msgid "No listings yet"
+msgstr ""
+
+#: classified-listing/myaccount/my-listings.php:101
+msgid "Nothing here"
+msgstr ""
+
+#: classified-listing/myaccount/my-listings.php:102
+msgid "Your listings will show up here once you post them."
+msgstr ""
+
+#: classified-listing/myaccount/my-listings.php:102
+msgid "No listings with this status."
+msgstr ""
+
+#. translators: %s: number of comments
+#: comments.php:20
+#, php-format
+msgid "%s comment"
+msgid_plural "%s comments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: footer-auth.php:19
+#: template-parts/auth/register.php:367
+#: template-parts/footer/footer.php:51
+msgid "Terms & Conditions"
+msgstr ""
+
+#: footer-auth.php:22
+#: template-parts/auth/register.php:368
+#: template-parts/consent/bar.php:38
+#: template-parts/footer/footer.php:50
+msgid "Privacy Policy"
+msgstr ""
+
+#: functions.php:18
+msgid "The Torrehub theme requires PHP 8.1 or newer."
+msgstr ""
+
+#: header-auth.php:24
+#: header-submit.php:24
+#: header.php:25
+msgid "Skip to content"
+msgstr ""
+
+#: header-auth.php:31
+msgid "New to Torrehub?"
+msgstr ""
+
+#: header-auth.php:32
+#: inc/src/Modules/Auth/Pages.php:29
+#: page-templates/styleguide.php:1368
+msgid "Create an account"
+msgstr ""
+
+#: header-auth.php:34
+msgid "Already registered?"
+msgstr ""
+
+#: header-auth.php:35
+#: header.php:74
+#: inc/src/Modules/Auth/Accounts.php:215
+#: inc/src/Modules/Auth/Pages.php:28
+#: page-templates/styleguide.php:197
+#: page-templates/styleguide.php:1359
+#: template-parts/auth/login.php:100
+#: template-parts/auth/register.php:102
+#: template-parts/footer/footer.php:26
+#: template-parts/header/drawer.php:49
+#: template-parts/listing/contact.php:152
+msgid "Log in"
+msgstr ""
+
+#. translators: %s: time, e.g. 12:41
+#: header-submit.php:40
+#: inc/src/Modules/ListingForm/Drafts.php:81
+#, php-format
+msgid "Draft saved %s"
+msgstr ""
+
+#: header-submit.php:45
+#: header-submit.php:46
+#: page-templates/styleguide.php:203
+msgid "Save & exit"
+msgstr ""
+
+#: header-submit.php:49
+#: template-parts/listing/report-dialog.php:71
+#: template-parts/listing/review-form.php:86
+msgid "Cancel"
+msgstr ""
+
+#: header-submit.php:52
+#: inc/src/Modules/ListingForm/Module.php:217
+#: template-parts/listing-form/workspace.php:143
+msgid "Save changes"
+msgstr ""
+
+#: header-submit.php:52
+#: inc/src/Modules/ListingForm/Module.php:216
+#: template-parts/listing-form/workspace.php:143
+msgid "Publish listing"
+msgstr ""
+
+#: header-submit.php:55
+#: header.php:67
+#: inc/src/Modules/Account/Module.php:38
+#: inc/src/Modules/Content/Module.php:55
+#: template-parts/account/page.php:17
+#: template-parts/footer/footer.php:26
+#: template-parts/header/drawer.php:49
+msgid "My account"
+msgstr ""
+
+#: header.php:13
+msgid "Choose town"
+msgstr ""
+
+#: header.php:30
+#: template-parts/header/drawer.php:19
+msgid "Menu"
+msgstr ""
+
+#: header.php:38
+#: header.php:101
+msgid "Your town:"
+msgstr ""
+
+#: header.php:45
+msgid "Main"
+msgstr ""
+
+#: header.php:48
+#: template-parts/header/drawer.php:88
+msgid "Explore"
+msgstr ""
+
+#: header.php:51
+#: inc/src/Modules/Guides/Module.php:39
+#: inc/src/Modules/Guides/Module.php:95
+#: template-parts/footer/bottom-nav.php:44
+#: template-parts/footer/footer.php:39
+#: template-parts/header/drawer.php:110
+msgid "Guides"
+msgstr ""
+
+#: inc/assets.php:116
+#: page-templates/styleguide.php:1428
+#: template-parts/archive/save-search.php:59
+#: template-parts/consent/bar.php:52
+#: template-parts/header/location-dialog.php:29
+#: template-parts/listing-form/workspace.php:159
+#: template-parts/listing/contact-bar.php:59
+#: template-parts/listing/gallery.php:72
+#: template-parts/listing/report-dialog.php:33
+#: template-parts/listing/review-form.php:28
+msgid "Close"
+msgstr ""
+
+#: inc/assets.php:117
+#: template-parts/listing/contact-bar.php:81
+msgid "Loading…"
+msgstr ""
+
+#: inc/customizer.php:27
+msgid "What’s around you, all in one place."
+msgstr ""
+
+#: inc/customizer.php:28
+msgid "Tradespeople, homes, cars, jobs, restaurants and what’s on this weekend — from Alicante down to Pilar de la Horadada."
+msgstr ""
+
+#: inc/customizer.php:29
+msgid "Plumber, Rentals, Beach bars, Jobs"
+msgstr ""
+
+#: inc/customizer.php:32
+msgid "Private sellers just need an e-mail address, businesses add their NIF. No commission, no subscription."
+msgstr ""
+
+#: inc/customizer.php:34
+msgid "Search where you actually are"
+msgstr ""
+
+#: inc/customizer.php:35
+msgid "Every listing is tied to a Costa Blanca town."
+msgstr ""
+
+#: inc/customizer.php:36
+msgid "Verified sellers"
+msgstr ""
+
+#: inc/customizer.php:37
+msgid "Every account is checked by a person before it goes live."
+msgstr ""
+
+#: inc/customizer.php:38
+msgid "Contact directly"
+msgstr ""
+
+#: inc/customizer.php:39
+msgid "Phone, WhatsApp, chat or email. No middleman taking a cut."
+msgstr ""
+
+#: inc/customizer.php:40
+msgid "The Costa Blanca local hub — directory, classifieds and local discovery in one place."
+msgstr ""
+
+#: inc/customizer.php:47
+#: page-templates/styleguide.php:1298
+msgid "Staying safe"
+msgstr ""
+
+#: inc/customizer.php:48
+msgid "Meet in a public place or agree a written quote before work starts. Never pay in advance for something you haven’t seen. Torrehub is a directory: we don’t take part in deals or verify every claim."
+msgstr ""
+
+#: inc/customizer.php:51
+msgid "Living and getting things done on the Costa Blanca"
+msgstr ""
+
+#: inc/customizer.php:92
+msgid "Home page"
+msgstr ""
+
+#: inc/customizer.php:97
+msgid "Show hero search"
+msgstr ""
+
+#: inc/customizer.php:98
+msgid "Show “This weekend”"
+msgstr ""
+
+#: inc/customizer.php:99
+msgid "Show stats card"
+msgstr ""
+
+#: inc/customizer.php:100
+msgid "Show “Explore the hub”"
+msgstr ""
+
+#: inc/customizer.php:101
+msgid "Show “New near you”"
+msgstr ""
+
+#: inc/customizer.php:102
+msgid "Show “Towns worth exploring”"
+msgstr ""
+
+#: inc/customizer.php:103
+msgid "Show seller call-to-action"
+msgstr ""
+
+#: inc/customizer.php:104
+msgid "Show “Why Torrehub”"
+msgstr ""
+
+#: inc/customizer.php:125
+msgid "Hero title"
+msgstr ""
+
+#: inc/customizer.php:126
+msgid "Hero lead"
+msgstr ""
+
+#: inc/customizer.php:127
+msgid "Suggestion chips (comma separated)"
+msgstr ""
+
+#: inc/customizer.php:128
+msgid "Seller CTA title (empty: automatic, follows the free-listing allowance)"
+msgstr ""
+
+#: inc/customizer.php:129
+msgid "Seller CTA text"
+msgstr ""
+
+#: inc/customizer.php:130
+msgid "“How it works” URL"
+msgstr ""
+
+#: inc/customizer.php:131
+msgid "Why Torrehub · 1 title"
+msgstr ""
+
+#: inc/customizer.php:132
+msgid "Why Torrehub · 1 text"
+msgstr ""
+
+#: inc/customizer.php:133
+msgid "Why Torrehub · 2 title"
+msgstr ""
+
+#: inc/customizer.php:134
+msgid "Why Torrehub · 2 text"
+msgstr ""
+
+#: inc/customizer.php:135
+msgid "Why Torrehub · 3 title"
+msgstr ""
+
+#: inc/customizer.php:136
+msgid "Why Torrehub · 3 text"
+msgstr ""
+
+#. translators: %s: default text
+#: inc/customizer.php:153
+#, php-format
+msgid "Empty = “%s”"
+msgstr ""
+
+#: inc/customizer.php:169
+msgid "Use the logo above instead of the Torrehub brand logo"
+msgstr ""
+
+#: inc/customizer.php:180
+msgid "Footer"
+msgstr ""
+
+#: inc/customizer.php:185
+msgid "Footer text"
+msgstr ""
+
+#: inc/customizer.php:186
+msgid "Facebook URL"
+msgstr ""
+
+#: inc/customizer.php:187
+msgid "Instagram URL"
+msgstr ""
+
+#: inc/customizer.php:211
+#: inc/src/Modules/Location/Module.php:36
+#: page-templates/styleguide.php:1133
+#: template-parts/listing/place.php:28
+#: template-parts/listing/tabs.php:24
+msgid "Location"
+msgstr ""
+
+#: inc/customizer.php:231
+msgid "Default town"
+msgstr ""
+
+#: inc/customizer.php:232
+msgid "Used until the visitor picks a town."
+msgstr ""
+
+#: inc/customizer.php:243
+msgid "Listing archive"
+msgstr ""
+
+#: inc/customizer.php:244
+msgid "Which filters each category offers is set under Appearance → Archive filters."
+msgstr ""
+
+#: inc/customizer.php:258
+msgid "Listings per page"
+msgstr ""
+
+#: inc/customizer.php:259
+msgid "“Load more” adds this many at a time. Multiples of 3 fill the desktop grid."
+msgstr ""
+
+#: inc/customizer.php:274
+#: inc/src/Modules/Listing/Module.php:49
+msgid "Listing page"
+msgstr ""
+
+#: inc/customizer.php:280
+msgid "E-mail enquiries need an account"
+msgstr ""
+
+#: inc/customizer.php:281
+msgid "Phone and WhatsApp need an account"
+msgstr ""
+
+#: inc/customizer.php:309
+msgid "Safety note — title"
+msgstr ""
+
+#: inc/customizer.php:323
+msgid "Safety note — text"
+msgstr ""
+
+#: inc/customizer.php:324
+msgid "Shown under the seller card."
+msgstr ""
+
+#: inc/customizer.php:339
+msgid "Guides & pages"
+msgstr ""
+
+#: inc/customizer.php:344
+msgid "Guides — page title"
+msgstr ""
+
+#: inc/customizer.php:345
+msgid "Contact — public e-mail address"
+msgstr ""
+
+#: inc/customizer.php:345
+msgid "Shown on the Contact page."
+msgstr ""
+
+#: inc/customizer.php:346
+msgid "Contact form — send messages to"
+msgstr ""
+
+#: inc/customizer.php:346
+msgid "Empty: the site administration e-mail."
+msgstr ""
+
+#: inc/customizer.php:347
+msgid "Contact — office address"
+msgstr ""
+
+#: inc/customizer.php:347
+#: inc/customizer.php:348
+msgid "Empty: not shown."
+msgstr ""
+
+#: inc/customizer.php:348
+msgid "Contact — opening hours"
+msgstr ""
+
+#. translators: 1: number of listings, 2: number of days
+#: inc/customizer.php:384
+#, php-format
+msgid "%1$s free listing every %2$s days"
+msgid_plural "%1$s free listings every %2$s days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/customizer.php:386
+msgid "Post your listings for free"
+msgstr ""
+
+#: inc/listing-card.php:51
+msgid "Price on call"
+msgstr ""
+
+#: inc/listing-card.php:61
+msgid "Free"
+msgstr ""
+
+#: inc/listing-card.php:73
+msgid "/ h"
+msgstr ""
+
+#: inc/listing-card.php:74
+msgid "/ day"
+msgstr ""
+
+#: inc/listing-card.php:75
+msgid "/ week"
+msgstr ""
+
+#: inc/listing-card.php:76
+msgid "/ month"
+msgstr ""
+
+#: inc/listing-card.php:77
+msgid "/ year"
+msgstr ""
+
+#: inc/listing-card.php:78
+msgid "/ sq ft"
+msgstr ""
+
+#: inc/listing-card.php:95
+msgid "negotiable"
+msgstr ""
+
+#: inc/listing-card.php:170
+#: inc/src/Modules/Listing/View.php:282
+#: template-parts/guides/card.php:54
+msgid "Featured"
+msgstr ""
+
+#. translators: %s: human-readable time difference, e.g. "2 days"
+#: inc/listing-card.php:186
+#, php-format
+msgid "%s ago"
+msgstr ""
+
+#. translators: 1: guides page title ("Living and getting things done on the Costa Blanca"), 2: site name
+#: inc/seo.php:42
+#, php-format
+msgid "%1$s — practical guides from %2$s."
+msgstr ""
+
+#. translators: %s: site name
+#: inc/seo.php:46
+#, php-format
+msgid "Browse local listings on %s: tradespeople, homes, cars, jobs, restaurants and events across the Costa Blanca."
+msgstr ""
+
+#. translators: 1: guide topic, 2: site name
+#: inc/seo.php:58
+#, php-format
+msgid "Guides about %1$s from %2$s — living and getting things done on the Costa Blanca."
+msgstr ""
+
+#. translators: 1: category or town, 2: site name
+#: inc/seo.php:60
+#, php-format
+msgid "%1$s on %2$s — local listings across the Costa Blanca."
+msgstr ""
+
+#: inc/setup.php:37
+msgid "Footer · Browse"
+msgstr ""
+
+#: inc/setup.php:38
+msgid "Footer · Discover"
+msgstr ""
+
+#: inc/setup.php:39
+msgid "Footer · Account"
+msgstr ""
+
+#: inc/setup.php:40
+msgid "Footer · Torrehub"
+msgstr ""
+
+#. translators: %s: URL
+#: inc/src/Core/Mailer.php:79
+#, php-format
+msgid "Or open this link: %s"
+msgstr ""
+
+#: inc/src/Core/Settings.php:55
+#: inc/src/Core/Settings.php:105
+msgid "Torrehub settings"
+msgstr ""
+
+#: inc/src/Core/Settings.php:108
+msgid "Modules"
+msgstr ""
+
+#: inc/src/Core/Settings.php:116
+msgid "Unavailable:"
+msgstr ""
+
+#: inc/src/Core/Settings.php:118
+msgid "Always on."
+msgstr ""
+
+#: inc/src/Core/Settings.php:122
+msgid "Enabled"
+msgstr ""
+
+#: inc/src/Data/BusinessHours.php:144
+msgid "Open 24 hours"
+msgstr ""
+
+#: inc/src/Data/BusinessHours.php:146
+#: page-templates/styleguide.php:1172
+#: template-parts/listing/place.php:57
+msgid "Closed"
+msgstr ""
+
+#: inc/src/Modules/Account/Module.php:59
+#: inc/src/Modules/Archive/Module.php:68
+#: inc/src/Modules/Chat/Module.php:69
+#: inc/src/Modules/Listing/Module.php:77
+#: inc/src/Modules/ListingForm/Module.php:67
+#: inc/src/Modules/Location/Module.php:64
+#: inc/src/Modules/Quota/Module.php:69
+#: inc/src/Modules/Reviews/Module.php:67
+#: inc/src/Modules/RtclCompat/Module.php:63
+#: inc/src/Modules/SearchAlerts/Module.php:68
+#: inc/src/Modules/Verification/Module.php:77
+msgid "Requires the Classified Listing plugin."
+msgstr ""
+
+#: inc/src/Modules/Account/Module.php:265
+msgid "Good morning"
+msgstr ""
+
+#: inc/src/Modules/Account/Module.php:267
+msgid "Good afternoon"
+msgstr ""
+
+#: inc/src/Modules/Account/Module.php:267
+msgid "Good evening"
+msgstr ""
+
+#: inc/src/Modules/Archive/AdminScreen.php:35
+#: inc/src/Modules/Archive/AdminScreen.php:36
+#: inc/src/Modules/Archive/AdminScreen.php:119
+msgid "Archive filters"
+msgstr ""
+
+#: inc/src/Modules/Archive/AdminScreen.php:48
+#: inc/src/Modules/Archive/CardFields.php:72
+#: inc/src/Modules/Auth/UsersAdmin.php:161
+#: inc/src/Modules/Listing/Report.php:248
+msgid "You are not allowed to do this."
+msgstr ""
+
+#: inc/src/Modules/Archive/AdminScreen.php:121
+msgid "Filters saved."
+msgstr ""
+
+#: inc/src/Modules/Archive/AdminScreen.php:123
+msgid "Filters imported again from the Filter Builder settings."
+msgstr ""
+
+#: inc/src/Modules/Archive/AdminScreen.php:125
+msgid "Choose which listing-form fields appear as filters on a category’s archive. Sub-categories use the nearest configured parent. Price, town + radius, keyword and “Verified sellers only” are always available."
+msgstr ""
+
+#: inc/src/Modules/Archive/AdminScreen.php:148
+msgid "This category has no listing form with filterable fields."
+msgstr ""
+
+#: inc/src/Modules/Archive/AdminScreen.php:152
+msgid "Show"
+msgstr ""
+
+#: inc/src/Modules/Archive/AdminScreen.php:153
+msgid "Form field"
+msgstr ""
+
+#: inc/src/Modules/Archive/AdminScreen.php:154
+msgid "Filter label"
+msgstr ""
+
+#: inc/src/Modules/Archive/AdminScreen.php:155
+msgid "Order"
+msgstr ""
+
+#: inc/src/Modules/Archive/AdminScreen.php:174
+msgid "Remove this category’s filters (use the parent’s)"
+msgstr ""
+
+#: inc/src/Modules/Archive/AdminScreen.php:177
+msgid "Add a category"
+msgstr ""
+
+#: inc/src/Modules/Archive/AdminScreen.php:187
+msgid "— Select —"
+msgstr ""
+
+#: inc/src/Modules/Archive/AdminScreen.php:193
+msgid "Save filters"
+msgstr ""
+
+#: inc/src/Modules/Archive/AdminScreen.php:196
+msgid "Import from Filter Builder"
+msgstr ""
+
+#. translators: 1: source option, 2: date
+#: inc/src/Modules/Archive/AdminScreen.php:200
+#, php-format
+msgid "Imported from %1$s on %2$s."
+msgstr ""
+
+#: inc/src/Modules/Archive/AdminScreen.php:204
+msgid "Skipped entries"
+msgstr ""
+
+#: inc/src/Modules/Archive/AdminScreen.php:210
+msgid "Replace the current filter settings with a fresh import?"
+msgstr ""
+
+#: inc/src/Modules/Archive/AdminScreen.php:210
+msgid "Import again"
+msgstr ""
+
+#: inc/src/Modules/Archive/CardFields.php:43
+#: inc/src/Modules/Archive/CardFields.php:108
+#: page-templates/styleguide.php:802
+msgid "Listing cards"
+msgstr ""
+
+#: inc/src/Modules/Archive/CardFields.php:110
+msgid "Card fields saved."
+msgstr ""
+
+#: inc/src/Modules/Archive/CardFields.php:112
+msgid "Tick the listing-form fields to show as short details on listing cards (archive, home page, related listings). Cards show the first three that have a value, in form order. Private fields (NIF, number plates…) are never shown."
+msgstr ""
+
+#: inc/src/Modules/Archive/CardFields.php:120
+msgid "No fields suitable for cards."
+msgstr ""
+
+#: inc/src/Modules/Archive/CardFields.php:133
+msgid "Save card fields"
+msgstr ""
+
+#: inc/src/Modules/Archive/Module.php:47
+msgid "Listing archive & filters"
+msgstr ""
+
+#: inc/src/Modules/Archive/Module.php:54
+msgid "Category, town and search results with filters, sorting, list/map views and live result counts."
+msgstr ""
+
+#. translators: %s: number of results
+#: inc/src/Modules/Archive/Module.php:230
+#: template-parts/archive/filter-sheet.php:46
+msgid "No results"
+msgstr ""
+
+#. translators: %s: number of results
+#: inc/src/Modules/Archive/Module.php:230
+#: template-parts/archive/filter-sheet.php:48
+#, php-format
+msgid "Show %s result"
+msgid_plural "Show %s results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/src/Modules/Archive/Module.php:397
+msgid "Loading more listings…"
+msgstr ""
+
+#: inc/src/Modules/Archive/Module.php:398
+msgid "More listings loaded."
+msgstr ""
+
+#: inc/src/Modules/Archive/Module.php:399
+msgid "Couldn’t load more. Check your connection and try again."
+msgstr ""
+
+#: inc/src/Modules/Archive/Module.php:400
+msgid "Counting…"
+msgstr ""
+
+#: inc/src/Modules/Archive/Module.php:401
+#: template-parts/archive/map-view.php:55
+msgid "Zoom in"
+msgstr ""
+
+#: inc/src/Modules/Archive/Module.php:402
+#: template-parts/archive/map-view.php:56
+msgid "Zoom out"
+msgstr ""
+
+#: inc/src/Modules/Archive/Module.php:403
+#: template-parts/archive/map-view.php:54
+msgid "Show my location"
+msgstr ""
+
+#: inc/src/Modules/Archive/Module.php:404
+#: template-parts/archive/map-view.php:48
+msgid "Map of the results"
+msgstr ""
+
+#: inc/src/Modules/Archive/Module.php:413
+msgid "Saved to your favourites."
+msgstr ""
+
+#: inc/src/Modules/Archive/Module.php:414
+msgid "Removed from your favourites."
+msgstr ""
+
+#. translators: 1: town, 2: radius in km
+#: inc/src/Modules/Archive/Search.php:767
+#, php-format
+msgid "%1$s + %2$s km"
+msgstr ""
+
+#. translators: %s: search keyword
+#: inc/src/Modules/Archive/Search.php:776
+#, php-format
+msgid "“%s”"
+msgstr ""
+
+#. translators: %s: seller name
+#: inc/src/Modules/Archive/Search.php:823
+#, php-format
+msgid "By %s"
+msgstr ""
+
+#: inc/src/Modules/Archive/Search.php:830
+#: page-templates/styleguide.php:651
+msgid "Verified only"
+msgstr ""
+
+#. translators: %s: lower bound
+#: inc/src/Modules/Archive/Search.php:867
+#, php-format
+msgid "from %s"
+msgstr ""
+
+#. translators: %s: upper bound
+#: inc/src/Modules/Archive/Search.php:870
+#, php-format
+msgid "up to %s"
+msgstr ""
+
+#. translators: 1: category, 2: town
+#: inc/src/Modules/Archive/Search.php:881
+#, php-format
+msgid "%1$s in %2$s"
+msgstr ""
+
+#. translators: %s: town
+#: inc/src/Modules/Archive/Search.php:888
+#, php-format
+msgid "Listings in %s"
+msgstr ""
+
+#. translators: %s: seller name
+#: inc/src/Modules/Archive/Search.php:892
+#, php-format
+msgid "Listings by %s"
+msgstr ""
+
+#. translators: %s: search keyword
+#: inc/src/Modules/Archive/Search.php:896
+#, php-format
+msgid "Results for “%s”"
+msgstr ""
+
+#: inc/src/Modules/Archive/Search.php:898
+msgid "All listings"
+msgstr ""
+
+#: inc/src/Modules/Archive/Search.php:909
+#: inc/src/Modules/Listing/View.php:353
+#: template-parts/footer/bottom-nav.php:15
+msgid "Home"
+msgstr ""
+
+#: inc/src/Modules/Archive/Search.php:913
+#: template-parts/home/stats.php:18
+msgid "Listings"
+msgstr ""
+
+#: inc/src/Modules/Auth/Accounts.php:66
+#: page-templates/styleguide.php:591
+#: template-parts/auth/register.php:34
+#: template-parts/listing-form/denied.php:40
+msgid "Member"
+msgstr ""
+
+#: inc/src/Modules/Auth/Accounts.php:67
+#: page-templates/styleguide.php:592
+#: template-parts/auth/register.php:42
+msgid "Private Seller"
+msgstr ""
+
+#: inc/src/Modules/Auth/Accounts.php:68
+#: page-templates/styleguide.php:593
+#: template-parts/auth/register.php:50
+msgid "Business Seller"
+msgstr ""
+
+#: inc/src/Modules/Auth/Accounts.php:179
+msgid "Confirm your e-mail address"
+msgstr ""
+
+#. translators: %s: first name
+#: inc/src/Modules/Auth/Accounts.php:181
+#, php-format
+msgid "Welcome, %s!"
+msgstr ""
+
+#: inc/src/Modules/Auth/Accounts.php:183
+msgid "Please confirm your e-mail address to finish creating your Torrehub account."
+msgstr ""
+
+#: inc/src/Modules/Auth/Accounts.php:184
+msgid "After that, a person reviews every new account — usually within 48 hours. We’ll e-mail you as soon as it’s approved."
+msgstr ""
+
+#: inc/src/Modules/Auth/Accounts.php:186
+msgid "Confirm my e-mail"
+msgstr ""
+
+#: inc/src/Modules/Auth/Accounts.php:187
+msgid "The link is valid for 48 hours. If you didn’t create an account, ignore this e-mail."
+msgstr ""
+
+#: inc/src/Modules/Auth/Accounts.php:209
+msgid "Your account is approved"
+msgstr ""
+
+#: inc/src/Modules/Auth/Accounts.php:210
+msgid "You’re in!"
+msgstr ""
+
+#. translators: %s: account type
+#: inc/src/Modules/Auth/Accounts.php:213
+#, php-format
+msgid "Your %s account on Torrehub has been approved. You can log in now."
+msgstr ""
+
+#: inc/src/Modules/Auth/Accounts.php:237
+msgid "About your Torrehub account"
+msgstr ""
+
+#: inc/src/Modules/Auth/Accounts.php:238
+msgid "We couldn’t approve your account"
+msgstr ""
+
+#: inc/src/Modules/Auth/Accounts.php:241
+msgid "Thanks for registering. After reviewing your details we couldn’t approve the account."
+msgstr ""
+
+#. translators: %s: reason
+#: inc/src/Modules/Auth/Accounts.php:243
+#: inc/src/Modules/Listing/Report.php:140
+#: inc/src/Modules/Verification/Module.php:449
+#, php-format
+msgid "Reason: %s"
+msgstr ""
+
+#: inc/src/Modules/Auth/Accounts.php:244
+msgid "If you think this is a mistake, reply to this e-mail."
+msgstr ""
+
+#: inc/src/Modules/Auth/Accounts.php:259
+msgid "New account awaiting approval"
+msgstr ""
+
+#. translators: %s: account type
+#: inc/src/Modules/Auth/Accounts.php:261
+#, php-format
+msgid "New %s account"
+msgstr ""
+
+#. translators: 1: name, 2: e-mail
+#: inc/src/Modules/Auth/Accounts.php:264
+#, php-format
+msgid "%1$s (%2$s) confirmed their e-mail address and is waiting for approval."
+msgstr ""
+
+#: inc/src/Modules/Auth/Accounts.php:266
+msgid "Review accounts"
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:110
+msgid "Leave this empty"
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:128
+#: inc/src/Modules/Auth/Forms.php:202
+#: inc/src/Modules/Auth/Forms.php:394
+#: inc/src/Modules/Auth/Forms.php:439
+msgid "The page expired. Please try again."
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:135
+msgid "Too many attempts. Please wait 15 minutes, or reset your password."
+msgstr ""
+
+#. translators: %d: attempts left
+#: inc/src/Modules/Auth/Forms.php:164
+#, php-format
+msgid "E-mail or password is incorrect. %d attempt left before a short lockout."
+msgid_plural "E-mail or password is incorrect. %d attempts left before a short lockout."
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/src/Modules/Auth/Forms.php:165
+msgid "E-mail or password is incorrect."
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:212
+msgid "Registration is closed at the moment."
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:216
+msgid "Please try again — the form was sent too quickly."
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:221
+msgid "Too many new accounts from this connection. Try again later."
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:226
+msgid "Choose an account type."
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:229
+msgid "Enter your first name."
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:232
+msgid "Enter your last name."
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:239
+#: inc/src/Modules/ListingForm/Module.php:203
+msgid "Enter a valid e-mail address."
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:241
+msgid "There’s already an account with this e-mail. Log in or reset your password."
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:248
+#: inc/src/Modules/Auth/Forms.php:454
+msgid "The passwords don’t match."
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:252
+msgid "Enter your NIF."
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:254
+msgid "This NIF isn’t valid — check the number and the control letter or digit."
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:258
+msgid "Please accept the Terms & Conditions and the Privacy Policy."
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:307
+msgid "3–30 characters: letters, numbers, dot, dash or underscore."
+msgstr ""
+
+#. translators: %s: suggested username
+#: inc/src/Modules/Auth/Forms.php:311
+#, php-format
+msgid "Already taken — try %s"
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:343
+msgid "Use at least 10 characters."
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:348
+msgid "Choose a password that isn’t based on your name, e-mail or a common word."
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:406
+#: inc/src/Modules/Auth/Forms.php:407
+#: inc/src/Modules/Auth/Pages.php:30
+msgid "Reset your password"
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:408
+msgid "Someone asked to reset the password of your Torrehub account. If it was you, choose a new password with the button below."
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:410
+#: template-parts/auth/lost.php:29
+msgid "Choose a new password"
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:419
+msgid "If you didn’t ask for this, ignore this e-mail — your password stays the same. The link expires in 24 hours."
+msgstr ""
+
+#: inc/src/Modules/Auth/Forms.php:444
+msgid "This reset link is invalid or has expired. Ask for a new one."
+msgstr ""
+
+#: inc/src/Modules/Auth/Module.php:37
+msgid "Accounts: login & registration"
+msgstr ""
+
+#: inc/src/Modules/Auth/Module.php:44
+msgid "Login, registration with account types, e-mail confirmation, admin approval and password reset."
+msgstr ""
+
+#: inc/src/Modules/Auth/Module.php:179
+msgid "Please confirm your e-mail address first — we sent you a link."
+msgstr ""
+
+#: inc/src/Modules/Auth/Module.php:180
+msgid "Your account is awaiting approval."
+msgstr ""
+
+#: inc/src/Modules/Auth/Module.php:181
+msgid "This account wasn’t approved."
+msgstr ""
+
+#: inc/src/Modules/Auth/UsersAdmin.php:45
+msgid "E-mail not confirmed"
+msgstr ""
+
+#: inc/src/Modules/Auth/UsersAdmin.php:46
+#: template-parts/auth/login.php:113
+msgid "Awaiting approval"
+msgstr ""
+
+#: inc/src/Modules/Auth/UsersAdmin.php:48
+msgid "Rejected"
+msgstr ""
+
+#: inc/src/Modules/Auth/UsersAdmin.php:59
+#: inc/src/Modules/Verification/Module.php:333
+#: template-parts/footer/bottom-nav.php:52
+#: template-parts/footer/footer.php:61
+msgid "Account"
+msgstr ""
+
+#: inc/src/Modules/Auth/UsersAdmin.php:83
+msgid "NIF on file"
+msgstr ""
+
+#: inc/src/Modules/Auth/UsersAdmin.php:142
+#: inc/src/Modules/Verification/Module.php:360
+msgid "Approve"
+msgstr ""
+
+#: inc/src/Modules/Auth/UsersAdmin.php:145
+#: inc/src/Modules/Verification/Module.php:362
+msgid "Reject"
+msgstr ""
+
+#: inc/src/Modules/Auth/UsersAdmin.php:148
+msgid "Resend confirmation"
+msgstr ""
+
+#: inc/src/Modules/Auth/UsersAdmin.php:181
+msgid "Approve accounts"
+msgstr ""
+
+#: inc/src/Modules/Auth/UsersAdmin.php:182
+msgid "Reject accounts"
+msgstr ""
+
+#: inc/src/Modules/Auth/UsersAdmin.php:211
+msgid "Account approved — the user was e-mailed."
+msgstr ""
+
+#: inc/src/Modules/Auth/UsersAdmin.php:212
+msgid "Account rejected — the user was e-mailed."
+msgstr ""
+
+#: inc/src/Modules/Auth/UsersAdmin.php:213
+msgid "Confirmation e-mail sent again."
+msgstr ""
+
+#: inc/src/Modules/Auth/UsersAdmin.php:233
+msgid "Torrehub account"
+msgstr ""
+
+#: inc/src/Modules/Auth/UsersAdmin.php:237
+#: inc/src/Modules/Listing/Report.php:305
+#: inc/src/Modules/Verification/Module.php:335
+msgid "Status"
+msgstr ""
+
+#: inc/src/Modules/Auth/UsersAdmin.php:244
+msgid "Changing to Active or Rejected e-mails the user."
+msgstr ""
+
+#: inc/src/Modules/Auth/UsersAdmin.php:248
+msgid "Rejection reason"
+msgstr ""
+
+#: inc/src/Modules/Auth/UsersAdmin.php:249
+msgid "Optional; included in the rejection e-mail."
+msgstr ""
+
+#: inc/src/Modules/Auth/UsersAdmin.php:254
+#: template-parts/auth/register.php:288
+msgid "NIF"
+msgstr ""
+
+#: inc/src/Modules/Auth/UsersAdmin.php:255
+msgid "Spanish tax id of the business (DNI, NIE-form NIF or CIF). Never shown publicly."
+msgstr ""
+
+#: inc/src/Modules/Auth/UsersAdmin.php:275
+msgid "<strong>Error:</strong> the NIF isn’t valid."
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:48
+#: inc/src/Modules/Chat/Module.php:599
+#: page-templates/styleguide.php:301
+#: page-templates/styleguide.php:1289
+msgid "Chat"
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:55
+msgid "Messages between members and sellers about a listing, with e-mail notifications."
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:176
+#: inc/src/Modules/Chat/Module.php:643
+#: template-parts/account/chat.php:52
+#: template-parts/account/chat.php:174
+msgid "Messages"
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:229
+msgid "Deleted user"
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:234
+msgid "Listing removed"
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:309
+msgid "Log in to send messages."
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:312
+#: inc/src/Modules/Chat/Module.php:363
+msgid "You’re sending messages too fast. Wait a few minutes."
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:364
+#: inc/src/Modules/Chat/Store.php:158
+msgid "Write a message first."
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:365
+#: inc/src/Modules/Chat/Store.php:110
+msgid "You can’t message yourself."
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:366
+#: inc/src/Modules/Chat/Store.php:106
+msgid "This listing isn’t available any more."
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:367
+#: inc/src/Modules/Chat/Store.php:154
+msgid "This conversation isn’t yours."
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:369
+#: inc/src/Modules/Chat/Store.php:128
+#: inc/src/Modules/Chat/Store.php:174
+msgid "The message couldn’t be sent. Try again."
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:471
+msgid "Conversation not found."
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:599
+msgid "Chat on Torrehub"
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:624
+msgid "Within an hour"
+msgstr ""
+
+#. translators: %s: number of hours
+#: inc/src/Modules/Chat/Module.php:627
+#, php-format
+msgid "Within %s hour"
+msgid_plural "Within %s hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/src/Modules/Chat/Module.php:628
+msgid "Within a few days"
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:629
+msgid "Typical reply"
+msgstr ""
+
+#. translators: %s: number of unread messages
+#: inc/src/Modules/Chat/Module.php:642
+#, php-format
+msgid "Messages, %s unread"
+msgid_plural "Messages, %s unread"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/src/Modules/Chat/Module.php:664
+msgid "Chats"
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:682
+msgid "Unread"
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:700
+#: inc/src/Modules/Listing/Module.php:245
+msgid "Sending…"
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:701
+msgid "Not sent. Try again."
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:702
+#: template-parts/account/chat.php:191
+msgid "Seen"
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:703
+#: template-parts/account/chat.php:185
+msgid "You"
+msgstr ""
+
+#. translators: %s: sender name
+#: inc/src/Modules/Chat/Module.php:744
+#, php-format
+msgid "New message from %s"
+msgstr ""
+
+#. translators: %s: listing title
+#: inc/src/Modules/Chat/Module.php:746
+#, php-format
+msgid "A new message about “%s”"
+msgstr ""
+
+#. translators: %s: sender name
+#: inc/src/Modules/Chat/Module.php:750
+#, php-format
+msgid "%s wrote:"
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:754
+msgid "Reply on Torrehub"
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:755
+msgid "Reply on Torrehub rather than by e-mail — your address stays private."
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:784
+msgid "Show “Typical reply” on the seller card"
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:785
+msgid "Median time to the first chat reply in the last 90 days; shown once a seller has 3 or more conversations."
+msgstr ""
+
+#: inc/src/Modules/Consent/Module.php:48
+#: inc/src/Modules/Consent/Module.php:145
+msgid "Cookie consent"
+msgstr ""
+
+#: inc/src/Modules/Consent/Module.php:55
+msgid "Consent bar and settings; blocks non-essential scripts and embeds until the visitor agrees."
+msgstr ""
+
+#: inc/src/Modules/Consent/Module.php:146
+msgid "Code pasted here runs only for visitors who agreed to its category. Paste the full snippet as given by the provider (Google Analytics, Meta Pixel …). Strictly necessary cookies (login, chosen town, language, session) need no consent."
+msgstr ""
+
+#: inc/src/Modules/Consent/Module.php:149
+msgid "Consent bar"
+msgstr ""
+
+#: inc/src/Modules/Consent/Module.php:151
+msgid "Always show it (otherwise only when a category below has code)"
+msgstr ""
+
+#: inc/src/Modules/Consent/Module.php:152
+msgid "Ask every visitor again on their next visit"
+msgstr ""
+
+#. translators: %d: consent version
+#: inc/src/Modules/Consent/Module.php:156
+#, php-format
+msgid "Consent version %d. Adding code to a category asks again automatically."
+msgstr ""
+
+#: inc/src/Modules/Consent/Module.php:162
+msgid "Bar text"
+msgstr ""
+
+#: inc/src/Modules/Consent/Module.php:185
+msgid "Strictly necessary"
+msgstr ""
+
+#: inc/src/Modules/Consent/Module.php:185
+msgid "Log-in, your chosen town and language, the listing form session and this choice. Always on."
+msgstr ""
+
+#: inc/src/Modules/Consent/Module.php:186
+msgid "Preferences"
+msgstr ""
+
+#: inc/src/Modules/Consent/Module.php:186
+msgid "Remember extra settings and enable third-party features you didn’t open yourself."
+msgstr ""
+
+#: inc/src/Modules/Consent/Module.php:187
+msgid "Statistics"
+msgstr ""
+
+#: inc/src/Modules/Consent/Module.php:187
+msgid "Anonymous visit counts that help us improve the site."
+msgstr ""
+
+#: inc/src/Modules/Consent/Module.php:188
+msgid "Marketing"
+msgstr ""
+
+#: inc/src/Modules/Consent/Module.php:188
+msgid "Measure ads and show relevant offers on other sites. Includes embedded videos and posts from other sites."
+msgstr ""
+
+#: inc/src/Modules/Consent/Module.php:196
+msgid "We use cookies that are needed for the site to work. With your permission we’d also use optional ones — you can change your choice at any time under “Cookie settings”."
+msgstr ""
+
+#. translators: %s: site the content comes from, e.g. www.youtube.com
+#: inc/src/Modules/Consent/Module.php:320
+#, php-format
+msgid "This content is hosted by %s, which may set cookies."
+msgstr ""
+
+#: inc/src/Modules/Consent/Module.php:323
+msgid "Load content"
+msgstr ""
+
+#: inc/src/Modules/Consent/Module.php:325
+msgid "Open on the original site"
+msgstr ""
+
+#: inc/src/Modules/Consent/Module.php:352
+#: template-parts/consent/bar.php:51
+msgid "Cookie settings"
+msgstr ""
+
+#: inc/src/Modules/Content/Migrator.php:95
+msgid "Quick answers about accounts, listings, photos and the verified badge."
+msgstr ""
+
+#: inc/src/Modules/Content/Migrator.php:98
+msgid "Questions, a listing to report or an account to upgrade? Write to us — we reply within one working day."
+msgstr ""
+
+#: inc/src/Modules/Content/Migrator.php:432
+msgid "What’s the difference between a Member, a Private Seller and a Business Seller?"
+msgstr ""
+
+#: inc/src/Modules/Content/Migrator.php:433
+msgid "A Member browses, saves searches, chats with sellers and leaves reviews, but can’t post listings. A Private Seller does everything a Member does and posts listings as an individual. A Business Seller is the same for companies and tradespeople, and registers with the company’s NIF."
+msgstr ""
+
+#: inc/src/Modules/Content/Migrator.php:436
+msgid "Why does my account need approval?"
+msgstr ""
+
+#: inc/src/Modules/Content/Migrator.php:437
+msgid "Every new account is checked by a person before it goes live — usually within 48 hours. It keeps fake sellers off the site. Confirm your e-mail address first; we write to you as soon as the account is approved."
+msgstr ""
+
+#: inc/src/Modules/Content/Migrator.php:440
+msgid "Does posting a listing cost anything?"
+msgstr ""
+
+#: inc/src/Modules/Content/Migrator.php:441
+msgid "No. Posting is free for Private and Business Sellers, and there is no commission on what you sell."
+msgstr ""
+
+#: inc/src/Modules/Content/Migrator.php:444
+msgid "Why is my listing “Pending review”?"
+msgstr ""
+
+#: inc/src/Modules/Content/Migrator.php:445
+msgid "Every new listing — and every change to a live one — is checked before it shows on the site. You can follow its status under My account › My listings."
+msgstr ""
+
+#: inc/src/Modules/Content/Migrator.php:448
+msgid "What are the photo limits?"
+msgstr ""
+
+#: inc/src/Modules/Content/Migrator.php:449
+msgid "Up to 5 photos per listing, in JPG, PNG or WebP, each up to 10 MB. The first photo is the cover; you can choose another one in the listing form."
+msgstr ""
+
+#: inc/src/Modules/Content/Migrator.php:452
+msgid "What is the verified seller badge?"
+msgstr ""
+
+#: inc/src/Modules/Content/Migrator.php:453
+msgid "Sellers can upload an identity document in their account. An administrator checks it and, if it matches, the account gets the Verified badge. The document is deleted as soon as the decision is made — only the result is kept."
+msgstr ""
+
+#: inc/src/Modules/Content/Migrator.php:456
+msgid "How do I contact a seller?"
+msgstr ""
+
+#: inc/src/Modules/Content/Migrator.php:457
+msgid "Each listing shows the seller’s phone and WhatsApp where they gave them. Chat and e-mail enquiries need a free account, so the seller always knows who is writing."
+msgstr ""
+
+#: inc/src/Modules/Content/Migrator.php:460
+msgid "Can I get an e-mail when something new is listed?"
+msgstr ""
+
+#: inc/src/Modules/Content/Migrator.php:461
+msgid "Yes. Search or filter the listings, then use “Save this search” and choose instantly, daily or weekly. You can change or stop each alert in your account, or with the link in every e-mail."
+msgstr ""
+
+#: inc/src/Modules/Content/Module.php:53
+msgid "General question"
+msgstr ""
+
+#: inc/src/Modules/Content/Module.php:54
+msgid "Report a listing"
+msgstr ""
+
+#: inc/src/Modules/Content/Module.php:56
+msgid "Upgrade to a seller account"
+msgstr ""
+
+#: inc/src/Modules/Content/Module.php:57
+msgid "Business & partnerships"
+msgstr ""
+
+#: inc/src/Modules/Content/Module.php:73
+msgid "Pages & contact form"
+msgstr ""
+
+#: inc/src/Modules/Content/Module.php:138
+msgid "Tell us your name."
+msgstr ""
+
+#: inc/src/Modules/Content/Module.php:141
+msgid "Enter a complete e-mail address."
+msgstr ""
+
+#: inc/src/Modules/Content/Module.php:148
+msgid "Write a few words about what you need."
+msgstr ""
+
+#: inc/src/Modules/Content/Module.php:150
+msgid "Keep it under 2,000 characters."
+msgstr ""
+
+#: inc/src/Modules/Content/Module.php:165
+msgid "Too many messages from your connection. Try again in an hour, or e-mail us directly."
+msgstr ""
+
+#. translators: 1: subject, 2: sender name
+#: inc/src/Modules/Content/Module.php:178
+#, php-format
+msgid "Contact: %1$s — %2$s"
+msgstr ""
+
+#. translators: 1: name, 2: e-mail
+#: inc/src/Modules/Content/Module.php:182
+#, php-format
+msgid "From %1$s <%2$s>"
+msgstr ""
+
+#: inc/src/Modules/Content/Module.php:186
+msgid "Reply to this e-mail to answer the sender directly."
+msgstr ""
+
+#: inc/src/Modules/Guides/Module.php:46
+msgid "Blog index and articles in the Guides layout, with related listing categories."
+msgstr ""
+
+#: inc/src/Modules/Guides/Module.php:307
+msgid "Related listing categories"
+msgstr ""
+
+#: inc/src/Modules/Guides/Module.php:329
+msgid "Shown under the guide (“Mentioned in this guide”); the first also as “Need help with this?”."
+msgstr ""
+
+#: inc/src/Modules/Guides/Module.php:331
+msgid "Listing category"
+msgstr ""
+
+#: inc/src/Modules/Guides/Module.php:331
+msgid "— None —"
+msgstr ""
+
+#: inc/src/Modules/Languages/Module.php:37
+msgid "Language switcher"
+msgstr ""
+
+#: inc/src/Modules/Languages/Module.php:44
+msgid "Header, drawer and footer language switcher. Reads the language list from GTranslate."
+msgstr ""
+
+#: inc/src/Modules/Languages/Module.php:58
+msgid "No supported translation plugin is active (GTranslate)."
+msgstr ""
+
+#: inc/src/Modules/Listing/Module.php:56
+msgid "The single listing page: gallery, details, hours, map, contact, seller, reports."
+msgstr ""
+
+#: inc/src/Modules/Listing/Module.php:244
+msgid "Link copied."
+msgstr ""
+
+#: inc/src/Modules/Listing/Module.php:246
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+#: inc/src/Modules/Listing/Module.php:247
+msgid "Too many requests. Try again in a few minutes."
+msgstr ""
+
+#. translators: 1: photo number, 2: number of photos
+#: inc/src/Modules/Listing/Module.php:249
+#, php-format
+msgid "Photo %1$s of %2$s"
+msgstr ""
+
+#: inc/src/Modules/Listing/Module.php:250
+#: template-parts/listing/single.php:26
+msgid "Back to results"
+msgstr ""
+
+#: inc/src/Modules/Listing/Module.php:251
+msgid "Read more"
+msgstr ""
+
+#: inc/src/Modules/Listing/Module.php:252
+msgid "Show less"
+msgstr ""
+
+#. translators: %s: listing title
+#: inc/src/Modules/Listing/Module.php:294
+#, php-format
+msgid "Hi! I saw your listing on Torrehub: %s"
+msgstr ""
+
+#: inc/src/Modules/Listing/Module.php:412
+msgid "Message sent. The seller will reply to your e-mail address."
+msgstr ""
+
+#: inc/src/Modules/Listing/Module.php:413
+msgid "Log in to send a message."
+msgstr ""
+
+#: inc/src/Modules/Listing/Module.php:414
+msgid "Write a message of at least 10 characters."
+msgstr ""
+
+#: inc/src/Modules/Listing/Module.php:415
+msgid "You have sent several messages in a short time. Please wait a few minutes."
+msgstr ""
+
+#: inc/src/Modules/Listing/Module.php:416
+msgid "This listing can’t be contacted."
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:46
+msgid "Scam or fraud"
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:47
+msgid "Wrong category or misleading"
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:48
+msgid "Duplicate listing"
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:49
+msgid "Offensive or illegal content"
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:50
+msgid "No longer available"
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:51
+msgid "Something else"
+msgstr ""
+
+#. translators: %s: listing title
+#: inc/src/Modules/Listing/Report.php:134
+#, php-format
+msgid "[Torrehub] Listing reported: %s"
+msgstr ""
+
+#. translators: %s: listing title
+#: inc/src/Modules/Listing/Report.php:137
+#, php-format
+msgid "Listing: %s"
+msgstr ""
+
+#. translators: %d: number of reports
+#: inc/src/Modules/Listing/Report.php:143
+#, php-format
+msgid "Reports so far: %d"
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:144
+msgid "The report threshold was reached: the listing is now pending review."
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:194
+msgid "Thanks — your report was sent. Our team will take a look."
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:195
+msgid "Log in to report a listing."
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:196
+msgid "You can’t report your own listing."
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:197
+msgid "You have already reported this listing."
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:198
+msgid "Choose a reason (and tell us a little more for “Something else”)."
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:199
+msgid "This listing can’t be reported."
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:212
+#: inc/src/Modules/Listing/Report.php:292
+msgid "Reported listings"
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:213
+#: inc/src/Modules/Listing/Report.php:227
+#: inc/src/Modules/Listing/Report.php:306
+msgid "Reports"
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:297
+msgid "Move a listing back to “Pending” after this many reports (0 = never):"
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:299
+#: page-templates/styleguide.php:305
+#: template-parts/account/alerts.php:108
+#: template-parts/listing/contact-bar.php:34
+#: template-parts/listing/header.php:87
+msgid "Save"
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:304
+msgid "Listing"
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:307
+msgid "Latest reasons"
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:312
+msgid "No reported listings."
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:325
+msgid "Reported before reasons were recorded."
+msgstr ""
+
+#: inc/src/Modules/Listing/Report.php:336
+msgid "Clear reports"
+msgstr ""
+
+#. translators: %s: human time difference
+#: inc/src/Modules/Listing/View.php:192
+#, php-format
+msgid "Listed %s ago"
+msgstr ""
+
+#: inc/src/Modules/Listing/View.php:262
+#: inc/src/Modules/Verification/Module.php:332
+msgid "Seller"
+msgstr ""
+
+#: inc/src/Modules/Listing/View.php:288
+#: template-parts/listing/seller.php:20
+msgid "Verified seller"
+msgstr ""
+
+#. translators: %s: closing time
+#: inc/src/Modules/Listing/View.php:296
+#, php-format
+msgid "Open now · until %s"
+msgstr ""
+
+#. translators: %s: closing time
+#: inc/src/Modules/Listing/View.php:296
+msgid "Open now"
+msgstr ""
+
+#. translators: %s: opening time
+#: inc/src/Modules/Listing/View.php:302
+#, php-format
+msgid "Closed · opens %s"
+msgstr ""
+
+#. translators: %s: opening time
+#: inc/src/Modules/Listing/View.php:302
+msgid "Closed now"
+msgstr ""
+
+#: inc/src/Modules/Listing/View.php:319
+#: page-templates/styleguide.php:399
+#: template-parts/archive/filter-sheet.php:87
+#: template-parts/listing-form/workspace.php:33
+msgid "Category"
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Drafts.php:41
+msgid "You can’t post listings with this account."
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Drafts.php:51
+msgid "This draft is too large to save."
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Drafts.php:56
+msgid "This draft no longer exists."
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Drafts.php:60
+msgid "Form not found."
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Drafts.php:68
+msgid "The draft couldn’t be saved. Try again."
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Drafts.php:95
+#: inc/src/Modules/ListingForm/Drafts.php:167
+msgid "Untitled draft"
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:39
+msgid "Listing form"
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:46
+msgid "Category drill-in, form workspace with drafts, photo uploader and map pin for new and edited listings."
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:202
+msgid "This field is required."
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:204
+msgid "Enter a full web address, starting with https://"
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:205
+msgid "Enter a number."
+msgstr ""
+
+#. translators: %s: minimum
+#: inc/src/Modules/ListingForm/Module.php:207
+#, php-format
+msgid "At least %s."
+msgstr ""
+
+#. translators: %s: maximum
+#: inc/src/Modules/ListingForm/Module.php:209
+#, php-format
+msgid "At most %s."
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:210
+msgid "Check the format."
+msgstr ""
+
+#. translators: %d: number of fields
+#: inc/src/Modules/ListingForm/Module.php:212
+#, php-format
+msgid "%d required field left"
+msgid_plural "%d required fields left"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/src/Modules/ListingForm/Module.php:213
+msgid "All required fields done"
+msgstr ""
+
+#. translators: %s: section title
+#: inc/src/Modules/ListingForm/Module.php:215
+#, php-format
+msgid "Continue to %s"
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:218
+msgid "Saving…"
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:219
+msgid "Publishing…"
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:220
+msgid "Not saved — check your connection"
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:221
+msgid "Some fields need your attention."
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:222
+msgid "The listing couldn’t be saved. Try again in a moment."
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:223
+#: page-templates/styleguide.php:1197
+msgid "Hidden"
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:224
+#: template-parts/listing-form/workspace.php:82
+msgid "Your listing title"
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:225
+msgid "You have unsaved changes."
+msgstr ""
+
+#. translators: 1: file name, 2: size in MB, 3: limit in MB
+#: inc/src/Modules/ListingForm/Module.php:227
+#, php-format
+msgid "%1$s is %2$s MB — the limit is %3$s MB per image."
+msgstr ""
+
+#. translators: %s: file name
+#: inc/src/Modules/ListingForm/Module.php:229
+#, php-format
+msgid "%s isn’t a supported image type."
+msgstr ""
+
+#. translators: %d: maximum number of photos
+#: inc/src/Modules/ListingForm/Module.php:231
+#: inc/src/Modules/ListingForm/Module.php:329
+#, php-format
+msgid "You can add up to %d photos."
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:232
+msgid "The upload failed. Try again."
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:233
+msgid "Wait until the uploads finish, then publish."
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:234
+#: template-parts/listing-form/field.php:360
+#: template-parts/listing-form/field.php:400
+msgid "Remove"
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:235
+#: template-parts/listing-form/field.php:359
+msgid "Make cover"
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:236
+#: template-parts/listing-form/field.php:358
+#: template-parts/listing-form/workspace.php:79
+msgid "Cover"
+msgstr ""
+
+#. translators: %d: upload progress percentage
+#: inc/src/Modules/ListingForm/Module.php:238
+#, php-format
+msgid "Uploading %d%%"
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:239
+msgid "Pin placed. Drag it to fine-tune."
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:240
+msgid "Pin removed."
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:241
+msgid "Finding your location…"
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:242
+msgid "Your location isn’t available. Click the map instead."
+msgstr ""
+
+#. translators: 1: latitude, 2: longitude
+#: inc/src/Modules/ListingForm/Module.php:244
+#, php-format
+msgid "Pin at %1$s, %2$s"
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:245
+msgid "No pin yet — the town centre is used."
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:246
+msgid "Map: click to place the listing’s pin"
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Module.php:247
+#: template-parts/listing-form/workspace.php:150
+msgid "Preview"
+msgstr ""
+
+#. translators: %s: allowed types
+#: inc/src/Modules/ListingForm/Module.php:319
+#, php-format
+msgid "Only %s images can be uploaded."
+msgstr ""
+
+#. translators: %s: size limit in MB
+#: inc/src/Modules/ListingForm/Module.php:324
+#, php-format
+msgid "Images can be up to %s MB."
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Workspace.php:412
+#: page-templates/styleguide.php:995
+#: template-parts/listing/notices.php:47
+msgid "Edit listing"
+msgstr ""
+
+#: inc/src/Modules/ListingForm/Workspace.php:414
+msgid "New listing"
+msgstr ""
+
+#: inc/src/Modules/Location/Module.php:43
+msgid "Remembers the visitor’s town (cookie) and uses it as the default area for search and “New near you”."
+msgstr ""
+
+#: inc/src/Modules/Location/Module.php:120
+msgid "Finding your town…"
+msgstr ""
+
+#: inc/src/Modules/Location/Module.php:121
+msgid "Location access was blocked. Choose your town instead."
+msgstr ""
+
+#: inc/src/Modules/Location/Module.php:122
+msgid "Your location isn’t available right now."
+msgstr ""
+
+#: inc/src/Modules/Quota/Module.php:41
+#: inc/src/Modules/Quota/Module.php:273
+msgid "Free listing allowance"
+msgstr ""
+
+#: inc/src/Modules/Quota/Module.php:48
+msgid "Limits how many listings a seller can post in a rolling window (default 5 every 30 days). Off by default."
+msgstr ""
+
+#. translators: 1: number of listings, 2: days
+#: inc/src/Modules/Quota/Module.php:138
+#, php-format
+msgid "%1$s free listings every %2$s days"
+msgstr ""
+
+#. translators: %s: date
+#: inc/src/Modules/Quota/Module.php:141
+#, php-format
+msgid "Next slot frees up %s"
+msgstr ""
+
+#. translators: 1: number of listings, 2: days, 3: date
+#: inc/src/Modules/Quota/Module.php:186
+#, php-format
+msgid "You’ve used your %1$s free listings for the last %2$s days. You can post again on %3$s."
+msgstr ""
+
+#: inc/src/Modules/Quota/Module.php:203
+msgid "Free listings"
+msgstr ""
+
+#. translators: 1: used, 2: limit
+#: inc/src/Modules/Quota/Module.php:207
+#, php-format
+msgid "%1$s / %2$s"
+msgstr ""
+
+#: inc/src/Modules/Quota/Module.php:211
+msgid "Free listings used"
+msgstr ""
+
+#: inc/src/Modules/Quota/Module.php:274
+msgid "Used only while the “Free listing allowance” module is enabled above."
+msgstr ""
+
+#: inc/src/Modules/Quota/Module.php:277
+msgid "Listings per window"
+msgstr ""
+
+#: inc/src/Modules/Quota/Module.php:281
+msgid "Window (days)"
+msgstr ""
+
+#: inc/src/Modules/Reviews/Module.php:46
+#: page-templates/styleguide.php:1134
+#: template-parts/listing/reviews.php:56
+#: template-parts/listing/tabs.php:30
+msgid "Reviews"
+msgstr ""
+
+#: inc/src/Modules/Reviews/Module.php:53
+msgid "Star ratings and written reviews on listings, with moderation and rating summaries."
+msgstr ""
+
+#: inc/src/Modules/Reviews/Module.php:145
+#: page-templates/styleguide.php:793
+msgid "Excellent"
+msgstr ""
+
+#: inc/src/Modules/Reviews/Module.php:148
+msgid "Very good"
+msgstr ""
+
+#: inc/src/Modules/Reviews/Module.php:151
+#: template-parts/components/field.php:180
+msgid "Good"
+msgstr ""
+
+#: inc/src/Modules/Reviews/Module.php:154
+#: template-parts/components/field.php:180
+msgid "Fair"
+msgstr ""
+
+#: inc/src/Modules/Reviews/Module.php:156
+msgid "Poor"
+msgstr ""
+
+#: inc/src/Modules/RtclCompat/Module.php:35
+msgid "Classified Listing compatibility"
+msgstr ""
+
+#: inc/src/Modules/RtclCompat/Module.php:42
+msgid "Restores Form Builder field types the free plugin can store but no longer registers (repeater)."
+msgstr ""
+
+#: inc/src/Modules/RtclCompat/Module.php:136
+#: inc/src/Modules/RtclCompat/Module.php:159
+msgid "Repeater"
+msgstr ""
+
+#: inc/src/Modules/RtclCompat/Module.php:148
+msgid "Text"
+msgstr ""
+
+#: inc/src/Modules/RtclCompat/Module.php:153
+msgid "This field is required"
+msgstr ""
+
+#: inc/src/Modules/SearchAlerts/Module.php:47
+msgid "Saved searches & alerts"
+msgstr ""
+
+#: inc/src/Modules/SearchAlerts/Module.php:54
+msgid "Members save a search and get new matching listings by e-mail (instantly, daily or weekly)."
+msgstr ""
+
+#: inc/src/Modules/SearchAlerts/Module.php:322
+#: template-parts/account/alerts.php:32
+msgid "Saved searches"
+msgstr ""
+
+#. translators: %s: saved search name
+#: inc/src/Modules/SearchAlerts/Module.php:468
+#, php-format
+msgid "New listing for “%s”"
+msgstr ""
+
+#. translators: 1: number of listings, 2: saved search name
+#: inc/src/Modules/SearchAlerts/Module.php:470
+#, php-format
+msgid "%1$s new listings for “%2$s”"
+msgstr ""
+
+#: inc/src/Modules/SearchAlerts/Module.php:472
+msgid "You get an e-mail as soon as a matching listing goes live."
+msgstr ""
+
+#: inc/src/Modules/SearchAlerts/Module.php:473
+msgid "You get at most one e-mail a day for this search."
+msgstr ""
+
+#: inc/src/Modules/SearchAlerts/Module.php:474
+msgid "You get at most one e-mail a week for this search."
+msgstr ""
+
+#: inc/src/Modules/SearchAlerts/Module.php:482
+msgid "See all results"
+msgstr ""
+
+#: inc/src/Modules/SearchAlerts/Module.php:483
+msgid "Change how often you get these in your account, under Saved searches."
+msgstr ""
+
+#: inc/src/Modules/SearchAlerts/Module.php:486
+msgid "Stop these e-mails"
+msgstr ""
+
+#: inc/src/Modules/Styleguide/Module.php:33
+#: inc/src/Modules/Styleguide/Module.php:93
+#: page-templates/styleguide.php:60
+msgid "Styleguide"
+msgstr ""
+
+#: inc/src/Modules/Styleguide/Module.php:40
+msgid "Hidden /styleguide page with every component and state. Visible to administrators only."
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:56
+msgid "Seller verification"
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:63
+msgid "Sellers upload an ID document; an admin checks it and the seller gets the Verified badge. Documents are deleted after review."
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:188
+#: inc/src/Modules/Verification/Module.php:300
+#: template-parts/account/verification.php:30
+msgid "Verification"
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:279
+msgid "Verification request"
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:280
+msgid "A seller asked to be verified"
+msgstr ""
+
+#. translators: 1: name, 2: e-mail
+#: inc/src/Modules/Verification/Module.php:282
+#, php-format
+msgid "%1$s (%2$s) uploaded an ID document."
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:283
+msgid "Review requests"
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:299
+#: inc/src/Modules/Verification/Module.php:325
+msgid "Verification requests"
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:327
+msgid "Seller verified — the document was deleted and the seller e-mailed."
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:327
+msgid "Request rejected — the document was deleted and the seller e-mailed."
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:329
+msgid "Check that the document matches the account name. Documents are deleted as soon as you decide."
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:334
+msgid "Submitted"
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:336
+msgid "Decision"
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:340
+msgid "No requests yet."
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:354
+msgid "View document"
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:361
+msgid "Reason (for a rejection)"
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:388
+msgid "The document is no longer stored."
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:432
+#: template-parts/account/verification.php:47
+msgid "You’re verified"
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:433
+msgid "Your Verified badge is live"
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:434
+msgid "We checked your document: your listings now show the Verified badge. As promised, the document has been deleted."
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:435
+#: template-parts/listing-form/denied.php:52
+msgid "Go to my account"
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:443
+msgid "About your verification"
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:444
+msgid "We couldn’t verify the document"
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:447
+msgid "Thanks for sending it. We couldn’t verify your account with this document, and it has been deleted."
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:450
+msgid "You can upload another document from your account."
+msgstr ""
+
+#: inc/src/Modules/Verification/Module.php:453
+msgid "Try again"
+msgstr ""
+
+#: index.php:36
+msgid "Nothing here yet"
+msgstr ""
+
+#: index.php:37
+msgid "Try a search or browse the categories."
+msgstr ""
+
+#. Template Name of the theme
+msgid "About (T-01)"
+msgstr ""
+
+#: page-templates/about.php:18
+#: template-parts/archive/head.php:53
+#: template-parts/header/mega-panel.php:31
+#: template-parts/header/mega-panel.php:63
+#: template-parts/home/stats.php:20
+msgid "Categories"
+msgstr ""
+
+#: page-templates/about.php:19
+msgid "Towns"
+msgstr ""
+
+#: page-templates/about.php:21
+msgid "Languages"
+msgstr ""
+
+#. Template Name of the theme
+msgid "Contact (T-02)"
+msgstr ""
+
+#: page-templates/contact.php:37
+msgid "Send us a message"
+msgstr ""
+
+#: page-templates/contact.php:44
+#: page-templates/styleguide.php:975
+msgid "Message sent"
+msgstr ""
+
+#: page-templates/contact.php:45
+msgid "We’ve got it and will reply within one working day."
+msgstr ""
+
+#: page-templates/contact.php:75
+msgid "Your name"
+msgstr ""
+
+#: page-templates/contact.php:87
+#: template-parts/auth/login.php:134
+#: template-parts/auth/register.php:129
+#: template-parts/auth/register.php:321
+msgid "E-mail address"
+msgstr ""
+
+#: page-templates/contact.php:103
+msgid "Subject"
+msgstr ""
+
+#: page-templates/contact.php:114
+#: page-templates/styleguide.php:481
+#: template-parts/listing/contact.php:167
+msgid "Message"
+msgstr ""
+
+#: page-templates/contact.php:118
+msgid "Tell us what’s happening…"
+msgstr ""
+
+#: page-templates/contact.php:129
+#: template-parts/listing/contact.php:173
+msgid "Send message"
+msgstr ""
+
+#: page-templates/contact.php:135
+msgid "We never share your address."
+msgstr ""
+
+#: page-templates/contact.php:147
+msgid "E-mail"
+msgstr ""
+
+#: page-templates/contact.php:150
+msgid "Office"
+msgstr ""
+
+#: page-templates/contact.php:153
+#: page-templates/styleguide.php:1132
+#: template-parts/listing/tabs.php:21
+msgid "Hours"
+msgstr ""
+
+#. Template Name of the theme
+msgid "FAQ (T-03)"
+msgstr ""
+
+#: page-templates/faq.php:25
+#: page-templates/faq.php:26
+msgid "Search the FAQ"
+msgstr ""
+
+#: page-templates/faq.php:28
+msgid "No question matches. Try another word, or contact us."
+msgstr ""
+
+#. Template Name of the theme
+msgid "Legal (T-04 / T-05)"
+msgstr ""
+
+#. translators: %s: date
+#: page-templates/legal.php:24
+#, php-format
+msgid "Last updated %s"
+msgstr ""
+
+#: page-templates/legal.php:31
+msgid "Contents"
+msgstr ""
+
+#: page-templates/styleguide.php:35
+msgid "Brand"
+msgstr ""
+
+#: page-templates/styleguide.php:36
+msgid "Neutrals"
+msgstr ""
+
+#: page-templates/styleguide.php:37
+msgid "Tints"
+msgstr ""
+
+#: page-templates/styleguide.php:38
+msgid "Semantic"
+msgstr ""
+
+#: page-templates/styleguide.php:39
+msgid "On dark"
+msgstr ""
+
+#: page-templates/styleguide.php:43
+msgid "Services"
+msgstr ""
+
+#: page-templates/styleguide.php:44
+msgid "Properties"
+msgstr ""
+
+#: page-templates/styleguide.php:45
+msgid "Auto / Moto / Boats"
+msgstr ""
+
+#: page-templates/styleguide.php:46
+msgid "Restaurants & Nightlife"
+msgstr ""
+
+#: page-templates/styleguide.php:47
+msgid "Events"
+msgstr ""
+
+#: page-templates/styleguide.php:48
+msgid "Jobs"
+msgstr ""
+
+#: page-templates/styleguide.php:49
+msgid "Public Information"
+msgstr ""
+
+#: page-templates/styleguide.php:50
+msgid "Marketplace"
+msgstr ""
+
+#: page-templates/styleguide.php:51
+msgid "Tourist Attractions"
+msgstr ""
+
+#: page-templates/styleguide.php:52
+msgid "Leisure & Sport"
+msgstr ""
+
+#: page-templates/styleguide.php:59
+msgid "Direction C · Modern Local Hub"
+msgstr ""
+
+#: page-templates/styleguide.php:61
+msgid "Every component and state, rendered by the theme itself. Used as the visual-regression baseline (1440 / 390)."
+msgstr ""
+
+#: page-templates/styleguide.php:62
+msgid "Styleguide sections"
+msgstr ""
+
+#: page-templates/styleguide.php:93
+msgid "Colour"
+msgstr ""
+
+#: page-templates/styleguide.php:112
+msgid "Type, spacing, radius, depth, category tiles"
+msgstr ""
+
+#: page-templates/styleguide.php:116
+#: page-templates/styleguide.php:1219
+msgid "Find your thing on the Costa Blanca"
+msgstr ""
+
+#: page-templates/styleguide.php:117
+msgid "About Torrehub"
+msgstr ""
+
+#: page-templates/styleguide.php:118
+msgid "Plumbing in Torrevieja"
+msgstr ""
+
+#: page-templates/styleguide.php:119
+#: page-templates/styleguide.php:1121
+#: template-parts/home/new.php:71
+msgid "New near you"
+msgstr ""
+
+#: page-templates/styleguide.php:120
+#: page-templates/styleguide.php:1196
+msgid "Car specifications"
+msgstr ""
+
+#: page-templates/styleguide.php:121
+msgid "Lead — local businesses, classifieds and what’s on, in one place."
+msgstr ""
+
+#: page-templates/styleguide.php:122
+msgid "Body — Árvíztűrő tükörfúrógép · Șase țânțari · Åsa är här · Señor · €12,450."
+msgstr ""
+
+#: page-templates/styleguide.php:123
+msgid "Meta — Torrevieja · 2 days ago"
+msgstr ""
+
+#: page-templates/styleguide.php:124
+msgid "Micro label"
+msgstr ""
+
+#: page-templates/styleguide.php:127
+msgid "Spacing (4px base)"
+msgstr ""
+
+#: page-templates/styleguide.php:143
+msgid "Radius & depth"
+msgstr ""
+
+#: page-templates/styleguide.php:148
+msgid "sheets, dropdowns, map overlays only"
+msgstr ""
+
+#: page-templates/styleguide.php:151
+msgid "Category tiles (10 roots · 5 tints)"
+msgstr ""
+
+#: page-templates/styleguide.php:162
+msgid "12 listings · 8 categories"
+msgstr ""
+
+#: page-templates/styleguide.php:192
+msgid "Buttons"
+msgstr ""
+
+#: page-templates/styleguide.php:196
+#: template-parts/archive/results.php:44
+#: template-parts/footer/footer.php:48
+#: template-parts/listing/contact-bar.php:28
+msgid "Contact"
+msgstr ""
+
+#: page-templates/styleguide.php:198
+msgid "Show phone"
+msgstr ""
+
+#: page-templates/styleguide.php:199
+msgid "Delete"
+msgstr ""
+
+#: page-templates/styleguide.php:200
+#: template-parts/listing/review-form.php:19
+#: template-parts/listing/reviews.php:62
+#: template-parts/listing/reviews.php:72
+msgid "Write a review"
+msgstr ""
+
+#: page-templates/styleguide.php:201
+#: template-parts/account/verification-card.php:34
+msgid "Upload document"
+msgstr ""
+
+#: page-templates/styleguide.php:202
+#: template-parts/listing/contact-bar.php:25
+#: template-parts/listing/contact.php:83
+#: template-parts/listing/contact.php:120
+msgid "WhatsApp"
+msgstr ""
+
+#: page-templates/styleguide.php:205
+#: template-parts/listing/header.php:101
+#: template-parts/listing/header.php:103
+msgid "Report"
+msgstr ""
+
+#: page-templates/styleguide.php:228
+msgid "Publish"
+msgstr ""
+
+#: page-templates/styleguide.php:239
+msgid "Logging you in…"
+msgstr ""
+
+#: page-templates/styleguide.php:282
+#: template-parts/guides/single.php:46
+#: template-parts/listing/header.php:91
+msgid "Share"
+msgstr ""
+
+#: page-templates/styleguide.php:292
+#: template-parts/guides/single.php:49
+#: template-parts/listing/header.php:94
+msgid "Print"
+msgstr ""
+
+#: page-templates/styleguide.php:306
+#: template-parts/footer/bottom-nav.php:37
+msgid "Saved"
+msgstr ""
+
+#: page-templates/styleguide.php:316
+#: page-templates/styleguide.php:1253
+#: template-parts/home/sellers.php:30
+msgid "How it works"
+msgstr ""
+
+#: page-templates/styleguide.php:323
+#: template-parts/archive/discovery.php:65
+msgid "Open map view"
+msgstr ""
+
+#: page-templates/styleguide.php:335
+#: page-templates/styleguide.php:1479
+msgid "Show 9 results"
+msgstr ""
+
+#: page-templates/styleguide.php:344
+msgid "Hover is not drawn in the design — derived (12% ink mix). Accent pressed = #B25E00 with white text (press and hold)."
+msgstr ""
+
+#: page-templates/styleguide.php:352
+msgid "Inputs & controls"
+msgstr ""
+
+#: page-templates/styleguide.php:361
+#: page-templates/styleguide.php:495
+msgid "Email"
+msgstr ""
+
+#: page-templates/styleguide.php:364
+msgid "We never show it publicly."
+msgstr ""
+
+#: page-templates/styleguide.php:374
+#: template-parts/auth/register.php:308
+msgid "Username"
+msgstr ""
+
+#: page-templates/styleguide.php:376
+msgid "Already taken — try marco.torrevieja"
+msgstr ""
+
+#: page-templates/styleguide.php:389
+msgid "Format and check letter OK"
+msgstr ""
+
+#: page-templates/styleguide.php:411
+msgid "Licence"
+msgstr ""
+
+#: page-templates/styleguide.php:424
+msgid "Body type"
+msgstr ""
+
+#: page-templates/styleguide.php:427
+#: template-parts/listing-form/field.php:154
+#: template-parts/listing-form/field.php:280
+#: template-parts/listing-form/field.php:526
+msgid "Choose…"
+msgstr ""
+
+#: page-templates/styleguide.php:441
+#: template-parts/archive/filter-sheet.php:139
+#: template-parts/listing-form/field.php:227
+msgid "Price"
+msgstr ""
+
+#: page-templates/styleguide.php:452
+msgid "Mileage"
+msgstr ""
+
+#: page-templates/styleguide.php:467
+#: template-parts/auth/login.php:87
+#: template-parts/auth/login.php:89
+#: template-parts/auth/register.php:336
+msgid "Password"
+msgstr ""
+
+#: page-templates/styleguide.php:484
+msgid "Hi, is this still available?"
+msgstr ""
+
+#: page-templates/styleguide.php:512
+#: template-parts/auth/login.php:93
+msgid "Keep me logged in"
+msgstr ""
+
+#: page-templates/styleguide.php:513
+msgid "I accept the terms"
+msgstr ""
+
+#: page-templates/styleguide.php:514
+msgid "Disabled"
+msgstr ""
+
+#: page-templates/styleguide.php:524
+msgid "Sale"
+msgstr ""
+
+#: page-templates/styleguide.php:525
+msgid "Rent"
+msgstr ""
+
+#: page-templates/styleguide.php:535
+msgid "Emergency call-outs"
+msgstr ""
+
+#: page-templates/styleguide.php:536
+msgid "Comes to you"
+msgstr ""
+
+#: page-templates/styleguide.php:546
+msgid "Transmission"
+msgstr ""
+
+#: page-templates/styleguide.php:547
+msgid "Manual"
+msgstr ""
+
+#: page-templates/styleguide.php:548
+msgid "Automatic"
+msgstr ""
+
+#: page-templates/styleguide.php:561
+msgid "Minimum hourly rate"
+msgstr ""
+
+#: page-templates/styleguide.php:562
+msgid "Maximum hourly rate"
+msgstr ""
+
+#: page-templates/styleguide.php:574
+#: template-parts/listing/review-form.php:41
+msgid "Your rating"
+msgstr ""
+
+#. translators: %d: stars
+#: page-templates/styleguide.php:577
+#: template-parts/listing/review-form.php:49
+#, php-format
+msgid "%d star"
+msgid_plural "%d stars"
+msgstr[0] ""
+msgstr[1] ""
+
+#: page-templates/styleguide.php:585
+msgid "Choice cards (account type, item type)"
+msgstr ""
+
+#: page-templates/styleguide.php:588
+msgid "Account type"
+msgstr ""
+
+#: page-templates/styleguide.php:591
+msgid "Browse, save and message sellers."
+msgstr ""
+
+#: page-templates/styleguide.php:592
+msgid "Sell your own things."
+msgstr ""
+
+#: page-templates/styleguide.php:593
+msgid "List your business. NIF required."
+msgstr ""
+
+#: page-templates/styleguide.php:613
+msgid "Chips, badges, cards, feedback"
+msgstr ""
+
+#: page-templates/styleguide.php:624
+#: page-templates/styleguide.php:1057
+#: page-templates/styleguide.php:1419
+#: template-parts/archive/filter-bar.php:27
+#: template-parts/archive/filter-sheet.php:55
+msgid "Filters"
+msgstr ""
+
+#: page-templates/styleguide.php:634
+msgid "Plumbing"
+msgstr ""
+
+#: page-templates/styleguide.php:642
+#: page-templates/styleguide.php:1122
+msgid "Within 10 km"
+msgstr ""
+
+#: page-templates/styleguide.php:660
+#: template-parts/archive/filter-bar.php:53
+#: template-parts/archive/filter-sheet.php:57
+msgid "Clear all"
+msgstr ""
+
+#: page-templates/styleguide.php:733
+msgid "Plumber"
+msgstr ""
+
+#: page-templates/styleguide.php:740
+msgid "Sea view"
+msgstr ""
+
+#: page-templates/styleguide.php:919
+msgid "Widen the search to see more plumbers nearby."
+msgstr ""
+
+#: page-templates/styleguide.php:920
+#: page-templates/styleguide.php:1080
+msgid "Search within 25 km"
+msgstr ""
+
+#: page-templates/styleguide.php:952
+msgid "Dashboard row"
+msgstr ""
+
+#: page-templates/styleguide.php:970
+msgid "Feedback"
+msgstr ""
+
+#: page-templates/styleguide.php:976
+msgid "We usually reply within one working day."
+msgstr ""
+
+#: page-templates/styleguide.php:983
+msgid "Email or password is incorrect"
+msgstr ""
+
+#: page-templates/styleguide.php:984
+msgid "Two attempts left before a short pause."
+msgstr ""
+
+#: page-templates/styleguide.php:992
+#: template-parts/listing/notices.php:40
+msgid "Pending approval — only you can see this"
+msgstr ""
+
+#: page-templates/styleguide.php:1009
+#: template-parts/listing/notices.php:21
+msgid "This listing has expired"
+msgstr ""
+
+#: page-templates/styleguide.php:1012
+msgid "See 8 similar plumbers"
+msgstr ""
+
+#: page-templates/styleguide.php:1028
+msgid "Show success toast"
+msgstr ""
+
+#: page-templates/styleguide.php:1032
+msgid "Saved to favourites"
+msgstr ""
+
+#: page-templates/styleguide.php:1040
+msgid "Show error toast"
+msgstr ""
+
+#: page-templates/styleguide.php:1044
+msgid "Could not save — try again"
+msgstr ""
+
+#: page-templates/styleguide.php:1076
+#: template-parts/archive/empty.php:58
+msgid "No results here"
+msgstr ""
+
+#: page-templates/styleguide.php:1077
+msgid "Nothing matches all your filters in Torrevieja. Try a wider area or fewer filters."
+msgstr ""
+
+#: page-templates/styleguide.php:1085
+#: template-parts/archive/empty.php:26
+msgid "Clear all filters"
+msgstr ""
+
+#: page-templates/styleguide.php:1099
+msgid "Navigation & structure"
+msgstr ""
+
+#: page-templates/styleguide.php:1128
+#: template-parts/listing/tabs.php:36
+msgid "Listing sections"
+msgstr ""
+
+#. translators: %s: category name
+#: page-templates/styleguide.php:1129
+#: template-parts/archive/filter-sheet.php:39
+#: template-parts/listing/details.php:20
+#: template-parts/listing/tabs.php:13
+msgid "Details"
+msgstr ""
+
+#: page-templates/styleguide.php:1130
+#: template-parts/footer/footer.php:47
+#: template-parts/listing/tabs.php:15
+msgid "About"
+msgstr ""
+
+#: page-templates/styleguide.php:1131
+#: template-parts/listing/tabs.php:18
+msgid "Amenities"
+msgstr ""
+
+#: page-templates/styleguide.php:1137
+msgid "<strong>9 plumbers</strong> in Torrevieja"
+msgstr ""
+
+#: page-templates/styleguide.php:1139
+#: template-parts/archive/toolbar.php:63
+msgid "Sort by"
+msgstr ""
+
+#: page-templates/styleguide.php:1140
+msgid "Sort: Nearest"
+msgstr ""
+
+#: page-templates/styleguide.php:1140
+#: template-parts/archive/toolbar.php:19
+msgid "Newest"
+msgstr ""
+
+#: page-templates/styleguide.php:1143
+msgid "View"
+msgstr ""
+
+#: page-templates/styleguide.php:1144
+#: template-parts/archive/toolbar.php:34
+msgid "Grid"
+msgstr ""
+
+#: page-templates/styleguide.php:1145
+#: template-parts/archive/toolbar.php:35
+msgid "List"
+msgstr ""
+
+#: page-templates/styleguide.php:1146
+#: template-parts/archive/toolbar.php:36
+#: template-parts/listing/place.php:29
+msgid "Map"
+msgstr ""
+
+#: page-templates/styleguide.php:1155
+msgid "Load 6 more"
+msgstr ""
+
+#: page-templates/styleguide.php:1160
+msgid "Showing 6 of 9"
+msgstr ""
+
+#: page-templates/styleguide.php:1164
+msgid "Do I need a NIF to sell?"
+msgstr ""
+
+#: page-templates/styleguide.php:1164
+msgid "Only businesses: they register with their NIF. Private sellers just need an e-mail address."
+msgstr ""
+
+#: page-templates/styleguide.php:1165
+msgid "How long does approval take?"
+msgstr ""
+
+#: page-templates/styleguide.php:1165
+#: page-templates/styleguide.php:1305
+msgid "Usually within 48 hours."
+msgstr ""
+
+#: page-templates/styleguide.php:1168
+#: template-parts/listing-form/field.php:466
+#: template-parts/listing/place.php:52
+msgid "Opening hours"
+msgstr ""
+
+#: page-templates/styleguide.php:1170
+msgid "Monday"
+msgstr ""
+
+#: page-templates/styleguide.php:1171
+msgid "Tuesday (today)"
+msgstr ""
+
+#: page-templates/styleguide.php:1172
+msgid "Sunday"
+msgstr ""
+
+#: page-templates/styleguide.php:1183
+msgid "3 of 5 free listings used"
+msgstr ""
+
+#: page-templates/styleguide.php:1195
+msgid "Basics"
+msgstr ""
+
+#: page-templates/styleguide.php:1197
+msgid "Boat"
+msgstr ""
+
+#: page-templates/styleguide.php:1213
+msgid "Modules & panels"
+msgstr ""
+
+#: page-templates/styleguide.php:1218
+msgid "Costa Blanca · 34 towns"
+msgstr ""
+
+#: page-templates/styleguide.php:1220
+msgid "Local services, homes, cars, events and places — from people who live here."
+msgstr ""
+
+#: page-templates/styleguide.php:1224
+#: template-parts/home/weekend.php:25
+msgid "This weekend"
+msgstr ""
+
+#: page-templates/styleguide.php:1225
+msgid "11 events near Torrevieja"
+msgstr ""
+
+#: page-templates/styleguide.php:1226
+msgid "See what's on"
+msgstr ""
+
+#: page-templates/styleguide.php:1230
+msgid "listings"
+msgstr ""
+
+#: page-templates/styleguide.php:1231
+msgid "verified"
+msgstr ""
+
+#: page-templates/styleguide.php:1232
+msgid "categories"
+msgstr ""
+
+#: page-templates/styleguide.php:1237
+#: template-parts/home/sellers.php:13
+msgid "For sellers"
+msgstr ""
+
+#: page-templates/styleguide.php:1238
+msgid "Five free listings every 30 days"
+msgstr ""
+
+#: page-templates/styleguide.php:1244
+#: template-parts/home/sellers.php:21
+msgid "Create a seller account"
+msgstr ""
+
+#: page-templates/styleguide.php:1261
+msgid "Hourly rate"
+msgstr ""
+
+#: page-templates/styleguide.php:1262
+msgid "From €45"
+msgstr ""
+
+#: page-templates/styleguide.php:1267
+#: template-parts/listing/contact.php:102
+msgid "Show phone number"
+msgstr ""
+
+#: page-templates/styleguide.php:1299
+msgid "Meet in public, never pay in advance by transfer, and keep the chat on Torrehub."
+msgstr ""
+
+#: page-templates/styleguide.php:1302
+#: template-parts/auth/register.php:396
+msgid "What happens next"
+msgstr ""
+
+#: page-templates/styleguide.php:1304
+msgid "Confirm your email"
+msgstr ""
+
+#: page-templates/styleguide.php:1304
+#: template-parts/auth/register.php:398
+msgid "We send a link straight away."
+msgstr ""
+
+#: page-templates/styleguide.php:1305
+#: template-parts/auth/register.php:399
+msgid "A person reviews it"
+msgstr ""
+
+#: page-templates/styleguide.php:1306
+msgid "Start listing"
+msgstr ""
+
+#: page-templates/styleguide.php:1306
+msgid "Five free listings every 30 days."
+msgstr ""
+
+#: page-templates/styleguide.php:1311
+msgid "Detail tiles"
+msgstr ""
+
+#: page-templates/styleguide.php:1313
+msgid "Item type"
+msgstr ""
+
+#: page-templates/styleguide.php:1313
+msgid "Car"
+msgstr ""
+
+#: page-templates/styleguide.php:1314
+msgid "Year"
+msgstr ""
+
+#: page-templates/styleguide.php:1315
+msgid "With licence"
+msgstr ""
+
+#: page-templates/styleguide.php:1315
+msgid "Yes"
+msgstr ""
+
+#: page-templates/styleguide.php:1316
+msgid "Fuel"
+msgstr ""
+
+#: page-templates/styleguide.php:1316
+msgid "Petrol"
+msgstr ""
+
+#: page-templates/styleguide.php:1319
+msgid "Town cards"
+msgstr ""
+
+#: page-templates/styleguide.php:1341
+msgid "Error panels (404 / 401 / 403)"
+msgstr ""
+
+#: page-templates/styleguide.php:1354
+msgid "Log in to see your favourites"
+msgstr ""
+
+#: page-templates/styleguide.php:1374
+#: template-parts/listing-form/denied.php:17
+msgid "You need a seller account"
+msgstr ""
+
+#: page-templates/styleguide.php:1379
+#: template-parts/listing-form/denied.php:52
+msgid "Contact us to upgrade"
+msgstr ""
+
+#: page-templates/styleguide.php:1388
+#: template-parts/listing-form/denied.php:61
+msgid "Back to browsing"
+msgstr ""
+
+#: page-templates/styleguide.php:1403
+msgid "Icon sprite"
+msgstr ""
+
+#: page-templates/styleguide.php:1436
+#: template-parts/archive/filter-sheet.php:97
+msgid "Where"
+msgstr ""
+
+#: page-templates/styleguide.php:1461
+#: template-parts/archive/filter-sheet.php:173
+msgid "Verified sellers only"
+msgstr ""
+
+#: page-templates/styleguide.php:1469
+#: template-parts/archive/filter-sheet.php:182
+msgid "Reset"
+msgstr ""
+
+#: template-parts/account/alerts.php:19
+msgid "Saved search updated."
+msgstr ""
+
+#: template-parts/account/alerts.php:20
+msgid "Saved search deleted."
+msgstr ""
+
+#: template-parts/account/alerts.php:21
+msgid "That saved search no longer exists."
+msgstr ""
+
+#: template-parts/account/alerts.php:24
+#: template-parts/archive/save-search.php:83
+msgid "Instantly"
+msgstr ""
+
+#: template-parts/account/alerts.php:25
+#: template-parts/archive/save-search.php:84
+msgid "Daily"
+msgstr ""
+
+#: template-parts/account/alerts.php:26
+#: template-parts/archive/save-search.php:85
+msgid "Weekly"
+msgstr ""
+
+#: template-parts/account/alerts.php:27
+msgid "Off"
+msgstr ""
+
+#. translators: %s: e-mail address
+#: template-parts/account/alerts.php:36
+#, php-format
+msgid "New matching listings are e-mailed to %s."
+msgstr ""
+
+#: template-parts/account/alerts.php:60
+msgid "No saved searches yet"
+msgstr ""
+
+#: template-parts/account/alerts.php:61
+msgid "Search or filter the listings, then use “Save this search” — we’ll e-mail you when something new matches."
+msgstr ""
+
+#: template-parts/account/alerts.php:84
+msgid "See results"
+msgstr ""
+
+#. translators: %s: saved search name
+#: template-parts/account/alerts.php:93
+#, php-format
+msgid "How often for “%s”"
+msgstr ""
+
+#: template-parts/account/alerts.php:116
+msgid "Delete this saved search?"
+msgstr ""
+
+#. translators: %s: saved search name
+#: template-parts/account/alerts.php:130
+#, php-format
+msgid "Delete “%s”"
+msgstr ""
+
+#: template-parts/account/chat.php:67
+msgid "Conversations"
+msgstr ""
+
+#: template-parts/account/chat.php:82
+msgid "You:"
+msgstr ""
+
+#: template-parts/account/chat.php:89
+#: template-parts/account/page.php:27
+#: template-parts/footer/bottom-nav.php:75
+msgid "unread"
+msgstr ""
+
+#: template-parts/account/chat.php:102
+msgid "No messages yet"
+msgstr ""
+
+#: template-parts/account/chat.php:103
+msgid "Use “Chat” on a listing to ask the seller a question. Replies show up here."
+msgstr ""
+
+#: template-parts/account/chat.php:130
+msgid "All conversations"
+msgstr ""
+
+#: template-parts/account/chat.php:153
+msgid "Remove this conversation from your list? It comes back if a new message arrives."
+msgstr ""
+
+#: template-parts/account/chat.php:166
+msgid "Remove conversation"
+msgstr ""
+
+#. translators: %s: seller name
+#: template-parts/account/chat.php:179
+#, php-format
+msgid "Ask %s about this listing. Keep payments and personal details off the chat until you trust the other side."
+msgstr ""
+
+#: template-parts/account/chat.php:198
+msgid "Your message"
+msgstr ""
+
+#: template-parts/account/chat.php:199
+msgid "Write a message…"
+msgstr ""
+
+#: template-parts/account/chat.php:204
+msgid "Send"
+msgstr ""
+
+#: template-parts/account/chat.php:217
+msgid "Choose a conversation."
+msgstr ""
+
+#: template-parts/account/listing-row.php:17
+msgid "Pending review"
+msgstr ""
+
+#: template-parts/account/listing-row.php:18
+msgid "Draft"
+msgstr ""
+
+#: template-parts/account/listing-row.php:51
+msgid "Delete this listing? An administrator can still restore it."
+msgstr ""
+
+#. translators: %s: listing title
+#: template-parts/account/listing-row.php:65
+#: template-parts/components/dash-row.php:106
+#, php-format
+msgid "Delete %s"
+msgstr ""
+
+#: template-parts/account/verification-card.php:19
+msgid "Verification in review"
+msgstr ""
+
+#: template-parts/account/verification-card.php:20
+msgid "We’ll check your document, usually within 48 hours."
+msgstr ""
+
+#: template-parts/account/verification-card.php:22
+msgid "Verification not approved"
+msgstr ""
+
+#: template-parts/account/verification-card.php:23
+msgid "You can upload another document."
+msgstr ""
+
+#: template-parts/account/verification-card.php:25
+msgid "Get your verified badge"
+msgstr ""
+
+#: template-parts/account/verification-card.php:26
+msgid "Upload an ID document — reviewed within 48 hours, then deleted."
+msgstr ""
+
+#: template-parts/account/verification.php:19
+msgid "Thanks — your document was sent. We’ll e-mail you when it’s reviewed."
+msgstr ""
+
+#: template-parts/account/verification.php:20
+msgid "Choose a file to upload."
+msgstr ""
+
+#: template-parts/account/verification.php:21
+msgid "The file is larger than 10 MB."
+msgstr ""
+
+#: template-parts/account/verification.php:22
+msgid "Upload a JPG, PNG, WebP or PDF file."
+msgstr ""
+
+#: template-parts/account/verification.php:23
+msgid "Please confirm that we may use the document to verify your account."
+msgstr ""
+
+#: template-parts/account/verification.php:24
+msgid "Your request is already being reviewed."
+msgstr ""
+
+#: template-parts/account/verification.php:25
+msgid "Only seller accounts can be verified."
+msgstr ""
+
+#: template-parts/account/verification.php:26
+msgid "The upload failed. Please try again."
+msgstr ""
+
+#: template-parts/account/verification.php:48
+msgid "Your listings show the Verified badge. We don’t keep your document."
+msgstr ""
+
+#: template-parts/account/verification.php:52
+msgid "In review"
+msgstr ""
+
+#. translators: %s: date
+#: template-parts/account/verification.php:56
+#, php-format
+msgid "Sent on %s. We usually reply within 48 hours."
+msgstr ""
+
+#: template-parts/account/verification.php:67
+msgid "The last document couldn’t be verified"
+msgstr ""
+
+#: template-parts/account/verification.php:68
+msgid "Please upload a clearer or different document."
+msgstr ""
+
+#: template-parts/account/verification.php:74
+msgid "Get the Verified badge"
+msgstr ""
+
+#: template-parts/account/verification.php:76
+msgid "Upload a photo or scan of an ID document in your name (passport, ID card or residence card)."
+msgstr ""
+
+#: template-parts/account/verification.php:77
+msgid "A person checks that it matches your account — usually within 48 hours."
+msgstr ""
+
+#: template-parts/account/verification.php:78
+msgid "Your listings show the Verified badge. The document is deleted right after the check."
+msgstr ""
+
+#: template-parts/account/verification.php:84
+msgid "ID document"
+msgstr ""
+
+#: template-parts/account/verification.php:86
+msgid "JPG, PNG, WebP or PDF, up to 10 MB. Cover any numbers you don’t want us to see — we only check that the name and photo match."
+msgstr ""
+
+#: template-parts/account/verification.php:90
+msgid "I agree that Torrehub uses this document only to verify my account and deletes it after the check."
+msgstr ""
+
+#: template-parts/account/verification.php:96
+msgid "Send for review"
+msgstr ""
+
+#: template-parts/alerts/unsubscribed.php:21
+msgid "This link doesn’t work any more"
+msgstr ""
+
+#: template-parts/alerts/unsubscribed.php:22
+msgid "The saved search may have been deleted. You can manage your saved searches in your account."
+msgstr ""
+
+#: template-parts/alerts/unsubscribed.php:24
+msgid "E-mails stopped"
+msgstr ""
+
+#. translators: %s: saved search name
+#: template-parts/alerts/unsubscribed.php:28
+#, php-format
+msgid "You won’t get e-mails for “%s” any more. The search stays saved."
+msgstr ""
+
+#: template-parts/alerts/unsubscribed.php:36
+msgid "Undo — keep sending them"
+msgstr ""
+
+#: template-parts/alerts/unsubscribed.php:44
+msgid "E-mails back on"
+msgstr ""
+
+#. translators: %s: saved search name
+#: template-parts/alerts/unsubscribed.php:48
+#, php-format
+msgid "We’ll e-mail you daily about new listings for “%s”."
+msgstr ""
+
+#: template-parts/alerts/unsubscribed.php:57
+msgid "Manage saved searches"
+msgstr ""
+
+#: template-parts/archive/discovery.php:48
+msgid "Map view"
+msgstr ""
+
+#. translators: %s: number of results
+#: template-parts/archive/discovery.php:52
+#, php-format
+msgid "See %s listing on the map"
+msgid_plural "See all %s on the map"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: number of towns
+#: template-parts/archive/discovery.php:58
+#, php-format
+msgid "Spread over %s town — see what’s closest to you."
+msgid_plural "Spread over %s towns — see what’s closest to you."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: radius in km
+#: template-parts/archive/empty.php:19
+#: template-parts/archive/end.php:21
+#, php-format
+msgid "Search within %s km"
+msgstr ""
+
+#: template-parts/archive/empty.php:33
+msgid "Browse all listings"
+msgstr ""
+
+#. translators: 1: town, 2: number of filters
+#: template-parts/archive/empty.php:43
+#, php-format
+msgid "Nothing in %1$s matches %2$s filter. Try a wider radius or drop it."
+msgid_plural "Nothing in %1$s matches all %2$s filters. Try a wider radius or drop a filter."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: town
+#: template-parts/archive/empty.php:46
+#, php-format
+msgid "Nothing in %s yet. Try a wider radius."
+msgstr ""
+
+#: template-parts/archive/empty.php:48
+msgid "Nothing matches these filters. Try removing one."
+msgstr ""
+
+#: template-parts/archive/empty.php:50
+msgid "No listings here yet — check back soon."
+msgstr ""
+
+#: template-parts/archive/end.php:18
+msgid "Widen the radius to see listings in nearby towns too."
+msgstr ""
+
+#: template-parts/archive/end.php:25
+msgid "Fewer filters will show more listings."
+msgstr ""
+
+#: template-parts/archive/end.php:27
+msgid "Clear filters"
+msgstr ""
+
+#: template-parts/archive/end.php:31
+msgid "New listings appear here as soon as they’re approved."
+msgstr ""
+
+#. translators: %s: number of active filters
+#: template-parts/archive/filter-bar.php:26
+#, php-format
+msgid "Filters · %s"
+msgstr ""
+
+#: template-parts/archive/filter-bar.php:35
+msgid "Active filters"
+msgstr ""
+
+#: template-parts/archive/filter-field.php:36
+#: template-parts/archive/filter-field.php:50
+msgid "Any"
+msgstr ""
+
+#. translators: %s: field label
+#: template-parts/archive/filter-field.php:67
+#, php-format
+msgid "%s, minimum"
+msgstr ""
+
+#. translators: %s: field label
+#: template-parts/archive/filter-field.php:75
+#, php-format
+msgid "%s, maximum"
+msgstr ""
+
+#. translators: %s: category name
+#: template-parts/archive/filter-sheet.php:42
+#: template-parts/listing/details.php:20
+#, php-format
+msgid "%s details"
+msgstr ""
+
+#: template-parts/archive/filter-sheet.php:66
+msgid "Close filters"
+msgstr ""
+
+#: template-parts/archive/filter-sheet.php:89
+msgid "All categories"
+msgstr ""
+
+#: template-parts/archive/filter-sheet.php:99
+msgid "Anywhere on the coast"
+msgstr ""
+
+#: template-parts/archive/filter-sheet.php:105
+msgid "Distance from the town"
+msgstr ""
+
+#: template-parts/archive/filter-sheet.php:108
+msgid "This town only"
+msgstr ""
+
+#. translators: %s: distance in km
+#: template-parts/archive/filter-sheet.php:111
+#, php-format
+msgid "%s km"
+msgstr ""
+
+#: template-parts/archive/filter-sheet.php:144
+msgid "Minimum price"
+msgstr ""
+
+#: template-parts/archive/filter-sheet.php:145
+#: template-parts/listing-form/field.php:268
+msgid "Maximum price"
+msgstr ""
+
+#: template-parts/archive/filter-sheet.php:168
+msgid "Pick a category to filter by its details (make, rooms, cuisine…)."
+msgstr ""
+
+#: template-parts/archive/head.php:53
+msgid "Sub-categories"
+msgstr ""
+
+#: template-parts/archive/map-view.php:49
+msgid "The map needs JavaScript. The results are listed below."
+msgstr ""
+
+#: template-parts/archive/map-view.php:77
+msgid "Pins show the town, not the exact address."
+msgstr ""
+
+#. translators: %s: number of listings
+#: template-parts/archive/map-view.php:80
+#, php-format
+msgid "%s pin shows only the town, not the exact address."
+msgid_plural "%s pins show only the town, not the exact address."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: number of listings
+#: template-parts/archive/map-view.php:85
+#, php-format
+msgid "%s listing has no location and isn’t on the map."
+msgid_plural "%s listings have no location and aren’t on the map."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: 1: shown, 2: total
+#: template-parts/archive/map-view.php:103
+#, php-format
+msgid "Showing the first %1$s of %2$s. Narrow the search to see the rest."
+msgstr ""
+
+#. translators: %s: listing title
+#: template-parts/archive/results.php:50
+#, php-format
+msgid "Contact: %s"
+msgstr ""
+
+#. translators: %s: number of further listings
+#: template-parts/archive/results.php:102
+#, php-format
+msgid "Load %s more"
+msgid_plural "Load %s more"
+msgstr[0] ""
+msgstr[1] ""
+
+#: template-parts/archive/results.php:115
+msgid "← Previous results"
+msgstr ""
+
+#: template-parts/archive/save-search.php:33
+#: template-parts/archive/save-search.php:41
+#: template-parts/archive/save-search.php:50
+msgid "Save this search"
+msgstr ""
+
+#: template-parts/archive/save-search.php:37
+msgid "Search saved"
+msgstr ""
+
+#: template-parts/archive/save-search.php:74
+msgid "Name"
+msgstr ""
+
+#: template-parts/archive/save-search.php:81
+msgid "E-mail me new listings"
+msgstr ""
+
+#. translators: %s: e-mail address
+#: template-parts/archive/save-search.php:91
+#, php-format
+msgid "We’ll write to %s. Every e-mail has a link to stop them."
+msgstr ""
+
+#: template-parts/archive/save-search.php:100
+msgid "Save search"
+msgstr ""
+
+#: template-parts/archive/save-search.php:116
+msgid "Saved. We’ll e-mail you new matches."
+msgstr ""
+
+#. translators: %d: maximum number of saved searches
+#: template-parts/archive/save-search.php:118
+#, php-format
+msgid "You can save up to %d searches. Delete one in your account first."
+msgstr ""
+
+#: template-parts/archive/toolbar.php:20
+msgid "Price: low to high"
+msgstr ""
+
+#: template-parts/archive/toolbar.php:21
+msgid "Price: high to low"
+msgstr ""
+
+#: template-parts/archive/toolbar.php:22
+msgid "Most viewed"
+msgstr ""
+
+#: template-parts/archive/toolbar.php:25
+msgid "Nearest"
+msgstr ""
+
+#. translators: 1: number of results (wrapped in <strong>), 2: town
+#: template-parts/archive/toolbar.php:45
+#, php-format
+msgid "%1$s result near %2$s"
+msgid_plural "%1$s results near %2$s"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: number of results (wrapped in <strong>)
+#: template-parts/archive/toolbar.php:52
+#, php-format
+msgid "%s result"
+msgid_plural "%s results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: template-parts/archive/toolbar.php:70
+msgid "Sort"
+msgstr ""
+
+#: template-parts/archive/toolbar.php:74
+msgid "Result view"
+msgstr ""
+
+#: template-parts/auth/login.php:32
+msgid "If that address belongs to an unconfirmed account, we’ve sent a new confirmation link."
+msgstr ""
+
+#: template-parts/auth/login.php:33
+msgid "Your password was changed. Log in with the new one."
+msgstr ""
+
+#: template-parts/auth/login.php:51
+msgid "Welcome back"
+msgstr ""
+
+#: template-parts/auth/login.php:52
+msgid "Use the e-mail or username you registered with."
+msgstr ""
+
+#: template-parts/auth/login.php:63
+msgid "Log in to contact this seller."
+msgstr ""
+
+#: template-parts/auth/login.php:85
+#: template-parts/auth/login.php:86
+#: template-parts/auth/lost.php:136
+msgid "E-mail or username"
+msgstr ""
+
+#: template-parts/auth/login.php:90
+#: template-parts/components/field.php:170
+#: template-parts/components/field.php:171
+msgid "Show password"
+msgstr ""
+
+#: template-parts/auth/login.php:90
+#: template-parts/components/field.php:172
+msgid "Hide password"
+msgstr ""
+
+#: template-parts/auth/login.php:94
+#: template-parts/auth/lost.php:114
+msgid "Forgot your password?"
+msgstr ""
+
+#: template-parts/auth/login.php:114
+msgid "Your e-mail is confirmed. An administrator is reviewing your account — usually within 48 hours. We’ll e-mail you when it’s approved."
+msgstr ""
+
+#: template-parts/auth/login.php:119
+msgid "Browse listings meanwhile"
+msgstr ""
+
+#: template-parts/auth/login.php:129
+msgid "Confirm your e-mail first"
+msgstr ""
+
+#: template-parts/auth/login.php:130
+msgid "We sent you a confirmation link when you registered. Didn’t get it? Check your spam folder or send it again."
+msgstr ""
+
+#: template-parts/auth/login.php:135
+#: template-parts/auth/register.php:130
+msgid "Your e-mail address"
+msgstr ""
+
+#: template-parts/auth/login.php:140
+msgid "Send the link again"
+msgstr ""
+
+#: template-parts/auth/login.php:154
+msgid "This account wasn’t approved"
+msgstr ""
+
+#: template-parts/auth/login.php:155
+msgid "Check the e-mail we sent you for details, or reply to it if you think this is a mistake."
+msgstr ""
+
+#: template-parts/auth/login.php:162
+msgid "No account yet?"
+msgstr ""
+
+#: template-parts/auth/login.php:163
+msgid "Free to register. Members save and message; sellers post listings."
+msgstr ""
+
+#: template-parts/auth/login.php:168
+msgid "Create a free account"
+msgstr ""
+
+#: template-parts/auth/lost.php:36
+msgid "This link is invalid or has expired"
+msgstr ""
+
+#: template-parts/auth/lost.php:37
+msgid "Reset links work once and for 24 hours. Ask for a new one."
+msgstr ""
+
+#: template-parts/auth/lost.php:40
+msgid "Get a new link"
+msgstr ""
+
+#: template-parts/auth/lost.php:70
+msgid "New password"
+msgstr ""
+
+#: template-parts/auth/lost.php:76
+#: template-parts/auth/register.php:342
+msgid "At least 10 characters."
+msgstr ""
+
+#: template-parts/auth/lost.php:84
+msgid "Confirm new password"
+msgstr ""
+
+#: template-parts/auth/lost.php:94
+msgid "Save new password"
+msgstr ""
+
+#: template-parts/auth/lost.php:108
+#: template-parts/auth/register.php:66
+msgid "Check your inbox"
+msgstr ""
+
+#: template-parts/auth/lost.php:109
+msgid "If an active account matches what you entered, we’ve e-mailed a link to choose a new password. It works for 24 hours."
+msgstr ""
+
+#: template-parts/auth/lost.php:110
+#: template-parts/auth/lost.php:154
+msgid "Back to log in"
+msgstr ""
+
+#: template-parts/auth/lost.php:115
+msgid "Enter your e-mail address or username and we’ll send you a link to choose a new one."
+msgstr ""
+
+#: template-parts/auth/lost.php:145
+msgid "Send reset link"
+msgstr ""
+
+#: template-parts/auth/register.php:35
+msgid "Browse, save, message and review. No listings."
+msgstr ""
+
+#: template-parts/auth/register.php:36
+msgid "Favourites & alerts"
+msgstr ""
+
+#: template-parts/auth/register.php:36
+msgid "Chat with sellers"
+msgstr ""
+
+#: template-parts/auth/register.php:37
+#: template-parts/auth/register.php:44
+msgid "Post listings"
+msgstr ""
+
+#: template-parts/auth/register.php:38
+#: template-parts/auth/register.php:46
+msgid "No document required"
+msgstr ""
+
+#: template-parts/auth/register.php:43
+msgid "Sell your own car, flat or items as an individual."
+msgstr ""
+
+#: template-parts/auth/register.php:44
+msgid "Everything a Member has"
+msgstr ""
+
+#: template-parts/auth/register.php:44
+msgid "Verified badge (optional ID check)"
+msgstr ""
+
+#: template-parts/auth/register.php:51
+msgid "Companies, agencies and tradespeople."
+msgstr ""
+
+#: template-parts/auth/register.php:52
+msgid "Everything a Seller has"
+msgstr ""
+
+#: template-parts/auth/register.php:52
+msgid "Business hours & logo"
+msgstr ""
+
+#: template-parts/auth/register.php:52
+msgid "Company profile fields"
+msgstr ""
+
+#: template-parts/auth/register.php:54
+msgid "NIF number required"
+msgstr ""
+
+#. translators: %s: e-mail address
+#: template-parts/auth/register.php:70
+#, php-format
+msgid "We sent a confirmation link to %s. Open it to confirm your e-mail address — the link is valid for 48 hours."
+msgstr ""
+
+#: template-parts/auth/register.php:73
+msgid "After that, a person reviews your account, usually within 48 hours."
+msgstr ""
+
+#: template-parts/auth/register.php:78
+msgid "E-mail confirmed — awaiting approval"
+msgstr ""
+
+#: template-parts/auth/register.php:79
+msgid "Thanks! An administrator is reviewing your account, usually within 48 hours. We’ll e-mail you as soon as it’s approved. You can browse listings meanwhile."
+msgstr ""
+
+#: template-parts/auth/register.php:84
+msgid "Browse listings while you wait"
+msgstr ""
+
+#: template-parts/auth/register.php:98
+msgid "Already confirmed"
+msgstr ""
+
+#: template-parts/auth/register.php:99
+msgid "This e-mail address is already confirmed. If your account is approved, you can log in."
+msgstr ""
+
+#: template-parts/auth/register.php:115
+msgid "This link has expired"
+msgstr ""
+
+#: template-parts/auth/register.php:115
+msgid "This link isn’t valid"
+msgstr ""
+
+#: template-parts/auth/register.php:116
+msgid "Ask for a new confirmation link below."
+msgstr ""
+
+#: template-parts/auth/register.php:124
+msgid "No e-mail?"
+msgstr ""
+
+#: template-parts/auth/register.php:125
+msgid "Check your spam folder, or send the link again."
+msgstr ""
+
+#: template-parts/auth/register.php:135
+msgid "Send again"
+msgstr ""
+
+#: template-parts/auth/register.php:154
+msgid "Step 1 of 2"
+msgstr ""
+
+#: template-parts/auth/register.php:155
+msgid "Join the hub"
+msgstr ""
+
+#: template-parts/auth/register.php:156
+msgid "Free for everyone. Every account is checked by a person before it goes live."
+msgstr ""
+
+#: template-parts/auth/register.php:158
+msgid "What will you use Torrehub for?"
+msgstr ""
+
+#: template-parts/auth/register.php:171
+msgid "(not included)"
+msgstr ""
+
+#: template-parts/auth/register.php:182
+msgid "Continue"
+msgstr ""
+
+#. translators: %s: account type
+#: template-parts/auth/register.php:218
+#, php-format
+msgid "Step 2 of 2 · %s"
+msgstr ""
+
+#: template-parts/auth/register.php:220
+#: template-parts/header/drawer.php:62
+#: template-parts/listing-form/workspace.php:46
+msgid "Change"
+msgstr ""
+
+#: template-parts/auth/register.php:222
+msgid "Your details"
+msgstr ""
+
+#. translators: %d: number of fields with errors
+#: template-parts/auth/register.php:241
+#, php-format
+msgid "Please fix %d field below."
+msgid_plural "Please fix the %d fields below."
+msgstr[0] ""
+msgstr[1] ""
+
+#: template-parts/auth/register.php:257
+msgid "First name"
+msgstr ""
+
+#: template-parts/auth/register.php:265
+msgid "Last name"
+msgstr ""
+
+#: template-parts/auth/register.php:279
+msgid "Business name"
+msgstr ""
+
+#: template-parts/auth/register.php:282
+msgid "Shown on your listings instead of your name."
+msgstr ""
+
+#: template-parts/auth/register.php:291
+msgid "CIF (B12345674), DNI (12345678Z) or NIE-form NIF (X1234567L)."
+msgstr ""
+
+#: template-parts/auth/register.php:311
+msgid "Letters, numbers, dot, dash or underscore."
+msgstr ""
+
+#: template-parts/auth/register.php:325
+msgid "We send a confirmation link here before your account is reviewed."
+msgstr ""
+
+#: template-parts/auth/register.php:349
+msgid "Confirm password"
+msgstr ""
+
+#. translators: 1: Terms link, 2: Privacy link
+#: template-parts/auth/register.php:366
+#, php-format
+msgid "I accept the %1$s and the %2$s."
+msgstr ""
+
+#: template-parts/auth/register.php:383
+msgid "Create my account"
+msgstr ""
+
+#: template-parts/auth/register.php:390
+msgid "Under a minute · reviewed within 48 hours"
+msgstr ""
+
+#: template-parts/auth/register.php:398
+msgid "Confirm your e-mail"
+msgstr ""
+
+#: template-parts/auth/register.php:399
+msgid "Manual approval, usually within 48 hours. It keeps the platform clean."
+msgstr ""
+
+#: template-parts/auth/register.php:401
+msgid "Save, review and message"
+msgstr ""
+
+#: template-parts/auth/register.php:401
+msgid "Contact sellers directly."
+msgstr ""
+
+#: template-parts/auth/register.php:403
+msgid "Free — no commission, no subscription."
+msgstr ""
+
+#: template-parts/auth/register.php:409
+msgid "Why we ask for a NIF"
+msgstr ""
+
+#: template-parts/auth/register.php:410
+msgid "A Spanish tax id lets us check that a business is real. It’s only seen by our team and never shown on your listings."
+msgstr ""
+
+#: template-parts/components/breadcrumb.php:18
+msgid "Breadcrumb"
+msgstr ""
+
+#: template-parts/components/chip.php:73
+msgid "Remove filter:"
+msgstr ""
+
+#. translators: %s: number of views
+#: template-parts/components/dash-row.php:73
+#: template-parts/listing/header.php:75
+#, php-format
+msgid "%s view"
+msgid_plural "%s views"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: listing title
+#: template-parts/components/dash-row.php:91
+#, php-format
+msgid "Edit %s"
+msgstr ""
+
+#: template-parts/components/end-of-results.php:30
+msgid "That's the only one"
+msgstr ""
+
+#. translators: %s: number of results
+#: template-parts/components/end-of-results.php:33
+#, php-format
+msgid "That's all %s"
+msgid_plural "That's all %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: template-parts/components/field.php:110
+msgid "(optional)"
+msgstr ""
+
+#: template-parts/components/field.php:162
+msgid "Valid"
+msgstr ""
+
+#: template-parts/components/field.php:180
+msgid "Weak"
+msgstr ""
+
+#: template-parts/components/field.php:180
+msgid "Strong"
+msgstr ""
+
+#. translators: 1: characters typed, 2: maximum
+#: template-parts/components/field.php:194
+#: template-parts/listing-form/field.php:126
+#, php-format
+msgid "%1$s / %2$s characters"
+msgstr ""
+
+#. translators: %s: number of photos
+#: template-parts/components/listing-card.php:112
+#, php-format
+msgid "%s photo"
+msgid_plural "%s photos"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: listing title
+#: template-parts/components/listing-card.php:128
+#, php-format
+msgid "Save %s"
+msgstr ""
+
+#. translators: %s: average rating, e.g. 4.9
+#: template-parts/components/rating.php:34
+#, php-format
+msgid "Rated %s out of 5"
+msgstr ""
+
+#. translators: %s: number of reviews
+#: template-parts/components/rating.php:46
+#, php-format
+msgid "(%s review)"
+msgid_plural "(%s reviews)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: template-parts/components/section-head.php:53
+msgid "See all"
+msgstr ""
+
+#. translators: %s: number of listings
+#: template-parts/components/town-card.php:50
+#: template-parts/guides/single.php:95
+#: template-parts/header/location-dialog.php:57
+#: template-parts/home/explore.php:47
+#, php-format
+msgid "%s listing"
+msgid_plural "%s listings"
+msgstr[0] ""
+msgstr[1] ""
+
+#: template-parts/consent/bar.php:26
+msgid "Keeps you logged in (only after logging in)."
+msgstr ""
+
+#: template-parts/consent/bar.php:27
+msgid "Keeps the listing form and account pages working."
+msgstr ""
+
+#: template-parts/consent/bar.php:28
+msgid "The town you picked (1 year)."
+msgstr ""
+
+#: template-parts/consent/bar.php:29
+msgid "The language you picked, when you use the language switcher."
+msgstr ""
+
+#: template-parts/consent/bar.php:30
+msgid "This choice (1 year)."
+msgstr ""
+
+#: template-parts/consent/bar.php:34
+msgid "Cookies"
+msgstr ""
+
+#: template-parts/consent/bar.php:42
+msgid "Settings"
+msgstr ""
+
+#: template-parts/consent/bar.php:43
+#: template-parts/consent/bar.php:90
+msgid "Reject optional"
+msgstr ""
+
+#: template-parts/consent/bar.php:44
+#: template-parts/consent/bar.php:92
+msgid "Accept all"
+msgstr ""
+
+#: template-parts/consent/bar.php:55
+msgid "Choose which optional cookies and third-party content we may use. You can change this at any time from the “Cookie settings” link at the bottom of every page."
+msgstr ""
+
+#: template-parts/consent/bar.php:60
+msgid "Always on"
+msgstr ""
+
+#: template-parts/consent/bar.php:71
+msgid "Not in use at the moment"
+msgstr ""
+
+#: template-parts/consent/bar.php:80
+msgid "Cookies this site always uses"
+msgstr ""
+
+#: template-parts/consent/bar.php:86
+msgid "Maps are drawn from OpenStreetMap (no cookies). Translations use Google Translate only after you pick a language."
+msgstr ""
+
+#: template-parts/consent/bar.php:91
+msgid "Save choices"
+msgstr ""
+
+#: template-parts/footer/bottom-nav.php:21
+#: template-parts/header/search.php:47
+#: template-parts/header/search.php:49
+msgid "Search"
+msgstr ""
+
+#: template-parts/footer/bottom-nav.php:27
+msgid "Post"
+msgstr ""
+
+#: template-parts/footer/bottom-nav.php:65
+msgid "Quick navigation"
+msgstr ""
+
+#: template-parts/footer/footer.php:30
+msgid "Register"
+msgstr ""
+
+#: template-parts/footer/footer.php:49
+msgid "FAQ"
+msgstr ""
+
+#: template-parts/footer/footer.php:59
+msgid "Browse"
+msgstr ""
+
+#: template-parts/footer/footer.php:60
+msgid "Discover"
+msgstr ""
+
+#: template-parts/footer/footer.php:116
+msgid "Costa Blanca, Spain"
+msgstr ""
+
+#. translators: %d: minutes
+#: template-parts/guides/card.php:22
+#: template-parts/guides/single.php:40
+#, php-format
+msgid "%d min read"
+msgid_plural "%d min read"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: minutes
+#: template-parts/guides/card.php:24
+#, php-format
+msgid "%d min"
+msgid_plural "%d min"
+msgstr[0] ""
+msgstr[1] ""
+
+#: template-parts/guides/index.php:32
+msgid "Torrehub guides"
+msgstr ""
+
+#. translators: %s: number of guides
+#: template-parts/guides/index.php:40
+#, php-format
+msgid "%s guide"
+msgid_plural "%s guides"
+msgstr[0] ""
+msgstr[1] ""
+
+#: template-parts/guides/index.php:46
+msgid "Guide topics"
+msgstr ""
+
+#: template-parts/guides/index.php:60
+msgid "No guides here yet"
+msgstr ""
+
+#: template-parts/guides/index.php:61
+msgid "New guides are added every week. Have a look at the other topics meanwhile."
+msgstr ""
+
+#: template-parts/guides/index.php:122
+msgid "Load more guides"
+msgstr ""
+
+#: template-parts/guides/index.php:125
+msgid "Back to the newest"
+msgstr ""
+
+#: template-parts/guides/single.php:45
+msgid "Link copied"
+msgstr ""
+
+#: template-parts/guides/single.php:79
+msgid "Mentioned in this guide"
+msgstr ""
+
+#: template-parts/guides/single.php:96
+msgid "See the category"
+msgstr ""
+
+#: template-parts/guides/single.php:113
+msgid "In this guide"
+msgstr ""
+
+#: template-parts/guides/single.php:129
+msgid "Need help with this?"
+msgstr ""
+
+#. translators: %s: listing category, e.g. "Gestoría & Tax Advisors"
+#: template-parts/guides/single.php:133
+#, php-format
+msgid "Find %s near you"
+msgstr ""
+
+#. translators: %s: number of listings
+#: template-parts/guides/single.php:140
+#, php-format
+msgid "%s listing on Torrehub."
+msgid_plural "%s listings on Torrehub."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: category name
+#: template-parts/guides/single.php:149
+#: template-parts/header/mega-panel.php:125
+#, php-format
+msgid "Browse %s"
+msgstr ""
+
+#: template-parts/header/drawer.php:28
+msgid "Close menu"
+msgstr ""
+
+#: template-parts/header/drawer.php:66
+#: template-parts/header/location-dialog.php:38
+msgid "Use my current location"
+msgstr ""
+
+#. translators: %s: number of towns
+#: template-parts/header/drawer.php:78
+#: template-parts/home/towns.php:26
+#, php-format
+msgid "All %s towns"
+msgstr ""
+
+#: template-parts/header/drawer.php:114
+#: template-parts/header/language-switcher.php:44
+msgid "Language"
+msgstr ""
+
+#: template-parts/header/language-switcher.php:33
+msgid "Language:"
+msgstr ""
+
+#: template-parts/header/location-dialog.php:20
+msgid "Choose your town"
+msgstr ""
+
+#: template-parts/header/location-dialog.php:43
+msgid "Find a town"
+msgstr ""
+
+#: template-parts/header/location-dialog.php:45
+msgid "e.g. Altea"
+msgstr ""
+
+#: template-parts/header/location-dialog.php:64
+msgid "No town matches that name."
+msgstr ""
+
+#. translators: 1: number of root categories, 2: number of all categories
+#: template-parts/header/mega-panel.php:28
+#, php-format
+msgid "%1$s roots → %2$s"
+msgstr ""
+
+#: template-parts/header/mega-panel.php:63
+msgid "More"
+msgstr ""
+
+#: template-parts/header/mega-panel.php:100
+#: template-parts/header/mega-panel.php:107
+msgid "Popular"
+msgstr ""
+
+#. translators: %s: town name
+#: template-parts/header/mega-panel.php:106
+#, php-format
+msgid "Popular near %s"
+msgstr ""
+
+#. translators: 1: number of listings, 2: category name
+#: template-parts/header/mega-panel.php:123
+#, php-format
+msgid "All %1$s in %2$s"
+msgstr ""
+
+#: template-parts/header/search.php:21
+msgid "Search Torrehub"
+msgstr ""
+
+#: template-parts/header/search.php:32
+msgid "Search listings"
+msgstr ""
+
+#: template-parts/home/explore.php:24
+msgid "Explore the hub"
+msgstr ""
+
+#. translators: %s: number of categories
+#: template-parts/home/explore.php:28
+#, php-format
+msgid "All %s categories"
+msgstr ""
+
+#. translators: 1: listings, 2: sub-categories
+#: template-parts/home/explore.php:45
+#, php-format
+msgid "%1$s · %2$s"
+msgstr ""
+
+#. translators: %s: number of sub-categories
+#: template-parts/home/explore.php:49
+#: template-parts/listing-form/choose.php:46
+#, php-format
+msgid "%s category"
+msgid_plural "%s categories"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: number of root categories
+#: template-parts/home/explore.php:61
+#, php-format
+msgid "Show all %s"
+msgstr ""
+
+#. translators: %s: number of towns
+#: template-parts/home/hero.php:18
+#, php-format
+msgid "Costa Blanca · %s towns"
+msgstr ""
+
+#: template-parts/home/hero.php:30
+msgid "Try “plumber” or “long-term rental”"
+msgstr ""
+
+#. translators: %s: town name
+#: template-parts/home/new.php:61
+#, php-format
+msgid "%s & nearby"
+msgstr ""
+
+#: template-parts/home/new.php:63
+msgid "Costa Blanca"
+msgstr ""
+
+#: template-parts/home/stats.php:16
+msgid "Torrehub in numbers"
+msgstr ""
+
+#: template-parts/home/towns.php:22
+msgid "Towns worth exploring"
+msgstr ""
+
+#: template-parts/home/weekend.php:22
+msgid "the Costa Blanca"
+msgstr ""
+
+#. translators: 1: number of events, 2: town name
+#: template-parts/home/weekend.php:30
+#, php-format
+msgid "%1$s event near %2$s"
+msgid_plural "%1$s events near %2$s"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: town name
+#: template-parts/home/weekend.php:33
+#, php-format
+msgid "What’s on near %s"
+msgstr ""
+
+#: template-parts/home/weekend.php:37
+msgid "See what’s on"
+msgstr ""
+
+#: template-parts/home/why.php:17
+msgid "Why Torrehub"
+msgstr ""
+
+#: template-parts/listing-form/blocked.php:17
+msgid "No free listings left for now"
+msgstr ""
+
+#: template-parts/listing-form/blocked.php:23
+#: template-parts/listing-form/submitted.php:37
+msgid "View my listings"
+msgstr ""
+
+#: template-parts/listing-form/choose.php:25
+msgid "What are you listing?"
+msgstr ""
+
+#: template-parts/listing-form/choose.php:26
+msgid "Pick a category — the form only asks what matters for it. Every listing is checked by a person before it goes live."
+msgstr ""
+
+#: template-parts/listing-form/choose.php:73
+msgid "Which kind?"
+msgstr ""
+
+#: template-parts/listing-form/choose.php:89
+msgid "Listings:"
+msgstr ""
+
+#. translators: 1: form name, 2: number of fields
+#: template-parts/listing-form/choose.php:108
+#, php-format
+msgid "%1$s form · %2$s fields — you’ll only see the ones that apply"
+msgstr ""
+
+#. translators: 1: form name, 2: number of fields
+#: template-parts/listing-form/choose.php:110
+#, php-format
+msgid "%1$s form · %2$s fields"
+msgstr ""
+
+#: template-parts/listing-form/denied.php:18
+msgid "Posting listings requires a Private Seller or Business Seller account. Yours is a Member account, which can browse, save and chat."
+msgstr ""
+
+#: template-parts/listing-form/denied.php:20
+msgid "This listing can’t be edited here"
+msgstr ""
+
+#: template-parts/listing-form/denied.php:21
+msgid "Its form no longer exists. Contact us and we’ll update it for you."
+msgstr ""
+
+#: template-parts/listing-form/denied.php:23
+msgid "You can’t edit this listing"
+msgstr ""
+
+#: template-parts/listing-form/denied.php:24
+msgid "It belongs to another account."
+msgstr ""
+
+#: template-parts/listing-form/drafts.php:26
+msgid "Draft deleted."
+msgstr ""
+
+#: template-parts/listing-form/drafts.php:34
+msgid "Continue a draft"
+msgstr ""
+
+#. translators: %s: human time difference, e.g. "2 hours"
+#: template-parts/listing-form/drafts.php:49
+#, php-format
+msgid "saved %s ago"
+msgstr ""
+
+#: template-parts/listing-form/drafts.php:57
+msgid "Delete this draft and its photos?"
+msgstr ""
+
+#. translators: %s: draft title
+#: template-parts/listing-form/drafts.php:72
+#, php-format
+msgid "Delete draft %s"
+msgstr ""
+
+#: template-parts/listing-form/field.php:38
+msgid "With the country code, e.g. +34 600 000 000."
+msgstr ""
+
+#: template-parts/listing-form/field.php:203
+msgid "From"
+msgstr ""
+
+#: template-parts/listing-form/field.php:206
+msgid "To"
+msgstr ""
+
+#: template-parts/listing-form/field.php:231
+msgid "Fixed price"
+msgstr ""
+
+#: template-parts/listing-form/field.php:232
+msgid "Price range"
+msgstr ""
+
+#: template-parts/listing-form/field.php:233
+msgid "No price"
+msgstr ""
+
+#: template-parts/listing-form/field.php:239
+msgid "Pricing type"
+msgstr ""
+
+#: template-parts/listing-form/field.php:248
+msgid "Price type"
+msgstr ""
+
+#: template-parts/listing-form/field.php:277
+msgid "Price unit"
+msgstr ""
+
+#: template-parts/listing-form/field.php:297
+msgid "Town"
+msgstr ""
+
+#: template-parts/listing-form/field.php:302
+msgid "Choose a town…"
+msgstr ""
+
+#: template-parts/listing-form/field.php:318
+msgid "Exact location"
+msgstr ""
+
+#: template-parts/listing-form/field.php:319
+msgid "Click the map where the listing is, then drag the pin to fine-tune. With the keyboard: move the map with the arrow keys and use “Pin at map centre”. Radius search and “Nearest” use this point."
+msgstr ""
+
+#: template-parts/listing-form/field.php:324
+msgid "Pin at map centre"
+msgstr ""
+
+#: template-parts/listing-form/field.php:325
+msgid "Use my location"
+msgstr ""
+
+#: template-parts/listing-form/field.php:326
+msgid "Remove pin"
+msgstr ""
+
+#: template-parts/listing-form/field.php:332
+msgid "Don’t show the map on my listing (search still uses the pin)"
+msgstr ""
+
+#: template-parts/listing-form/field.php:345
+#: template-parts/listing/gallery.php:19
+msgid "Photos"
+msgstr ""
+
+#. translators: 1: maximum photos, 2: file types, 3: size limit in MB
+#: template-parts/listing-form/field.php:350
+#, php-format
+msgid "of %1$s · %2$s · max %3$s MB each"
+msgstr ""
+
+#: template-parts/listing-form/field.php:367
+msgid "Add photos"
+msgstr ""
+
+#: template-parts/listing-form/field.php:368
+msgid "or drop them here"
+msgstr ""
+
+#: template-parts/listing-form/field.php:407
+msgid "Choose file"
+msgstr ""
+
+#. translators: 1: file types, 2: size limit in MB
+#: template-parts/listing-form/field.php:412
+#, php-format
+msgid "%1$s · max %2$s MB"
+msgstr ""
+
+#. translators: %d: video number
+#: template-parts/listing-form/field.php:446
+#, php-format
+msgid "Video link %d"
+msgstr ""
+
+#: template-parts/listing-form/field.php:451
+msgid "YouTube or Vimeo links."
+msgstr ""
+
+#: template-parts/listing-form/field.php:464
+msgid "Show opening hours"
+msgstr ""
+
+#: template-parts/listing-form/field.php:467
+msgid "Set hours"
+msgstr ""
+
+#: template-parts/listing-form/field.php:468
+msgid "Open 24/7"
+msgstr ""
+
+#: template-parts/listing-form/field.php:471
+msgid "Day"
+msgstr ""
+
+#: template-parts/listing-form/field.php:471
+msgid "Opens"
+msgstr ""
+
+#: template-parts/listing-form/field.php:471
+msgid "Closes"
+msgstr ""
+
+#. translators: %s: day
+#: template-parts/listing-form/field.php:489
+#, php-format
+msgid "%s opens"
+msgstr ""
+
+#. translators: %s: day
+#: template-parts/listing-form/field.php:490
+#, php-format
+msgid "%s closes"
+msgstr ""
+
+#. translators: %s: day
+#: template-parts/listing-form/field.php:496
+#, php-format
+msgid "%s opens again"
+msgstr ""
+
+#. translators: %s: day
+#: template-parts/listing-form/field.php:497
+#, php-format
+msgid "%s closes again"
+msgstr ""
+
+#: template-parts/listing-form/field.php:537
+msgid "Remove this row"
+msgstr ""
+
+#: template-parts/listing-form/field.php:552
+msgid "Add another"
+msgstr ""
+
+#: template-parts/listing-form/field.php:562
+msgid "I accept the Terms & Conditions."
+msgstr ""
+
+#: template-parts/listing-form/submitted.php:19
+msgid "Changes saved"
+msgstr ""
+
+#: template-parts/listing-form/submitted.php:19
+msgid "Your listing is live"
+msgstr ""
+
+#: template-parts/listing-form/submitted.php:20
+msgid "Anyone can find it now."
+msgstr ""
+
+#: template-parts/listing-form/submitted.php:22
+msgid "Changes submitted"
+msgstr ""
+
+#: template-parts/listing-form/submitted.php:22
+msgid "Listing submitted"
+msgstr ""
+
+#: template-parts/listing-form/submitted.php:23
+msgid "An administrator will review it, usually within 48 hours. You’ll get an e-mail when it goes live."
+msgstr ""
+
+#: template-parts/listing-form/submitted.php:37
+msgid "View listing"
+msgstr ""
+
+#: template-parts/listing-form/submitted.php:47
+msgid "Add another listing"
+msgstr ""
+
+#: template-parts/listing-form/workspace.php:31
+msgid "Listing overview"
+msgstr ""
+
+#: template-parts/listing-form/workspace.php:52
+msgid "Sections"
+msgstr ""
+
+#: template-parts/listing-form/workspace.php:77
+msgid "Live preview"
+msgstr ""
+
+#: template-parts/listing-form/workspace.php:96
+msgid "JavaScript is needed to post a listing"
+msgstr ""
+
+#: template-parts/listing-form/workspace.php:97
+msgid "Photos, the map pin and saving all need it. Turn JavaScript on and reload the page."
+msgstr ""
+
+#: template-parts/listing-form/workspace.php:109
+msgid "Your listing is live. When you save changes, it goes back for a quick review before the new version shows."
+msgstr ""
+
+#: template-parts/listing-form/workspace.php:139
+msgid "Back"
+msgstr ""
+
+#: template-parts/listing-form/workspace.php:140
+msgid "Preview listing"
+msgstr ""
+
+#: template-parts/listing/about.php:19
+msgid "About this listing"
+msgstr ""
+
+#: template-parts/listing/contact-bar.php:22
+msgid "Call"
+msgstr ""
+
+#: template-parts/listing/contact-bar.php:71
+#: template-parts/listing/contact.php:55
+msgid "Log in to see the phone number"
+msgstr ""
+
+#: template-parts/listing/contact-bar.php:84
+msgid "Message on WhatsApp"
+msgstr ""
+
+#: template-parts/listing/contact-bar.php:91
+msgid "Send an e-mail"
+msgstr ""
+
+#: template-parts/listing/contact-bar.php:94
+msgid "Chat and e-mail require an account. Phone and WhatsApp are open to everyone."
+msgstr ""
+
+#: template-parts/listing/contact-bar.php:95
+msgid "Log in or register free"
+msgstr ""
+
+#: template-parts/listing/contact.php:36
+msgid "Contact the seller"
+msgstr ""
+
+#: template-parts/listing/contact.php:148
+msgid "E-mail enquiry"
+msgstr ""
+
+#: template-parts/listing/contact.php:151
+msgid "Chat and e-mail need an account."
+msgstr ""
+
+#. translators: 1: user name, 2: e-mail
+#: template-parts/listing/contact.php:162
+#, php-format
+msgid "From %1$s · %2$s"
+msgstr ""
+
+#: template-parts/listing/contact.php:165
+#: template-parts/listing/contact.php:166
+msgid "Your phone (optional)"
+msgstr ""
+
+#: template-parts/listing/contact.php:168
+msgid "Hi, I’m interested in…"
+msgstr ""
+
+#: template-parts/listing/details.php:74
+msgid "Website"
+msgstr ""
+
+#: template-parts/listing/details.php:100
+msgid "Play video"
+msgstr ""
+
+#: template-parts/listing/details.php:101
+msgid "Loads from YouTube"
+msgstr ""
+
+#: template-parts/listing/details.php:104
+msgid "Watch the video"
+msgstr ""
+
+#: template-parts/listing/features.php:18
+msgid "Amenities & features"
+msgstr ""
+
+#. translators: 1: photo number, 2: total, 3: listing title
+#: template-parts/listing/gallery.php:29
+#, php-format
+msgid "Photo %1$s of %2$s: %3$s"
+msgstr ""
+
+#. translators: %s: number of further photos
+#: template-parts/listing/gallery.php:52
+#, php-format
+msgid "+%s photo"
+msgid_plural "+%s photos"
+msgstr[0] ""
+msgstr[1] ""
+
+#: template-parts/listing/gallery.php:67
+msgid "Photo viewer"
+msgstr ""
+
+#: template-parts/listing/gallery.php:74
+msgid "Previous photo"
+msgstr ""
+
+#: template-parts/listing/gallery.php:75
+msgid "Next photo"
+msgstr ""
+
+#. translators: %s: number of reviews
+#: template-parts/listing/header.php:62
+#: template-parts/listing/reviews.php:104
+#, php-format
+msgid "%s review"
+msgid_plural "%s reviews"
+msgstr[0] ""
+msgstr[1] ""
+
+#: template-parts/listing/header.php:99
+msgid "Reported"
+msgstr ""
+
+#: template-parts/listing/notices.php:22
+msgid "The seller can’t be contacted through it any more."
+msgstr ""
+
+#. translators: %s: category name
+#: template-parts/listing/notices.php:29
+#, php-format
+msgid "See similar in %s"
+msgstr ""
+
+#: template-parts/listing/notices.php:41
+msgid "An administrator is reviewing it, usually within 48 hours. You can still edit it."
+msgstr ""
+
+#: template-parts/listing/notices.php:72
+msgid "Thanks — your review is published."
+msgstr ""
+
+#: template-parts/listing/notices.php:73
+msgid "Thanks — your review will appear after a quick check."
+msgstr ""
+
+#: template-parts/listing/notices.php:74
+msgid "You have already reviewed this listing."
+msgstr ""
+
+#: template-parts/listing/notices.php:75
+msgid "You can’t review your own listing."
+msgstr ""
+
+#: template-parts/listing/notices.php:76
+msgid "Choose a star rating."
+msgstr ""
+
+#: template-parts/listing/notices.php:77
+msgid "Write at least 20 characters (and a title of up to 100)."
+msgstr ""
+
+#: template-parts/listing/notices.php:79
+msgid "Your review couldn’t be saved. Please try again."
+msgstr ""
+
+#: template-parts/listing/place.php:30
+msgid "The map needs JavaScript."
+msgstr ""
+
+#: template-parts/listing/place.php:37
+msgid "Approximate location: the town, not the exact address."
+msgstr ""
+
+#: template-parts/listing/place.php:39
+msgid "Open in Google Maps"
+msgstr ""
+
+#: template-parts/listing/place.php:57
+msgid "Open"
+msgstr ""
+
+#. translators: %s: today's hours
+#: template-parts/listing/place.php:68
+#, php-format
+msgid "Today · %s"
+msgstr ""
+
+#: template-parts/listing/place.php:74
+msgid "Opening hours by day (local time, Spain)"
+msgstr ""
+
+#. translators: %s: category name
+#: template-parts/listing/related.php:26
+#, php-format
+msgid "More in %s"
+msgstr ""
+
+#: template-parts/listing/report-dialog.php:24
+msgid "Report this listing"
+msgstr ""
+
+#: template-parts/listing/report-dialog.php:45
+msgid "What’s wrong with it?"
+msgstr ""
+
+#: template-parts/listing/report-dialog.php:56
+msgid "Anything else we should know?"
+msgstr ""
+
+#: template-parts/listing/report-dialog.php:60
+msgid "Only our team sees this. The seller isn’t told who reported."
+msgstr ""
+
+#: template-parts/listing/report-dialog.php:79
+msgid "Send report"
+msgstr ""
+
+#: template-parts/listing/review-form.php:61
+msgid "Title"
+msgstr ""
+
+#: template-parts/listing/review-form.php:71
+msgid "Your review"
+msgstr ""
+
+#: template-parts/listing/review-form.php:75
+msgid "At least 20 characters. Reviews are checked before they appear."
+msgstr ""
+
+#: template-parts/listing/review-form.php:94
+msgid "Publish review"
+msgstr ""
+
+#: template-parts/listing/reviews.php:25
+msgid "Anonymous"
+msgstr ""
+
+#. translators: 1: stars, 2: number of reviews
+#: template-parts/listing/reviews.php:117
+#, php-format
+msgid "%1$s stars: %2$s review"
+msgid_plural "%1$s stars: %2$s reviews"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: number of reviews
+#: template-parts/listing/reviews.php:132
+#, php-format
+msgid "Show all %s reviews"
+msgstr ""
+
+#: template-parts/listing/reviews.php:139
+msgid "No reviews yet. Have you used this? Be the first to review it."
+msgstr ""
+
+#: template-parts/listing/reviews.php:143
+msgid "You have reviewed this listing — thank you."
+msgstr ""
+
+#: template-parts/listing/seller.php:18
+msgid "Verified business · NIF on file"
+msgstr ""
+
+#: template-parts/listing/seller.php:18
+msgid "Verified business"
+msgstr ""
+
+#: template-parts/listing/seller.php:56
+msgid "Member since"
+msgstr ""
+
+#: template-parts/listing/seller.php:58
+msgid "Active listings"
+msgstr ""
+
+#: template-parts/listing/seller.php:83
+msgid "All listings from this seller"
+msgstr ""
+
+#: template-parts/listing/single.php:46
+msgid "Contact and seller"
+msgstr ""
+
+#. translators: %s: number of reviews
+#: template-parts/listing/tabs.php:29
+#, php-format
+msgid "Reviews · %s"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Ink"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Text"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Muted"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Blue"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Orange"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Clay"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "White"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Background"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Blue tint"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Amber tint"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Clay tint"
+msgstr ""
+
+#: theme.json
+msgctxt "Color name"
+msgid "Green tint"
+msgstr ""
+
+#: theme.json
+msgctxt "Font family name"
+msgid "Space Grotesk"
+msgstr ""
+
+#: theme.json
+msgctxt "Font family name"
+msgid "Figtree"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Small"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Body"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Lead"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Heading 3"
+msgstr ""
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Heading 2"
+msgstr ""

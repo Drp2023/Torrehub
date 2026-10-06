@@ -422,7 +422,8 @@
 }
 
 .th-lf-preview__title.is-placeholder {
-	color: var(--th-disabled);
+	color: var(--th-muted);
+	font-style: italic;
 }
 
 .th-lf-preview__meta {
@@ -595,15 +596,6 @@
 }
 
 /* Business hours */
-.th-toggle-row {
-	display: inline-flex;
-	align-items: center;
-	gap: 10px;
-	font-size: var(--th-fs-sm);
-	font-weight: var(--th-fw-semibold);
-	cursor: pointer;
-}
-
 .th-lf-hours__table {
 	width: 100%;
 	border-collapse: separate;

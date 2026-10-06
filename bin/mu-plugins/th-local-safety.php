@@ -48,6 +48,7 @@ add_filter(
 );
 
 /*
- * No search engine should ever index a local copy.
+ * No search engine should ever index a local copy. _dev/tests/seo.mjs sends a th_seo_audit cookie to see the
+ * robots / sitemap output of a public site (runbook E4); no crawler sends it.
  */
-add_filter( 'pre_option_blog_public', '__return_zero' );
+add_filter( 'pre_option_blog_public', static fn() => empty( $_COOKIE['th_seo_audit'] ) ? 0 : 1 );

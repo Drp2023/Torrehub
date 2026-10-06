@@ -42,7 +42,7 @@ $thumb     = (int) get_post_thumbnail_id( $guide );
 						</span>
 					</p>
 					<span class="th-guide__tools">
-						<button type="button" class="th-btn th-btn--icon th-btn--sm th-btn--neutral" data-th-share data-title="<?php echo esc_attr( get_the_title() ); ?>" data-url="<?php echo esc_url( (string) get_permalink() ); ?>" hidden>
+						<button type="button" class="th-btn th-btn--icon th-btn--sm th-btn--neutral" data-th-share data-title="<?php echo esc_attr( get_the_title() ); ?>" data-copied="<?php esc_attr_e( 'Link copied', 'torrehub' ); ?>" data-url="<?php echo esc_url( (string) get_permalink() ); ?>" hidden>
 							<?php th_icon( 'share', array( 'size' => 16 ) ); ?><span class="th-sr-only"><?php esc_html_e( 'Share', 'torrehub' ); ?></span>
 						</button>
 						<button type="button" class="th-btn th-btn--icon th-btn--sm th-btn--neutral" data-th-print>
@@ -145,7 +145,7 @@ $thumb     = (int) get_post_thumbnail_id( $guide );
 					th_component(
 						'button',
 						array(
-							/* translators: %s: listing category */
+							/* translators: %s: category name */
 							'label'   => sprintf( __( 'Browse %s', 'torrehub' ), $name ),
 							'variant' => 'white',
 							'block'   => true,

@@ -202,6 +202,10 @@ body:has(.th-bottom-nav) .th-toasts {
 	background: var(--panel-bg);
 }
 
+.th-error-panel__code[data-code]::before {
+	content: attr(data-code); /* Decorative numeral (the title says what happened). */
+}
+
 .th-error-panel__code {
 	font-family: var(--th-font-display);
 	font-size: 3.5rem;

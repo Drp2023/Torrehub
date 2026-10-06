@@ -3,7 +3,7 @@
  * WP-CLI commands shipped with the theme (loaded only under WP-CLI).
  *
  * Commands: wp torrehub fix-option-values · purge-nie · purge-old-verification-docs · import-chat · import-search-alerts ·
- * migrate-pages
+ * migrate-pages · trash-demo
  * (each with [--apply])
  *
  * @package Torrehub
@@ -409,5 +409,66 @@ WP_CLI::add_command(
 			);
 		}
 		WP_CLI::success( $rollback ? 'Rollback done.' : ( $apply ? 'Pages migrated.' : 'Dry run — add --apply to write.' ) );
+	}
+);
+
+/**
+ * Move the old theme's demo posts and pages to the trash (client decision, phase 8): restorable from the trash,
+ * nothing is deleted for good. The page set as front page or posts page is never touched. Dry run without --apply.
+ *
+ * ## OPTIONS
+ *
+ * [--apply]
+ * : Move them to the trash (default: report only).
+ *
+ * @param array<int,string>    $args       Positional args.
+ * @param array<string,string> $assoc_args Flags.
+ */
+WP_CLI::add_command(
+	'torrehub trash-demo',
+	static function ( $args, $assoc_args ) {
+		$apply = ! empty( $assoc_args['apply'] );
+		$sets  = array(
+			'post' => array(
+				'the-restaurant-has-a-fine-italian-kitchen-2',
+				'dinner-at-a-restaurant-in-attleborough',
+				'music-blares-out-from-every-cafeteria',
+				'best-shopping-mall-at-the-main-branch',
+				'the-restaurant-has-a-fine-italian-kitchen',
+				'the-cafe-was-divided-up-by-glass-partitions',
+				'restaurant-often-caters-for-large-banquets-copy',
+				'restaurant-often-caters-for-large-banquets',
+			),
+			// CLDirectory demo pages + pages of features that no longer exist (Pro compare, CLDirectory map template).
+			'page' => array( 'home-one', 'home-two', 'home-three', 'home-four', 'home-new', 'about-us-2', 'pricing', 'practice', 'blog', 'compare', 'listing-map' ),
+		);
+		$keep = array_filter( array( (int) get_option( 'page_on_front' ), (int) get_option( 'page_for_posts' ) ) );
+		$n    = 0;
+		foreach ( $sets as $type => $slugs ) {
+			foreach ( $slugs as $slug ) {
+				$found = get_posts(
+					array(
+						'post_type'      => $type,
+						'name'           => $slug,
+						'post_status'    => array( 'publish', 'draft', 'pending', 'private' ),
+						'posts_per_page' => 1,
+					)
+				);
+				if ( ! $found ) {
+					continue;
+				}
+				$item = $found[0];
+				if ( in_array( (int) $item->ID, $keep, true ) ) {
+					WP_CLI::warning( "{$type} {$slug}: is the front page / posts page — kept." );
+					continue;
+				}
+				++$n;
+				WP_CLI::line( sprintf( '%s %s: “%s”%s', $type, $slug, html_entity_decode( $item->post_title, ENT_QUOTES ), $apply ? ' → trash' : '' ) );
+				if ( $apply ) {
+					wp_trash_post( (int) $item->ID );
+				}
+			}
+		}
+		WP_CLI::success( ( $apply ? 'Moved to the trash: ' : 'Would move to the trash: ' ) . $n );
 	}
 );

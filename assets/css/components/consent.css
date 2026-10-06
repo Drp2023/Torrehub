@@ -1,0 +1,160 @@
+/* Cookie consent bar + settings dialog + embed placeholder. */
+
+.th-consent {
+	position: fixed;
+	left: 50%;
+	bottom: calc(var(--th-s-4) + env(safe-area-inset-bottom));
+	z-index: var(--th-z-toast);
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--th-s-3) var(--th-s-4);
+	width: min(960px, calc(100vw - 2 * var(--th-gutter)));
+	padding: var(--th-s-4) var(--th-s-5);
+	border: 1px solid var(--th-line);
+	border-radius: var(--th-r-card);
+	background: var(--th-white);
+	box-shadow: var(--th-lift);
+	transform: translateX(-50%);
+}
+
+.th-consent[hidden] {
+	display: none;
+}
+
+body:has(.th-bottom-nav) .th-consent {
+	bottom: calc(96px + env(safe-area-inset-bottom));
+}
+
+@media (min-width: 900px) {
+	body:has(.th-bottom-nav) .th-consent {
+		bottom: calc(var(--th-s-4) + env(safe-area-inset-bottom));
+	}
+}
+
+.th-consent__text {
+	flex: 1 1 360px;
+	margin: 0;
+	color: var(--th-text);
+	font-size: var(--th-fs-sm);
+}
+
+.th-consent__text a {
+	color: var(--th-blue);
+	font-weight: var(--th-fw-semibold);
+}
+
+.th-consent__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+@media (max-width: 599px) {
+	.th-consent__actions {
+		width: 100%;
+	}
+
+	.th-consent__actions .th-btn {
+		flex: 1;
+		white-space: nowrap;
+	}
+
+	.th-consent__actions [data-th-consent-open] {
+		order: 3;
+		flex-basis: 100%;
+	}
+}
+
+.th-consent-dialog {
+	width: min(560px, calc(100vw - 2 * var(--th-gutter)));
+}
+
+.th-consent__cats {
+	display: grid;
+	gap: 12px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.th-consent__cat {
+	display: grid;
+	gap: 4px;
+	padding: 12px 14px;
+	border-radius: var(--th-r-tile);
+	background: var(--th-bg);
+}
+
+.th-consent__cat .th-help {
+	margin: 0;
+	padding-left: 56px;
+}
+
+.th-consent__details summary {
+	color: var(--th-blue);
+	font-size: var(--th-fs-sm);
+	font-weight: var(--th-fw-bold);
+	cursor: pointer;
+}
+
+.th-consent__details dl {
+	display: grid;
+	gap: 6px;
+	margin: 10px 0;
+	font-size: var(--th-fs-meta);
+}
+
+.th-consent__details dl div {
+	display: grid;
+	grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+	gap: 10px;
+}
+
+.th-consent__details dd {
+	margin: 0;
+	color: var(--th-muted);
+}
+
+.th-consent__foot {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: 8px;
+}
+
+/* Text button that looks like a footer link ("Cookie settings"). */
+.th-link-button {
+	padding: 0;
+	border: 0;
+	background: none;
+	color: inherit;
+	font: inherit;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+	cursor: pointer;
+}
+
+.th-footer__copy .th-link-button {
+	margin-left: 6px;
+}
+
+/* Embed placeholder (YouTube, Vimeo …) until a click or marketing consent. */
+.th-embed-gate {
+	display: grid;
+	justify-items: start;
+	gap: 10px;
+	padding: var(--th-s-5);
+	border-radius: var(--th-r-tile);
+	background: var(--th-ink);
+	color: var(--th-footer-text);
+	font-size: var(--th-fs-sm);
+}
+
+.th-embed-gate p {
+	margin: 0;
+}
+
+.th-embed-gate a {
+	color: var(--th-white);
+}

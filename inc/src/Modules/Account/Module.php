@@ -66,9 +66,29 @@ final class Module extends BaseModule {
 		add_filter( 'template_include', array( $this, 'template' ), 100 );
 		add_filter( 'th_page_css_bundles', array( $this, 'css_bundles' ) );
 		add_filter( 'th_rtcl_assets_needed', array( $this, 'lean_assets' ) );
+		add_filter( 'document_title_parts', array( $this, 'document_title' ), 20 );
 		th_on_front_post( 'th_delete_listing', array( $this, 'delete_listing' ) );
 		// Classified Listing's own dashboard greeting block is replaced by the theme dashboard.
 		add_action( 'init', static fn() => remove_action( 'rtcl_account_dashboard', array( \Rtcl\Controllers\Hooks\TemplateHooks::class, 'user_information' ) ), 20 );
+	}
+
+	/**
+	 * Browser tab names the section: "Messages – My Account – Torrehub".
+	 *
+	 * @param array<string,string> $parts Title parts.
+	 * @return array<string,string>
+	 */
+	public function document_title( $parts ): array {
+		$parts = (array) $parts;
+		if ( ! self::is_account() || ! is_user_logged_in() ) {
+			return $parts;
+		}
+		foreach ( self::nav() as $item ) {
+			if ( $item['current'] && 'dashboard' !== $item['key'] ) {
+				$parts['title'] = $item['label'] . ' ' . apply_filters( 'document_title_separator', '-' ) . ' ' . ( $parts['title'] ?? '' );
+			}
+		}
+		return $parts;
 	}
 
 	/**

@@ -16,7 +16,7 @@ $root  = $view->root ? html_entity_decode( $view->root->name, ENT_QUOTES ) : '';
 <section class="th-listing-card" id="details" aria-labelledby="details-title">
 	<h2 class="th-listing-card__title" id="details-title">
 		<?php
-		/* translators: %s: root category, e.g. "Services" */
+		/* translators: %s: category name */
 		echo esc_html( $root ? sprintf( __( '%s details', 'torrehub' ), $root ) : __( 'Details', 'torrehub' ) );
 		?>
 	</h2>
