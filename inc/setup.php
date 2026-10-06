@@ -80,3 +80,23 @@ add_filter(
 		return $classes;
 	}
 );
+
+/*
+ * DECISION: image sub-sizes are generated as WebP (originals stay as uploaded). A 600×480 PNG card image weighed
+ * 514 KB and was the archive's LCP element. Existing uploads need `wp media regenerate --skip-delete` (runbook).
+ */
+add_filter(
+	'image_editor_output_format',
+	static function ( $formats ) {
+		static $webp = null;
+		if ( null === $webp ) {
+			$webp = false; // Guard: the support check itself may consult this filter.
+			$webp = wp_image_editor_supports( array( 'mime_type' => 'image/webp' ) );
+		}
+		if ( $webp ) {
+			$formats['image/jpeg'] = 'image/webp';
+			$formats['image/png']  = 'image/webp';
+		}
+		return $formats;
+	}
+);

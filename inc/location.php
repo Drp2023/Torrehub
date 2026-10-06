@@ -88,3 +88,57 @@ function th_town_coordinates(): array {
 	 */
 	return (array) apply_filters( 'th_town_coordinates', $coords );
 }
+
+/**
+ * Great-circle distance in km between two [lat, lng] points.
+ *
+ * @param array{0:float,1:float} $a Point A.
+ * @param array{0:float,1:float} $b Point B.
+ */
+function th_distance_km( array $a, array $b ): float {
+	$rad  = M_PI / 180;
+	$dlat = ( $b[0] - $a[0] ) * $rad;
+	$dlng = ( $b[1] - $a[1] ) * $rad;
+	$h    = sin( $dlat / 2 ) ** 2 + cos( $a[0] * $rad ) * cos( $b[0] * $rad ) * sin( $dlng / 2 ) ** 2;
+	return 6371 * 2 * asin( min( 1, sqrt( $h ) ) );
+}
+
+/**
+ * Towns within $km of a town centre, nearest first (the town itself included at 0 km).
+ *
+ * DECISION: listings carry no coordinates (0 of 19 have lat/lng), so "radius" works on town centres:
+ * a listing matches when its town's centre lies within the radius. Towns without coordinates only match themselves.
+ *
+ * @param string $slug Centre town slug.
+ * @param int    $km   Radius in km.
+ * @return array<string,float> slug => distance (km).
+ */
+function th_towns_within( string $slug, int $km ): array {
+	$coords = th_town_coordinates();
+	if ( ! isset( $coords[ $slug ] ) || $km <= 0 ) {
+		return array( $slug => 0.0 );
+	}
+	$out = array();
+	foreach ( $coords as $other => $point ) {
+		$d = th_distance_km( $coords[ $slug ], $point );
+		if ( $d <= $km ) {
+			$out[ $other ] = round( $d, 1 );
+		}
+	}
+	asort( $out );
+	return $out;
+}
+
+/**
+ * Next radius step for "Search within N km" (0 → 10 → 25 → 50; 0 when already at the widest).
+ *
+ * @param int $radius Current radius in km.
+ */
+function th_archive_wider_radius( int $radius ): int {
+	foreach ( array( 10, 25, 50 ) as $step ) {
+		if ( $step > $radius ) {
+			return $step;
+		}
+	}
+	return 0;
+}

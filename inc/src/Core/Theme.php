@@ -53,6 +53,7 @@ final class Theme {
 			\Torrehub\Modules\RtclCompat\Module::class,
 			\Torrehub\Modules\Location\Module::class,
 			\Torrehub\Modules\Languages\Module::class,
+			\Torrehub\Modules\Archive\Module::class,
 			\Torrehub\Modules\Styleguide\Module::class,
 		);
 

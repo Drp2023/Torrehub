@@ -396,7 +396,7 @@
 	color: var(--th-muted);
 }
 
-.th-end__title {
+.th-end .th-end__title {
 	font-family: var(--th-font-display);
 	font-size: 1.1875rem;
 	font-weight: var(--th-fw-bold);

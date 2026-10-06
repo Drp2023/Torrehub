@@ -96,7 +96,7 @@
 }
 
 /* Scroll lock while any dialog is open */
-html:has(.th-dialog[open]) {
+html:has(.th-dialog:modal) {
 	overflow: hidden;
 }
 

@@ -40,6 +40,7 @@ function th_mod_defaults(): array {
 		'th_social_facebook'  => '',
 		'th_social_instagram' => '',
 		'th_default_town'     => 'torrevieja',
+		'th_archive_per_page' => 12,
 		'th_use_custom_logo'  => false,
 	);
 }
@@ -220,6 +221,37 @@ add_action(
 				'section'     => 'th_location',
 				'type'        => 'select',
 				'choices'     => $choices,
+			)
+		);
+
+		// Listing archive.
+		$wp_customize->add_section(
+			'th_archive',
+			array(
+				'title'       => __( 'Listing archive', 'torrehub' ),
+				'description' => __( 'Which filters each category offers is set under Appearance → Archive filters.', 'torrehub' ),
+				'panel'       => 'th_panel',
+			)
+		);
+		$wp_customize->add_setting(
+			'th_archive_per_page',
+			array(
+				'default'           => 12,
+				'sanitize_callback' => static fn( $v ) => min( 48, max( 3, absint( $v ) ) ),
+			)
+		);
+		$wp_customize->add_control(
+			'th_archive_per_page',
+			array(
+				'label'       => __( 'Listings per page', 'torrehub' ),
+				'description' => __( '“Load more” adds this many at a time. Multiples of 3 fill the desktop grid.', 'torrehub' ),
+				'section'     => 'th_archive',
+				'type'        => 'number',
+				'input_attrs' => array(
+					'min'  => 3,
+					'max'  => 48,
+					'step' => 3,
+				),
 			)
 		);
 	}

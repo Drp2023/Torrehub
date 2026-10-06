@@ -57,12 +57,25 @@ function th_enqueue_css_bundle( string $bundle, array $deps = array() ): string 
 add_action(
 	'wp_enqueue_scripts',
 	static function () {
-		if ( is_front_page() && th_inline_css_bundles( array( 'theme', 'home' ) ) ) {
-			// Home: CSS inlined (brief §7 — critical CSS inline on the front page, one round trip less).
-		} else {
+		/**
+		 * Page-specific CSS bundles for this request (the Archive module adds 'archive').
+		 *
+		 * @param array<int,string> $bundles Bundle names from bundle.json.
+		 */
+		$page_css = (array) apply_filters( 'th_page_css_bundles', is_front_page() ? array( 'home' ) : array() );
+
+		// Entry pages (home, listing archives) get their CSS inlined: brief §7, one render-blocking round trip less.
+		/**
+		 * Inline the CSS of pages with their own bundle (default) or link it (cacheable across page views).
+		 *
+		 * @param bool              $inline   Inline.
+		 * @param array<int,string> $page_css Page bundles.
+		 */
+		$inline = (bool) apply_filters( 'th_inline_page_css', (bool) $page_css, $page_css );
+		if ( ! $inline || ! th_inline_css_bundles( array_merge( array( 'theme' ), $page_css ) ) ) {
 			$theme_css = th_enqueue_css_bundle( 'theme' );
-			if ( is_front_page() ) {
-				th_enqueue_css_bundle( 'home', array( $theme_css ) );
+			foreach ( $page_css as $bundle ) {
+				th_enqueue_css_bundle( $bundle, array( $theme_css ) );
 			}
 		}
 

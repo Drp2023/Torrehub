@@ -191,6 +191,102 @@ final class Directory {
 	}
 
 	/**
+	 * Distinct non-empty values of a listing meta key (published listings), for "pick from existing values"
+	 * filters on free-text Form Builder fields.
+	 *
+	 * @param string $key   Meta key.
+	 * @param int    $limit Max values.
+	 * @return array<int,string>
+	 */
+	public static function meta_values( string $key, int $limit = 60 ): array {
+		return self::remember(
+			self::vkey( 'mv_' . md5( $key ) ),
+			static function () use ( $key, $limit ) {
+				global $wpdb;
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- cached by remember().
+				$rows = $wpdb->get_col(
+					$wpdb->prepare(
+						"SELECT DISTINCT TRIM(pm.meta_value) v FROM {$wpdb->postmeta} pm
+						INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
+						WHERE pm.meta_key = %s AND p.post_type = %s AND p.post_status = 'publish' AND TRIM(pm.meta_value) <> ''
+						ORDER BY v ASC LIMIT %d",
+						$key,
+						self::POST_TYPE,
+						$limit
+					)
+				);
+				return array_values( array_filter( array_map( 'strval', (array) $rows ), static fn( $v ) => ! is_serialized( $v ) ) );
+			}
+		);
+	}
+
+	/**
+	 * Numeric min/max of a listing meta key among published listings, optionally inside category subtrees.
+	 *
+	 * @param string         $key      Meta key ('price', 'number_…').
+	 * @param array<int,int> $term_ids Category ids (subtrees included by the caller) — empty = all listings.
+	 * @return array{min:float,max:float}|null Null when no listing has a value.
+	 */
+	public static function meta_bounds( string $key, array $term_ids = array() ): ?array {
+		$term_ids = array_values( array_unique( array_map( 'absint', $term_ids ) ) );
+		sort( $term_ids );
+		// An empty array stands for "no values" (a cached null would read back as '').
+		$bounds = self::remember(
+			self::vkey( 'mb_' . md5( $key . '|' . implode( ',', $term_ids ) ) ),
+			static function () use ( $key, $term_ids ) {
+				global $wpdb;
+				$join = '';
+				if ( $term_ids ) {
+					$in   = implode( ',', $term_ids ); // absint()-ed above.
+					$join = "INNER JOIN {$wpdb->term_relationships} tr ON tr.object_id = p.ID
+						INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = 'rtcl_category' AND tt.term_id IN ($in)";
+				}
+				// phpcs:disable WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- cached; $join holds integers only.
+				$row = $wpdb->get_row(
+					$wpdb->prepare(
+						"SELECT MIN(CAST(pm.meta_value AS DECIMAL(14,2))) lo, MAX(CAST(pm.meta_value AS DECIMAL(14,2))) hi
+						FROM {$wpdb->postmeta} pm INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id {$join}
+						WHERE pm.meta_key = %s AND p.post_type = %s AND p.post_status = 'publish' AND pm.meta_value REGEXP '^[0-9]+([.][0-9]+)?$'",
+						$key,
+						self::POST_TYPE
+					)
+				);
+				// phpcs:enable
+				if ( ! $row || null === $row->hi ) {
+					return array();
+				}
+				return array(
+					'min' => (float) $row->lo,
+					'max' => (float) $row->hi,
+				);
+			}
+		);
+		return is_array( $bounds ) && isset( $bounds['max'] ) ? $bounds : null;
+	}
+
+	/**
+	 * A category node (with children and subtree count) anywhere in the tree.
+	 *
+	 * @param int $term_id Category id.
+	 * @return array<string,mixed>|null
+	 */
+	public static function category_node( int $term_id ): ?array {
+		$find = static function ( array $nodes ) use ( &$find, $term_id ): ?array {
+			foreach ( $nodes as $node ) {
+				if ( $node['id'] === $term_id ) {
+					return $node;
+				}
+				$hit = $find( $node['children'] );
+				if ( $hit ) {
+					return $hit;
+				}
+			}
+			return null;
+		};
+		return $find( self::category_tree() );
+	}
+
+	/**
 	 * One root by slug from the tree.
 	 *
 	 * @param string $slug Root slug.

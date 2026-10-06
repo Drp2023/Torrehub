@@ -3,7 +3,7 @@
 		"stylelint-config-standard"
 	],
 	"rules": {
-		"selector-class-pattern": "^(th|sg|is|wp|editor-styles-wrapper|screen-reader-text|gt-current-lang)(-[a-z0-9_]+)*(__[a-z0-9-]+)?(--[a-z0-9-]+)?$|^th$",
+		"selector-class-pattern": "^(th|sg|is|wp|editor-styles-wrapper|screen-reader-text|gt-current-lang|leaflet)(-[a-z0-9_]+)*(__[a-z0-9-]+)?(--[a-z0-9-]+)?$|^th$",
 		"custom-property-pattern": "^(th|btn|chip|badge|card|tile|mod|alert|panel|dialog|pct|lo|hi|min|max|stack-gap|cluster-gap|grid-gap|cols-sm|cols-md|cols-lg|tabs-top|btn-on)[a-z0-9-]*$",
 		"color-no-hex": [
 			true,

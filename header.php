@@ -100,9 +100,6 @@ $th_logged_in = $th_user->exists();
 		<?php get_template_part( 'template-parts/header/mega-panel' ); ?>
 	<?php endif; ?>
 </header>
-
 <?php
-get_template_part( 'template-parts/header/drawer' );
-if ( th_has_rtcl() ) {
-	get_template_part( 'template-parts/header/location-dialog' );
-}
+// The drawer and town picker are modal dialogs: they are printed in footer.php so the page content comes first in
+// the HTML (the archive's LCP image arrived ~20 KB later otherwise). DOM position doesn't matter for modals.

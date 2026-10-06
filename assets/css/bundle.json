@@ -22,5 +22,8 @@
 	],
 	"home": [
 		"home.css"
+	],
+	"archive": [
+		"archive.css"
 	]
 }
