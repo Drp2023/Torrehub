@@ -18,6 +18,8 @@ const lazy = [
 	['[data-th-gallery]', () => import('./components/gallery.js')],
 	['form[data-th-confirm], input[data-th-nif]', () => import('./components/forms.js')],
 	['[data-th-fav]', () => import('./components/favourites.js')],
+	['[data-th-listing-form]', () => import('./components/listing-form.js')],
+	['[data-th-chat]', () => import('./components/chat.js')],
 ];
 
 function boot(root = document) {

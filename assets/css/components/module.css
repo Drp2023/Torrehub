@@ -303,3 +303,54 @@
 .th-detail--plain dt {
 	color: var(--th-muted);
 }
+
+/* Listing drafts list (listing form start, My listings) */
+.th-drafts {
+	display: grid;
+	gap: 10px;
+	padding: var(--th-s-4);
+	border-radius: var(--th-r-card);
+	background: var(--th-tint-blue);
+}
+
+.th-drafts__title {
+	margin: 0;
+	font-family: var(--th-font-body);
+	font-size: var(--th-fs-ui);
+}
+
+.th-drafts__list {
+	display: grid;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.th-draft {
+	display: flex;
+	align-items: center;
+	gap: var(--th-s-2);
+	padding: 10px 10px 10px 16px;
+	border-radius: var(--th-r-tile);
+	background: var(--th-white);
+}
+
+.th-draft__link {
+	display: grid;
+	flex: 1;
+	min-width: 0;
+	color: var(--th-ink);
+	text-decoration: none;
+}
+
+.th-draft__name {
+	overflow: hidden;
+	font-weight: var(--th-fw-bold);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.th-draft__link:hover .th-draft__name {
+	color: var(--th-blue);
+}

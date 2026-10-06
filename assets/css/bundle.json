@@ -34,6 +34,11 @@
 	],
 	"account": [
 		"auth.css",
-		"account.css"
+		"account.css",
+		"chat.css"
+	],
+	"listing-form": [
+		"auth.css",
+		"listing-form.css"
 	]
 }

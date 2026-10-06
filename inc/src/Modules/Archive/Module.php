@@ -75,6 +75,7 @@ final class Module extends BaseModule {
 		self::$active = true;
 		add_action( 'rtcl_listing_query', array( $this, 'apply_search' ) );
 		add_filter( 'posts_clauses', array( $this, 'nearest_order' ), 10, 2 );
+		add_filter( 'posts_clauses', array( $this, 'geo_clauses' ), 10, 2 );
 		add_action( 'template_redirect', array( $this, 'count_endpoint' ), 1 );
 		add_action( 'template_redirect', array( $this, 'canonical_redirect' ), 5 );
 		add_filter( 'wp_robots', array( $this, 'robots' ) );
@@ -139,6 +140,73 @@ final class Module extends BaseModule {
 			. " INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = 'rtcl_location' AND tt.term_id IN ({$list})"
 			. " GROUP BY tr.object_id) th_near ON th_near.object_id = {$wpdb->posts}.ID";
 		$clauses['orderby'] = 'COALESCE(th_near.th_rank, 9999) ASC, ' . ( $clauses['orderby'] ? $clauses['orderby'] : "{$wpdb->posts}.post_date DESC" );
+		return $clauses;
+	}
+
+	/**
+	 * Radius filter and "Nearest" ordering on real coordinates (phase 6 pin picker).
+	 *
+	 * Distance per listing = Haversine from the centre to its own pin (`latitude` / `longitude` meta), else to its
+	 * town's centre (th_town_coordinates(), precomputed here). Radius: distance ≤ km. Nearest: distance ascending.
+	 *
+	 * @param array<string,string> $clauses SQL clauses.
+	 * @param \WP_Query            $q       Query.
+	 * @return array<string,string>
+	 */
+	public function geo_clauses( $clauses, $q ) {
+		if ( ! $q instanceof \WP_Query ) {
+			return $clauses;
+		}
+		$geo   = $q->get( 'th_geo' );
+		$order = $q->get( 'th_geo_order' );
+		$geo   = is_array( $geo ) && isset( $geo['lat'], $geo['lng'], $geo['km'] ) ? $geo : null;
+		$order = is_array( $order ) && isset( $order['lat'], $order['lng'] ) ? $order : null;
+		$at    = $geo ? $geo : $order;
+		if ( ! $at ) {
+			return $clauses;
+		}
+		global $wpdb;
+		$lat = (float) $at['lat'];
+		$lng = (float) $at['lng'];
+
+		// Town centre distances as a CASE over term ids (towns without coordinates stay NULL).
+		$coords = th_town_coordinates();
+		$cases  = '';
+		foreach ( \Torrehub\Data\Directory::towns() as $town ) {
+			if ( isset( $coords[ $town['slug'] ] ) ) {
+				$cases .= sprintf( ' WHEN %d THEN %.3F', (int) $town['id'], th_distance_km( array( $lat, $lng ), $coords[ $town['slug'] ] ) );
+			}
+		}
+		$town_join = $cases
+			? " LEFT JOIN (SELECT tr.object_id, MIN(CASE tt.term_id{$cases} END) km FROM {$wpdb->term_relationships} tr"
+				. " INNER JOIN {$wpdb->term_taxonomy} tt ON tt.term_taxonomy_id = tr.term_taxonomy_id AND tt.taxonomy = 'rtcl_location'"
+				. " GROUP BY tr.object_id) th_town ON th_town.object_id = {$wpdb->posts}.ID"
+			: '';
+
+		$plat = "CAST(NULLIF(th_lat.meta_value, '') AS DECIMAL(10,6))";
+		$plng = "CAST(NULLIF(th_lng.meta_value, '') AS DECIMAL(10,6))";
+		$own  = sprintf(
+			'(6371 * 2 * ASIN(LEAST(1, SQRT(POW(SIN(RADIANS(%1$s - %3$.6F) / 2), 2) + COS(RADIANS(%3$.6F)) * COS(RADIANS(%1$s)) * POW(SIN(RADIANS(%2$s - %4$.6F) / 2), 2)))))',
+			$plat,
+			$plng,
+			$lat,
+			$lng
+		);
+		$dist = $cases ? "COALESCE({$own}, th_town.km)" : $own;
+
+		$clauses['join'] .= " LEFT JOIN {$wpdb->postmeta} th_lat ON th_lat.post_id = {$wpdb->posts}.ID AND th_lat.meta_key = 'latitude'"
+			. " LEFT JOIN {$wpdb->postmeta} th_lng ON th_lng.post_id = {$wpdb->posts}.ID AND th_lng.meta_key = 'longitude'"
+			. $town_join;
+		if ( $geo ) {
+			$clauses['where'] .= sprintf( ' AND %s <= %.3F', $dist, (float) $geo['km'] );
+		}
+		if ( $order ) {
+			$clauses['orderby'] = "{$dist} ASC, " . ( $clauses['orderby'] ? $clauses['orderby'] : "{$wpdb->posts}.post_date DESC" );
+		}
+		// The postmeta joins could duplicate rows if a listing had two latitude rows.
+		if ( ! str_contains( (string) $clauses['groupby'], "{$wpdb->posts}.ID" ) ) {
+			$clauses['groupby'] = $clauses['groupby'] ? $clauses['groupby'] . ", {$wpdb->posts}.ID" : "{$wpdb->posts}.ID";
+		}
 		return $clauses;
 	}
 

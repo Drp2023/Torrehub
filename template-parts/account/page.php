@@ -21,6 +21,12 @@ $nav = Account::nav();
 						<a class="<?php echo esc_attr( th_classes( 'th-account__link', array( 'is-logout' => 'logout' === $item['key'] ) ) ); ?>" href="<?php echo esc_url( $item['url'] ); ?>"<?php echo $item['current'] ? ' aria-current="page"' : ''; ?>>
 							<?php th_icon( $item['icon'], array( 'size' => 18 ) ); ?>
 							<span><?php echo esc_html( $item['label'] ); ?></span>
+							<?php if ( ! empty( $item['badge'] ) ) : ?>
+								<span class="th-badge-count" data-th-chat-badge>
+									<?php echo esc_html( (string) $item['badge'] ); ?>
+									<span class="th-sr-only"><?php esc_html_e( 'unread', 'torrehub' ); ?></span>
+								</span>
+							<?php endif; ?>
 						</a>
 					</li>
 				<?php endforeach; ?>

@@ -54,6 +54,13 @@ $th_logged_in = $th_user->exists();
 		<div class="th-header__actions">
 			<?php get_template_part( 'template-parts/header/language-switcher', null, array( 'variant' => 'dropdown' ) ); ?>
 
+			<?php
+			/**
+			 * Header actions before the avatar / Log in (Chat: messages button with the unread badge).
+			 */
+			do_action( 'th_header_actions' );
+			?>
+
 			<?php if ( $th_logged_in ) : ?>
 				<a class="th-header__avatar" href="<?php echo esc_url( th_url_account() ); ?>">
 					<?php echo th_get_avatar( $th_user->ID, 38 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in helper. ?>

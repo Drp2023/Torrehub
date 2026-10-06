@@ -46,6 +46,7 @@ function th_mod_defaults(): array {
 		'th_safety_title'        => __( 'Staying safe', 'torrehub' ),
 		'th_safety_text'         => __( 'Meet in a public place or agree a written quote before work starts. Never pay in advance for something you haven’t seen. Torrehub is a directory: we don’t take part in deals or verify every claim.', 'torrehub' ),
 		'th_use_custom_logo'     => false,
+		'th_chat_reply_time'     => false,
 	);
 }
 

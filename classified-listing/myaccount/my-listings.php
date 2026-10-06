@@ -39,6 +39,8 @@ $status_tabs = array(
 		?>
 	</div>
 
+	<?php get_template_part( 'template-parts/listing-form/drafts', null, array( 'back' => $base ) ); ?>
+
 	<?php if ( '1' === $deleted ) : ?>
 		<?php
 		th_component(

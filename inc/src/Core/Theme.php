@@ -56,9 +56,12 @@ final class Theme {
 			\Torrehub\Modules\Languages\Module::class,
 			\Torrehub\Modules\Archive\Module::class,
 			\Torrehub\Modules\Listing\Module::class,
+			\Torrehub\Modules\ListingForm\Module::class,
+			\Torrehub\Modules\Quota\Module::class,
 			\Torrehub\Modules\Reviews\Module::class,
 			\Torrehub\Modules\Account\Module::class,
 			\Torrehub\Modules\Verification\Module::class,
+			\Torrehub\Modules\Chat\Module::class,
 			\Torrehub\Modules\Styleguide\Module::class,
 		);
 
@@ -91,6 +94,7 @@ final class Theme {
 				$this->skipped[] = $id;
 				continue;
 			}
+			$module->always();
 			if ( Settings::module_enabled( $module ) ) {
 				$module->register();
 			}

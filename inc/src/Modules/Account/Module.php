@@ -65,6 +65,7 @@ final class Module extends BaseModule {
 	public function register(): void {
 		add_filter( 'template_include', array( $this, 'template' ), 100 );
 		add_filter( 'th_page_css_bundles', array( $this, 'css_bundles' ) );
+		add_filter( 'th_rtcl_assets_needed', array( $this, 'lean_assets' ) );
 		th_on_front_post( 'th_delete_listing', array( $this, 'delete_listing' ) );
 		// Classified Listing's own dashboard greeting block is replaced by the theme dashboard.
 		add_action( 'init', static fn() => remove_action( 'rtcl_account_dashboard', array( \Rtcl\Controllers\Hooks\TemplateHooks::class, 'user_information' ) ), 20 );
@@ -100,6 +101,32 @@ final class Module extends BaseModule {
 	}
 
 	/**
+	 * Sections the theme renders itself (dashboard, my listings, messages, verification) don't need Classified
+	 * Listing's front-end kit (jQuery in the head, Google Maps, Swiper, moment, Font Awesome…). Its own forms
+	 * (account details, profile settings…) keep it.
+	 *
+	 * @param bool $needed Needed.
+	 */
+	public function lean_assets( $needed ): bool {
+		if ( ! $needed || ! self::is_account() || ! is_user_logged_in() ) {
+			return (bool) $needed;
+		}
+		$current = 'dashboard';
+		foreach ( self::nav() as $item ) {
+			if ( $item['current'] ) {
+				$current = $item['key'];
+			}
+		}
+		/**
+		 * Account sections rendered by the theme (no Classified Listing assets).
+		 *
+		 * @param array<int,string> $keys Endpoint keys.
+		 */
+		$lean = (array) apply_filters( 'th_account_lean_sections', array( 'dashboard', 'listings', 'chat', 'verification' ) );
+		return ! in_array( $current, $lean, true );
+	}
+
+	/**
 	 * Account CSS bundle.
 	 *
 	 * @param array<int,string> $bundles Page bundles.
@@ -116,12 +143,12 @@ final class Module extends BaseModule {
 	/**
 	 * Navigation: Classified Listing's menu items + module sections, with icons.
 	 *
-	 * @return array<int,array{key:string,label:string,url:string,icon:string,current:bool}>
+	 * @return array<int,array{key:string,label:string,url:string,icon:string,current:bool,badge?:int}>
 	 */
 	public static function nav(): array {
 		$items = \Rtcl\Helpers\Functions::get_account_menu_items();
 		/**
-		 * Extra account sections: key => [ label, icon ] (rendered via `rtcl_account_{key}_endpoint`).
+		 * Extra account sections: key => [ label, icon, badge count? ] (rendered via `rtcl_account_{key}_endpoint`).
 		 *
 		 * @param array $sections Sections.
 		 */
@@ -157,6 +184,7 @@ final class Module extends BaseModule {
 						'label'   => (string) $edef[0],
 						'url'     => \Rtcl\Helpers\Link::get_account_endpoint_url( $ekey ),
 						'icon'    => (string) ( $edef[1] ?? 'info' ),
+						'badge'   => (int) ( $edef[2] ?? 0 ),
 						'current' => $current === $ekey,
 					);
 				}

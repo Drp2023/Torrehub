@@ -1,6 +1,6 @@
 <?php
 /**
- * Appearance → Torrehub: module switches (feature settings get their own sections as modules arrive).
+ * Appearance → Torrehub: module switches + module sections (`th_settings_sections`).
  *
  * @package Torrehub
  */
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 final class Settings {
 
 	public const OPTION = 'th_modules';
-	private const PAGE  = 'torrehub';
+	public const PAGE   = 'torrehub';
 
 	/**
 	 * Set up with the theme kernel.
@@ -130,6 +130,13 @@ final class Settings {
 					<?php endforeach; ?>
 					</tbody>
 				</table>
+				<?php
+				/**
+				 * Module settings sections on the same screen. Options must be registered to the `torrehub` group
+				 * (Settings::PAGE) so options.php saves them with the module switches.
+				 */
+				do_action( 'th_settings_sections' );
+				?>
 				<?php submit_button(); ?>
 			</form>
 		</div>

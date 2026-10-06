@@ -443,3 +443,21 @@
 	border-color: transparent;
 	color: var(--th-disabled);
 }
+
+/* Free-listing allowance (Quota) */
+.th-allowance {
+	display: grid;
+	gap: 8px;
+	padding: var(--th-s-3) var(--th-s-4);
+	border-radius: var(--th-r-tile);
+	background: var(--th-tint-amber);
+	color: var(--th-tint-amber-text);
+	font-size: var(--th-fs-meta);
+}
+
+.th-allowance__row {
+	margin: 0;
+	display: flex;
+	justify-content: space-between;
+	font-weight: var(--th-fw-bold);
+}

@@ -86,7 +86,7 @@ $guest  = ! is_user_logged_in();
 			<?php endif; ?>
 			<?php
 			/** This action is documented in template-parts/listing/contact.php */
-			do_action( 'th_listing_contact_buttons', $view );
+			do_action( 'th_listing_contact_buttons', $view, 'sheet' );
 			?>
 			<a class="th-btn th-btn--neutral th-btn--lg th-btn--block" href="#contact" data-th-dialog-close data-th-goto-contact><?php th_icon( 'mail', array( 'size' => 18 ) ); ?><span><?php esc_html_e( 'Send an e-mail', 'torrehub' ); ?></span></a>
 			<?php if ( $guest && th_mod( 'th_contact_email_login' ) ) : ?>

@@ -65,9 +65,9 @@ A modulok `inc/modules/<modul>/` alatt, mindegyik saját osztállyal (`Torrehub\
 | Grid/list nézetváltó | Pro | `Archive\View` | — | 3 |
 | FB custom-field szűrők az archive-on (+ a WPCode „Filter Builder Active” snippet) | Pro UI + snippet 6510 | `Archive` modul: saját meta_query (`f[mező]`), ár, város + sugár, verified, rendezés, nézetek | téma-opció `th_archive_filters` (az LFB 14 csoportjából importálva; admin: Megjelenés › Archive filters); fallback: a form `filterable` flagje | 3 ✅ |
 | **`repeater` mezőtípus** (Service, Property „Amenities”) | Pro | `Compat\FormBuilderRepeater` (`rtcl_fb_fields`) — **élesítési kapu**: nélküle Pro nélkül a szerkesztés törli a repeater adatot | meta változatlan | 1 (kapu) |
-| Account endpointok `chat`, `my-documents` | Pro / SV | `Account` regisztrálja (`rtcl_account_menu_items` + endpoint) | — | 5–6 |
-| Térkép nézet (archive) | Pro widget | `Archive` map view — **Leaflet 1.9.4 (vendored) + OpenStreetMap**, csak megnyitáskor tölt (DECISION: kulcs nélkül, lokálisan is működik; csempe-szolgáltató a `th_map_tiles` filterrel cserélhető) | listing `latitude/longitude`, ha van; különben a város középpontja (ma mind a 19) | 3 ✅ |
-| Chat (Pusher + polling) | Pro | `Chat` | saját táblák `th_chat_threads`, `th_chat_messages` | 6 |
+| Account endpointok `chat`, `verification` | Pro / SV | a modulok regisztrálják (`rtcl_my_account_endpoint` + `th_account_sections`) | — | 5–6 ✅ |
+| Térkép nézet (archive) | Pro widget | `Archive` map view — **Leaflet 1.9.4 (vendored) + OpenStreetMap**, csak megnyitáskor tölt (DECISION: kulcs nélkül, lokálisan is működik; csempe-szolgáltató a `th_map_tiles` filterrel cserélhető) | listing `latitude/longitude` (6. fázistól a pin-választóból), ha van; különben a város középpontja | 3 ✅ |
+| Chat | Pro | `Chat` — fiók › Messages, REST + polling (Pusher nélkül, 20.6), e-mail értesítő, badge-ek, `wp torrehub import-chat` | saját táblák `th_chat_threads`, `th_chat_messages` | 6 ✅ |
 | E-mail megerősítés regisztrációnál | Pro (`user_verification`) | `Auth` | user meta `th_account_status`, hash-elt token | 5 |
 | Login / regisztráció / jelszó-visszaállítás | wppb (hiányzik) + RTCL | `Auth` | core `wp_users` + meta; `custom_field_1/2` megtartva | 5 |
 | Admin-jóváhagyás | wppb | `Auth\Approval` (Users lista oszlop, szűrő, sor- és tömeges művelet, e-mailek) | `th_account_status` | 5 |
@@ -78,8 +78,8 @@ A modulok `inc/modules/<modul>/` alatt, mindegyik saját osztállyal (`Torrehub\
 | JSON-LD (Product/LocalBusiness + AggregateRating, BreadcrumbList, ItemList, Article, FAQPage) | review-schema(-pro) | listing: `Listing\Schema` (4 ✅); guide/FAQ: 7 | — | 4, 7 |
 | Eladó-hitelesítés | rtcl-seller-verification | `Verification` | **privát** feltöltési mappa (nem Media Library, nincs publikus URL), meta `photo_id`, `other_document_id`, `rtcl_verified_seller` (+ `th_verification_status`, elutasítási ok) | 5 |
 | Keresési értesítő | rtcl-search-alert | `SearchAlerts` | saját tábla `th_search_alerts`; WP-Cron napi/heti + azonnali (publish hook); aláírt leiratkozó link | 7 |
-| Ingyenes kvóta (5 / 30 nap) | Store | `Quota` — **alapból kikapcsolva** (döntés 9) | számolás a szerző `rtcl_listing` posztjaiból | 6 |
-| Hirdetésfeladás munkaterület | — (új UX) | `ListingForm` — réteg az RTCL free React Form Builder fölött | — | 6 |
+| Ingyenes kvóta (5 / 30 nap) | Store | `Quota` — **alapból kikapcsolva** (döntés 9); beállítás: Megjelenés › Torrehub | számolás a szerző `rtcl_listing` posztjaiból | 6 ✅ |
+| Hirdetésfeladás munkaterület | — (új UX) | `ListingForm` — a téma rendereli a Form Builder definíciókból, az RTCL saját AJAX-ával ment (20.1) + Leaflet pin-választó + piszkozatok | RTCL meta (változatlan); piszkozat: `rtcl-temp` poszt `th_draft*` metával | 6 ✅ |
 | Kedvencek UI | RTCL core (`has_favourites`, jelenleg ki) | `Favourites` (UI, rejtve amíg az RTCL opció ki van) | RTCL core meta `rtcl_favourites` | 3 |
 | Fiók-dashboard, „My listings” | RTCL core endpointok | `Account` (template override) | — | 5 |
 | Ad type / Store / Membership / Compare / Fizetés | Pro/Store, mind kikapcsolva | **nem épül**, hook-pontok maradnak | — | — |
@@ -134,7 +134,7 @@ torrehub/                               (= repo gyökér = téma gyökér)
 - Free-ben is működik: kapcsolat-e-mail az eladónak, visszaélés-jelentés, telefon-felfedés, `_views` számláló, kapcsolódó hirdetések, `featured` + Featured/New badge, kedvencek (ha bekapcsolják), RTCL értesítő e-mailek.
 - Auth: a free `FormHandler` login/registration/lost/reset handlerei (`wp_loaded`), a `rtcl_login_request`/`rtcl_registration_request` AJAX és a `lostpassword_url` filter **leszedve**; a `myaccount/form-login.php` override a téma `/login/` oldalára visz.
 - Single mező-renderer: `Listing::getForm()` → szekciók → `FBField::getFormattedCustomFieldValue()` + `FBHelper::getFormattedFieldHtml()`; szekció-láthatóság `FBHelper::isValidateCondition()`.
-- Hirdetésfeladás: RTCL free React Form Builder (`#rtcl-form-builder`) + téma-réteg (szekció-pillek, kitöltöttség, élő előnézet); kategória-választó → `?_fb={form-slug}` (10 root ↔ 10 form).
+- Hirdetésfeladás (6. fázis): a téma rendereli a formot a `rtcl_forms` definíciókból; mentés az RTCL `rtcl_update_listing`, `rtcl_fb_gallery_*`, `rtcl_fb_file_*` AJAX-án (validálás, szanitálás, meta-kulcsok, hookok az RTCL-éi). A React app nem töltődik. Kategória-választó → `?th_cat={term}` (10 root ↔ 10 form a `th_category_map()`-ből; a régi `?_fb={form-slug}` linkek átirányítanak).
 - Assetek: `rtcl-public` marad; Swiper/PhotoSwipe/Font Awesome dequeue a téma template-jein; Google Maps lazy (IntersectionObserver / kattintás).
 - Beállítás-tények: `listing_duration=0` (nem jár le), új/szerkesztett → `pending`, `has_favourites=''`, radius mérföld → km filterrel (DECISION), képek: 5 db / 10 MB / jpeg,jpg,png,webp a form `images` mezőjéből, site-időzóna UTC → Open now `Europe/Madrid` szerint számolva.
 - RTCL saját login/regisztráció kikapcsolva; a my-account kijelentkezett nézete a téma `/login/` oldalára irányít.
@@ -167,7 +167,7 @@ torrehub/                               (= repo gyökér = téma gyökér)
 | 3 ✅ | Archive + szűrők (meta_query) + sheet + térkép + nézetváltó + skeleton/üres/vég + kedvencek UI · WPCode audit | + keresés-smoke (`_dev/tests/e2e/archive.mjs`, 39 ellenőrzés) |
 | 4 ✅ | Single listing (10 form) + kontakt + galéria + `Reviews` + JSON-LD + lejárt/pending + bejelentés (TLRS port) | + 10 form render-teszt, `_dev/tests/e2e/listing.mjs` (25 ellenőrzés) |
 | 5 ✅ | `Auth` + `Account` dashboard + `Verification` · WPCode 7263/7264/7280 · jQuery a footerbe | + `_dev/tests/e2e/auth.mjs` (26) és `account.mjs` (22): regisztráció, Mailpit, admin jóváhagyás, jelszó-visszaállítás, hitelesítés |
-| 6 | `ListingForm` munkaterület + `Quota` + `Chat` · **térképes pin-választó a hirdetésfeladásnál** (Leaflet, a 3. fázis térképével közös; a listing `latitude`/`longitude` metája → pontos sugár- és térképkeresés, a város-közép közelítés csak tartalék) | + 1 hirdetés/kategória, chat polling, pin mentése és megjelenése a térképen |
+| 6 ✅ | `ListingForm` munkaterület + `Quota` + `Chat` · **térképes pin-választó a hirdetésfeladásnál** (Leaflet, a 3. fázis térképével közös; a listing `latitude`/`longitude` metája → pontos sugár- és térképkeresés, a város-közép közelítés csak tartalék) | + `_dev/tests/e2e/listing-form.mjs` (37: 1 hirdetés/kategória mind a 10 formmal, pin → térkép, piszkozat, szerkesztés) és `chat.mjs` (23: polling, Seen, e-mail, REST-jogosultság, no-JS, rate limit) |
 | 7 | `SearchAlerts` + Guides + statikus oldalak (Elementor → blokk tartalom-migráció) + 404/401/403 | + értesítő cron e-mail |
 | 8 | i18n, a11y, performance, SEO audit · **`Consent` modul** (döntés 10) · **élesítési runbook** (plugin-eltávolítási sorrend, hotfix, adat-ellenőrzés, cron) | DoD |
 
@@ -181,7 +181,7 @@ Minden fázis előtt `bin/reset-db.sh`; témaváltás `wp theme activate torrehu
 |---|---|---|
 | R0 | **`repeater` adatvesztés** Pro nélkül (Service, Property) | `Compat\FormBuilderRepeater` az 1. fázisban; élesítési checklist első pontja; teszt: Pro kikapcsolva szerkesztés után a repeater meta megmarad |
 | R1 | Sok újraépítendő funkció a témában (chat, auth, verification, alerts, reviews) → nagyobb felület, saját biztonsági felelősség | modulonként nonce/capability/ownership checklist, PHPCS security sniffek, kézi IDOR-tesztek |
-| R2 | A React Form Builder markupja verziófüggő | csak osztály/`data-id` szelektor; fallback = natív RTCL form |
+| R2 | ~~A React Form Builder markupja verziófüggő~~ | megszűnt (6. fázis): a téma a form-definíciókból renderel. Új kockázat: ha az RTCL megváltoztatja a `rtcl_update_listing` paramétereit (`formData` parse_str, `listingId`, `formId`) — a `listing-form.mjs` 10 kategóriás tesztje jelzi |
 | R3 | Funkciók a témában: témaváltáskor elérhetetlenek (az adat marad) | dokumentálva a README-ben; ez a választott termék-modell |
 | R4 | Kevés adat (19 listing) → vizuális teszthez lokális seed (`bin/seed-demo.php`, csak `local`) | Q |
 | R5 | ~~Google Maps lokálisan nem tölt~~ | megoldva: Leaflet + OSM (3. fázis). Az OSM csempe-szabályzata mérsékelt forgalmat vár → nagy forgalomnál fizetős csempe (`th_map_tiles`) |
@@ -198,9 +198,9 @@ Minden fázis előtt `bin/reset-db.sh`; témaváltás `wp theme activate torrehu
 3. Élesítéskor mi a front page (most „Coming Soon” 6513)?
 4. Logó SVG (header, favicon, sötét változat).
 5. Lokális demo-seed adat mehet? (R4)
-6. „Typical reply within 1 hour” — a `Chat` modul ki tudja számolni a tényleges medián válaszidőt → megjelenítjük, ha van elég adat (DECISION, alapból rejtve). „Comes to you” = Service form `Mobile Service` mezőjéből.
+6. ~~„Typical reply within 1 hour”~~ — kész (6. fázis): a `Chat` modul méri (medián első válasz, 90 nap, ≥ 3 beszélgetés); megjelenítés a Customizerben kapcsolható (Listing page › Show “Typical reply”), alapból ki. „Comes to you” = Service form `Mobile Service` mezőjéből.
 7. OTP telefon-ellenőrzés (A3) — nem épül, hacsak nem kéritek.
-8. Kedvencek / kvóta bekapcsolása — később, beállításból.
+8. Kedvencek / kvóta bekapcsolása — később, beállításból (kvóta: Megjelenés › Torrehub › „Free listing allowance” + darabszám/napok).
 9. CLIENT-CONFIRMATION.md további nyitott pontjai (A1 ad type, A2 social login, A4 Member → Seller upgrade, A5 telefon-láthatóság, B1 store, B2 verified kötelező-e, B3 booking, C1–C3 fizetés) — konfigurálható alapértékkel épül, `// DECISION:`.
 
 ---
@@ -269,6 +269,11 @@ Részletek: **`WPCODE-AUDIT.md`**. Röviden:
 11. **Auth oldalak:** a téma aktiválása után egy admin-oldal megnyitása létrehozza a `/lost-password/` oldalt; ellenőrizni, hogy a `/login/`, `/register/`, `/lost-password/`, `/my-account/` **ki van zárva a hosting page cache-ből** (a téma `nocache` fejlécet küld, de a szerveroldali cache-t érdemes külön is kizárni).
 12. **Füstteszt élesen:** regisztráció (business, valós NIF) → megerősítő e-mail → admin jóváhagyás → belépés; jelszó-visszaállítás; hitelesítési feltöltés → döntés → a fájl törlődött.
 13. Site időzóna `Europe/Madrid`; valódi rendszer-cron.
+14. **Chat-táblák:** a téma aktiválása / az első admin-oldal megnyitása létrehozza a `th_chat_threads` és `th_chat_messages` táblát (Installer, `th_schema_versions`). Ellenőrzés: `wp db query "SHOW TABLES LIKE '%th_chat%'"`.
+15. **Régi Pro chat átvétele:** a Pro chat-táblák törlése előtt `wp torrehub import-chat` (dry run), majd `--apply`. Idempotens (a már átvett beszélgetést kihagyja); csak szöveges üzenetek. Lokálisan a Pro táblák üresek; szintetikus adattal tesztelve.
+16. **Page cache kizárás:** a `/listing-form/` és a `/my-account/` minden aloldala (a téma `nocache` fejlécet küld). A REST (`/wp-json/torrehub/v1/chat/…`) belépett felhasználóknak legyen elérhető (biztonsági plugin ne tiltsa).
+17. **Kvóta:** alapból ki (döntés 9). Ha az ügyfél kéri: Megjelenés › Torrehub › modul be + limit/napok (alap 5 / 30).
+18. **Füstteszt:** hirdetésfeladás egy kategóriában fotóval és pinnel → pending → admin jóváhagyás → a pin a térképen és a sugárkeresésben; chat tag ↔ eladó (e-mail megérkezik, a válasz polling-gal megjelenik).
 
 ## 16. Mérési napló (Lighthouse 12, mobil, lokális Local site)
 
@@ -288,6 +293,11 @@ Részletek: **`WPCODE-AUDIT.md`**. Röviden:
 | 2026-10-06 | listing (`/listings/amrit-restaurant/`) | 4. fázis | 83–86 | 100 | 100 | 69 | 3,8–4,1 s | 2,3–2,4 s | 0 | 0–50 ms |
 | 2026-10-06 | listing | ugyanez jQuery és cookie-plugin nélkül | 96 | 100 | — | — | 2,7 s | 1,4 s | 0 | 30–40 ms |
 | 2026-10-06 | főoldal / archive / listing / login | 5. fázis: jQuery a footerben (WPCode kivezetve), cookie-plugin még fent | 92–94 / 87–89 / 90 / 96 | 100 / 100 / 100 / 100 | 100 | 58–69 | 3,0 / 3,7–3,9 / 3,5 / 2,7 s | 1,2 / 1,1–1,4 / 1,3 / 1,1 s | 0 | 0–30 ms |
+
+| 2026-10-06 | hirdetésfeladás (`/listing-form/?th_cat=41`, belépve) | 6. fázis | 92–93 | 95 → 100 | 100 | — | 3,2 s | 1,4–1,5 s | 0,014 | 10 ms |
+| 2026-10-06 | fiók › Messages (belépve) | 6. fázis, RTCL-kit még betöltve | 46 | 100 | 100 | — | 9,0 s | 6,8 s | 0 | 450 ms |
+| 2026-10-06 | fiók › Messages / dashboard | a téma által renderelt fiók-szekciókon az RTCL-kit lekapcsolva | 93 / 94 | 100 / 100 | 100 | — | 3,1 / 3,0 s | 1,3 / 1,2 s | 0 | 30 / 0 ms |
+| 2026-10-06 | főoldal / listing | 6. fázis regresszió | 94 / 86 | 100 / 100 | 100 | — | 3,0 / 3,8 s | 1,3 / 1,6 s | 0 | 0 / 70 ms |
 
 \* SEO lokálisan a szándékos `noindex` miatt alacsony (is-crawlable). A nyers JSON-riportok `_dev/reports/` alatt, gitignore-olva (URL-ekben kulcs lehet).
 
@@ -336,3 +346,15 @@ Részletek: **`WPCODE-AUDIT.md`**. Röviden:
 - **jQuery a footerben** a téma által renderelt oldalakon (főoldal, archive, listing, auth); az RTCL saját képernyőin (hirdetésfeladás, fiók-űrlapok) a fejben marad. Az RTCL jQuery-validátora a listing oldalon le van szedve (a téma nem az RTCL űrlapját használja). FCP ~2,3 s → ~1,2 s.
 - **Design-eltérés (a11y):** a login kártyán a „Forgot?” link narancs helyett fehér, aláhúzott (narancs a kéken 3,0:1).
 - **E-mailek lokálisan** Mailpitben ellenőrizve: megerősítés, admin-értesítés, jóváhagyás, jelszó-visszaállítás, hitelesítési kérés és döntés.
+
+## 20. 6. fázis — döntések és tények
+
+1. **DECISION — a hirdetésfeladó űrlapot a téma rendereli** (eltérés a tervezett „réteg a React Form Builder fölött” megoldástól). Ok: a szekció-pillek, a feltételes szekciók „Hidden” állapota, az élő előnézet, a fotó-állapotok és a pin-választó olyan markupot igényelnek, amit a React app nem ad ki; a fölé tett réteg verziófüggő lett volna (R2). Az adatút változatlan: a mezők, feltételek és szabályok a `rtcl_forms` táblából jönnek, a mentés az RTCL `rtcl_update_listing` AJAX-a (szerveroldali validálás, szanitálás, meta-kulcsok, `rtcl_listing_form_after_save_or_update` hook), a fotók/fájlok az RTCL feltöltő endpointjai. Mind a 25 használt mezőtípus támogatott. JS nélkül az oldal jelzi, hogy JavaScript kell (ahogy a React app is igényelte).
+2. **Kategória-választás (S-02):** gyökér (10 csempe) → alkategóriák, amíg levélhez nem ér; a form a gyökér `th_category_map()` bejegyzéséből, a listing type (`ad_type`, az RTCL elrejti) szintén onnan. A szekciót kapcsoló select („Item type”) választókártya, és a kategória alapján előre ki van választva (Cars → Car). A régi `?_fb=` linkek átirányítanak.
+3. **Munkaterület (S-04/S-14):** egyszerre egy szekció; pillek kitöltöttség-számmal, a feltétel miatt kikapcsolt szekció „Hidden” (nem küldődik, nem validálódik — ugyanaz a logika, mint `FBHelper::isValidateCondition`); kliens oldali ellenőrzés a form szabályaiból, a szerver hibái a megfelelő mezőhöz kerülnek; élő előnézet (borító, ár, cím, város); fotók: progress, borító, törlés, típus/méret/darab hiba. A galéria-feltöltés limitjeit a téma **szerveroldalon is** ellenőrzi (az RTCL csak a böngészőben tette). Szerkesztés: `/listing-form/edit/{id}/` ugyanebben a munkaterületben, a kategória nem változtatható (RTCL-szabály), a mentés után újra „pending”.
+4. **Piszkozatok:** automatikus mentés 2,5 s-mal az utolsó változás után + „Save & exit”. A piszkozat az RTCL saját ideiglenes posztja (`rtcl-temp`, amit a fotófeltöltő is létrehoz) `th_draft` metával. **DECISION: 30 napig marad** (az RTCL 2 óra után törölné — a téma kiveszi ebből), utána a napi cron fotóstul törli (`th_listing_draft_days`). Lista: a feladás kezdőképernyőjén és a My listings tetején („Continue a draft”, törlés megerősítéssel).
+5. **Pin-választó** (Form Builder `map` mező → `latitude`/`longitude`): Leaflet + OSM (közös `lib/leaflet.js`), kattintás/húzás, „Pin at map centre” billentyűzettel, „Use my location”, „Remove pin”, a választott város közepéről indul. **Archive:** a sugár és a „Nearest” Haversine-távolságot számol a listing saját pinjétől, pin nélkül a városa közepétől (`Archive\Module::geo_clauses`); a térkép megjegyzése csak a közelítő pinekre szól. Tesztelve: az Alicante-városú, de Torreviejában pinelt hirdetés a „Torrevieja + 10 km”-ben benne van, az „Alicante + 10 km”-ben nincs.
+6. **Chat:** saját táblák, egy beszélgetés = hirdetés + érdeklődő. Fiók › Messages (lista + beszélgetés, mobilon külön nézet), JS nélkül is küld; REST (`torrehub/v1/chat`, cookie + `wp_rest` nonce, csak résztvevő érheti el). **DECISION: polling** (nyitott beszélgetés 5 s, lista 20 s, háttér-fülön szünetel), külső push-szolgáltatás nélkül; a `th_chat_message_sent` hookra később ráköthető. Rate limit 30 üzenet / 10 perc / fő (429). Sima szöveg, max 2000 karakter (HTML és script tartalommal együtt kiszűrve). **E-mail** csak akkor megy, ha a címzettnek abban a beszélgetésben nem volt olvasatlan üzenete. Olvasottság: „Seen”. Badge: fejléc, fiók-menü, mobil alsó menü („Chats” a Saved/Guides helyén belépve, a design szerint), dashboard „Unread” csempe. Belépés nélkül a „Chat” gomb a loginra visz, a saját hirdetésen nincs. Felhasználó törlésekor a beszélgetései is törlődnek (GDPR).
+7. **Kvóta** (`Quota`, alapból ki): a szerző utolsó N napban létrehozott hirdetései (bármilyen állapot, a kukában lévő is; a piszkozat nem), staff kivétel; szerveroldali tiltás az RTCL mentésén (`rtcl_fb_extra_form_validation`, csak új hirdetésre), a munkaterület helyett „No free listings left” panel dátummal, sáv a rail-ben és a dashboardon. A modul-kernel új `always()` hookja miatt a beállítás kikapcsolt modulnál is szerkeszthető.
+8. **Teljesítmény:** a fiók téma által renderelt szekcióin (dashboard, My listings, Messages, Verification) az RTCL front-end kitje (fejbeli jQuery, Google Maps, Swiper, moment, Font Awesome) nem töltődik (Messages: Perf 46 → 93); az RTCL saját űrlapjain (Account details, Privacy settings) marad. A hirdetésfeladó oldalon sem töltődik az RTCL kit, a React app és a TinyMCE.
+9. **Ismert:** az RTCL a fiók saját űrlap-oldalain a Google Maps-et a *live* kulccsal tölti; lokálisan ez időnként `google is not defined` hibát dob (a 6. fázis előtt is így volt). A 8. fázis teljesítmény-auditjában kezeljük.

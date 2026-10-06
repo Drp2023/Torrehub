@@ -1,7 +1,7 @@
 <?php
 /**
  * Seller card: logo/avatar, name, verification line, member since, active listings, socials, all listings link.
- * DECISION: "Typical reply" stays hidden until the Chat module can measure it (BUILD-PLAN Q6).
+ * DECISION: "Typical reply" comes from the Chat module, hidden unless switched on in the Customizer (BUILD-PLAN Q6).
  *
  * @package Torrehub
  *
@@ -56,6 +56,14 @@ $icons = array(
 			<div><dt><?php esc_html_e( 'Member since', 'torrehub' ); ?></dt><dd><?php echo esc_html( $seller['since'] ); ?></dd></div>
 		<?php endif; ?>
 		<div><dt><?php esc_html_e( 'Active listings', 'torrehub' ); ?></dt><dd><?php echo esc_html( number_format_i18n( $seller['listings'] ) ); ?></dd></div>
+		<?php
+		/**
+		 * More seller facts (Chat: "Typical reply", when enabled in the Customizer).
+		 *
+		 * @param Torrehub\Modules\Listing\View $view Listing.
+		 */
+		do_action( 'th_listing_seller_facts', $view );
+		?>
 	</dl>
 
 	<?php if ( $view->socials ) : ?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Contact module (blue): price, Show phone number, WhatsApp, (Chat — phase 6), e-mail enquiry.
+ * Contact module (blue): price, Show phone number, WhatsApp, Chat (Chat module), e-mail enquiry.
  *
  * Phone and WhatsApp aren't in the HTML: listing.js fetches them on click (counted like RTCL's own reveal).
  * Without JS, "Show phone number" reloads with ?th_contact=1 and the numbers are rendered here.
@@ -43,9 +43,11 @@ $user = wp_get_current_user();
 		</p>
 	<?php endif; ?>
 
-	<?php if ( $view->contact['phone'] || $view->contact['whatsapp'] ) : ?>
+	<?php if ( $view->contact['phone'] || $view->contact['whatsapp'] || ( ! $view->is_owner && has_action( 'th_listing_contact_buttons' ) ) ) : ?>
 		<div class="th-listing-contact__buttons" data-th-reveal-wrap>
-			<?php if ( $needs_login_phone ) : ?>
+			<?php if ( ! $view->contact['phone'] && ! $view->contact['whatsapp'] ) : ?>
+				<?php // Only module buttons (Chat). ?>
+			<?php elseif ( $needs_login_phone ) : ?>
 				<?php
 				th_component(
 					'button',
@@ -131,11 +133,12 @@ $user = wp_get_current_user();
 			<?php endif; ?>
 			<?php
 			/**
-			 * More contact buttons (the Chat module adds "Chat" in phase 6).
+			 * More contact buttons (Chat module: "Chat").
 			 *
-			 * @param Torrehub\Modules\Listing\View $view Listing.
+			 * @param Torrehub\Modules\Listing\View $view    Listing.
+			 * @param string                        $context module (blue contact module) | sheet (mobile contact sheet).
 			 */
-			do_action( 'th_listing_contact_buttons', $view );
+			do_action( 'th_listing_contact_buttons', $view, 'module' );
 			?>
 		</div>
 	<?php endif; ?>

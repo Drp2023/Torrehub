@@ -6,7 +6,7 @@
  *   q                 keyword (RTCL → `s`)
  *   rtcl_category     category slug (or the category archive itself)
  *   rtcl_location     town slug (or the town archive itself)
- *   radius            km around the town: 10|25|50 (0 = the town only)
+ *   radius            km around the town: 10|25|50 (0 = the town only); listing pin, else its town centre
  *   min_price, max_price
  *   verified=1        verified sellers only
  *   f[field]          Form Builder fields: f[select_x][]=a, f[number_y][min]=…, f[date_z]=Y-m-d
@@ -414,19 +414,34 @@ final class Search {
 			$q->set( 'author__in', $authors );
 		}
 
+		$centre = $this->town ? ( th_town_coordinates()[ $this->town->slug ] ?? null ) : null;
 		if ( $this->town && $this->radius ) {
-			$slugs = array_keys( th_towns_within( $this->town->slug, $this->radius ) );
-			// Drop the single-town constraint (query var + RTCL clause) and match every town inside the radius.
+			$within = th_towns_within( $this->town->slug, $this->radius );
+			// Drop the single-town constraint (query var + RTCL clause): the radius replaces it.
 			$q->set( 'rtcl_location', '' );
-			$tax   = array_filter(
+			$tax = array_filter(
 				(array) $q->get( 'tax_query' ),
 				static fn( $clause ) => ! is_array( $clause ) || 'rtcl_location' !== ( $clause['taxonomy'] ?? '' )
 			);
-			$tax[] = array(
-				'taxonomy' => 'rtcl_location',
-				'field'    => 'slug',
-				'terms'    => $slugs,
-			);
+			if ( $centre ) {
+				// Listings with their own pin: distance from the town centre; without: their town's centre
+				// (Archive\Module::geo_clauses).
+				$q->set(
+					'th_geo',
+					array(
+						'lat'   => (float) $centre[0],
+						'lng'   => (float) $centre[1],
+						'km'    => $this->radius,
+						'towns' => array_keys( $within ),
+					)
+				);
+			} else {
+				$tax[] = array(
+					'taxonomy' => 'rtcl_location',
+					'field'    => 'slug',
+					'terms'    => array_keys( $within ),
+				);
+			}
 			$q->set( 'tax_query', $tax );
 		}
 
@@ -439,7 +454,17 @@ final class Search {
 		}
 
 		if ( 'nearest' === $this->orderby || ( ! $this->orderby && $this->radius ) ) {
-			$q->set( 'th_nearest', array_keys( th_towns_within( (string) $this->town?->slug, $this->radius ) ) );
+			if ( $centre ) {
+				$q->set(
+					'th_geo_order',
+					array(
+						'lat' => (float) $centre[0],
+						'lng' => (float) $centre[1],
+					)
+				);
+			} else {
+				$q->set( 'th_nearest', array_keys( th_towns_within( (string) $this->town?->slug, $this->radius ) ) );
+			}
 		}
 	}
 

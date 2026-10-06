@@ -2,7 +2,7 @@
 /**
  * WP-CLI commands shipped with the theme (loaded only under WP-CLI).
  *
- * Commands: wp torrehub fix-option-values · purge-nie · purge-old-verification-docs (each with [--apply])
+ * Commands: wp torrehub fix-option-values · purge-nie · purge-old-verification-docs · import-chat (each with [--apply])
  *
  * @package Torrehub
  */
@@ -153,5 +153,113 @@ WP_CLI::add_command(
 		delete_metadata( 'user', 0, 'photo_id', '', true );
 		delete_metadata( 'user', 0, 'other_document_id', '', true );
 		WP_CLI::success( sprintf( '%d document attachment(s) deleted; references removed.', count( $ids ) ) );
+	}
+);
+
+/**
+ * Import Classified Listing Pro's chat (`{prefix}rtcl_conversations` + `rtcl_conversation_messages`) into the
+ * theme's chat tables. Run once at go-live while the Pro tables still exist (runbook item). Conversations whose
+ * listing + buyer already have a theme thread are skipped, so a second run imports nothing twice. Text messages only
+ * (attachments / system messages are skipped). Pro stored local server time; it is taken as GMT. Dry run without
+ * --apply.
+ *
+ * ## OPTIONS
+ *
+ * [--apply]
+ * : Write the threads and messages (default: report only).
+ *
+ * @param array<int,string>    $args       Positional args.
+ * @param array<string,string> $assoc_args Flags.
+ */
+WP_CLI::add_command(
+	'torrehub import-chat',
+	static function ( $args, $assoc_args ) {
+		global $wpdb;
+		$apply = ! empty( $assoc_args['apply'] );
+		$cons  = $wpdb->prefix . 'rtcl_conversations';
+		$msgs  = $wpdb->prefix . 'rtcl_conversation_messages';
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- CLI migration; table names are fixed.
+		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $cons ) ) !== $cons ) {
+			WP_CLI::success( 'No Classified Listing Pro chat tables — nothing to import.' );
+			return;
+		}
+		$tables = Torrehub\Modules\Chat\Store::tables();
+		if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $tables['threads'] ) ) !== $tables['threads'] ) {
+			WP_CLI::error( 'The theme chat tables are missing: open wp-admin once (installer) or enable the Chat module.' );
+		}
+		$rows     = $wpdb->get_results( "SELECT * FROM {$cons} ORDER BY con_id ASC" );
+		$threads  = 0;
+		$messages = 0;
+		$skipped  = 0;
+		foreach ( $rows as $con ) {
+			$buyer  = (int) $con->sender_id;
+			$seller = (int) $con->recipient_id;
+			if ( ! get_post( (int) $con->listing_id ) || ! get_userdata( $buyer ) || ! get_userdata( $seller ) || Torrehub\Modules\Chat\Store::find( (int) $con->listing_id, $buyer ) ) {
+				++$skipped;
+				continue;
+			}
+			$items = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$msgs} WHERE con_id = %d AND type = 'text' ORDER BY message_id ASC", (int) $con->con_id ) );
+			++$threads;
+			$messages += count( $items );
+			if ( ! $apply ) {
+				continue;
+			}
+			$wpdb->insert(
+				$tables['threads'],
+				array(
+					'listing_id'     => (int) $con->listing_id,
+					'buyer_id'       => $buyer,
+					'seller_id'      => $seller,
+					'created_at'     => (string) $con->created_at,
+					'updated_at'     => (string) $con->updated_at,
+					'buyer_deleted'  => (int) $con->sender_delete,
+					'seller_deleted' => (int) $con->recipient_delete,
+				)
+			);
+			$thread_id = (int) $wpdb->insert_id;
+			$last      = 0;
+			$read      = array(
+				'buyer'  => 0,
+				'seller' => 0,
+			);
+			$unread    = array(
+				'buyer'  => 0,
+				'seller' => 0,
+			);
+			foreach ( $items as $item ) {
+				$wpdb->insert(
+					$tables['messages'],
+					array(
+						'thread_id'  => $thread_id,
+						'sender_id'  => (int) $item->source_id,
+						'body'       => Torrehub\Modules\Chat\Store::clean( (string) $item->message ),
+						'created_at' => (string) $item->created_at,
+					)
+				);
+				$last          = (int) $wpdb->insert_id;
+				$to            = (int) $item->source_id === $buyer ? 'seller' : 'buyer';
+				$from          = 'seller' === $to ? 'buyer' : 'seller';
+				$read[ $from ] = $last; // A sender has read everything up to their own message.
+				if ( (int) $item->is_read ) {
+					$read[ $to ] = $last;
+				} else {
+					++$unread[ $to ];
+				}
+			}
+			$wpdb->update(
+				$tables['threads'],
+				array(
+					'last_message_id' => $last,
+					'buyer_read_id'   => $read['buyer'],
+					'seller_read_id'  => $read['seller'],
+					'buyer_unread'    => $unread['buyer'],
+					'seller_unread'   => $unread['seller'],
+				),
+				array( 'id' => $thread_id )
+			);
+		}
+		// phpcs:enable
+		$verb = $apply ? 'Imported' : 'Would import';
+		WP_CLI::success( "{$verb} {$threads} conversations with {$messages} messages ({$skipped} skipped: already imported, or the listing/user is gone)." );
 	}
 );

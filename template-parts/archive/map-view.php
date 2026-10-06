@@ -38,7 +38,8 @@ foreach ( $wp_query->posts as $listing_post ) {
 	}
 }
 $pins     = MapData::pins( $cards );
-$approx   = (bool) array_filter( array_column( $pins, 'approx' ) );
+$approx   = count( array_filter( array_column( $pins, 'approx' ) ) );
+$exact    = count( $pins ) - $approx;
 $unmapped = count( $cards ) - count( $pins );
 $center   = th_town_coordinates()[ $th_search->town ? $th_search->town->slug : 'torrevieja' ] ?? array( 37.978, -0.683 );
 ?>
@@ -72,8 +73,11 @@ $center   = th_town_coordinates()[ $th_search->town ? $th_search->town->slug : '
 		<?php if ( $approx || $unmapped ) : ?>
 			<p class="th-mapview__note">
 				<?php
-				if ( $approx ) {
+				if ( $approx && ! $exact ) {
 					esc_html_e( 'Pins show the town, not the exact address.', 'torrehub' );
+				} elseif ( $approx ) {
+					/* translators: %s: number of listings */
+					echo esc_html( sprintf( _n( '%s pin shows only the town, not the exact address.', '%s pins show only the town, not the exact address.', $approx, 'torrehub' ), number_format_i18n( $approx ) ) );
 				}
 				if ( $unmapped ) {
 					echo ' ';

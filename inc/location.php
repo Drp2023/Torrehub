@@ -106,8 +106,9 @@ function th_distance_km( array $a, array $b ): float {
 /**
  * Towns within $km of a town centre, nearest first (the town itself included at 0 km).
  *
- * DECISION: listings carry no coordinates (0 of 19 have lat/lng), so "radius" works on town centres:
- * a listing matches when its town's centre lies within the radius. Towns without coordinates only match themselves.
+ * Used for the radius chips/fallbacks. The archive query itself measures from the centre to each listing's own pin
+ * (phase 6 pin picker) and falls back to its town's centre (Archive\Module::geo_clauses). Towns without coordinates
+ * only match themselves.
  *
  * @param string $slug Centre town slug.
  * @param int    $km   Radius in km.

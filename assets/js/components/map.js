@@ -4,54 +4,13 @@
  */
 
 import { config } from '../lib/config.js';
+import { whenVisible } from '../lib/leaflet.js';
 
 const settings = config.archive || {};
-let leafletPromise = null;
-
-function loadLeaflet() {
-	if (window.L) {
-		return Promise.resolve(window.L);
-	}
-	if (!leafletPromise) {
-		leafletPromise = new Promise((resolve, reject) => {
-			const css = document.createElement('link');
-			css.rel = 'stylesheet';
-			css.href = settings.leaflet.css;
-			document.head.append(css);
-			const script = document.createElement('script');
-			script.src = settings.leaflet.js;
-			script.async = true;
-			script.onload = () => resolve(window.L);
-			script.onerror = reject;
-			document.head.append(script);
-		});
-	}
-	return leafletPromise;
-}
 
 export function init(root = document) {
 	root.querySelectorAll('[data-th-map]').forEach((wrap) => whenVisible(wrap, (L) => build(L, wrap)));
 	root.querySelectorAll('[data-th-map-single]').forEach((el) => whenVisible(el, (L) => buildSingle(L, el)));
-}
-
-/** Load Leaflet and run `fn` once the element is (nearly) on screen. */
-function whenVisible(el, fn) {
-	if (el.dataset.thReady) {
-		return;
-	}
-	el.dataset.thReady = '1';
-	const start = () => loadLeaflet().then(fn).catch(() => {});
-	if ('IntersectionObserver' in window) {
-		const io = new IntersectionObserver((entries) => {
-			if (entries.some((e) => e.isIntersecting)) {
-				io.disconnect();
-				start();
-			}
-		}, { rootMargin: '200px' });
-		io.observe(el);
-	} else {
-		start();
-	}
 }
 
 /** Single listing: one pin (or a circle around the town centre when the position is approximate). */

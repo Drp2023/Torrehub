@@ -34,7 +34,7 @@ const seller = await login(sctx, 'user54', 'seller54');
 const errors = [];
 seller.on('pageerror', (e) => errors.push(String(e)));
 check('dashboard greets the seller', /Good (morning|afternoon|evening)/.test(await seller.locator('h1').innerText()));
-check('dashboard shows Active / Views / Pending', (await seller.locator('.th-account-stats__tile').count()) === 3);
+check('dashboard shows Active / Views / Pending / Unread', /Active.*Views.*Pending.*Unread/is.test(await seller.locator('.th-account-stats').innerText()));
 check('no NIE / NIF input anywhere in the account', (await seller.locator('input[name*="nif" i], input[name*="nie" i], input[name="custom_field_1"]').count()) === 0);
 await seller.goto(base + '/my-account/edit-account/');
 check('account details: no NIF/NIE field (snippet 7263 retired)', !/NIF\/NIE/.test(await seller.locator('main').innerText()));

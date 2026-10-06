@@ -30,6 +30,12 @@ abstract class Module {
 	abstract public function register(): void;
 
 	/**
+	 * Hooks that run even while the module is switched off (e.g. its settings section). Called when requirements
+	 * are met.
+	 */
+	public function always(): void {}
+
+	/**
 	 * Short description for the settings screen.
 	 */
 	public function description(): string {
