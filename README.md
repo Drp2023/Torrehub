@@ -8,7 +8,7 @@ Klasszikus PHP WordPress téma a torrehub.com-hoz (Direction C · Modern Local H
 
 ## Telepítés
 
-Élesre **csak** a `bin/build-zip.sh` kimenete mehet (`dist/torrehub-<verzió>.zip`, csak commitolt fájlok, dev-mappák nélkül): Megjelenés › Témák › Feltöltés. Az élesítés teljes menete: **`_dev/docs/GO-LIVE-RUNBOOK.md`**.
+Élesre **csak** a `bin/build-zip.sh` kimenete mehet (`dist/torrehub-<verzió>.zip`, csak commitolt fájlok, dev-mappák nélkül): Megjelenés › Témák › Feltöltés. Első éles verzió: **1.0.0**. Az élesítés teljes menete: **`_dev/docs/GO-LIVE-RUNBOOK.md`** — minden lépés wp-adminból (Eszközök › Torrehub migration) vagy WP-CLI-ből; SSH nem feltétel.
 
 Frissítéskor a `style.css` `Version` sorát emelni kell — a JS/CSS cache-busting ebből jön.
 
@@ -32,6 +32,7 @@ Minden más (auth, chat, eladó-hitelesítés, mentett keresések, értékelése
 | Megjelenés › **Listing cards** | mely Form Builder-mezők látszanak a kártyákon |
 | Listings › **Reports** | bejelentési küszöb és bejelentett hirdetések |
 | Users › **Verification** | eladó-hitelesítési kérelmek |
+| Eszközök › **Torrehub migration** | élesítési adat-lépések (próbafuttatás → élesítés, napló), adat-ellenőrzés (baseline ↔ most), karbantartási mód (a látogatóknak 503 „Back soon”, az admin működik) |
 | Classified Listing › Settings | kedvencek (be/ki), moderáció, értesítő e-mailek — a téma követi |
 | Classified Listing › Form Builder | a 10 hirdetés-űrlap mezői (Pro nélkül is szerkeszthető; a használt opció-értékeket a téma védi) |
 
@@ -57,6 +58,7 @@ Ahol ügyfél-döntés még nincs, a kódban `// DECISION:` jelöli a beállíth
 | `Guides` | `/guides/` cikkek, Article JSON-LD |
 | `Content` | About / Contact / FAQ / jogi oldal-sablonok, kapcsolat-űrlap, FAQPage JSON-LD |
 | `Consent` | cookie-sáv: a nem szükséges scriptek és beágyazások a hozzájárulásig **nem futnak**; sáv csak akkor, ha van mit kérdezni |
+| `Migration` | Eszközök › Torrehub migration: a runbook adat-lépései (`Steps`, ugyanaz a kód, mint a `wp torrehub …` parancsoké), adat-ellenőrzés, karbantartási mód |
 | `Styleguide` | rejtett `/styleguide` komponens-könyvtár (csak admin) |
 
 A mag: `inc/src/Core/` (`Theme`, `Module`, `Settings`, `Installer` — saját táblák `dbDelta`-val, `th_schema_versions`; `Mailer`). Procedurális segédek: `inc/*.php` (`seo.php`: description, archív canonical, Open Graph, Organization/WebSite JSON-LD, sitemap-szűrés).
@@ -70,9 +72,9 @@ A mag: `inc/src/Core/` (`Theme`, `Module`, `Settings`, `Installer` — saját t�
 
 ## WP-CLI
 
-Mind dry run alapból, `--apply`-jal ír. Részletek és sorrend: runbook C–D.
+Az adat-lépések alapból próbafuttatások, `--apply`-jal írnak; ugyanezek gombként: Eszközök › Torrehub migration (a két út közös naplót ír). Részletek és sorrend: runbook B–D, G. Súgó: `wp help torrehub`.
 
-`wp torrehub fix-option-values` · `migrate-pages [--rollback]` · `import-chat` · `import-search-alerts` · `trash-demo` · `purge-nie` · `purge-old-verification-docs`
+`wp torrehub fix-option-values` · `migrate-pages [--rollback]` · `import-chat` · `import-search-alerts` · `trash-demo` · `purge-nie` · `purge-old-verification-docs` · `data-check [--save-baseline]` · `maintenance on|off|status`
 
 ## Bővítési pontok (filterek / actionök)
 
@@ -87,7 +89,7 @@ bin/reset-db.sh             # tesztkör előtt: tiszta, anonimizált DB → tém
 npm run build               # ikon-sprite + CSS-csomagok (assets/css/build/)
 npm run lint                # ESLint + Stylelint + PHPCS (WordPress Coding Standards)
 bash _dev/tests/run-all.sh  # minden alábbi teszt, csomagonként egy sor
-node _dev/tests/e2e/<suite>.mjs   # auth, account, archive, header, listing, listing-form, chat, search-alerts, content, admin-forms, consent
+node _dev/tests/e2e/<suite>.mjs   # auth, account, archive, header, listing, listing-form, chat, search-alerts, content, admin-forms, consent, migration
 node _dev/tests/a11y.mjs    # axe-core WCAG 2.1 AA, 28 URL × 1440/390
 node _dev/tests/seo.mjs     # title/description/canonical/robots/OG/JSON-LD/sitemap
 bin/build-zip.sh            # telepítőcsomag

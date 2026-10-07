@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Torrehub 0.1.0\n"
+"Project-Id-Version: Torrehub 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/torrehub\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-06T23:21:13+00:00\n"
+"POT-Creation-Date: 2026-10-07T18:12:51+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: torrehub\n"
@@ -773,6 +773,7 @@ msgstr ""
 #: inc/src/Modules/Archive/CardFields.php:72
 #: inc/src/Modules/Auth/UsersAdmin.php:161
 #: inc/src/Modules/Listing/Report.php:248
+#: inc/src/Modules/Migration/Module.php:215
 msgid "You are not allowed to do this."
 msgstr ""
 
@@ -2205,6 +2206,432 @@ msgstr ""
 #: inc/src/Modules/Location/Module.php:122
 msgid "Your location isn’t available right now."
 msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:41
+msgid "Go-live migration"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:48
+msgid "Tools › Torrehub migration: the go-live data steps (dry run, then apply), data check and maintenance mode."
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:102
+#: template-parts/maintenance.php:16
+msgid "Back soon"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:116
+msgid "Maintenance mode is on:"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:117
+msgid "visitors see the “Back soon” page."
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:119
+#: inc/src/Modules/Migration/Module.php:356
+msgid "Switch off"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:133
+msgid "Maintenance mode on"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:198
+#: inc/src/Modules/Migration/Module.php:338
+msgid "Torrehub migration"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:233
+msgid "Run the dry run first (it unlocks “Apply” for one hour)."
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:236
+msgid "Tick “I have a fresh database backup” to run this step."
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:294
+msgid "Dry run — nothing was changed"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:295
+msgid "Applied"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:296
+msgid "Rolled back"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:301
+msgid "Not run"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:339
+msgid "The go-live data steps of the runbook (GO-LIVE-RUNBOOK.md, sections C–D and G). Each step runs as a dry run first: it reports what it would change and writes nothing. “Apply” unlocks for one hour after a successful dry run. The steps are the same code as the “wp torrehub …” commands and can be run again safely."
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:340
+msgid "Before the first “Apply”: a full database + files backup."
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:342
+msgid "Maintenance mode"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:348
+msgid "On — visitors see a “Back soon” page (HTTP 503); administrators use the site and wp-admin as usual."
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:349
+msgid "Off — the site is public."
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:357
+msgid "Switch on"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:360
+msgid "WP-CLI: wp torrehub maintenance on|off"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:363
+msgid "Data check (before / after)"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:365
+msgid "Counts only, no personal data. Save the baseline before the first step; afterwards the table shows what changed. Expected: NIE entries 0 (C6), old verification documents 0 (D4), chat and saved searches = the old tables, demo posts/pages in the trash (C5) — everything else unchanged."
+msgstr ""
+
+#. translators: %s: date and time
+#: inc/src/Modules/Migration/Module.php:370
+#, php-format
+msgid "Baseline saved %s."
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:375
+msgid "What"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:375
+msgid "Baseline"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:375
+msgid "Now"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:392
+msgid "Save again as baseline"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:392
+msgid "Save as baseline (before)"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:392
+msgid "Replace the saved baseline with the current counts?"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:394
+msgid "WP-CLI: wp torrehub data-check [--save-baseline]"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:397
+msgid "Steps"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:412
+msgid "dry run"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:413
+msgid "applied"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:414
+msgid "rolled back"
+msgstr ""
+
+#. translators: 1: run type (dry run / applied), 2: date and time, 3: user, 4: wp-admin or wp-cli, 5: summary
+#: inc/src/Modules/Migration/Module.php:417
+#, php-format
+msgid "Last: %1$s %2$s by %3$s (%4$s) — %5$s"
+msgstr ""
+
+#. translators: 1: run type (dry run / applied), 2: date and time, 3: user, 4: wp-admin or wp-cli, 5: summary
+#: inc/src/Modules/Migration/Module.php:417
+msgid "not run"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:431
+msgid "Dry run"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:433
+msgid "I have a fresh database backup"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:438
+msgid "Apply"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:440
+msgid "This deletes data for good (only the backup can bring it back). Continue?"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:445
+msgid "Roll back"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:445
+msgid "Restore the pages as they were before the migration?"
+msgstr ""
+
+#: inc/src/Modules/Migration/Module.php:449
+msgid "“Apply” unlocks after a dry run."
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:30
+msgid "Form Builder: empty option values"
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:31
+msgid "Options without a stored value (e.g. “€” in Restaurants → Price Range) get their label as value, so they can be saved and filtered. Touches only the Form Builder forms."
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:38
+msgid "Content pages: Elementor → blocks"
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:39
+msgid "About, Contact, FAQ, Privacy, Terms and Legal notice move to the block editor and the theme’s page templates (from the HTML copy Elementor keeps of each page). The originals are kept (post meta + revision); “Roll back” restores them. Run before Elementor is removed."
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:46
+msgid "Messages: import the old chat"
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:47
+msgid "Copies Classified Listing Pro’s conversations (text messages) into the theme’s chat. Already imported conversations are skipped. Run while the old chat tables still exist."
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:54
+msgid "Saved searches: import the old alerts"
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:55
+msgid "Copies the rtcl-search-alert add-on’s saved searches (keyword, category, town). Already imported ones are skipped."
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:62
+msgid "Demo posts and pages to the trash"
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:63
+msgid "The old theme’s 8 demo posts and 11 demo pages go to the trash (restorable). The front page and the posts page are never touched."
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:70
+msgid "GDPR: delete stored NIE numbers"
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:71
+msgid "Deletes every private seller NIE (user meta custom_field_1 and nif_nie). Business NIFs stay. Cannot be undone without the database backup."
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:78
+msgid "GDPR: delete the old verification documents"
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:79
+msgid "The old seller-verification add-on kept ID documents as public Media Library files. They and their references are deleted; verified sellers keep their badge. Run after the add-on is switched off. Cannot be undone without the backup."
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:94
+msgid "Switch off the “Seller Verification” plugin first (runbook D4)."
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:109
+msgid "Unknown step."
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:113
+msgid "This step has no rollback."
+msgstr ""
+
+#. translators: 1: form id, 2: form title, 3: field name, 4: option position
+#: inc/src/Modules/Migration/Steps.php:162
+#, php-format
+msgid "Form %1$d “%2$s”, field %3$s: option %4$d has neither value nor label — left alone."
+msgstr ""
+
+#. translators: 1: form id, 2: form title, 3: field label, 4: option label, 5: new value
+#: inc/src/Modules/Migration/Steps.php:173
+#, php-format
+msgid "Form %1$d “%2$s” · %3$s: option “%4$s” → value “%5$s”"
+msgstr ""
+
+#. translators: %d: number of option values
+#: inc/src/Modules/Migration/Steps.php:189
+#, php-format
+msgid "%d option value fixed."
+msgid_plural "%d option values fixed."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of option values
+#: inc/src/Modules/Migration/Steps.php:189
+#, php-format
+msgid "%d option value would be fixed."
+msgid_plural "%d option values would be fixed."
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/src/Modules/Migration/Steps.php:190
+msgid "No empty option values."
+msgstr ""
+
+#. translators: %s: page slug
+#: inc/src/Modules/Migration/Steps.php:207
+#, php-format
+msgid "%s: page not found."
+msgstr ""
+
+#. translators: %s: page slug
+#: inc/src/Modules/Migration/Steps.php:214
+#, php-format
+msgid "%s: restored"
+msgstr ""
+
+#. translators: %s: page slug
+#: inc/src/Modules/Migration/Steps.php:214
+#, php-format
+msgid "%s: not migrated"
+msgstr ""
+
+#. translators: 1: page slug, 2: template file, 3: migration mode, 4: blocks, 5: words before, 6: words after
+#: inc/src/Modules/Migration/Steps.php:224
+#, php-format
+msgid "%1$s → %2$s (%3$s): %4$d blocks, %5$d → %6$d words"
+msgstr ""
+
+#. translators: %d: number of pages
+#: inc/src/Modules/Migration/Steps.php:228
+#, php-format
+msgid "%d page restored."
+msgid_plural "%d pages restored."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of pages
+#: inc/src/Modules/Migration/Steps.php:231
+#, php-format
+msgid "%d page migrated."
+msgid_plural "%d pages migrated."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of pages
+#: inc/src/Modules/Migration/Steps.php:231
+#, php-format
+msgid "%d page would be migrated."
+msgid_plural "%d pages would be migrated."
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/src/Modules/Migration/Steps.php:257
+msgid "No Classified Listing Pro chat tables — nothing to import."
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:262
+msgid "The theme chat tables are missing: open any wp-admin page once (installer) or switch the Chat module on."
+msgstr ""
+
+#. translators: 1: conversations, 2: messages, 3: skipped conversations
+#: inc/src/Modules/Migration/Steps.php:340
+#, php-format
+msgid "Imported %1$d conversations with %2$d messages (%3$d skipped: already imported, or the listing / user is gone)."
+msgstr ""
+
+#. translators: 1: conversations, 2: messages, 3: skipped conversations
+#: inc/src/Modules/Migration/Steps.php:342
+#, php-format
+msgid "Would import %1$d conversations with %2$d messages (%3$d skipped: already imported, or the listing / user is gone)."
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:363
+msgid "No rtcl-search-alert table — nothing to import."
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:369
+msgid "The theme alerts table is missing: open any wp-admin page once (installer) or switch the module on."
+msgstr ""
+
+#. translators: 1: imported searches, 2: skipped
+#: inc/src/Modules/Migration/Steps.php:441
+#, php-format
+msgid "Imported %1$d saved searches (%2$d skipped: already imported or no address)."
+msgstr ""
+
+#. translators: 1: searches to import, 2: skipped
+#: inc/src/Modules/Migration/Steps.php:443
+#, php-format
+msgid "Would import %1$d saved searches (%2$d skipped: already imported or no address)."
+msgstr ""
+
+#. translators: 1: post type, 2: slug
+#: inc/src/Modules/Migration/Steps.php:491
+#, php-format
+msgid "%1$s %2$s: is the front page / posts page — kept."
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:495
+msgid "trash"
+msgstr ""
+
+#. translators: %d: number of posts and pages
+#: inc/src/Modules/Migration/Steps.php:502
+#, php-format
+msgid "Moved to the trash: %d"
+msgstr ""
+
+#. translators: %d: number of posts and pages
+#: inc/src/Modules/Migration/Steps.php:502
+#, php-format
+msgid "Would move to the trash: %d"
+msgstr ""
+
+#. translators: %d: number of meta rows
+#: inc/src/Modules/Migration/Steps.php:516
+#, php-format
+msgid "%d NIE entry (custom_field_1, nif_nie) would be deleted."
+msgid_plural "%d NIE entries (custom_field_1, nif_nie) would be deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of meta rows
+#: inc/src/Modules/Migration/Steps.php:522
+#, php-format
+msgid "%d NIE entry deleted."
+msgid_plural "%d NIE entries deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of files
+#: inc/src/Modules/Migration/Steps.php:539
+#, php-format
+msgid "%d document file would be deleted."
+msgid_plural "%d document files would be deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of files
+#: inc/src/Modules/Migration/Steps.php:548
+#, php-format
+msgid "%d document file deleted; references removed."
+msgid_plural "%d document files deleted; references removed."
+msgstr[0] ""
+msgstr[1] ""
 
 #: inc/src/Modules/Quota/Module.php:41
 #: inc/src/Modules/Quota/Module.php:273
@@ -5345,6 +5772,10 @@ msgstr ""
 #: template-parts/listing/tabs.php:29
 #, php-format
 msgid "Reviews · %s"
+msgstr ""
+
+#: template-parts/maintenance.php:17
+msgid "We’re updating Torrehub. Please check back in a few minutes."
 msgstr ""
 
 #: theme.json

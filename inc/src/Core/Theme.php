@@ -66,6 +66,7 @@ final class Theme {
 			\Torrehub\Modules\Guides\Module::class,
 			\Torrehub\Modules\Content\Module::class,
 			\Torrehub\Modules\Consent\Module::class,
+			\Torrehub\Modules\Migration\Module::class,
 			\Torrehub\Modules\Styleguide\Module::class,
 		);
 

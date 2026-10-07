@@ -1,7 +1,7 @@
 # BUILD-PLAN.md — Torrehub téma (Direction C · Modern Local Hub)
 
 **Verzió:** 2.0 — a 2026-10-02-i döntések szerint (felülírja a promptot és a v1 tervet)
-**Állapot:** 0–7. fázis jóváhagyva · 8. fázis kész, jóváhagyásra vár (élesítés: `GO-LIVE-RUNBOOK.md`)
+**Állapot:** 0–8. fázis jóváhagyva · élesítés-előkészítés (23. pont) kész, jóváhagyásra vár · első éles verzió: 1.0.0 (élesítés: `GO-LIVE-RUNBOOK.md`)
 **Kapcsolódó:** `RTCL-INTEGRATION-MAP.md`, `RTCL-FREE-CAPABILITIES.md`, `../design/INVENTORY.md`, `../../hotfix/README.md`
 
 ---
@@ -22,6 +22,9 @@
 12. **(2026-10-06)** Városképek: placeholder marad, a képeket a tartalomfeltöltésnél kapják.
 13. **(2026-10-06, ügyfél, GDPR)** Private Seller regisztráció: **nincs NIE mező** (se kötelező, se opcionális). Business Seller: a **NIF (`custom_field_2`) kötelező**, ellenőrzőkarakteres validációval (DNI / NIE-formájú NIF / CIF). A meglévő NIE-értékek (`custom_field_1`, és a 7263-as snippet `nif_nie` kulcsa) **élesítéskor törlendők**; lokálisan már törölve, és sehol nem jelennek meg.
 14. **(2026-10-06)** Bejelentési küszöb: **3** (beállítható: *Listings › Reports*).
+15. **(2026-10-07) A design szent:** semmilyen okból (teljesítmény-büdzsé sem) nem térünk el tőle; a márka-fontok változatlanok (8. nyitott kérdés 12 → a).
+16. **(2026-10-07)** Élesítéskor a téma verziója **1.0.0**.
+17. **(2026-10-07)** Az élesítés SSH nélkül is végigvihető: a runbook minden `wp torrehub` lépése admin-felületről is fut (*Eszközök › Torrehub migration*: lépésenként próbafuttatás eredménnyel, utána élesítés); a runbookban mindkét út szerepel (23. pont).
 
 ---
 
@@ -196,9 +199,9 @@ Minden fázis előtt `bin/reset-db.sh`; témaváltás `wp theme activate torrehu
 1. Nyelvlista — a 8-as döntés szerint a GTranslate beállítása az igazság (élesben 9: en, fi, de, hu, ro, ru, es, sv, uk). A design 8-at mutat — a komponens dinamikus, nincs teendő, csak tudomásul.
 2. Guides: ~~URL~~ — kész (7. fázis, DECISION): `/guides/` oldal, posts page-ként (Beállítások › Olvasás felülírhatja). ~~Demo-posztok és -oldalak~~ — **eldöntve (8. fázis):** kukába (nem végleges törlés) `wp torrehub trash-demo`-val; lokálisan kész (19 elem), élesen runbook C5.
 3. Élesítéskor mi a front page (most „Coming Soon” 6513)? A téma `front-page.php`-ja a beállítástól függetlenül a saját főoldalát mutatja; a „Coming Soon” oldal csak akkor kell, ha élesítés előtt zárva tartanátok az oldalt.
-10. FAQ (7. fázis): a régi FAQ-oldal demo-szöveg volt; a migráció **vázlatot** ír a site tényleges működéséből (8 kérdés) — átnézendő. **Hirdetés-élettartam: ügyfél-döntés** (CL-beállítás 15 nap, a meglévő hirdetések lejárata 2029) — addig **nem szerepel a FAQ-ban** (8. fázis, döntés). ~~„Five free listings every 30 days”~~ — kész (8. fázis): a kvóta-beállítást követi, kikapcsolt kvótánál „Post your listings for free”. Az oldal címe az adatban „Faq” — ha „FAQ” / „Frequently asked questions” kell, az oldal címét kell átírni (tartalom, nem téma).
+10. FAQ (7. fázis): a régi FAQ-oldal demo-szöveg volt; a migráció **vázlatot** ír a site tényleges működéséből (8 kérdés) — átnézendő. **Hirdetés-élettartam: ügyfél-döntés** (CL-beállítás 15 nap, a meglévő hirdetések lejárata 2029) — addig **nem szerepel a FAQ-ban** (8. fázis, döntés). ~~„Five free listings every 30 days”~~ — kész (8. fázis): a kvóta-beállítást követi, kikapcsolt kvótánál „Post your listings for free”. ~~Az oldal címe az adatban „Faq”~~ — eldöntve: „FAQ”, runbook C2b (élesítéskor; lokálisan a reset után is „Faq” marad, mint az éles adatban).
 11. Kapcsolat: iroda-cím és nyitvatartás **üres és rejtett marad** (8. fázis, döntés) — az ügyféltől jön (Customizer › *Guides & pages*).
-12. **Webfontok vs. LCP-büdzsé (8. fázis, döntés kell):** a Lighthouse mobil szimulációban az archive és a listing LCP 2,5–2,6 s (cél < 2,0 s). Mérve: a két márka-font (Figtree + Space Grotesk, 52 KB) nélkül 1,8 s; preload nélkül, `font-display: optional`-lel vagy csak egy fonttal 2,4–2,6 s marad. Lehetőségek: (a) maradnak a fontok (Perf 97, a büdzsé laborban nincs meg, ismételt látogatásnál a fontok cache-ből jönnek); (b) rendszer-font a törzsszövegre, márka-font csak a címekre (még nem mérve); (c) teljesen rendszer-fontok. Addig (a), változtatás nélkül.
+12. ~~Webfontok vs. LCP-büdzsé~~ — **eldöntve (2026-10-07): a) a márka-fontok maradnak**, a design szent (döntés 15). Az archive/listing labor-LCP-je 2,5–2,6 s marad (mérés: §16); ismételt látogatásnál a fontok cache-ből jönnek.
 4. Logó SVG (header, favicon, sötét változat).
 5. Lokális demo-seed adat mehet? (R4)
 6. ~~„Typical reply within 1 hour”~~ — kész (6. fázis): a `Chat` modul méri (medián első válasz, 90 nap, ≥ 3 beszélgetés); megjelenítés a Customizerben kapcsolható (Listing page › Show “Typical reply”), alapból ki. „Comes to you” = Service form `Mobile Service` mezőjéből.
@@ -288,7 +291,7 @@ Részletek: **`WPCODE-AUDIT.md`**. Röviden:
 27. **Cookie consent (8. fázis):** `gdpr-cookie-compliance` kikapcsolása; a téma `Consent` modulja veszi át. Ma nincs nem-szükséges script → nincs sáv; később analitika/pixel csak a *Megjelenés › Torrehub › Cookie consent* kategóriáiba.
 28. **WPCode és Filester** kikapcsolása (Filester törlése is); **Fluent Forms** (előtte entries-export, ha kell) és **ACF** kikapcsolása — 1. pont.
 29. **Keresők:** Beállítások › Olvasás „Discourage search engines” ki; Search Console-ba a `wp-sitemap.xml`.
-30. **A teljes, sorrendbe rendezett élesítési lépéssor: `GO-LIVE-RUNBOOK.md`** (A–I: előkészítés, telepítés, migrációk, plugin-sorrend, beállítások, biztonság, aggregált adat-ellenőrzés, füstteszt, visszaállítás).
+30. **A teljes, sorrendbe rendezett élesítési lépéssor: `GO-LIVE-RUNBOOK.md`** — minden lépés adminból (*Eszközök › Torrehub migration*) vagy WP-CLI-ből (A–I: előkészítés, telepítés, migrációk, plugin-sorrend, beállítások, biztonság, aggregált adat-ellenőrzés, füstteszt, visszaállítás).
 
 ## 16. Mérési napló (Lighthouse 12, mobil, lokális Local site)
 
@@ -415,7 +418,7 @@ A 404-oldalt a Lighthouse nem méri (nem 2xx válasz); a `content.mjs` ellenőrz
 | PHPCS (WPCS), ESLint, Stylelint | ✅ 0 hiba |
 | E2E (11 csomag), a11y (axe 0), SEO-probe (0) | ✅ `_dev/tests/run-all.sh` |
 | Lighthouse mobil Perf ≥ 90, CLS < 0,05 | ✅ 97–100, CLS ≤ 0,014 |
-| Lighthouse mobil LCP < 2,0 s | ⚠ főoldal, FAQ, login, fiók, hirdetésfeladás ✅ (1,7–2,0 s); guides 2,1 s; archive/listing 2,5–2,6 s — a márka-fontok miatt, döntés: §8/12 |
+| Lighthouse mobil LCP < 2,0 s | ⚠ főoldal, FAQ, login, fiók, hirdetésfeladás ✅ (1,7–2,0 s); guides 2,1 s; archive/listing 2,5–2,6 s — a márka-fontok miatt; **ügyfél-döntés: a design (fontok) marad** (döntés 15) |
 | i18n | ✅ `languages/torrehub.pot` (1175 string, figyelmeztetés nélkül); JS-szövegek PHP-ból, fordíthatók |
 | Consent: nem szükséges script csak hozzájárulás után | ✅ `consent.mjs` (19) |
 | Élesítési runbook, README | ✅ `GO-LIVE-RUNBOOK.md`, `README.md` |
@@ -423,3 +426,14 @@ A 404-oldalt a Lighthouse nem méri (nem 2xx válasz); a `content.mjs` ellenőrz
 | `backup/`, dump, kulcs, `.env`, plugin-forrás, uploads nincs gitben | ✅ `.gitignore` + commit előtti ellenőrzés |
 
 6. **Tények:** a `bin/reset-db.sh` mostantól aktiválja a témát a migrációk előtt (a `wp torrehub …` parancsok csak aktív témával léteznek — eddig a reset után kézzel futottak) és a végén a runbook szerinti plugin-végállapotot állítja be, valamint a lokális teszt-fiókokat (`tester`/`tester` tag, `user54`/`seller54` business eladó — az anonimizáló mindenkinek véletlen jelszót ad). Teljes tesztkör: `bin/reset-db.sh && bash _dev/tests/run-all.sh`. A `th-local-safety` mu-plugin `th_seo_audit` cookie-val a nyilvános oldal robots/sitemap kimenetét adja (csak lokális mérésekhez).
+
+## 23. Élesítés-előkészítés (a 8. fázis jóváhagyása után, 2026-10-07)
+
+1. **Döntések:** 15–17 (0. pont): a design szent / a fontok maradnak; verzió 1.0.0 (`style.css`); SSH nélküli élesítés.
+2. **Eszközök › Torrehub migration** (`Modules\Migration`, nem kikapcsolható, csak `manage_options`):
+   - a runbook 7 adat-lépése (C1–C6, D4) kártyánként: leírás, CLI-megfelelő, utolsó futás (ki, mikor, adminból vagy CLI-ből, összegzés), **„Dry run”** → az eredmény a kártyán (soronként), **„Apply”** csak sikeres próbafuttatás után, egy órán át (szerveroldalon is ellenőrizve — egy hamisított kérés elutasítva); a két GDPR-törlés (C6, D4) „I have a fresh database backup” pipát + megerősítést kér; D4 „Apply” tiltva, amíg a régi hitelesítő plugin aktív; C2-nél „Roll back”;
+   - **adat-ellenőrzés:** aggregált darabszámok (hirdetések/posztok/oldalak státuszonként, listing-meta, kategóriák, helyszínek, userek szerepkörönként, NIE/NIF/okmány-meta, űrlapok, régi és új chat/riasztás-táblák) — „baseline” mentés és összevetés, a változott sorok kiemelve (runbook B4, G1);
+   - **karbantartási mód:** látogatóknak 503 „Back soon” (Retry-After, noindex; az auth-elrendezés + error panel, új design nélkül), az admin és a login működik; admin-figyelmeztetés + admin-sáv jelzés. A WordPress `.maintenance`-e az admint is kizárná, ezért saját.
+   - A lépések kódja egy helyen (`Migration\Steps` + `Report`); az `inc/cli.php` csak vékony réteg — új parancsok: `wp torrehub data-check [--save-baseline]`, `wp torrehub maintenance on|off|status`; `wp help torrehub` most leírást ad.
+3. **Runbook:** minden lépés **Admin:** és **CLI:** úttal; a baseline a téma aktiválása utánra került (B4 — az adat-ellenőrzés a témával érkezik; az aktiválás csak a `/lost-password/` és `/guides/` oldalt hozza létre), a karbantartási mód közvetlenül az aktiválás után (B3); képméretek SSH nélkül: „Regenerate Thumbnails” ideiglenesen (B6); cron három hosting-esetre (E2); **C2b: FAQ oldalcím „Faq” → „FAQ”** (az adatban „Faq”, ez látszik a címsorban és a böngészőfülön).
+4. **Teszt:** `_dev/tests/e2e/migration.mjs` (22): lépéssorrend, zárolt „Apply”, próbafuttatás nem ír, élesítés ír, adat-ellenőrzés kiemel, GDPR-pipa, hamisított „Apply” elutasítva, CLI-futás a naplóban, karbantartás (503 látogatónak, 200 adminnak és a loginon), eladó nem fér hozzá. A `run-all.sh` része.
