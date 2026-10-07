@@ -1,7 +1,7 @@
 # BUILD-PLAN.md — Torrehub téma (Direction C · Modern Local Hub)
 
 **Verzió:** 2.0 — a 2026-10-02-i döntések szerint (felülírja a promptot és a v1 tervet)
-**Állapot:** 0–8. fázis jóváhagyva · élesítés-előkészítés (23. pont) kész, jóváhagyásra vár · első éles verzió: 1.0.0 (élesítés: `GO-LIVE-RUNBOOK.md`)
+**Állapot:** 0–8. fázis és az élesítés-előkészítés (23. pont) jóváhagyva (2026-10-07) · következik: élesítés a runbook szerint (az üzemeltető végzi) · első éles verzió: 1.0.0 (élesítés: `GO-LIVE-RUNBOOK.md`)
 **Kapcsolódó:** `RTCL-INTEGRATION-MAP.md`, `RTCL-FREE-CAPABILITIES.md`, `../design/INVENTORY.md`, `../../hotfix/README.md`
 
 ---
