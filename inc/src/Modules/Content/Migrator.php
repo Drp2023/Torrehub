@@ -438,7 +438,16 @@ final class Migrator {
 			),
 			array(
 				__( 'Does posting a listing cost anything?', 'torrehub' ),
-				__( 'No. Posting is free for Private and Business Sellers, and there is no commission on what you sell.', 'torrehub' ),
+				__( 'No. Posting and renewing are free for Private and Business Sellers, and there is no commission on what you sell.', 'torrehub' ),
+			),
+			// The two answers below follow Appearance › Torrehub › Listing lifetime (shortcode, rendered on the page and in the JSON-LD).
+			array(
+				__( 'How long does a listing stay online?', 'torrehub' ),
+				'[torrehub_listing_lifetime show=duration]',
+			),
+			array(
+				__( 'How do I renew a listing?', 'torrehub' ),
+				'[torrehub_listing_lifetime show=renewal]',
 			),
 			array(
 				__( 'Why is my listing “Pending review”?', 'torrehub' ),
@@ -461,7 +470,7 @@ final class Migrator {
 				__( 'Yes. Search or filter the listings, then use “Save this search” and choose instantly, daily or weekly. You can change or stop each alert in your account, or with the link in every e-mail.', 'torrehub' ),
 			),
 		);
-		$out   = array();
+		$out = array();
 		foreach ( $items as $item ) {
 			$out[] = "<!-- wp:details -->\n<details class=\"wp-block-details\"><summary>" . esc_html( $item[0] ) . "</summary><!-- wp:paragraph -->\n<p>" . esc_html( $item[1] ) . "</p>\n<!-- /wp:paragraph --></details>\n<!-- /wp:details -->";
 		}

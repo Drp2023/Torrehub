@@ -350,7 +350,8 @@ final class Module extends BaseModule {
 	 * @param \WP_Post $post       Post.
 	 */
 	public function stamp_published( $new_status, $old_status, $post ): void {
-		if ( 'publish' !== $new_status || 'publish' === $old_status || ! $post instanceof \WP_Post || 'rtcl_listing' !== $post->post_type ) {
+		// DECISION: a renewed listing (ended → live) isn't new — free, unlimited renewals mustn't re-announce it.
+		if ( 'publish' !== $new_status || in_array( $old_status, array( 'publish', 'rtcl-expired' ), true ) || ! $post instanceof \WP_Post || 'rtcl_listing' !== $post->post_type ) {
 			return;
 		}
 		update_post_meta( $post->ID, Matcher::PUBLISHED, time() );

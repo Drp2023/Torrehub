@@ -14,6 +14,7 @@ use Rtcl\Helpers\Link;
 // phpcs:disable WordPress.Security.NonceVerification.Recommended -- list filters / notices.
 $active  = isset( $_REQUEST['status'] ) ? sanitize_key( wp_unslash( $_REQUEST['status'] ) ) : 'any';
 $deleted = isset( $_GET['th_deleted'] ) ? sanitize_key( wp_unslash( $_GET['th_deleted'] ) ) : '';
+$renewed = isset( $_GET['th_renewed'] ) ? absint( $_GET['th_renewed'] ) : -1;
 // phpcs:enable
 $base        = Link::get_account_endpoint_url( 'listings' );
 $status_tabs = array(
@@ -40,6 +41,31 @@ $status_tabs = array(
 	</div>
 
 	<?php get_template_part( 'template-parts/listing-form/drafts', null, array( 'back' => $base ) ); ?>
+
+	<?php
+	if ( $renewed > 0 && class_exists( \Torrehub\Modules\Lifetime\Module::class ) ) {
+		$ends = \Torrehub\Modules\Lifetime\Module::ends( $renewed );
+		th_component(
+			'alert',
+			array(
+				'variant' => 'success',
+				'text'    => $ends
+					/* translators: 1: listing title, 2: date */
+					? sprintf( __( 'Renewed — “%1$s” runs until %2$s.', 'torrehub' ), html_entity_decode( (string) get_post_field( 'post_title', $renewed ), ENT_QUOTES ) /* get_the_title() is rewritten on account pages */, wp_date( get_option( 'date_format' ), $ends ) )
+					: __( 'Listing renewed.', 'torrehub' ),
+				'role'    => 'status',
+			)
+		);
+	} elseif ( 0 === $renewed ) {
+		th_component(
+			'alert',
+			array(
+				'variant' => 'error',
+				'text'    => __( 'That listing couldn’t be renewed — it may not be close to its end yet.', 'torrehub' ),
+			)
+		);
+	}
+	?>
 
 	<?php if ( '1' === $deleted ) : ?>
 		<?php

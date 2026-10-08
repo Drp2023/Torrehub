@@ -236,7 +236,7 @@ final class Module extends BaseModule {
 			if ( preg_match( '#<summary[^>]*>(.*?)</summary>(.*)</details>#is', $html, $m ) ) {
 				$out[] = array(
 					'q' => trim( wp_strip_all_tags( $m[1] ) ),
-					'a' => trim( wp_strip_all_tags( $m[2] ) ),
+					'a' => trim( wp_strip_all_tags( do_shortcode( $m[2] ) ) ),
 				);
 			}
 		}

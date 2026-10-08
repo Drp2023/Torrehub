@@ -362,7 +362,7 @@ final class Module extends BaseModule {
 
 			<h2><?php esc_html_e( 'Data check (before / after)', 'torrehub' ); ?></h2>
 			<div class="card" id="data-check">
-				<p><?php esc_html_e( 'Counts only, no personal data. Save the baseline before the first step; afterwards the table shows what changed. Expected: NIE entries 0 (C6), old verification documents 0 (D4), chat and saved searches = the old tables, demo posts/pages in the trash (C5) — everything else unchanged.', 'torrehub' ); ?></p>
+				<p><?php esc_html_e( 'Counts only, no personal data. Save the baseline before the first step; afterwards the table shows what changed. Expected: NIE entries 0 (C6), old verification documents 0 (D4), chat and saved searches = the old tables, demo posts/pages in the trash (C5), every listing in the trash (D1b; their photos stay until the trash is emptied) — everything else unchanged.', 'torrehub' ); ?></p>
 				<?php if ( $baseline ) : ?>
 					<p class="th-migration__last">
 						<?php
@@ -437,7 +437,7 @@ final class Module extends BaseModule {
 							$key,
 							__( 'Apply', 'torrehub' ),
 							'button-primary',
-							$step['destructive'] ? __( 'This deletes data for good (only the backup can bring it back). Continue?', 'torrehub' ) : '',
+							(string) ( $step['confirm'] ?? ( $step['destructive'] ? __( 'This deletes data for good (only the backup can bring it back). Continue?', 'torrehub' ) : '' ) ),
 							$backup,
 							(bool) $dry && '' === $blocker
 						);

@@ -255,8 +255,26 @@
 	align-items: center;
 }
 
-.th-account-row__delete {
+.th-account-row__tools {
+	display: flex;
+	gap: var(--th-s-2);
+	align-items: center;
+}
+
+.th-account-row__delete,
+.th-account-row__renew {
 	margin: 0;
+}
+
+/* Phones: a labelled Renew button would squeeze the card — the row's buttons go under it. */
+@media (max-width: 599px) {
+	.th-account-row:has(.th-account-row__renew) {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.th-account-row:has(.th-account-row__renew) .th-account-row__tools {
+		justify-content: flex-end;
+	}
 }
 
 .th-pagination ul {

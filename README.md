@@ -8,7 +8,7 @@ Klasszikus PHP WordPress téma a torrehub.com-hoz (Direction C · Modern Local H
 
 ## Telepítés
 
-Élesre **csak** a `bin/build-zip.sh` kimenete mehet (`dist/torrehub-<verzió>.zip`, csak commitolt fájlok, dev-mappák nélkül): Megjelenés › Témák › Feltöltés. Első éles verzió: **1.0.0**. Az élesítés teljes menete: **`_dev/docs/GO-LIVE-RUNBOOK.md`** — minden lépés wp-adminból (Eszközök › Torrehub migration) vagy WP-CLI-ből; SSH nem feltétel.
+Élesre **csak** a `bin/build-zip.sh` kimenete mehet (`dist/torrehub-<verzió>.zip`, csak commitolt fájlok, dev-mappák nélkül): Megjelenés › Témák › Feltöltés. Első éles verzió: **1.0.0** (most 1.0.1). Az élesítés teljes menete: **`_dev/docs/GO-LIVE-RUNBOOK.md`** — minden lépés wp-adminból (Eszközök › Torrehub migration) vagy WP-CLI-ből; SSH nem feltétel.
 
 Frissítéskor a `style.css` `Version` sorát emelni kell — a JS/CSS cache-busting ebből jön.
 
@@ -26,7 +26,7 @@ Minden más (auth, chat, eladó-hitelesítés, mentett keresések, értékelése
 
 | Hol | Mi |
 |---|---|
-| Megjelenés › **Torrehub** | modulok ki/be (chat, értékelések, mentett keresések, hitelesítés, kvóta, consent …), kvóta limit/napok, **Cookie consent** (szöveg, kategóriánkénti scriptek, újrakérés) |
+| Megjelenés › **Torrehub** | modulok ki/be (chat, értékelések, mentett keresések, hitelesítés, kvóta, consent …), kvóta limit/napok, **Listing lifetime & renewal** (napok fióktípusonként: Private 15, Business 30, staff 0 = nem jár le; emlékeztető 3 nappal előtte), **Cookie consent** (szöveg, kategóriánkénti scriptek, újrakérés) |
 | Megjelenés › **Archive filters** | kategóriánkénti szűrőcsoportok az archive-on |
 | Megjelenés › **Testreszabás** | főoldal-blokkok és szövegek, header/footer, közösségi linkek, *Listing page*, *Guides & pages* (kapcsolat-címzett, nyilvános e-mail, iroda/nyitvatartás) |
 | Megjelenés › **Listing cards** | mely Form Builder-mezők látszanak a kártyákon |
@@ -50,6 +50,7 @@ Ahol ügyfél-döntés még nincs, a kódban `// DECISION:` jelöli a beállíth
 | `Listing` | egyedi hirdetés-oldal, galéria, kontakt, bejelentés, JSON-LD |
 | `ListingForm` | hirdetésfeladás / szerkesztés munkaterület, piszkozatok, térképes pin |
 | `Quota` | ingyenes hirdetés-keret (alapból ki) |
+| `Lifetime` | hirdetés-élettartam fióktípus szerint, ingyenes egykattintásos megújítás (My listings + az e-mail aláírt linkje), lejárat előtti e-mail; a lezárást a Classified Listing óránkénti cronja végzi; FAQ-shortcode `[torrehub_listing_lifetime show=duration\|renewal]` |
 | `Reviews` | értékelések + AggregateRating |
 | `Account` | fiók-dashboard és szekciók |
 | `Verification` | eladó-hitelesítés (feltöltés → admin döntés → badge, a fájl utána törlődik) |
@@ -74,11 +75,11 @@ A mag: `inc/src/Core/` (`Theme`, `Module`, `Settings`, `Installer` — saját t�
 
 Az adat-lépések alapból próbafuttatások, `--apply`-jal írnak; ugyanezek gombként: Eszközök › Torrehub migration (a két út közös naplót ír). Részletek és sorrend: runbook B–D, G. Súgó: `wp help torrehub`.
 
-`wp torrehub fix-option-values` · `migrate-pages [--rollback]` · `import-chat` · `import-search-alerts` · `trash-demo` · `purge-nie` · `purge-old-verification-docs` · `data-check [--save-baseline]` · `maintenance on|off|status`
+`wp torrehub fix-option-values` · `migrate-pages [--rollback]` · `import-chat` · `import-search-alerts` · `trash-demo` · `purge-nie` · `trash-listings` · `purge-old-verification-docs` · `data-check [--save-baseline]` · `maintenance on|off|status`
 
 ## Bővítési pontok (filterek / actionök)
 
-`th_module_classes`, `th_settings_sections`, `th_page_css_bundles`, `th_rtcl_assets_needed`, `th_account_sections`, `th_account_lean_sections`, `th_header_actions`, `th_bottom_nav_items`, `th_footer_legal_links`, `th_listing_fields`, `th_listing_card_args`, `th_listing_contact_buttons`, `th_listing_schema`, `th_archive_filter_fields`, `th_consent_script_handles` (enqueue-olt scriptek kategóriába sorolása), `th_share_image`, `th_noindex_page_ids`, `th_town_coordinates`, `th_hours_timezone`, `th_chat_email_notify`, `th_registration_open`; események: `th_account_registered|approved|rejected`, `th_chat_message_sent`.
+`th_module_classes`, `th_settings_sections`, `th_page_css_bundles`, `th_rtcl_assets_needed`, `th_account_sections`, `th_account_lean_sections`, `th_header_actions`, `th_bottom_nav_items`, `th_footer_legal_links`, `th_listing_fields`, `th_listing_card_args`, `th_listing_contact_buttons`, `th_listing_schema`, `th_archive_filter_fields`, `th_consent_script_handles` (enqueue-olt scriptek kategóriába sorolása), `th_share_image`, `th_noindex_page_ids`, `th_listing_lifetime_days` / `th_listing_can_renew` / `th_listing_renewed` (később fizetős csomagok: hosszabb élettartam, feltételhez kötött megújítás — most minden ingyenes), `th_town_coordinates`, `th_hours_timezone`, `th_chat_email_notify`, `th_registration_open`; események: `th_account_registered|approved|rejected`, `th_chat_message_sent`.
 
 ## Fejlesztés
 
@@ -89,7 +90,7 @@ bin/reset-db.sh             # tesztkör előtt: tiszta, anonimizált DB → tém
 npm run build               # ikon-sprite + CSS-csomagok (assets/css/build/)
 npm run lint                # ESLint + Stylelint + PHPCS (WordPress Coding Standards)
 bash _dev/tests/run-all.sh  # minden alábbi teszt, csomagonként egy sor
-node _dev/tests/e2e/<suite>.mjs   # auth, account, archive, header, listing, listing-form, chat, search-alerts, content, admin-forms, consent, migration
+node _dev/tests/e2e/<suite>.mjs   # auth, account, archive, header, listing, listing-form, chat, search-alerts, content, admin-forms, consent, migration, lifetime
 node _dev/tests/a11y.mjs    # axe-core WCAG 2.1 AA, 28 URL × 1440/390
 node _dev/tests/seo.mjs     # title/description/canonical/robots/OG/JSON-LD/sitemap
 bin/build-zip.sh            # telepítőcsomag

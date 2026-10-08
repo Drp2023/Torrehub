@@ -21,7 +21,7 @@ final class Steps {
 	/**
 	 * Steps in runbook order: key => definition.
 	 *
-	 * @return array<string,array{code:string,title:string,help:string,destructive:bool,rollback:bool,run:callable}>
+	 * @return array<string,array{code:string,title:string,help:string,destructive:bool,rollback:bool,run:callable,confirm?:string}>
 	 */
 	public static function all(): array {
 		return array(
@@ -72,6 +72,15 @@ final class Steps {
 				'destructive' => true,
 				'rollback'    => false,
 				'run'         => array( self::class, 'purge_nie' ),
+			),
+			'trash-listings'              => array(
+				'code'        => 'D1b',
+				'title'       => __( 'Test data: every listing to the trash', 'torrehub' ),
+				'help'        => __( 'Client decision: the existing listings are test data. Every listing (live, pending, ended, drafts) goes to the trash — restorable for 30 days. Their photos are deleted together with them when the trash is emptied (automatically after 30 days, or Listings › Trash › Empty Trash). Run after the R0 check (D1).', 'torrehub' ),
+				'destructive' => true,
+				'confirm'     => __( 'Every listing goes to the trash (restorable for 30 days). Continue?', 'torrehub' ),
+				'rollback'    => false,
+				'run'         => array( self::class, 'trash_listings' ),
 			),
 			'purge-old-verification-docs' => array(
 				'code'        => 'D4',
@@ -503,6 +512,57 @@ final class Steps {
 	}
 
 	/**
+	 * D1b — client decision 2026-10-08: all existing listings are test data and go to the trash (any status). The
+	 * photos are attached to their listing; Classified Listing deletes them when the listing is deleted for good
+	 * (emptying the trash), so they leave together.
+	 *
+	 * @param Report $r    Report.
+	 * @param string $mode dry|apply.
+	 */
+	public static function trash_listings( Report $r, string $mode ): void {
+		global $wpdb;
+		$rows = $wpdb->get_results( "SELECT ID, post_status, post_title FROM {$wpdb->posts} WHERE post_type = 'rtcl_listing' AND post_status NOT IN ('trash', 'auto-draft', 'inherit') ORDER BY ID" );
+		$ids  = array_map( static fn( $row ) => (int) $row->ID, (array) $rows );
+		$n    = count( $ids );
+		if ( ! $n ) {
+			$r->done( __( 'No listings outside the trash.', 'torrehub' ) );
+			return;
+		}
+		$photos = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->posts} a JOIN {$wpdb->posts} p ON p.ID = a.post_parent WHERE a.post_type = 'attachment' AND p.post_type = 'rtcl_listing' AND p.post_status NOT IN ('trash', 'auto-draft', 'inherit')" );
+		$by     = array_count_values( array_map( static fn( $row ) => (string) $row->post_status, (array) $rows ) );
+		ksort( $by );
+		foreach ( $by as $status => $count ) {
+			/* translators: 1: post status, 2: number of listings */
+			$r->line( sprintf( __( 'Status %1$s: %2$d', 'torrehub' ), $status, $count ) );
+		}
+		foreach ( array_slice( (array) $rows, 0, 40 ) as $row ) {
+			$r->line( sprintf( '#%d %s', $row->ID, html_entity_decode( (string) $row->post_title, ENT_QUOTES ) ) );
+		}
+		if ( $n > 40 ) {
+			/* translators: %d: number of further listings */
+			$r->line( sprintf( __( '… and %d more', 'torrehub' ), $n - 40 ) );
+		}
+		if ( 'apply' === $mode ) {
+			foreach ( $ids as $id ) {
+				wp_trash_post( $id );
+			}
+		}
+		$r->done(
+			sprintf(
+				'apply' === $mode
+					/* translators: 1: listings, 2: photos, 3: days */
+					? __( 'Moved %1$d listings to the trash. Their %2$d photos are deleted when the trash is emptied (automatically after %3$d days).', 'torrehub' )
+					/* translators: 1: listings, 2: photos, 3: days */
+					: __( 'Would move %1$d listings to the trash. Their %2$d photos are deleted when the trash is emptied (automatically after %3$d days).', 'torrehub' ),
+				$n,
+				$photos,
+				(int) EMPTY_TRASH_DAYS
+			),
+			$n
+		);
+	}
+
+	/**
 	 * C6 — GDPR (client decision 2026-10-06): every stored NIE goes; business NIFs (custom_field_2) stay.
 	 *
 	 * @param Report $r    Report.
@@ -562,7 +622,8 @@ final class Steps {
 				$out[ "{$type} · {$row->post_status}" ] = (int) $row->n;
 			}
 		}
-		$out['rtcl_listing · meta rows'] = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->postmeta} m JOIN {$wpdb->posts} p ON p.ID = m.post_id WHERE p.post_type = 'rtcl_listing'" );
+		$out['rtcl_listing · meta rows']         = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->postmeta} m JOIN {$wpdb->posts} p ON p.ID = m.post_id WHERE p.post_type = 'rtcl_listing'" );
+		$out['rtcl_listing · photos (attached)'] = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->posts} a JOIN {$wpdb->posts} p ON p.ID = a.post_parent WHERE a.post_type = 'attachment' AND p.post_type = 'rtcl_listing'" );
 		foreach ( array( 'rtcl_category', 'rtcl_location', 'category' ) as $tax ) {
 			$out[ "terms · {$tax}" ] = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->term_taxonomy} WHERE taxonomy = %s", $tax ) );
 		}

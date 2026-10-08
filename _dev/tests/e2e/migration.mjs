@@ -33,7 +33,7 @@ await Promise.all([page.waitForNavigation(), page.click('#wp-submit')]);
 
 /* ---------------------------------------------------------------- page + data check */
 await page.goto(tool);
-check('Tools › Torrehub migration lists the 7 steps in runbook order', (await page.locator('.th-migration .card h3').allInnerTexts()).map((t) => t.split(' ')[0]).join(',') === 'C1,C2,C3,C4,C5,C6,D4');
+check('Tools › Torrehub migration lists the 7 steps in runbook order', (await page.locator('.th-migration .card h3').allInnerTexts()).map((t) => t.split(' ')[0]).join(',') === 'C1,C2,C3,C4,C5,C6,D1b,D4');
 check('“Apply” locked until a dry run', await card(page, 'trash-demo').getByRole('button', { name: 'Apply', exact: true }).isDisabled());
 await run(page, 'data-check', 'Save as baseline (before)');
 check('baseline saved', /Baseline saved/.test(await page.locator('#data-check').innerText()));
@@ -63,6 +63,17 @@ check('GDPR step asks for the backup confirmation', (await box.count()) === 1 &&
 await box.check();
 await run(page, 'purge-nie', 'Apply');
 check('purge-nie applied', /1 NIE entry deleted/.test(await card(page, 'purge-nie').innerText()) && wp("user meta get tester custom_field_1 || true") === '');
+
+/* ---------------------------------------------------------------- test listings to the trash (client decision 2026-10-08) */
+const live = () => Number(wp('post list --post_type=rtcl_listing --post_status=publish --format=count'));
+const liveBefore = live();
+await run(page, 'trash-listings', 'Dry run');
+const tl = await card(page, 'trash-listings').innerText();
+check('trash-listings dry run: counts by status and photos, nothing moved', /Would move \d+ listings to the trash\. Their \d+ photos are deleted when the trash is emptied/.test(tl) && /Status publish: \d+/.test(tl) && live() === liveBefore && liveBefore > 0);
+check('trash-listings asks for the backup confirmation', (await card(page, 'trash-listings').locator('input[name="th_backup"]').count()) === 1);
+await card(page, 'trash-listings').locator('input[name="th_backup"]').check();
+await run(page, 'trash-listings', 'Apply');
+check('applied: no listing left outside the trash, photos kept until the trash is emptied', /Moved \d+ listings to the trash/.test(await card(page, 'trash-listings').innerText()) && live() === 0 && Number(wp('post list --post_type=attachment --post_status=inherit --format=count')) > 0);
 
 /* ---------------------------------------------------------------- guards */
 const nonce = await card(page, 'import-chat').locator('input[name="_wpnonce"]').first().inputValue();

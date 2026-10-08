@@ -290,8 +290,9 @@
 
 .th-dash-row__stats {
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
-	gap: var(--th-s-4);
+	gap: 2px var(--th-s-4);
 	font-size: var(--th-fs-meta);
 	color: var(--th-muted);
 }

@@ -1,7 +1,7 @@
 # BUILD-PLAN.md — Torrehub téma (Direction C · Modern Local Hub)
 
 **Verzió:** 2.0 — a 2026-10-02-i döntések szerint (felülírja a promptot és a v1 tervet)
-**Állapot:** 0–8. fázis és az élesítés-előkészítés (23. pont) jóváhagyva (2026-10-07) · következik: élesítés a runbook szerint (az üzemeltető végzi) · első éles verzió: 1.0.0 (élesítés: `GO-LIVE-RUNBOOK.md`)
+**Állapot:** 0–8. fázis és az élesítés-előkészítés (23. pont) jóváhagyva (2026-10-07) · 1.0.1: hirdetés-élettartam és megújítás (24. pont) kész, jóváhagyásra vár · élesítés a runbook szerint (az üzemeltető végzi) (élesítés: `GO-LIVE-RUNBOOK.md`)
 **Kapcsolódó:** `RTCL-INTEGRATION-MAP.md`, `RTCL-FREE-CAPABILITIES.md`, `../design/INVENTORY.md`, `../../hotfix/README.md`
 
 ---
@@ -25,6 +25,12 @@
 15. **(2026-10-07) A design szent:** semmilyen okból (teljesítmény-büdzsé sem) nem térünk el tőle; a márka-fontok változatlanok (8. nyitott kérdés 12 → a).
 16. **(2026-10-07)** Élesítéskor a téma verziója **1.0.0**.
 17. **(2026-10-07)** Az élesítés SSH nélkül is végigvihető: a runbook minden `wp torrehub` lépése admin-felületről is fut (*Eszközök › Torrehub migration*: lépésenként próbafuttatás eredménnyel, utána élesítés); a runbookban mindkét út szerepel (23. pont).
+18. **(2026-10-08, ügyfél) Hirdetés-élettartam fióktípus szerint:** Private Seller **15**, Business Seller **30** nap, adminban állítható (*Megjelenés › Torrehub › Listing lifetime & renewal*). **DECISION:** staff (admin) hirdetései nem járnak le (állítható).
+19. **(2026-10-08, ügyfél) Megújítás:** a lejárt vagy lejáró (az emlékeztető-ablakon belüli) hirdetést a tulajdonos a My listings-ből egy kattintással ugyanannyi nappal meghosszabbítja — ingyen, korlátlanul. A még futó hirdetésnél a hátralévő időhöz adódik; a lejárt újra élő (új moderáció nélkül — a tartalom nem változott).
+20. **(2026-10-08, ügyfél) Lejárat előtt 3 nappal e-mail** a tulajdonosnak, megújító linkkel (aláírt link → oldal „Renew” gombbal; GET-re nem újít, így a levelezők linkellenőrzője sem).
+21. **(2026-10-08, ügyfél) Minden ingyenes:** kvóta ki, fizetés nincs; a későbbi fizetős csomagokhoz csak bővítési pontok (`th_listing_lifetime_days`, `th_listing_can_renew`, `th_listing_renewed`).
+22. **(2026-10-08, ügyfél) A meglévő hirdetések tesztadatok:** élesítéskor mind kukába a fotóikkal (runbook D1b, migrációs oldal próbafuttatással); a lokális tesztadatok maradnak.
+23. **(2026-10-08, ügyfél)** A FAQ-ba bekerül az élettartam és a megújítás (a válaszok a beállításokat követik). **DECISION:** a megújított hirdetés nem „új” a mentett keresések szempontjából (nem megy ki róla újra értesítő).
 
 ---
 
@@ -199,7 +205,7 @@ Minden fázis előtt `bin/reset-db.sh`; témaváltás `wp theme activate torrehu
 1. Nyelvlista — a 8-as döntés szerint a GTranslate beállítása az igazság (élesben 9: en, fi, de, hu, ro, ru, es, sv, uk). A design 8-at mutat — a komponens dinamikus, nincs teendő, csak tudomásul.
 2. Guides: ~~URL~~ — kész (7. fázis, DECISION): `/guides/` oldal, posts page-ként (Beállítások › Olvasás felülírhatja). ~~Demo-posztok és -oldalak~~ — **eldöntve (8. fázis):** kukába (nem végleges törlés) `wp torrehub trash-demo`-val; lokálisan kész (19 elem), élesen runbook C5.
 3. Élesítéskor mi a front page (most „Coming Soon” 6513)? A téma `front-page.php`-ja a beállítástól függetlenül a saját főoldalát mutatja; a „Coming Soon” oldal csak akkor kell, ha élesítés előtt zárva tartanátok az oldalt.
-10. FAQ (7. fázis): a régi FAQ-oldal demo-szöveg volt; a migráció **vázlatot** ír a site tényleges működéséből (8 kérdés) — átnézendő. **Hirdetés-élettartam: ügyfél-döntés** (CL-beállítás 15 nap, a meglévő hirdetések lejárata 2029) — addig **nem szerepel a FAQ-ban** (8. fázis, döntés). ~~„Five free listings every 30 days”~~ — kész (8. fázis): a kvóta-beállítást követi, kikapcsolt kvótánál „Post your listings for free”. ~~Az oldal címe az adatban „Faq”~~ — eldöntve: „FAQ”, runbook C2b (élesítéskor; lokálisan a reset után is „Faq” marad, mint az éles adatban).
+10. FAQ (7. fázis): a régi FAQ-oldal demo-szöveg volt; a migráció **vázlatot** ír a site tényleges működéséből (8 kérdés) — átnézendő. ~~Hirdetés-élettartam~~ — **eldöntve (2026-10-08, döntés 18–23):** 15 / 30 nap, megújítás, a FAQ-ban két új kérdés (a beállításokat követik). ~~„Five free listings every 30 days”~~ — kész (8. fázis): a kvóta-beállítást követi, kikapcsolt kvótánál „Post your listings for free”. ~~Az oldal címe az adatban „Faq”~~ — eldöntve: „FAQ”, runbook C2b (élesítéskor; lokálisan a reset után is „Faq” marad, mint az éles adatban).
 11. Kapcsolat: iroda-cím és nyitvatartás **üres és rejtett marad** (8. fázis, döntés) — az ügyféltől jön (Customizer › *Guides & pages*).
 12. ~~Webfontok vs. LCP-büdzsé~~ — **eldöntve (2026-10-07): a) a márka-fontok maradnak**, a design szent (döntés 15). Az archive/listing labor-LCP-je 2,5–2,6 s marad (mérés: §16); ismételt látogatásnál a fontok cache-ből jönnek.
 4. Logó SVG (header, favicon, sötét változat).
@@ -437,3 +443,12 @@ A 404-oldalt a Lighthouse nem méri (nem 2xx válasz); a `content.mjs` ellenőrz
    - A lépések kódja egy helyen (`Migration\Steps` + `Report`); az `inc/cli.php` csak vékony réteg — új parancsok: `wp torrehub data-check [--save-baseline]`, `wp torrehub maintenance on|off|status`; `wp help torrehub` most leírást ad.
 3. **Runbook:** minden lépés **Admin:** és **CLI:** úttal; a baseline a téma aktiválása utánra került (B4 — az adat-ellenőrzés a témával érkezik; az aktiválás csak a `/lost-password/` és `/guides/` oldalt hozza létre), a karbantartási mód közvetlenül az aktiválás után (B3); képméretek SSH nélkül: „Regenerate Thumbnails” ideiglenesen (B6); cron három hosting-esetre (E2); **C2b: FAQ oldalcím „Faq” → „FAQ”** (az adatban „Faq”, ez látszik a címsorban és a böngészőfülön).
 4. **Teszt:** `_dev/tests/e2e/migration.mjs` (22): lépéssorrend, zárolt „Apply”, próbafuttatás nem ír, élesítés ír, adat-ellenőrzés kiemel, GDPR-pipa, hamisított „Apply” elutasítva, CLI-futás a naplóban, karbantartás (503 látogatónak, 200 adminnak és a loginon), eladó nem fér hozzá. A `run-all.sh` része.
+
+## 24. 1.0.1 — hirdetés-élettartam, megújítás, tesztadatok (ügyfél-döntés 2026-10-08)
+
+1. **`Modules\Lifetime`** (nem kikapcsolható; Classified Listing kell hozzá): a téma állítja a lejárati dátumot, amikor egy hirdetés élővé válik (jóváhagyás, közvetlen közzététel, megújítás) — a Classified Listing saját alapértéke (priority 99) előtt, és a CL `get_default_expired_duration_days` szűrőjét is a hirdetés tulajdonosához igazítja (a CL saját „renew” AJAX-a és automatikus közzététele is ugyanazt a napszámot kapja). A **lezárást a CL óránkénti cronja** végzi (`rtcl-expired`); a lejárt hirdetéseket a CL a beállítása szerint 18 nap múlva törli (ezt a beállítási oldal és a FAQ is kiírja).
+2. **Megújítás:** My listings sorában „Renew” gomb (űrlap, JS nélkül is), ha a hirdetés lejárt vagy 3 napon belül lejár; a sor kiírja: „Runs until 6 Nov” / „Ends in 2 days” / „Renew by 17 Oct” (a dash-row komponens új `note` mezője; mobilon a gombok a kártya alá kerülnek). Siker után értesítő a listában. A megújítás törli a CL törlési dátumát.
+3. **Lejárat előtti e-mail** (`th_listing_expiry_notices`, óránként): a téma Mailer-ével, a hirdetés kártyájával, „Renew for 30 days” gombbal (aláírt link: `?th_renew={id}&t=…` → oldal a gombbal, POST-ra újít; hamisított link 404), periódusonként egyszer (`th_expiry_notice` = a lejárati dátum, amire ment). A CL saját tulajdonosi e-mailjei kikapcsolva maradnak (runbook E7b).
+4. **Szövegek a beállításokból:** főoldal „sellers” blokk (`th_sellers_text()`: „Listings run 15 days (30 for businesses) and renew for free in one tap” — a design eredeti mondata, most igaz), FAQ: „How long does a listing stay online?” és „How do I renew a listing?” — `[torrehub_listing_lifetime]` shortcode, a FAQPage JSON-LD is a renderelt választ kapja; „Does posting cost anything?” → „Posting and renewing are free”.
+5. **D1b · Test data: every listing to the trash** a migrációs oldalon és CLI-ből (`wp torrehub trash-listings`): próbafuttatás állapotonkénti darabszámmal, címekkel és fotószámmal; backup-pipa; a fotók a kuka ürítésekor (30 nap) a hirdetéssel együtt törlődnek (CL `before_delete_post`). Runbook: D1 (R0) után.
+6. **Tesztek:** `_dev/tests/e2e/lifetime.mjs` (22): 15/30/soha, admin-beállítás → főoldali szöveg, emlékeztető e-mail (egyszer, aláírt link), megújítás e-mailből (GET nem újít, +30 nap a hátralévőhöz, ismételt link, hamisított link 404), My listings (gomb csak lejárt/lejáró soron, egy kattintás, törlési dátum törlődik, a megújítás nem „új” a riasztásoknak), mobil, CL cron lezár, FAQ + JSON-LD; `migration.mjs` (+3: D1b próba/élesítés, visszaállítás hookok nélkül).

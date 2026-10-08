@@ -29,7 +29,7 @@ function th_mod_defaults(): array {
 		'th_hero_chips'          => __( 'Plumber, Rentals, Beach bars, Jobs', 'torrehub' ),
 		// Empty = automatic: the free-listing allowance while the Quota module is on (th_sellers_title()).
 		'th_sellers_title'       => '',
-		'th_sellers_text'        => __( 'Private sellers just need an e-mail address, businesses add their NIF. No commission, no subscription.', 'torrehub' ),
+		'th_sellers_text'        => '', // Empty: th_sellers_text() follows the lifetime settings.
 		'th_sellers_link'        => '',
 		'th_why_1_title'         => __( 'Search where you actually are', 'torrehub' ),
 		'th_why_1_text'          => __( 'Every listing is tied to a Costa Blanca town.', 'torrehub' ),
@@ -126,7 +126,7 @@ add_action(
 			'th_hero_lead'     => array( __( 'Hero lead', 'torrehub' ), 'textarea' ),
 			'th_hero_chips'    => array( __( 'Suggestion chips (comma separated)', 'torrehub' ), 'text' ),
 			'th_sellers_title' => array( __( 'Seller CTA title (empty: automatic, follows the free-listing allowance)', 'torrehub' ), 'text' ),
-			'th_sellers_text'  => array( __( 'Seller CTA text', 'torrehub' ), 'textarea' ),
+			'th_sellers_text'  => array( __( 'Seller CTA text (empty: automatic, follows the listing lifetime)', 'torrehub' ), 'textarea' ),
 			'th_sellers_link'  => array( __( '“How it works” URL', 'torrehub' ), 'url' ),
 			'th_why_1_title'   => array( __( 'Why Torrehub · 1 title', 'torrehub' ), 'text' ),
 			'th_why_1_text'    => array( __( 'Why Torrehub · 1 text', 'torrehub' ), 'text' ),
@@ -384,4 +384,21 @@ function th_sellers_title(): string {
 		return sprintf( _n( '%1$s free listing every %2$s days', '%1$s free listings every %2$s days', $s['limit'], 'torrehub' ), number_format_i18n( $s['limit'] ), number_format_i18n( $s['days'] ) );
 	}
 	return __( 'Post your listings for free', 'torrehub' );
+}
+
+/**
+ * Text of the home page's seller call-to-action: the Customizer text, else one that follows the lifetime settings
+ * ("… Listings run 15 days (30 for businesses) and renew for free in one tap …").
+ */
+function th_sellers_text(): string {
+	$custom = trim( (string) get_theme_mod( 'th_sellers_text', '' ) );
+	if ( '' !== $custom ) {
+		return $custom;
+	}
+	$lifetime = Torrehub\Core\Theme::instance()->module( 'lifetime' );
+	$duration = $lifetime && Torrehub\Core\Settings::module_enabled( $lifetime ) ? Torrehub\Modules\Lifetime\Module::duration_text() : '';
+	return '' !== $duration
+		/* translators: %s: "Listings run 15 days (30 for businesses)" */
+		? sprintf( __( 'Private sellers just need an e-mail address, businesses add their NIF. %s and renew for free in one tap. No commission, no subscription.', 'torrehub' ), $duration )
+		: __( 'Private sellers just need an e-mail address, businesses add their NIF. No commission, no subscription.', 'torrehub' );
 }

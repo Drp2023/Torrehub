@@ -12,6 +12,7 @@
  *     @type string     $price
  *     @type array      $status   Badge component args.
  *     @type int        $views
+ *     @type string     $note     Short status line ("Runs until 12 Oct").
  *     @type string     $edit_url
  *     @type string     $delete_url  Rendered as a form-less button with data attribute (JS confirms + AJAX).
  *     @type int        $listing_id
@@ -30,6 +31,7 @@ $a = wp_parse_args(
 		'price'      => '',
 		'status'     => array(),
 		'views'      => null,
+		'note'       => '',
 		'edit_url'   => '',
 		'delete_url' => '',
 		'listing_id' => 0,
@@ -73,6 +75,9 @@ $a = wp_parse_args(
 					echo esc_html( sprintf( _n( '%s view', '%s views', (int) $a['views'], 'torrehub' ), number_format_i18n( (int) $a['views'] ) ) );
 					?>
 				</span>
+			<?php endif; ?>
+			<?php if ( '' !== $a['note'] ) : ?>
+				<span class="th-dash-row__note"><?php echo esc_html( $a['note'] ); ?></span>
 			<?php endif; ?>
 		</div>
 	</div>

@@ -17,13 +17,13 @@ Jelölés: **Admin:** = wp-adminból, **CLI:** = SSH + WP-CLI.
 | A1 | **Biztonsági hotfix fent van:** `wp-content/mu-plugins/torrehub-security.php` (`hotfix/README.md`; fájlkezelővel/SFTP-vel, SSH nem kell). | Bővítmények › Must-Use: „Torrehub — security hotfix” |
 | A2 | PHP ≥ 8.1 (élesen 8.2.34 ✓), WordPress ≥ 6.4 (élesen 7.1.2 ✓). | Eszközök › Webhely állapota |
 | A3 | **Teljes backup:** adatbázis + `wp-content/uploads` + `wp-content/plugins` + `wp-content/themes`. **Admin:** a hosting backup-felülete vagy a `backup-backup` plugin. **CLI:** `wp db export` + a `wp-content` archiválása. A backup **nem** kerül gitbe és nem a téma mappájába. | a backup-fájlok mérete > 0, letöltve a gépre |
-| A4 | Telepítőcsomag: `bin/build-zip.sh` → **`dist/torrehub-1.0.0.zip`** (csak commitolt fájlok; a script megáll, ha dev- vagy érzékeny fájl kerülne bele). **Élesre csak ez mehet.** | a script kimenete: „Built dist/torrehub-1.0.0.zip …” |
+| A4 | Telepítőcsomag: `bin/build-zip.sh` → **`dist/torrehub-1.0.1.zip`** (csak commitolt fájlok; a script megáll, ha dev- vagy érzékeny fájl kerülne bele). **Élesre csak ez mehet.** | a script kimenete: „Built dist/torrehub-1.0.1.zip …” |
 
 ## B. Téma telepítése
 
 | # | Lépés | Ellenőrzés |
 |---|---|---|
-| B1 | Megjelenés › Témák › Új hozzáadása › Téma feltöltése: a zip. **Még ne aktiváld.** | a „Torrehub 1.0.0” téma a listában |
+| B1 | Megjelenés › Témák › Új hozzáadása › Téma feltöltése: a zip. **Még ne aktiváld.** | a „Torrehub 1.0.1” téma a listában |
 | B2 | **WPCode: mind a 14 snippet kikapcsolása** (§15/5) közvetlenül az aktiválás előtt — különben a „Report” gomb és a régi NIF/NIE mező duplán jelenik meg, a 7280-as snippet pedig kizárná a nem-adminokat az `admin-post.php`-ról. **Admin:** Code Snippets › mind „Inactive”. **CLI:** — (a WPCode-nak nincs parancsa; adminból). | Code Snippets lista: mind „Inactive” |
 | B3 | **Téma aktiválása, azonnal utána karbantartási mód be.** **Admin:** Megjelenés › Témák › Torrehub › Aktiválás, majd Eszközök › Torrehub migration › *Maintenance mode* › „Switch on”. **CLI:** `wp theme activate torrehub && wp torrehub maintenance on`. A téma saját karbantartási módja a látogatóknak 503-as „Back soon” oldalt mutat, **a wp-admin és a bejelentkezés működik** (a WordPress saját `.maintenance`-e az admint is kizárná). Az aktiválás után az első admin-oldal létrehozza a téma tábláit, a `/lost-password/` és a `/guides/` oldalt. | kijelentkezve (inkognitóban) „Back soon”; az admin-sávban „Maintenance mode on”; a migrációs oldal *Data check* táblázatában megjelennek a „chat ·” és „saved searches” sorok (= a téma táblái léteznek) |
 | B4 | **Kiinduló számok (baseline).** **Admin:** Torrehub migration › *Data check* › „Save as baseline (before)”. **CLI:** `wp torrehub data-check --save-baseline`. Csak darabszámok, személyes adat nélkül. | „Baseline saved …” |
@@ -52,6 +52,7 @@ Sorrend számít: előbb az, ami a még aktív Pro/Elementor adatából olvas. *
 | # | Plugin | Teendő | Feltétel / megjegyzés |
 |---|---|---|---|
 | D1 | `classified-listing-pro` | kikapcsolás | **R0 kapu:** utána egy Service és egy Property hirdetés szerkesztése a `/listing-form/`-on → mentés → a Data check „rtcl_listing · meta rows” értéke nem csökkent (a repeater-mezők megmaradtak). Ha csökkent: Pro vissza, megállni. |
+| D1b | **Tesztadat: minden hirdetés kukába** (ügyfél-döntés 2026-10-08: a meglévő hirdetések mind tesztadatok) | **Admin:** Torrehub migration › *D1b · Test data: every listing to the trash* › „Dry run” (állapotonkénti darabszám, címek, fotók száma) → backup-pipa → „Apply”. **CLI:** `wp torrehub trash-listings` → `--apply`. | **Csak az R0 kapu (D1) után** — ahhoz még kellenek a hirdetések. Minden állapot (élő, függő, lejárt, piszkozat) a kukába kerül, 30 napig visszaállítható (Listings › Lomtár › Visszaállítás). A fotók a hirdetéshez csatoltak: a kuka ürítésekor (automatikusan 30 nap után, vagy Listings › Lomtár › „Lomtár ürítése”) a Classified Listing velük együtt törli őket. Data check: „rtcl_listing · publish/pending/…” = 0, „rtcl_listing · trash” = az összes; „photos (attached)” a kuka ürítéséig változatlan. |
 | D2 | `rtcl-elementor-builder`, `elementor-pro`, `elementor` | kikapcsolás | C2 után. |
 | D3 | `cldirectory-core`, `rt-framework` | kikapcsolás | csak a régi témának kellett (a hotfix 1. pontja tárgytalanná válik). |
 | D4 | `rtcl-seller-verification` | kikapcsolás, **utána** *D4 · GDPR: delete the old verification documents* (**Admin:** Torrehub migration, backup-pipával; **CLI:** `wp torrehub purge-old-verification-docs` → `--apply`) | a Media Libraryben **nyilvánosan** tárolt okmányok törlése; a hitelesített eladók badge-e marad. Amíg a plugin aktív, az „Apply” tiltva. Data check: „photo_id”, „other_document_id” = 0. |
@@ -72,12 +73,13 @@ Sorrend számít: előbb az, ami a még aktív Pro/Elementor adatából olvas. *
 | # | Lépés | Ellenőrzés |
 |---|---|---|
 | E1 | Időzóna `Europe/Madrid`. **Admin:** Beállítások › Általános. **CLI:** `wp option update timezone_string Europe/Madrid`. | |
-| E2 | **Valódi cron** (mentett keresések e-mailjei, RTCL-takarítás). Mindhárom úton a `wp-config.php`-be `define( 'DISABLE_WP_CRON', true );` kerül (fájlkezelővel), és 5 percenként fut: **CLI-s hoston:** `*/5 * * * * cd <webroot> && wp cron event run --due-now >/dev/null 2>&1`. **SSH nélkül, cPanel „Cron Jobs”-szal:** `*/5 * * * * wget -q -O - "https://torrehub.com/wp-cron.php?doing_wp_cron" >/dev/null 2>&1`. **GoDaddy Managed WordPress (nincs cron-felület):** a `DISABLE_WP_CRON` **ne** kerüljön be (marad a látogatás-alapú WP-Cron), vagy egy külső időzítő (pl. cron-job.org) hívja 5 percenként a fenti `wp-cron.php` URL-t. Események: `th_search_alerts_digest` (óránként), `th_search_alerts_instant` (egyszeri), `rtcl_hourly/daily_scheduled_events`, `rtcl_cleanup_*`. | **Admin:** Eszközök › Webhely állapota — nincs „késésben lévő ütemezett esemény” figyelmeztetés. **CLI:** `wp cron event list` → egyik sem késik 10 percnél többet |
+| E2 | **Valódi cron** (mentett keresések e-mailjei, RTCL-takarítás). Mindhárom úton a `wp-config.php`-be `define( 'DISABLE_WP_CRON', true );` kerül (fájlkezelővel), és 5 percenként fut: **CLI-s hoston:** `*/5 * * * * cd <webroot> && wp cron event run --due-now >/dev/null 2>&1`. **SSH nélkül, cPanel „Cron Jobs”-szal:** `*/5 * * * * wget -q -O - "https://torrehub.com/wp-cron.php?doing_wp_cron" >/dev/null 2>&1`. **GoDaddy Managed WordPress (nincs cron-felület):** a `DISABLE_WP_CRON` **ne** kerüljön be (marad a látogatás-alapú WP-Cron), vagy egy külső időzítő (pl. cron-job.org) hívja 5 percenként a fenti `wp-cron.php` URL-t. Események: `th_search_alerts_digest` (óránként), `th_search_alerts_instant` (egyszeri), `th_listing_expiry_notices` (óránként: lejárat előtti e-mail), `rtcl_hourly/daily_scheduled_events` (ez zárja le a lejárt hirdetéseket), `rtcl_cleanup_*`. | **Admin:** Eszközök › Webhely állapota — nincs „késésben lévő ütemezett esemény” figyelmeztetés. **CLI:** `wp cron event list` → egyik sem késik 10 percnél többet |
 | E3 | **Page cache kizárás** (hosting-felület): `/login/`, `/register/`, `/lost-password/`, `/my-account/*`, `/listing-form/*`, és minden kérés `wordpress_logged_in_*` cookie-val. A REST (`/wp-json/torrehub/v1/…`) belépett usernek elérhető. | belépve a fejlécben a saját neved, kilépve nem (cache-elt oldalon sem) |
 | E4 | **„Discourage search engines” KI.** **Admin:** Beállítások › Olvasás. **CLI:** `wp option update blog_public 1`. A téma `wp-sitemap.xml`-t ad (felhasználó-lista és `noindex` oldalak nélkül). | `https://torrehub.com/robots.txt` → `Sitemap:` sor; `wp-sitemap.xml`-ben nincs `users` |
 | E5 | Megjelenés › Testreszabás › *Guides & pages*: kapcsolat-címzett (üresen az admin e-mail), nyilvános e-mail (`info@torrehub.com`); iroda-cím és nyitvatartás **üresen marad** (ügyfél-döntés, az ügyféltől jön). | `/contact/` |
 | E6 | Kvóta: alapból **ki** (döntés 9). A főoldal szövege kvóta nélkül „Post your listings for free”; bekapcsolva „5 free listings every 30 days” (a beállítást követi). | főoldal „sellers” blokk |
 | E7 | FluentSMTP: a `List-Unsubscribe` fejlécet ne írja felül (mentett keresés e-mailek). | teszt-riasztás fejlécei |
+| E7b | **Hirdetés-élettartam és megújítás** (ügyfél-döntés 2026-10-08). **Admin:** Megjelenés › Torrehub › *Listing lifetime & renewal*: Private Seller **15**, Business Seller **30**, Staff accounts **0** (= nem jár le), Reminder **3** nap. **CLI:** `wp option get th_lifetime` (üresen az alapértékek érvényesek). A Classified Listing saját tulajdonosi e-mailjei („Listing renewal”, „Renewal reminder”, „Listing expired”) **maradjanak kikapcsolva** (Classified Listing › Settings › Email › Notify users) — a lejárat előtti e-mailt a téma küldi, különben dupla levél menne. Kvóta: ki marad, fizetés nincs. | a főoldal „sellers” szövege: „Listings run 15 days (30 for businesses) and renew for free in one tap”; a FAQ-ban a két új kérdés ugyanezekkel a számokkal |
 | E8 | **Karbantartási mód ki.** **Admin:** Torrehub migration › *Maintenance mode* › „Switch off” (vagy az admin-figyelmeztetés „Switch off” linkje). **CLI:** `wp torrehub maintenance off`. | kijelentkezve a kezdőlap 200-zal jön |
 
 ## F. Biztonság élesítés után
@@ -93,19 +95,20 @@ Sorrend számít: előbb az, ami a még aktív Pro/Elementor adatából olvas. *
 
 **Admin:** Torrehub migration › *Data check* — a megváltozott sorok kiemelve. **CLI:** `wp torrehub data-check` (a `changed` oszlopban `*`). Csak darabszámok, személyes adat nélkül.
 
-Elvárt: hirdetések, userek, kategóriák (152), helyszínek (34), Form Builder-űrlapok (10) **változatlanok**; „rtcl_listing · meta rows” nem csökken; NIE (`custom_field_1`, `nif_nie`) = 0 (C6); `custom_field_2` változatlan; `photo_id` / `other_document_id` = 0 (D4); „chat ·” = „old chat ·”, „saved searches” = „old saved searches” (C3–C4); posztok/oldalak: a demo-elemek a `trash` sorban (C5).
+Elvárt: userek, kategóriák (152), helyszínek (34), Form Builder-űrlapok (10) **változatlanok**; a D1b előtt a hirdetések és a „rtcl_listing · meta rows” sem csökken (R0); **D1b után minden hirdetés a `trash` sorban**, a „photos (attached)” a kuka ürítéséig változatlan; NIE (`custom_field_1`, `nif_nie`) = 0 (C6); `custom_field_2` változatlan; `photo_id` / `other_document_id` = 0 (D4); „chat ·” = „old chat ·”, „saved searches” = „old saved searches” (C3–C4); posztok/oldalak: a demo-elemek a `trash` sorban (C5).
 
 ### G2 — füstteszt (böngésző, kijelentkezve és belépve)
 
-1. Kezdőlap, `/listings/`, egy kategória, egy város, térkép-nézet, egy listing (galéria, térkép, kontakt, értékelés).
-2. Regisztráció business-ként (valós NIF) → megerősítő e-mail → admin jóváhagyás → belépés; jelszó-visszaállítás.
-3. Hirdetésfeladás egy kategóriában fotóval és pinnel → pending → admin jóváhagyás → a pin a térképen és a sugárkeresésben.
+1. Regisztráció business-ként (valós NIF) → megerősítő e-mail → admin jóváhagyás → belépés; jelszó-visszaállítás.
+2. Hirdetésfeladás egy kategóriában fotóval és pinnel → pending → admin jóváhagyás → a pin a térképen és a sugárkeresésben; **My listings: „Runs until …” = jóváhagyás + 30 nap** (business; private sellernél 15). (D1b után üres az oldal: ez az első valódi hirdetés.)
+3. Kezdőlap, `/listings/`, egy kategória, egy város, térkép-nézet, ez a hirdetés (galéria, térkép, kontakt, értékelés).
 4. Chat tag ↔ eladó: e-mail megérkezik, a válasz megjelenik.
 5. Hitelesítési feltöltés → admin döntés → a feltöltött fájl törlődött, badge látszik.
 6. Mentett keresés → új egyező hirdetés → e-mail (cron után) → leiratkozó link működik.
 7. Kapcsolat-űrlap → e-mail a címzettnek.
 8. Guides, egy cikk, About, **FAQ (cím: „FAQ”)**, Privacy, Terms, Aviso Legal, 404.
 9. Lábléc „Cookie settings” megnyílik; a sáv nem jelenik meg (nincs opcionális kód).
+9b. **Megújítás:** a teszt-hirdetésnél a lejárat közeli állapot élesben napokat várna — elég, ha a My listings „Runs until …” dátuma helyes, és a FAQ két új kérdése a beállított számokat mutatja. (A megújítást és a lejárat előtti e-mailt a lokális `_dev/tests/e2e/lifetime.mjs` végigteszteli.)
 10. Mobilon (390 px): alsó navigáció, szűrő-sheet, hirdetésfeladás.
 11. Lighthouse mobil a kezdőlapon és egy listingen (cél: Perf ≥ 90; a lokális mérések: BUILD-PLAN §16).
 12. Search Console: `wp-sitemap.xml` beküldése; a régi Yoast-sitemap URL-ek (ha voltak) 404-et adnak — ez rendben van.

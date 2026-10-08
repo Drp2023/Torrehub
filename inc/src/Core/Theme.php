@@ -58,6 +58,7 @@ final class Theme {
 			\Torrehub\Modules\Listing\Module::class,
 			\Torrehub\Modules\ListingForm\Module::class,
 			\Torrehub\Modules\Quota\Module::class,
+			\Torrehub\Modules\Lifetime\Module::class,
 			\Torrehub\Modules\Reviews\Module::class,
 			\Torrehub\Modules\Account\Module::class,
 			\Torrehub\Modules\Verification\Module::class,
