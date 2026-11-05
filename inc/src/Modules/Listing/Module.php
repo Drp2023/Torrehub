@@ -6,7 +6,7 @@
  * - Contact: phone/WhatsApp revealed on request (not in the HTML, counted in RTCL's `_rtcl_reveal_phone_whatsapp`);
  *   e-mail enquiry through Classified Listing's own contact e-mails, for logged-in users (design: "Chat and email
  *   need an account"; DECISION: Customizer `th_contact_email_login`).
- * - Report: see Report (TLRS port). JSON-LD: see Schema.
+ * - Report: see Report (TLRS port). JSON-LD: see Schema. Approval e-mail to the owner: see Approval.
  *
  * @package Torrehub
  */
@@ -91,6 +91,7 @@ final class Module extends BaseModule {
 		self::$active = true;
 		( new Report() )->register();
 		( new Schema() )->register();
+		( new Approval() )->register();
 
 		add_action( 'wp_ajax_th_reveal_contact', array( $this, 'reveal' ) );
 		add_action( 'wp_ajax_nopriv_th_reveal_contact', array( $this, 'reveal' ) );

@@ -35,6 +35,8 @@
 	font-size: var(--th-fs-ui);
 	font-weight: var(--th-fw-bold);
 	line-height: 1.25;
+	overflow-wrap: anywhere; /* "Autot/Moottoripyörät/Veneet" has no break opportunity */
+	hyphens: auto;
 }
 
 .th-cat-tile__meta {

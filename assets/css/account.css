@@ -131,6 +131,17 @@
 	list-style: none;
 }
 
+/* Four tiles (sellers with Messages): 2 × 2 on phones — wide enough for "Megtekintések" — and one row above. */
+.th-account-stats:has(> :nth-child(4):last-child) {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 600px) {
+	.th-account-stats:has(> :nth-child(4):last-child) {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+}
+
 .th-account-stats__tile {
 	display: grid;
 	gap: 2px;
@@ -167,6 +178,8 @@
 	font-weight: var(--th-fw-bold);
 	letter-spacing: var(--th-ls-micro);
 	text-transform: uppercase;
+	overflow-wrap: anywhere; /* one long translated word ("Megtekintések", "Näyttökerrat") in a phone-width tile */
+	hyphens: auto;
 }
 
 .th-account-card {

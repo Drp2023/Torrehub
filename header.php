@@ -33,11 +33,11 @@ $th_logged_in = $th_user->exists();
 		<?php get_template_part( 'template-parts/header/logo' ); ?>
 
 		<?php if ( th_has_rtcl() ) : ?>
-			<button type="button" class="th-loc-pill th-header__desktop" data-th-dialog-open="th-location" aria-controls="th-location" aria-expanded="false" aria-haspopup="dialog">
+			<a class="th-loc-pill th-header__desktop" href="<?php echo esc_url( Torrehub\Modules\Location\Module::picker_url() ); ?>" data-th-dialog-open="th-location" aria-controls="th-location" aria-expanded="false" aria-haspopup="dialog">
 				<?php th_icon( 'map-pin-dot', array( 'size' => 18 ) ); ?>
 				<span><span class="th-sr-only"><?php esc_html_e( 'Your town:', 'torrehub' ); ?></span> <?php echo esc_html( $th_town_name ); ?></span>
 				<?php th_icon( 'chevron-down', array( 'size' => 16 ) ); ?>
-			</button>
+			</a>
 
 			<?php get_template_part( 'template-parts/header/search', null, array( 'class' => 'th-header__desktop th-header__search' ) ); ?>
 		<?php endif; ?>
@@ -96,11 +96,11 @@ $th_logged_in = $th_user->exists();
 
 	<?php if ( th_has_rtcl() ) : ?>
 		<div class="th-container th-header__row th-header__mobile">
-			<button type="button" class="th-loc-pill" data-th-dialog-open="th-location" aria-controls="th-location" aria-expanded="false" aria-haspopup="dialog">
+			<a class="th-loc-pill" href="<?php echo esc_url( Torrehub\Modules\Location\Module::picker_url() ); ?>" data-th-dialog-open="th-location" aria-controls="th-location" aria-expanded="false" aria-haspopup="dialog">
 				<?php th_icon( 'map-pin-dot', array( 'size' => 18 ) ); ?>
 				<span><span class="th-sr-only"><?php esc_html_e( 'Your town:', 'torrehub' ); ?></span> <?php echo esc_html( $th_town_name ); ?></span>
 				<?php th_icon( 'chevron-down', array( 'size' => 16 ) ); ?>
-			</button>
+			</a>
 			<?php get_template_part( 'template-parts/header/search', null, array( 'class' => 'th-search--mobile' ) ); ?>
 		</div>
 

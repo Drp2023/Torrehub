@@ -147,7 +147,12 @@ final class Search {
 				$town = get_queried_object();
 			}
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only GET search.
-			self::$current = self::from_array( wp_unslash( $_GET ), $category instanceof \WP_Term ? $category : null, $town instanceof \WP_Term ? $town : null );
+			$get = wp_unslash( $_GET );
+			// WordPress's own pagination path (/listings/page/2/): same page, and canonical_redirect() moves it to ?page=2.
+			if ( empty( $get['page'] ) && (int) get_query_var( 'paged' ) > 1 ) {
+				$get['page'] = (int) get_query_var( 'paged' );
+			}
+			self::$current = self::from_array( $get, $category instanceof \WP_Term ? $category : null, $town instanceof \WP_Term ? $town : null );
 		}
 		return self::$current;
 	}

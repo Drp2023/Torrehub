@@ -79,7 +79,19 @@ add_action(
 			}
 		}
 
-		wp_register_script_module( 'th-app', th_asset( 'assets/js/app.js' ), array(), th_asset_version( 'assets/js/app.js' ) );
+		// The components are imported by relative URL, which carries no version: the import map gets one entry per file
+		// (URL → URL?ver=), so a theme update reaches browsers and the CDN instead of month-old cached modules.
+		// Browsers without import maps load the plain URL, as before.
+		$modules = array();
+		foreach ( array_merge( (array) glob( TH_DIR . '/assets/js/lib/*.js' ), (array) glob( TH_DIR . '/assets/js/components/*.js' ) ) as $file ) {
+			$path = 'assets/js/' . basename( dirname( (string) $file ) ) . '/' . basename( (string) $file );
+			wp_register_script_module( th_asset( $path ), th_asset( $path ), array(), th_asset_version( $path ) );
+			$modules[] = array(
+				'id'     => th_asset( $path ),
+				'import' => 'dynamic',
+			);
+		}
+		wp_register_script_module( 'th-app', th_asset( 'assets/js/app.js' ), $modules, th_asset_version( 'assets/js/app.js' ) );
 		wp_enqueue_script_module( 'th-app' );
 
 		// Global block styles are not needed on the front end (classic theme, no block layouts besides content).

@@ -7,7 +7,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'TH_VERSION', '0.1.0' );
+define( 'TH_VERSION', (string) wp_get_theme( get_template() )->get( 'Version' ) ); // style.css "Version": the cache-busting key.
 define( 'TH_DIR', get_template_directory() );
 define( 'TH_URI', get_template_directory_uri() );
 

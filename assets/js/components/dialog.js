@@ -15,7 +15,8 @@ export function init(root = document) {
 			return;
 		}
 		const dialog = document.getElementById(opener.dataset.thDialogOpen);
-		if (dialog instanceof HTMLDialogElement) {
+		// No showModal() (iOS < 15.4): a link opener (town pill, Filters) falls through to its no-JS page.
+		if (dialog instanceof HTMLDialogElement && typeof dialog.showModal === 'function') {
 			event.preventDefault();
 			open(dialog, opener);
 		}

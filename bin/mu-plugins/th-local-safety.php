@@ -52,3 +52,17 @@ add_filter(
  * robots / sitemap output of a public site (runbook E4); no crawler sends it.
  */
 add_filter( 'pre_option_blog_public', static fn() => empty( $_COOKIE['th_seo_audit'] ) ? 0 : 1 );
+
+/*
+ * Canonical redirects as on the live site: core's chained-redirect check rebuilds the URL without the Local port
+ * (localhost:10004 → localhost), sees a "different" URL and never redirects — that hid the archive's ?page=2 loop.
+ */
+add_filter(
+	'redirect_canonical',
+	static function ( $url ) {
+		$port = wp_parse_url( home_url(), PHP_URL_PORT );
+		$host = (string) wp_parse_url( home_url(), PHP_URL_HOST );
+		return ( is_string( $url ) && $port ) ? str_replace( "//{$host}/", "//{$host}:{$port}/", $url ) : $url;
+	},
+	PHP_INT_MAX
+);

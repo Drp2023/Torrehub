@@ -47,7 +47,7 @@ Ahol ügyfél-döntés még nincs, a kódban `// DECISION:` jelöli a beállíth
 | `Auth` | login / regisztráció (Member, Private Seller, Business Seller + NIF) / e-mail megerősítés / admin jóváhagyás / jelszó-visszaállítás |
 | `Languages` | GTranslate-alapú nyelvválasztó |
 | `Archive` | listázás, szűrők, rendezés, térkép-nézet, mobil szűrő-sheet |
-| `Listing` | egyedi hirdetés-oldal, galéria, kontakt, bejelentés, JSON-LD |
+| `Listing` | egyedi hirdetés-oldal, galéria, kontakt, bejelentés, JSON-LD, „Your listing is live” e-mail jóváhagyáskor |
 | `ListingForm` | hirdetésfeladás / szerkesztés munkaterület, piszkozatok, térképes pin |
 | `Quota` | ingyenes hirdetés-keret (alapból ki) |
 | `Lifetime` | hirdetés-élettartam fióktípus szerint, ingyenes egykattintásos megújítás (My listings + az e-mail aláírt linkje), lejárat előtti e-mail; a lezárást a Classified Listing óránkénti cronja végzi; FAQ-shortcode `[torrehub_listing_lifetime show=duration\|renewal]` |
@@ -90,7 +90,7 @@ bin/reset-db.sh             # tesztkör előtt: tiszta, anonimizált DB → tém
 npm run build               # ikon-sprite + CSS-csomagok (assets/css/build/)
 npm run lint                # ESLint + Stylelint + PHPCS (WordPress Coding Standards)
 bash _dev/tests/run-all.sh  # minden alábbi teszt, csomagonként egy sor
-node _dev/tests/e2e/<suite>.mjs   # auth, account, archive, header, listing, listing-form, chat, search-alerts, content, admin-forms, consent, migration, lifetime
+node _dev/tests/e2e/<suite>.mjs   # auth, account, archive, header, listing, listing-form, chat, search-alerts, content, admin-forms, consent, migration, lifetime, feedback
 node _dev/tests/a11y.mjs    # axe-core WCAG 2.1 AA, 28 URL × 1440/390
 node _dev/tests/seo.mjs     # title/description/canonical/robots/OG/JSON-LD/sitemap
 bin/build-zip.sh            # telepítőcsomag

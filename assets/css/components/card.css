@@ -297,6 +297,12 @@
 	color: var(--th-muted);
 }
 
+/* Status badges are one line elsewhere; here a long translation ("Függőben lévő felülvizsgálat") wraps inside the row. */
+.th-dash-row__stats .th-badge {
+	max-width: 100%;
+	white-space: normal;
+}
+
 .th-dash-row__price {
 	font-family: var(--th-font-display);
 	font-size: 1.0625rem;

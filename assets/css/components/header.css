@@ -89,6 +89,7 @@
 	color: var(--th-blue-ink);
 	font-size: var(--th-fs-title);
 	font-weight: var(--th-fw-bold);
+	text-decoration: none; /* a link: the no-JS picker page (?th_towns=1) */
 	cursor: pointer;
 	white-space: nowrap;
 	transition: background-color var(--th-dur) var(--th-ease);
@@ -96,6 +97,7 @@
 
 .th-loc-pill:hover {
 	background: color-mix(in srgb, var(--th-tint-blue) 88%, var(--th-blue));
+	color: var(--th-blue-ink);
 }
 
 .th-loc-pill .th-icon {

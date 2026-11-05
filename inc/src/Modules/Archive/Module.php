@@ -78,6 +78,7 @@ final class Module extends BaseModule {
 		add_filter( 'posts_clauses', array( $this, 'geo_clauses' ), 10, 2 );
 		add_action( 'template_redirect', array( $this, 'count_endpoint' ), 1 );
 		add_action( 'template_redirect', array( $this, 'canonical_redirect' ), 5 );
+		add_filter( 'redirect_canonical', array( $this, 'no_core_paging_redirect' ) );
 		add_filter( 'wp_robots', array( $this, 'robots' ) );
 		add_filter( 'th_rtcl_assets_needed', array( $this, 'no_rtcl_assets' ) );
 		add_filter( 'th_page_css_bundles', array( $this, 'css_bundles' ) );
@@ -255,6 +256,18 @@ final class Module extends BaseModule {
 		}
 		wp_safe_redirect( $target, 302, 'Torrehub' );
 		exit;
+	}
+
+	/**
+	 * The archive pages with `?page=N` (Classified Listing's parameter, which it turns into `paged`). WordPress would
+	 * 301 that to /page/N/?page=N, which canonical_redirect() sends back — a loop, so "Load more" and page 2 never
+	 * loaded on the live site (locally the port hides it: core's chained-redirect check sees a different URL).
+	 *
+	 * @param string|false $url Core's canonical URL.
+	 * @return string|false
+	 */
+	public function no_core_paging_redirect( $url ) {
+		return self::is_archive() && ! empty( $_GET['page'] ) ? false : $url; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only.
 	}
 
 	/**

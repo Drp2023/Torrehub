@@ -1,6 +1,7 @@
 <?php
 /**
- * Town picker (G-05): use my location, top towns, full filterable list. Works without JS (links with ?th_town=).
+ * Town picker (G-05): use my location, top towns, full filterable list. Works without JS: the town pill links to
+ * `?th_towns=1` (rendered open here), the towns are links with `?th_town=`.
  *
  * @package Torrehub
  */
@@ -15,7 +16,7 @@ if ( ! $towns ) {
 	return;
 }
 ?>
-<dialog class="th-dialog th-dialog--sheet th-location" id="th-location" data-th-dialog aria-labelledby="th-location-title">
+<dialog class="th-dialog th-dialog--sheet th-location" id="th-location" data-th-dialog aria-labelledby="th-location-title"<?php echo \Torrehub\Modules\Location\Module::picker_requested() ? ' open' : ''; ?>>
 	<div class="th-dialog__head">
 		<h2 class="th-dialog__title" id="th-location-title"><?php esc_html_e( 'Choose your town', 'torrehub' ); ?></h2>
 		<?php

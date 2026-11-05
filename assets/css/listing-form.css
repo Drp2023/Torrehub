@@ -870,6 +870,7 @@
 	border-radius: var(--th-r-tile);
 	background: var(--th-surface-2);
 	overflow: hidden;
+	isolation: isolate; /* Leaflet's panes (z-index 400–1000) stay under the sticky Back / Next bar */
 }
 
 .th-lf-pin__map:focus-visible {

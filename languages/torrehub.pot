@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-07T23:46:41+00:00\n"
+"POT-Creation-Date: 2026-11-05T18:26:30+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: torrehub\n"
@@ -152,6 +152,7 @@ msgstr ""
 
 #: classified-listing/myaccount/my-listings.php:29
 #: inc/src/Modules/Lifetime/Module.php:509
+#: inc/src/Modules/Listing/Approval.php:90
 #: page-templates/styleguide.php:204
 #: page-templates/styleguide.php:999
 #: template-parts/lifetime/renew.php:89
@@ -337,11 +338,11 @@ msgstr ""
 msgid "Guides"
 msgstr ""
 
-#: inc/assets.php:116
+#: inc/assets.php:128
 #: page-templates/styleguide.php:1428
 #: template-parts/archive/save-search.php:59
 #: template-parts/consent/bar.php:52
-#: template-parts/header/location-dialog.php:29
+#: template-parts/header/location-dialog.php:30
 #: template-parts/listing-form/workspace.php:159
 #: template-parts/listing/contact-bar.php:59
 #: template-parts/listing/gallery.php:72
@@ -350,7 +351,7 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: inc/assets.php:117
+#: inc/assets.php:129
 #: template-parts/listing/contact-bar.php:81
 msgid "Loading…"
 msgstr ""
@@ -901,13 +902,13 @@ msgid "Category, town and search results with filters, sorting, list/map views a
 msgstr ""
 
 #. translators: %s: number of results
-#: inc/src/Modules/Archive/Module.php:230
+#: inc/src/Modules/Archive/Module.php:231
 #: template-parts/archive/filter-sheet.php:46
 msgid "No results"
 msgstr ""
 
 #. translators: %s: number of results
-#: inc/src/Modules/Archive/Module.php:230
+#: inc/src/Modules/Archive/Module.php:231
 #: template-parts/archive/filter-sheet.php:48
 #, php-format
 msgid "Show %s result"
@@ -915,120 +916,120 @@ msgid_plural "Show %s results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/src/Modules/Archive/Module.php:397
+#: inc/src/Modules/Archive/Module.php:410
 msgid "Loading more listings…"
 msgstr ""
 
-#: inc/src/Modules/Archive/Module.php:398
+#: inc/src/Modules/Archive/Module.php:411
 msgid "More listings loaded."
 msgstr ""
 
-#: inc/src/Modules/Archive/Module.php:399
+#: inc/src/Modules/Archive/Module.php:412
 msgid "Couldn’t load more. Check your connection and try again."
 msgstr ""
 
-#: inc/src/Modules/Archive/Module.php:400
+#: inc/src/Modules/Archive/Module.php:413
 msgid "Counting…"
 msgstr ""
 
-#: inc/src/Modules/Archive/Module.php:401
+#: inc/src/Modules/Archive/Module.php:414
 #: template-parts/archive/map-view.php:55
 msgid "Zoom in"
 msgstr ""
 
-#: inc/src/Modules/Archive/Module.php:402
+#: inc/src/Modules/Archive/Module.php:415
 #: template-parts/archive/map-view.php:56
 msgid "Zoom out"
 msgstr ""
 
-#: inc/src/Modules/Archive/Module.php:403
+#: inc/src/Modules/Archive/Module.php:416
 #: template-parts/archive/map-view.php:54
 msgid "Show my location"
 msgstr ""
 
-#: inc/src/Modules/Archive/Module.php:404
+#: inc/src/Modules/Archive/Module.php:417
 #: template-parts/archive/map-view.php:48
 msgid "Map of the results"
 msgstr ""
 
-#: inc/src/Modules/Archive/Module.php:413
+#: inc/src/Modules/Archive/Module.php:426
 msgid "Saved to your favourites."
 msgstr ""
 
-#: inc/src/Modules/Archive/Module.php:414
+#: inc/src/Modules/Archive/Module.php:427
 msgid "Removed from your favourites."
 msgstr ""
 
 #. translators: 1: town, 2: radius in km
-#: inc/src/Modules/Archive/Search.php:767
+#: inc/src/Modules/Archive/Search.php:772
 #, php-format
 msgid "%1$s + %2$s km"
 msgstr ""
 
 #. translators: %s: search keyword
-#: inc/src/Modules/Archive/Search.php:776
+#: inc/src/Modules/Archive/Search.php:781
 #, php-format
 msgid "“%s”"
 msgstr ""
 
 #. translators: %s: seller name
-#: inc/src/Modules/Archive/Search.php:823
+#: inc/src/Modules/Archive/Search.php:828
 #, php-format
 msgid "By %s"
 msgstr ""
 
-#: inc/src/Modules/Archive/Search.php:830
+#: inc/src/Modules/Archive/Search.php:835
 #: page-templates/styleguide.php:651
 msgid "Verified only"
 msgstr ""
 
 #. translators: %s: lower bound
-#: inc/src/Modules/Archive/Search.php:867
+#: inc/src/Modules/Archive/Search.php:872
 #, php-format
 msgid "from %s"
 msgstr ""
 
 #. translators: %s: upper bound
-#: inc/src/Modules/Archive/Search.php:870
+#: inc/src/Modules/Archive/Search.php:875
 #, php-format
 msgid "up to %s"
 msgstr ""
 
 #. translators: 1: category, 2: town
-#: inc/src/Modules/Archive/Search.php:881
+#: inc/src/Modules/Archive/Search.php:886
 #, php-format
 msgid "%1$s in %2$s"
 msgstr ""
 
 #. translators: %s: town
-#: inc/src/Modules/Archive/Search.php:888
+#: inc/src/Modules/Archive/Search.php:893
 #, php-format
 msgid "Listings in %s"
 msgstr ""
 
 #. translators: %s: seller name
-#: inc/src/Modules/Archive/Search.php:892
+#: inc/src/Modules/Archive/Search.php:897
 #, php-format
 msgid "Listings by %s"
 msgstr ""
 
 #. translators: %s: search keyword
-#: inc/src/Modules/Archive/Search.php:896
+#: inc/src/Modules/Archive/Search.php:901
 #, php-format
 msgid "Results for “%s”"
 msgstr ""
 
-#: inc/src/Modules/Archive/Search.php:898
+#: inc/src/Modules/Archive/Search.php:903
 msgid "All listings"
 msgstr ""
 
-#: inc/src/Modules/Archive/Search.php:909
+#: inc/src/Modules/Archive/Search.php:914
 #: inc/src/Modules/Listing/View.php:353
 #: template-parts/footer/bottom-nav.php:15
 msgid "Home"
 msgstr ""
 
-#: inc/src/Modules/Archive/Search.php:913
+#: inc/src/Modules/Archive/Search.php:918
 #: template-parts/home/stats.php:18
 msgid "Listings"
 msgstr ""
@@ -1473,7 +1474,7 @@ msgid "Unread"
 msgstr ""
 
 #: inc/src/Modules/Chat/Module.php:700
-#: inc/src/Modules/Listing/Module.php:245
+#: inc/src/Modules/Listing/Module.php:246
 msgid "Sending…"
 msgstr ""
 
@@ -1933,64 +1934,97 @@ msgid_plural "We e-mail you %d days before the end."
 msgstr[0] ""
 msgstr[1] ""
 
+#. translators: %s: listing title
+#: inc/src/Modules/Listing/Approval.php:70
+#, php-format
+msgid "Good news: “%s” has been approved and is now live."
+msgstr ""
+
+#. translators: %s: date
+#: inc/src/Modules/Listing/Approval.php:76
+#, php-format
+msgid "It runs until %s. We’ll e-mail you before it ends, and renewing is free."
+msgstr ""
+
+#. translators: %s: date
+#: inc/src/Modules/Listing/Approval.php:78
+#, php-format
+msgid "It runs until %s. Renewing is free."
+msgstr ""
+
+#. translators: %s: listing title
+#: inc/src/Modules/Listing/Approval.php:83
+#, php-format
+msgid "“%s” is live"
+msgstr ""
+
+#: inc/src/Modules/Listing/Approval.php:84
+#: template-parts/listing-form/submitted.php:19
+msgid "Your listing is live"
+msgstr ""
+
+#: inc/src/Modules/Listing/Approval.php:86
+msgid "View your listing"
+msgstr ""
+
 #: inc/src/Modules/Listing/Module.php:56
 msgid "The single listing page: gallery, details, hours, map, contact, seller, reports."
 msgstr ""
 
-#: inc/src/Modules/Listing/Module.php:244
+#: inc/src/Modules/Listing/Module.php:245
 msgid "Link copied."
 msgstr ""
 
-#: inc/src/Modules/Listing/Module.php:246
+#: inc/src/Modules/Listing/Module.php:247
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: inc/src/Modules/Listing/Module.php:247
+#: inc/src/Modules/Listing/Module.php:248
 msgid "Too many requests. Try again in a few minutes."
 msgstr ""
 
 #. translators: 1: photo number, 2: number of photos
-#: inc/src/Modules/Listing/Module.php:249
+#: inc/src/Modules/Listing/Module.php:250
 #, php-format
 msgid "Photo %1$s of %2$s"
 msgstr ""
 
-#: inc/src/Modules/Listing/Module.php:250
+#: inc/src/Modules/Listing/Module.php:251
 #: template-parts/listing/single.php:26
 msgid "Back to results"
 msgstr ""
 
-#: inc/src/Modules/Listing/Module.php:251
+#: inc/src/Modules/Listing/Module.php:252
 msgid "Read more"
 msgstr ""
 
-#: inc/src/Modules/Listing/Module.php:252
+#: inc/src/Modules/Listing/Module.php:253
 msgid "Show less"
 msgstr ""
 
 #. translators: %s: listing title
-#: inc/src/Modules/Listing/Module.php:294
+#: inc/src/Modules/Listing/Module.php:295
 #, php-format
 msgid "Hi! I saw your listing on Torrehub: %s"
 msgstr ""
 
-#: inc/src/Modules/Listing/Module.php:412
+#: inc/src/Modules/Listing/Module.php:413
 msgid "Message sent. The seller will reply to your e-mail address."
 msgstr ""
 
-#: inc/src/Modules/Listing/Module.php:413
+#: inc/src/Modules/Listing/Module.php:414
 msgid "Log in to send a message."
 msgstr ""
 
-#: inc/src/Modules/Listing/Module.php:414
+#: inc/src/Modules/Listing/Module.php:415
 msgid "Write a message of at least 10 characters."
 msgstr ""
 
-#: inc/src/Modules/Listing/Module.php:415
+#: inc/src/Modules/Listing/Module.php:416
 msgid "You have sent several messages in a short time. Please wait a few minutes."
 msgstr ""
 
-#: inc/src/Modules/Listing/Module.php:416
+#: inc/src/Modules/Listing/Module.php:417
 msgid "This listing can’t be contacted."
 msgstr ""
 
@@ -2376,15 +2410,15 @@ msgstr ""
 msgid "Remembers the visitor’s town (cookie) and uses it as the default area for search and “New near you”."
 msgstr ""
 
-#: inc/src/Modules/Location/Module.php:120
+#: inc/src/Modules/Location/Module.php:141
 msgid "Finding your town…"
 msgstr ""
 
-#: inc/src/Modules/Location/Module.php:121
+#: inc/src/Modules/Location/Module.php:142
 msgid "Location access was blocked. Choose your town instead."
 msgstr ""
 
-#: inc/src/Modules/Location/Module.php:122
+#: inc/src/Modules/Location/Module.php:143
 msgid "Your location isn’t available right now."
 msgstr ""
 
@@ -5076,7 +5110,7 @@ msgstr ""
 #. translators: %s: number of listings
 #: template-parts/components/town-card.php:50
 #: template-parts/guides/single.php:95
-#: template-parts/header/location-dialog.php:57
+#: template-parts/header/location-dialog.php:58
 #: template-parts/home/explore.php:47
 #, php-format
 msgid "%s listing"
@@ -5275,7 +5309,7 @@ msgid "Close menu"
 msgstr ""
 
 #: template-parts/header/drawer.php:66
-#: template-parts/header/location-dialog.php:38
+#: template-parts/header/location-dialog.php:39
 msgid "Use my current location"
 msgstr ""
 
@@ -5295,19 +5329,19 @@ msgstr ""
 msgid "Language:"
 msgstr ""
 
-#: template-parts/header/location-dialog.php:20
+#: template-parts/header/location-dialog.php:21
 msgid "Choose your town"
 msgstr ""
 
-#: template-parts/header/location-dialog.php:43
+#: template-parts/header/location-dialog.php:44
 msgid "Find a town"
 msgstr ""
 
-#: template-parts/header/location-dialog.php:45
+#: template-parts/header/location-dialog.php:46
 msgid "e.g. Altea"
 msgstr ""
 
-#: template-parts/header/location-dialog.php:64
+#: template-parts/header/location-dialog.php:65
 msgid "No town matches that name."
 msgstr ""
 
@@ -5726,10 +5760,6 @@ msgstr ""
 
 #: template-parts/listing-form/submitted.php:19
 msgid "Changes saved"
-msgstr ""
-
-#: template-parts/listing-form/submitted.php:19
-msgid "Your listing is live"
 msgstr ""
 
 #: template-parts/listing-form/submitted.php:20

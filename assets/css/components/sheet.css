@@ -22,6 +22,11 @@
 	flex-direction: column;
 }
 
+/* Opened without JS (#th-location, #th-filters) the dialog itself is the focused target: no ring on the container. */
+.th-dialog:focus {
+	outline: none;
+}
+
 .th-dialog::backdrop {
 	background: var(--th-scrim);
 }

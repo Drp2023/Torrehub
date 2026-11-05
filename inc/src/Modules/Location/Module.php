@@ -70,6 +70,27 @@ final class Module extends BaseModule {
 	public function register(): void {
 		add_action( 'template_redirect', array( $this, 'handle_query_switch' ), 1 );
 		add_filter( 'script_module_data_th-app', array( $this, 'script_data' ) );
+		add_filter(
+			'wp_robots',
+			static function ( array $robots ): array {
+				return self::picker_requested() ? wp_robots_no_robots( $robots ) : $robots;
+			}
+		);
+	}
+
+	/**
+	 * The town pill's href: the same page with the picker rendered open. With JS the pill opens the dialog in place;
+	 * without it, or before the scripts have loaded on a slow phone, the tap still gets the picker.
+	 */
+	public static function picker_url(): string {
+		return add_query_arg( 'th_towns', '1' ) . '#th-location';
+	}
+
+	/**
+	 * Was the page opened from the town pill without JS (`?th_towns=1`)?
+	 */
+	public static function picker_requested(): bool {
+		return ! empty( $_GET['th_towns'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- display state only.
 	}
 
 	/**
@@ -94,7 +115,7 @@ final class Module extends BaseModule {
 			);
 			$_COOKIE[ self::COOKIE ] = $slug;
 		}
-		wp_safe_redirect( remove_query_arg( 'th_town' ) );
+		wp_safe_redirect( remove_query_arg( array( 'th_town', 'th_towns' ) ) );
 		exit;
 	}
 

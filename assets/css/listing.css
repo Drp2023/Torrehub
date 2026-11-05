@@ -397,13 +397,14 @@
 	align-items: center;
 	gap: 6px;
 	min-height: var(--th-tap);
-	color: var(--th-muted);
+	color: var(--th-error-text); /* label and icon: the destructive button's colour (client request) */
 	font-size: var(--th-fs-meta);
 	text-decoration: none;
 }
 
 .th-listing-head__report:hover {
-	color: var(--th-ink);
+	color: var(--th-error-text);
+	text-decoration: underline;
 }
 
 .th-listing-head__report.is-done {
