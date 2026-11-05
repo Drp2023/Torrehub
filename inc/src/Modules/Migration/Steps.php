@@ -9,6 +9,8 @@
 
 namespace Torrehub\Modules\Migration;
 
+use Torrehub\Data\FieldTexts;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -89,6 +91,14 @@ final class Steps {
 				'destructive' => true,
 				'rollback'    => false,
 				'run'         => array( self::class, 'purge_old_verification_docs' ),
+			),
+			'service-fields'              => array(
+				'code'        => 'U1',
+				'title'       => __( 'Service form: Languages Spoken and Mobile Service', 'torrehub' ),
+				'help'        => __( 'Update 1.1.0 (client request). “Languages Spoken” becomes a multiple choice (checkboxes); existing answers stay, as the first choice. “Mobile Service” becomes “Mobile Service Available?” with “Yes – We Come to You” / “No – On-site Service Only”; stored answers map to these (Yes → Yes, No-comes to you → No). Touches the Service form and those two answers only.', 'torrehub' ),
+				'destructive' => false,
+				'rollback'    => false,
+				'run'         => array( self::class, 'service_fields' ),
 			),
 		);
 	}
@@ -606,6 +616,150 @@ final class Steps {
 		delete_metadata( 'user', 0, 'other_document_id', '', true );
 		/* translators: %d: number of files */
 		$r->done( sprintf( _n( '%d document file deleted; references removed.', '%d document files deleted; references removed.', $n, 'torrehub' ), $n ), $n );
+	}
+
+	/**
+	 * U1 (update 1.1.0) — Service form: "Languages Spoken" single → multiple choice (Classified Listing stores a
+	 * checkbox as one meta row per choice, so an existing answer is already a one-item list; the meta key stays, so
+	 * archive filters and saved searches keep working); "Mobile Service" → "Mobile Service Available?" with the
+	 * client's two options, stored answers mapped onto them.
+	 *
+	 * @param Report $r    Report.
+	 * @param string $mode dry|apply.
+	 */
+	public static function service_fields( Report $r, string $mode ): void {
+		global $wpdb;
+		$apply   = 'apply' === $mode;
+		$table   = $wpdb->prefix . 'rtcl_forms';
+		$changes = 0;
+		$found   = array();
+		foreach ( (array) $wpdb->get_results( "SELECT id, title, fields FROM {$table}" ) as $row ) {
+			$fields = json_decode( (string) $row->fields, true );
+			if ( ! is_array( $fields ) ) {
+				continue;
+			}
+			$changed = false;
+			foreach ( $fields as $uuid => $field ) {
+				$kind = self::service_field_kind( (string) $uuid, (array) $field );
+				if ( '' === $kind ) {
+					continue;
+				}
+				$found[] = $kind;
+				$name    = (string) ( $field['name'] ?? '' );
+				/* translators: 1: form id, 2: form title, 3: field label, 4: field name */
+				$where = sprintf( __( 'Form %1$d “%2$s” · %3$s (%4$s)', 'torrehub' ), $row->id, $row->title, $field['label'] ?? '', $name );
+
+				if ( 'languages' === $kind ) {
+					if ( 'checkbox' === ( $field['element'] ?? '' ) ) {
+						/* translators: %s: field */
+						$r->line( sprintf( __( '%s: already a multiple choice.', 'torrehub' ), $where ) );
+						continue;
+					}
+					$listings                   = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT post_id) FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value <> ''", $name ) );
+					$fields[ $uuid ]['element'] = 'checkbox';
+					unset( $fields[ $uuid ]['placeholder'] );
+					$changed = true;
+					++$changes;
+					/* translators: 1: field, 2: number of listings */
+					$r->line( sprintf( _n( '%1$s: single choice → multiple choice; %2$d listing keeps its answer as the first choice.', '%1$s: single choice → multiple choice; %2$d listings keep their answer as the first choice.', $listings, 'torrehub' ), $where, $listings ) );
+					continue;
+				}
+
+				// Mobile service: the existing "yes…" value takes the Yes label, the "no…" one the No label.
+				$yes = '';
+				$no  = '';
+				foreach ( (array) ( $field['options'] ?? array() ) as $opt ) {
+					$value = is_array( $opt ) ? (string) ( $opt['value'] ?? '' ) : '';
+					if ( '' === $yes && preg_match( '/^y/i', $value ) ) {
+						$yes = $value;
+					} elseif ( '' === $no && preg_match( '/^n/i', $value ) ) {
+						$no = $value;
+					}
+				}
+				$yes     = '' !== $yes ? $yes : 'yes';
+				$no      = '' !== $no ? $no : 'no';
+				$options = array(
+					array(
+						'label'      => FieldTexts::MOBILE_YES,
+						'value'      => $yes,
+						'icon_class' => '',
+					),
+					array(
+						'label'      => FieldTexts::MOBILE_NO,
+						'value'      => $no,
+						'icon_class' => '',
+					),
+				);
+				$pairs   = static fn( array $opts ): array => array_map( static fn( $o ) => is_array( $o ) ? array( (string) ( $o['label'] ?? '' ), (string) ( $o['value'] ?? '' ) ) : array(), $opts );
+				if ( FieldTexts::MOBILE_LABEL !== ( $field['label'] ?? '' ) || $pairs( (array) ( $field['options'] ?? array() ) ) !== $pairs( $options ) ) {
+					$fields[ $uuid ]['label']   = FieldTexts::MOBILE_LABEL;
+					$fields[ $uuid ]['options'] = $options;
+					$changed                    = true;
+					++$changes;
+					/* translators: 1: field, 2: new label, 3: yes label, 4: its value, 5: no label, 6: its value */
+					$r->line( sprintf( __( '%1$s → “%2$s”: “%3$s” (%4$s), “%5$s” (%6$s).', 'torrehub' ), $where, FieldTexts::MOBILE_LABEL, FieldTexts::MOBILE_YES, $yes, FieldTexts::MOBILE_NO, $no ) );
+				}
+				// Stored answers outside the two values (older option sets): mapped by their first letter.
+				$stray = $wpdb->get_results( $wpdb->prepare( "SELECT meta_id, meta_value FROM {$wpdb->postmeta} WHERE meta_key = %s AND BINARY meta_value NOT IN (%s, %s)", $name, $yes, $no ) );
+				foreach ( (array) $stray as $m ) {
+					$stored = (string) $m->meta_value;
+					$to     = preg_match( '/^\s*(y|si|1|true)/i', $stored ) ? $yes : ( preg_match( '/^\s*n/i', $stored ) ? $no : '' );
+					if ( '' === $to ) {
+						/* translators: 1: field, 2: stored value */
+						$r->warning( sprintf( __( '%1$s: stored answer “%2$s” matches neither option — left alone.', 'torrehub' ), $where, $stored ) );
+						continue;
+					}
+					/* translators: 1: field, 2: stored value, 3: new value */
+					$r->line( sprintf( __( '%1$s: answer “%2$s” → “%3$s”', 'torrehub' ), $where, $stored, $to ) );
+					++$changes;
+					if ( $apply ) {
+						$wpdb->update( $wpdb->postmeta, array( 'meta_value' => $to ), array( 'meta_id' => (int) $m->meta_id ) ); // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- one-off.
+					}
+				}
+			}
+			if ( $changed && $apply ) {
+				$wpdb->update( $table, array( 'fields' => wp_json_encode( $fields, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) ), array( 'id' => (int) $row->id ) );
+			}
+		}
+		$expected = array(
+			'languages' => 'Languages Spoken',
+			'mobile'    => 'Mobile Service',
+		);
+		foreach ( $expected as $kind => $label ) {
+			if ( ! in_array( $kind, $found, true ) ) {
+				/* translators: %s: field label */
+				$r->warning( sprintf( __( 'Field not found: %s.', 'torrehub' ), $label ) );
+			}
+		}
+		if ( $apply && $changes ) {
+			wp_cache_flush_group( 'post_meta' );
+			\Torrehub\Data\Directory::flush(); // Archive filters list the options.
+		}
+		$r->done(
+			$changes
+				/* translators: %d: number of changes */
+				? sprintf( $apply ? _n( '%d change made.', '%d changes made.', $changes, 'torrehub' ) : _n( '%d change to make.', '%d changes to make.', $changes, 'torrehub' ), $changes )
+				: __( 'Nothing to change — the Service form is up to date.', 'torrehub' ),
+			$changes
+		);
+	}
+
+	/**
+	 * Which U1 field is this ('' = neither)? By uuid (the Service form of torrehub.com), else by label.
+	 *
+	 * @param string              $uuid  Field uuid.
+	 * @param array<string,mixed> $field Definition.
+	 */
+	private static function service_field_kind( string $uuid, array $field ): string {
+		$label   = strtolower( (string) ( $field['label'] ?? '' ) );
+		$element = (string) ( $field['element'] ?? '' );
+		if ( 'moa3gux0' === $uuid || ( in_array( $element, array( 'select', 'checkbox' ), true ) && str_contains( $label, 'language' ) ) ) {
+			return 'languages';
+		}
+		if ( 'moa3cxr4' === $uuid || ( in_array( $element, array( 'radio', 'select' ), true ) && str_contains( $label, 'mobile service' ) ) ) {
+			return 'mobile';
+		}
+		return '';
 	}
 
 	/**

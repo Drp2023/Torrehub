@@ -20,6 +20,7 @@
 namespace Torrehub\Modules\Archive;
 
 use Torrehub\Data\Directory;
+use Torrehub\Data\FieldTexts;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -297,12 +298,12 @@ final class Search {
 				$value = is_array( $opt ) ? (string) ( $opt['value'] ?? '' ) : (string) $opt;
 				$label = is_array( $opt ) ? (string) ( $opt['label'] ?? $value ) : (string) $opt;
 				if ( '' !== trim( $value ) ) { // Options with an empty value can't be matched (WPCODE-AUDIT §6510.7).
-					$options[ $value ] = '' !== trim( $label ) ? $label : $value;
+					$options[ $value ] = '' !== trim( $label ) ? FieldTexts::t( $label ) : $value;
 				}
 			}
 			$def = array(
 				'name'    => $item['field'],
-				'label'   => $item['label'],
+				'label'   => FieldTexts::t( (string) $item['label'] ),
 				'element' => $element,
 				'ui'      => '',
 				'options' => $options,

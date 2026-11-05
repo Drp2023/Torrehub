@@ -75,7 +75,7 @@ A mag: `inc/src/Core/` (`Theme`, `Module`, `Settings`, `Installer` — saját t�
 
 Az adat-lépések alapból próbafuttatások, `--apply`-jal írnak; ugyanezek gombként: Eszközök › Torrehub migration (a két út közös naplót ír). Részletek és sorrend: runbook B–D, G. Súgó: `wp help torrehub`.
 
-`wp torrehub fix-option-values` · `migrate-pages [--rollback]` · `import-chat` · `import-search-alerts` · `trash-demo` · `purge-nie` · `trash-listings` · `purge-old-verification-docs` · `data-check [--save-baseline]` · `maintenance on|off|status`
+`wp torrehub fix-option-values` · `migrate-pages [--rollback]` · `import-chat` · `import-search-alerts` · `trash-demo` · `purge-nie` · `trash-listings` · `purge-old-verification-docs` · `service-fields` (1.1.0) · `data-check [--save-baseline]` · `maintenance on|off|status`
 
 ## Bővítési pontok (filterek / actionök)
 

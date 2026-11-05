@@ -125,3 +125,11 @@ Elvárt: userek, kategóriák (152), helyszínek (34), Form Builder-űrlapok (10
 2. Nyitott ügyfél-kérdések: BUILD-PLAN §8 (hirdetés-élettartam a FAQ-ba, iroda-cím/nyitvatartás, logó SVG, CLIENT-CONFIRMATION nyitott pontjai).
 3. Téma-frissítés menete: `style.css` Version emelése (1.0.1, 1.1.0 … — a JS/CSS cache-busting ebből jön) → `bin/build-zip.sh` → Megjelenés › Témák › Téma feltöltése (a WordPress felajánlja a meglévő cseréjét). **Az 1.0.x csomagok után először:** a frissítés után a hosting cache ürítése (GoDaddy: *Flush cache*) — az 1.0.x minden JS-t `?ver=0.1.0`-val vagy verzió nélkül adott ki, és a CDN 31 napig tartja (BUILD-PLAN 25.3).
 4. A migrációs oldal (Eszközök › Torrehub migration) a témában marad: a naplója az élesítés nyoma; a lépések ismételt futtatása nem okoz kárt.
+
+## J. Frissítés 1.1.0 (ügyfél-visszajelzés, 2026-11)
+
+A csomag feltöltése az I.3 szerint (utána hosting-cache ürítés). A téma cseréje után, ebben a sorrendben:
+
+| # | Lépés | Admin / CLI | Ellenőrzés |
+|---|---|---|---|
+| U1 | **Service form: Languages Spoken (több választás) és Mobile Service** | **Admin:** Eszközök › Torrehub migration › *U1 · Service form: Languages Spoken and Mobile Service* › „Dry run” → „Apply”. **CLI:** `wp torrehub service-fields` → `--apply`. A próbafuttatás kiírja: a „Languages Spoken” egyválasztásos → többválasztásos (a meglévő válasz megmarad, első választásként), „Mobile Service” → „Mobile Service Available?” „Yes – We Come to You” / „No – On-site Service Only” opciókkal, és ha van, a régi válaszok leképezését. Ismételt futtatás: „Nothing to change”. | Egy Service hirdetés oldalán „Languages Spoken: …” és „Mobile Service Available?: …”; a Services szűrőben a nyelvek jelölőnégyzetek, a Mobile Service az új szövegekkel; Classified Listing › Form Builder › Service: a mező „Checkbox” |

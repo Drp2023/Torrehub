@@ -9,6 +9,8 @@
 
 namespace Torrehub\Modules\ListingForm;
 
+use Torrehub\Data\FieldTexts;
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -154,7 +156,7 @@ final class Fields {
 		$out = array();
 		foreach ( (array) ( $field['options'] ?? array() ) as $option ) {
 			if ( is_array( $option ) && isset( $option['value'] ) && '' !== (string) $option['value'] ) {
-				$out[ (string) $option['value'] ] = html_entity_decode( (string) ( $option['label'] ?? $option['value'] ), ENT_QUOTES );
+				$out[ (string) $option['value'] ] = FieldTexts::t( html_entity_decode( (string) ( $option['label'] ?? $option['value'] ), ENT_QUOTES ) );
 			}
 		}
 		return $out;

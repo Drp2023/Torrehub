@@ -65,13 +65,20 @@ final class ListingFields {
 			if ( self::is_empty( $value ) ) {
 				continue;
 			}
-			$label   = trim( (string) $field->getLabel() );
+			$label   = FieldTexts::t( trim( (string) $field->getLabel() ) );
 			$element = (string) $field->getElement();
 
 			switch ( $element ) {
 				case 'checkbox':
 					$labels = self::option_labels( $raw, (array) $value );
-					if ( 1 === count( (array) ( $raw['options'] ?? array() ) ) ) {
+					if ( self::is_list( (string) $field->getName() ) ) {
+						$out['details'][] = array(
+							'name'  => (string) $field->getName(),
+							'label' => $label,
+							'value' => implode( ', ', $labels ),
+							'tone'  => 'grey',
+						);
+					} elseif ( 1 === count( (array) ( $raw['options'] ?? array() ) ) ) {
 						$out['features'][] = $label; // "Outdoor Seating ✓".
 					} else {
 						foreach ( $labels as $l ) {
@@ -152,6 +159,20 @@ final class ListingFields {
 	}
 
 	/**
+	 * Multi-choice fields shown as one detail ("Languages Spoken: English, Spanish") instead of ✓ feature chips.
+	 *
+	 * @param string $name Field name (meta key).
+	 */
+	public static function is_list( string $name ): bool {
+		/**
+		 * Checkbox fields shown as a comma-separated detail on the listing page.
+		 *
+		 * @param array<int,string> $names Field names (Service › Languages Spoken, a select until 1.1.0).
+		 */
+		return in_array( $name, (array) apply_filters( 'th_listing_list_fields', array( 'select_moa3gux0' ) ), true );
+	}
+
+	/**
 	 * One field's value as text ("Full time", "Yes", "12/07/2026 17:30").
 	 *
 	 * @param array<string,mixed> $raw   Field definition.
@@ -180,7 +201,7 @@ final class ListingFields {
 		$map = array();
 		foreach ( (array) ( $raw['options'] ?? array() ) as $opt ) {
 			if ( is_array( $opt ) && isset( $opt['value'] ) ) {
-				$map[ (string) $opt['value'] ] = trim( (string) ( $opt['label'] ?? $opt['value'] ) );
+				$map[ (string) $opt['value'] ] = FieldTexts::t( trim( (string) ( $opt['label'] ?? $opt['value'] ) ) );
 			}
 		}
 		$out = array();

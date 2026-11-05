@@ -1,5 +1,7 @@
-// E2E: client feedback 2026-11 — group 1 (bugs): approval e-mail, phone-width account labels in long languages,
-// town picker, "all listings" paging, Report colour; module cache-busting.
+// E2E: client feedback 2026-11.
+//   Group 1 (bugs): approval e-mail, phone-width account labels in long languages, town picker, "all listings"
+//   paging, Report colour; module cache-busting.
+//   Group 2 (Service form): Languages Spoken → multiple choice, Mobile Service options; migration step U1.
 //   node _dev/tests/e2e/feedback.mjs [baseUrl]
 // Needs (local only): WP-CLI via bin/env.sh (Git Bash), Mailpit, admin dev/dev, business seller user54/seller54,
 // the th-local-safety mu-plugin (live-like canonical redirects). The language sweep needs the internet (GTranslate);
@@ -204,6 +206,61 @@ try {
 	});
 	check('Report link: label and icon use the error colour token', colors.text === colors.want && colors.icon === colors.want, JSON.stringify(colors));
 	await lctx.close();
+
+	/* ------------------------------------------------------------ 2 Service form (step U1) */
+	helper('unmigrate');
+	const dry = wp('torrehub service-fields');
+	check('U1 dry run: Languages single → multiple, Mobile relabelled, old "Yes" answer mapped', /single choice → multiple choice/.test(dry) && /Mobile Service Available\?/.test(dry) && /answer “Yes” → “yes”/.test(dry), dry.split('\n').slice(0, 4).join(' / '));
+	check('… and writes nothing', JSON.parse(helper(`rows ${t.service} radio_moa3cxr4`))[0] === 'Yes');
+	wp('torrehub service-fields --apply');
+	check('U1 apply: answer mapped, second run has nothing to change', JSON.parse(helper(`rows ${t.service} radio_moa3cxr4`))[0] === 'yes' && /Nothing to change/.test(wp('torrehub service-fields')));
+
+	const lang = JSON.parse(helper(`rows ${t.service} select_moa3gux0`));
+	const sp = await (await browser.newContext({ viewport: { width: 1440, height: 900 } })).newPage();
+	await sp.goto(t.svcUrl);
+	const detail = async (label) => sp.evaluate((l) => {
+		const tile = [...document.querySelectorAll('.th-detail')].find((d) => d.innerText.toUpperCase().includes(l.toUpperCase()));
+		return tile ? tile.innerText.replace(/\s+/g, ' ').trim() : '';
+	}, label);
+	check('listing page: “Mobile Service Available?” with the new answer text', /Yes – We Come to You/.test(await detail('Mobile Service Available?')), await detail('Mobile Service'));
+	const langDetail = await detail('Languages Spoken');
+	check('listing page: existing language answers kept', lang.length > 0 && lang.every((v) => new RegExp(v, 'i').test(langDetail)), `${JSON.stringify(lang)} ${langDetail}`);
+
+	// The owner ticks a second language in the listing form and saves (Classified Listing's own save).
+	const ectx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+	const e = await frontLogin(ectx, 'user54', 'seller54');
+	await e.goto(`${base}/listing-form/edit/${t.service}/`);
+	await e.waitForSelector('[data-th-listing-form][data-th-ready]');
+	const langBoxes = e.locator('input[type="checkbox"][name="select_moa3gux0[]"]');
+	check('listing form: Languages Spoken is a set of checkboxes', (await langBoxes.count()) === 5, String(await langBoxes.count()));
+	const sec = await langBoxes.first().evaluate((i) => i.closest('[id^="th-lf-sec"]')?.id || '');
+	await e.locator(`a[href="#${sec}"][data-th-lf-goto]`).click();
+	const addValue = await e.locator('input[name="select_moa3gux0[]"]:not(:checked)').first().getAttribute('value');
+	await e.locator(`input[name="select_moa3gux0[]"][value="${addValue}"]`).check();
+	const mobileLabels = await e.locator('input[name="radio_moa3cxr4"]').evaluateAll((ins) => ins.map((i) => i.closest('label')?.innerText.trim()));
+	check('listing form: Mobile Service options are the new texts', mobileLabels.join(' | ') === 'Yes – We Come to You | No – On-site Service Only', mobileLabels.join(' | '));
+	await e.locator('input[name="radio_moa3cxr4"][value="no_comes_to_you"]').check();
+	await Promise.all([e.waitForURL(/th_updated=1/, { timeout: 30000 }), e.click('[data-th-lf-publish]')]);
+	const saved = JSON.parse(helper(`rows ${t.service} select_moa3gux0`));
+	check('saved: the earlier languages plus the new one (one row each)', saved.length === lang.length + 1 && [...lang, addValue].every((v) => saved.includes(v)), JSON.stringify(saved));
+	check('saved: Mobile answer', JSON.parse(helper(`rows ${t.service} radio_moa3cxr4`))[0] === 'no_comes_to_you');
+	await ectx.close();
+
+	helper(`publish ${t.service}`);
+	await sp.goto(t.svcUrl);
+	const both = await detail('Languages Spoken');
+	check('listing page: every language in one detail', saved.every((v) => new RegExp(v, 'i').test(both)), both);
+	check('listing page: “No – On-site Service Only”', /No – On-site Service Only/.test(await detail('Mobile Service Available?')));
+	const inResults = async (qs) => (await (await fetch(`${base}/listing-category/services/?${qs}`)).text()).includes(new URL(t.svcUrl).pathname);
+	check('archive filter: the second language finds the listing', await inResults(`f%5Bselect_moa3gux0%5D%5B%5D=${encodeURIComponent(addValue)}`));
+	check('archive filter: the first language still finds it', await inResults(`f%5Bselect_moa3gux0%5D%5B%5D=${encodeURIComponent(lang[0])}`));
+	const unused = ['English', 'Spanish', 'swedish', 'German', 'other'].find((v) => !saved.includes(v));
+	check('archive filter: a language it doesn’t have leaves it out', !(await inResults(`f%5Bselect_moa3gux0%5D%5B%5D=${unused}`)));
+	check('archive filter: Mobile “No – On-site Service Only” finds it', await inResults('f%5Bradio_moa3cxr4%5D%5B%5D=no_comes_to_you'));
+	await sp.goto(`${base}/listing-category/services/?th_sheet=1`);
+	const sheet = await sp.locator('#th-filters').innerText();
+	check('filter sheet: Languages as multiple choice, Mobile with the new texts', (await sp.locator('#th-filters input[type="checkbox"][name="f[select_moa3gux0][]"]').count()) === 5 && /Mobile Service Available\?/i.test(sheet) && /Yes – We Come to You/.test(sheet) && /No – On-site Service Only/.test(sheet));
+	await sp.context().close();
 
 	check('no JS errors', errors.length === 0, errors.slice(0, 3).join(' | '));
 } finally {
