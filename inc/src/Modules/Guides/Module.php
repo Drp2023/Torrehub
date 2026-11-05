@@ -104,13 +104,20 @@ final class Module extends BaseModule {
 	}
 
 	/**
-	 * 9 guides per page (3 × 3) on the index and category pages.
+	 * 9 guides per page (3 × 3) on the index and category pages. The index leaves the featured guide out of every
+	 * page (page 1 shows it above the grid), so the pages follow on without a repeat.
 	 *
 	 * @param \WP_Query $q Query.
 	 */
 	public function per_page( $q ): void {
-		if ( ! is_admin() && $q->is_main_query() && ( $q->is_home() || $q->is_category() || $q->is_tag() ) ) {
-			$q->set( 'posts_per_page', 9 );
+		if ( is_admin() || ! $q->is_main_query() || ! ( $q->is_home() || $q->is_category() || $q->is_tag() ) ) {
+			return;
+		}
+		$q->set( 'posts_per_page', 9 );
+		$featured = $q->is_home() ? self::featured() : null;
+		if ( $featured ) {
+			$q->set( 'post__not_in', array( $featured->ID ) );
+			$q->set( 'ignore_sticky_posts', true );
 		}
 	}
 
@@ -128,6 +135,22 @@ final class Module extends BaseModule {
 				'ignore_sticky_posts' => true,
 			)
 		);
+	}
+
+	/**
+	 * The featured guide: newest sticky post, else the newest post.
+	 */
+	public static function featured(): ?\WP_Post {
+		$sticky = array_filter( array_map( 'absint', (array) get_option( 'sticky_posts', array() ) ) );
+		$posts  = get_posts(
+			array(
+				'post_type'           => 'post',
+				'posts_per_page'      => 1,
+				'post__in'            => $sticky ? $sticky : null,
+				'ignore_sticky_posts' => true,
+			)
+		);
+		return $posts[0] ?? null;
 	}
 
 	/**

@@ -60,7 +60,7 @@ Ahol ügyfél-döntés még nincs, a kódban `// DECISION:` jelöli a beállíth
 | `Chat` | üzenetek (polling, e-mail értesítő) — saját táblák |
 | `SearchAlerts` | mentett keresések, napi/azonnali e-mail — saját tábla |
 | `Broadcast` | Users › Notify all users: üzenet minden usernek / szerepkörnek, előnézet, teszt, WP-Cron kötegek (méret, gyakoriság), napló, szünet/folytatás, dupla küldés nélkül; eltüntethető értesítés a fiók-oldalsávban — saját táblák |
-| `Guides` | `/guides/` cikkek (oldalanként 9 kártya 3 × 3-ban, „Load more” = valódi `/page/N/` link; bevezető: a Guides oldal kivonata), Article JSON-LD; főoldali „Latest guides” blokk |
+| `Guides` | `/guides/` cikkek (1. oldalon featured cikk, oldalanként 9 kártya 3 × 3-ban, „Load more” = valódi `/page/N/` link; bevezető: a Guides oldal kivonata), Article JSON-LD; főoldali „Latest guides” blokk |
 | `Content` | About / Contact / FAQ / jogi oldal-sablonok, kapcsolat-űrlap, FAQPage JSON-LD |
 | `Consent` | cookie-sáv: a nem szükséges scriptek és beágyazások a hozzájárulásig **nem futnak**; sáv csak akkor, ha van mit kérdezni |
 | `Migration` | Eszközök › Torrehub migration: a runbook adat-lépései (`Steps`, ugyanaz a kód, mint a `wp torrehub …` parancsoké), adat-ellenőrzés, karbantartási mód |

@@ -1,8 +1,9 @@
 <?php
 /**
  * B-01 — Guides index (posts page, categories, tags): heading (+ the posts page's excerpt as intro), category chips,
- * 9 guides a page as cards (3 × 3), "Load more guides" — a real /page/N/ link; with JS the next page's cards are
- * added in place (content.js). Client request 2026-11: the featured guide and the text list gave way to the grid.
+ * the featured guide (index, page 1), 9 guides a page as cards (3 × 3), "Load more guides" — a real /page/N/ link;
+ * with JS the next page's cards are added in place (content.js). Client request 2026-11: the text list gave way
+ * to the grid; the featured guide is left out of the index query (Guides::per_page()).
  *
  * @package Torrehub
  */
@@ -14,6 +15,7 @@ use Torrehub\Modules\Guides\Module as Guides;
 global $wp_query;
 $page_no     = max( 1, (int) get_query_var( 'paged' ) );
 $topic       = is_category() || is_tag() ? get_queried_object() : null;
+$featured    = ( ! $topic && 1 === $page_no ) ? Guides::featured() : null;
 $guides_list = array_values( (array) $wp_query->posts );
 $total       = (int) wp_count_posts( 'post' )->publish;
 $intro       = $topic ? '' : Guides::intro();
@@ -53,7 +55,7 @@ $next        = $page_no < (int) $wp_query->max_num_pages ? get_pagenum_link( $pa
 		</nav>
 	<?php endif; ?>
 
-	<?php if ( ! $guides_list ) : ?>
+	<?php if ( ! $featured && ! $guides_list ) : ?>
 		<?php
 		th_component(
 			'empty-state',
@@ -65,6 +67,20 @@ $next        = $page_no < (int) $wp_query->max_num_pages ? get_pagenum_link( $pa
 		);
 		?>
 	<?php else : ?>
+		<?php if ( $featured ) : ?>
+			<?php
+			get_template_part(
+				'template-parts/guides/card',
+				null,
+				array(
+					'post'    => $featured,
+					'variant' => 'featured',
+					'eager'   => true,
+				)
+			);
+			?>
+		<?php endif; ?>
+
 		<ul class="th-guides__cards" role="list" data-th-guides-list>
 			<?php foreach ( $guides_list as $i => $guide ) : ?>
 				<li>
@@ -75,7 +91,7 @@ $next        = $page_no < (int) $wp_query->max_num_pages ? get_pagenum_link( $pa
 						array(
 							'post'    => $guide,
 							'variant' => 'card',
-							'eager'   => 0 === $i && 1 === $page_no,
+							'eager'   => ! $featured && 0 === $i && 1 === $page_no,
 						)
 					);
 					?>

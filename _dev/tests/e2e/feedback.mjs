@@ -539,12 +539,15 @@ try {
 	await gd.goto(`${base}/guides/`, { waitUntil: 'networkidle' });
 	const gcols = await gd.evaluate(() => getComputedStyle(document.querySelector('[data-th-guides-list]')).gridTemplateColumns.split(' ').length);
 	check('Guides: 9 guides a page as cards, 3 per row', (await gd.locator('[data-th-guides-list] > li .th-guide-card').count()) === 9 && gcols === 3, String(gcols));
+	const featTitle = await gd.locator('.th-guide-featured__title').innerText();
+	const featAbove = await gd.evaluate(() => document.querySelector('.th-guide-featured').compareDocumentPosition(document.querySelector('[data-th-guides-list]')) & Node.DOCUMENT_POSITION_FOLLOWING);
+	check('… page 1: the featured guide above the grid, not repeated in it', featAbove > 0 && !(await gd.locator('[data-th-guides-list] .th-guide-card__title').allInnerTexts()).includes(featTitle), featTitle);
 	check('… the posts page’s excerpt as intro under the heading', (await gd.locator('.th-guides__intro').innerText()) === 'Practical know-how for life on the Costa Blanca.');
 	const moreHref = await gd.locator('[data-th-guides-more]').getAttribute('href');
 	check('… “Load more guides” is a real /page/2/ link', /\/guides\/page\/2\/$/.test(moreHref || ''), moreHref);
 	await gd.locator('[data-th-guides-more]').click();
 	await gd.waitForFunction(() => document.querySelectorAll('[data-th-guides-list] > li').length > 9);
-	check('… with JS the next page is added in place', (await gd.locator('[data-th-guides-list] > li').count()) === Math.min(18, totalGuides) && /\/guides\/$/.test(gd.url()));
+	check('… with JS the next page is added in place', (await gd.locator('[data-th-guides-list] > li').count()) === Math.min(18, totalGuides - 1) && /\/guides\/$/.test(gd.url()));
 	const g1 = gd.locator('[data-th-guides-list] .th-guide-card__title a').first();
 	const g1href = await g1.getAttribute('href');
 	await Promise.all([gd.waitForURL(g1href), g1.click()]);
@@ -553,7 +556,7 @@ try {
 	const gnj = await (await browser.newContext({ javaScriptEnabled: false })).newPage();
 	await gnj.goto(`${base}/guides/`);
 	await Promise.all([gnj.waitForURL(/\/guides\/page\/2\/$/), gnj.locator('[data-th-guides-more]').click()]);
-	check('… without JS the link opens page 2', (await gnj.locator('[data-th-guides-list] > li').count()) === totalGuides - 9);
+	check('… without JS the link opens page 2', (await gnj.locator('[data-th-guides-list] > li').count()) === totalGuides - 10);
 	await gnj.context().close();
 
 	/* ------------------------------------------------------------ 6.3 Latest guides on the home page */
