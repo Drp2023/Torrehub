@@ -68,6 +68,7 @@ final class Module extends BaseModule {
 		add_filter( 'th_rtcl_assets_needed', array( $this, 'lean_assets' ) );
 		add_filter( 'document_title_parts', array( $this, 'document_title' ), 20 );
 		th_on_front_post( 'th_delete_listing', array( $this, 'delete_listing' ) );
+		( new Favourites() )->register();
 		// Classified Listing's own dashboard greeting block is replaced by the theme dashboard.
 		add_action( 'init', static fn() => remove_action( 'rtcl_account_dashboard', array( \Rtcl\Controllers\Hooks\TemplateHooks::class, 'user_information' ) ), 20 );
 	}

@@ -108,6 +108,14 @@ final class Steps {
 				'rollback'    => false,
 				'run'         => array( self::class, 'seed_search_keywords' ),
 			),
+			'enable-favourites'           => array(
+				'code'        => 'U3',
+				'title'       => __( 'Favourites on (Classified Listing)', 'torrehub' ),
+				'help'        => __( 'Update 1.1.0 (client request). Switches on Classified Listing’s own favourites (Settings › General › Favourites): hearts on cards and listings, Account › Favourites for every user. The same as ticking the box there.', 'torrehub' ),
+				'destructive' => false,
+				'rollback'    => false,
+				'run'         => array( self::class, 'enable_favourites' ),
+			),
 		);
 	}
 
@@ -820,6 +828,27 @@ final class Steps {
 				: __( 'Nothing to fill — every category already has its keywords.', 'torrehub' ),
 			$filled
 		);
+	}
+
+	/**
+	 * U3 (update 1.1.0) — Classified Listing's favourites on (its "favourites" account endpoint appears: the plugin
+	 * flushes its rewrite rules on the next request).
+	 *
+	 * @param Report $r    Report.
+	 * @param string $mode dry|apply.
+	 */
+	public static function enable_favourites( Report $r, string $mode ): void {
+		$settings = (array) get_option( 'rtcl_general_settings', array() );
+		if ( 'yes' === ( $settings['has_favourites'] ?? '' ) ) {
+			$r->done( __( 'Nothing to change — favourites are already on.', 'torrehub' ) );
+			return;
+		}
+		if ( 'apply' === $mode ) {
+			$settings['has_favourites'] = 'yes';
+			update_option( 'rtcl_general_settings', $settings );
+			update_option( 'rtcl_queue_flush_rewrite_rules', 'yes' );
+		}
+		$r->done( 'apply' === $mode ? __( 'Favourites switched on.', 'torrehub' ) : __( 'Favourites would be switched on.', 'torrehub' ), 1 );
 	}
 
 	/**

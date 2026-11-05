@@ -20,6 +20,8 @@
  *   bc-stale ID       → one queued row of campaign ID looks interrupted mid-send
  *   bc-counts ID      → JSON queue counts
  *   bc-last           → id of the newest campaign
+ *   favs LOGIN        → JSON: the user's favourites (rtcl_favourites); saved once for cleanup
+ *   fav-clear LOGIN   → empty favourites
  *   cleanup           → everything back as it was
  *
  * @package Torrehub
@@ -242,8 +244,23 @@ if ( 'setup' === $cmd ) {
 		$wpdb->query( $wpdb->prepare( "UPDATE {$q} SET status = 'sending', updated_at = %s WHERE campaign_id = %d AND status = 'queued' ORDER BY user_id LIMIT 1", gmdate( 'Y-m-d H:i:s', time() - HOUR_IN_SECONDS ), $id ) );
 	}
 	echo wp_json_encode( \Torrehub\Modules\Broadcast\Queue::counts( $id ) );
+} elseif ( in_array( $cmd, array( 'favs', 'fav-clear' ), true ) ) {
+	$user  = get_user_by( 'login', (string) $args[1] );
+	$saved = (array) get_option( TH_E2E_FEEDBACK, array() );
+	if ( ! isset( $saved['favs'][ $user->ID ] ) ) {
+		$saved['favs'][ $user->ID ] = get_user_meta( $user->ID, 'rtcl_favourites', true );
+		update_option( TH_E2E_FEEDBACK, $saved, false );
+	}
+	if ( 'fav-clear' === $cmd ) {
+		delete_user_meta( $user->ID, 'rtcl_favourites' );
+	}
+	wp_cache_delete( $user->ID, 'user_meta' );
+	echo wp_json_encode( array_values( array_map( 'intval', (array) get_user_meta( $user->ID, 'rtcl_favourites', true ) ) ) );
 } elseif ( 'cleanup' === $cmd ) {
 	$saved = (array) get_option( TH_E2E_FEEDBACK, array() );
+	foreach ( (array) ( $saved['favs'] ?? array() ) as $uid => $value ) {
+		'' === $value ? delete_user_meta( (int) $uid, 'rtcl_favourites' ) : update_user_meta( (int) $uid, 'rtcl_favourites', $value );
+	}
 	if ( ! empty( $saved['reviewer'] ) ) {
 		require_once ABSPATH . 'wp-admin/includes/user.php';
 		foreach ( get_comments( array( 'user_id' => (int) $saved['reviewer'] ) ) as $c ) {

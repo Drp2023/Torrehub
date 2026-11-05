@@ -36,7 +36,7 @@ if ( th_favourites_enabled() ) {
 	$items[] = array(
 		'label'   => __( 'Saved', 'torrehub' ),
 		'icon'    => 'heart',
-		'url'     => is_user_logged_in() ? th_rtcl_page_url( 'myaccount', '/my-account/' ) . 'favourites/' : th_url_login(),
+		'url'     => is_user_logged_in() ? th_rtcl_page_url( 'myaccount', '/my-account/' ) . 'favourites/' : th_url_login( th_rtcl_page_url( 'myaccount', '/my-account/' ) . 'favourites/' ),
 		'current' => false,
 	);
 } else {

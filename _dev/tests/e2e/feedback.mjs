@@ -5,6 +5,8 @@
 //   Group 3 (search in any language): category keywords per language, seeding step U2, search expansion.
 //   Group 4 (admin tools): Verified column / toggle / bulk / filters, review e-mail + "Reply via chat",
 //   messages to all users (batches, pause, retry, no doubles) and the account-sidebar notice.
+//   Group 5 (favourites): Classified Listing's favourites on (U3), hearts on cards / listing page, guest → login →
+//   saved, Account › Favourites for every role.
 //   node _dev/tests/e2e/feedback.mjs [baseUrl]
 // Needs (local only): WP-CLI via bin/env.sh (Git Bash), Mailpit, admin dev/dev, business seller user54/seller54,
 // the th-local-safety mu-plugin (live-like canonical redirects). The language sweep needs the internet (GTranslate);
@@ -450,6 +452,66 @@ try {
 	await nctx4.close();
 	await pub.context().close();
 	await a4.context().close();
+
+	/* ------------------------------------------------------------ 5 favourites */
+	check('U3: favourites already on after reset-db (nothing to change)', /Nothing to change/.test(wp('torrehub enable-favourites')));
+	helper('fav-clear tester');
+	const gctx5 = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+	const g5 = await gctx5.newPage();
+	g5.on('pageerror', (e) => ownError(e) && errors.push(String(e)));
+	await g5.goto(`${base}/listings/`, { waitUntil: 'networkidle' });
+	const gHeart = g5.locator('.th-card__fav a').first();
+	const gHref = decodeURIComponent((await gHeart.getAttribute('href')) || '');
+	check('guest: the heart is a link to the login page that comes back with the listing', /\/login\/\?redirect_to=.*th_fav=\d+&th_fav_t=[0-9a-f]{16}/.test(gHref), gHref.slice(0, 120));
+	const favId = Number((gHref.match(/th_fav=(\d+)/) || [])[1]);
+	await Promise.all([g5.waitForURL(/\/login\//), gHeart.click()]);
+	await g5.fill('#th-log', 'tester');
+	await g5.fill('#th-pwd', 'tester');
+	await Promise.all([g5.waitForURL(/\/listings\/$/), g5.click('.th-auth-form [type="submit"]')]);
+	check('after logging in: back on the same page, clean URL, listing saved', JSON.parse(helper('favs tester')).includes(favId) && !/th_fav/.test(g5.url()), g5.url());
+	check('… and the heart shows it', (await g5.locator(`[data-th-fav="${favId}"]`).first().getAttribute('aria-pressed')) === 'true');
+	await g5.goto(`${base}/listings/?th_fav=${favId + 1}&th_fav_t=0000000000000000`);
+	check('a forged “save” link saves nothing', !JSON.parse(helper('favs tester')).includes(favId + 1) && !/th_fav/.test(g5.url()));
+
+	const other5 = g5.locator('.th-card [data-th-fav][aria-pressed="false"]').first();
+	const otherId = Number(await other5.getAttribute('data-th-fav'));
+	await other5.click();
+	await g5.waitForFunction((id) => document.querySelector(`[data-th-fav="${id}"]`)?.getAttribute('aria-pressed') === 'true', otherId);
+	await g5.waitForTimeout(600);
+	check('logged in: the card heart toggles (aria-pressed) and saves', JSON.parse(helper('favs tester')).includes(otherId));
+	await g5.goto(`${base}/?p=${otherId}`);
+	const chip5 = g5.locator('.th-listing-head__action[data-th-fav]');
+	check('listing page: the Save chip shows it pressed', (await chip5.getAttribute('aria-pressed')) === 'true');
+	await chip5.click();
+	await g5.waitForFunction(() => document.querySelector('.th-listing-head__action[data-th-fav]')?.getAttribute('aria-pressed') === 'false');
+	await g5.waitForTimeout(600);
+	check('… and removes it again', !JSON.parse(helper('favs tester')).includes(otherId));
+	await chip5.click();
+	await g5.waitForTimeout(900);
+
+	await g5.goto(`${base}/my-account/favourites/`);
+	const nav5 = (await g5.locator('.th-account__link').allInnerTexts()).map((t) => t.trim());
+	check('member: “Favourites” in the account menu, Saved searches still there', nav5.some((t) => /^Favourites/.test(t)) && nav5.some((t) => /^Saved searches/.test(t)), nav5.join(' | '));
+	const cardTitles = await g5.locator('[data-th-fav-list] .th-card__title').allInnerTexts();
+	check('Favourites: the saved listings as cards, with their own titles', cardTitles.length === 2 && !cardTitles.some((t) => /Favourites/.test(t)), cardTitles.join(' | '));
+	await g5.locator('[data-th-fav-list] [data-th-fav]').first().click();
+	await g5.waitForFunction(() => document.querySelectorAll('[data-th-fav-list] .th-card').length === 1);
+	await g5.locator('[data-th-fav-list] [data-th-fav]').first().click();
+	await g5.waitForFunction(() => !document.querySelector('[data-th-fav-empty]')?.hidden);
+	await g5.waitForTimeout(600);
+	check('removing in the list takes the card out; the last one shows the empty state', JSON.parse(helper('favs tester')).length === 0);
+	await gctx5.close();
+
+	const sctx5 = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+	const s5 = await frontLogin(sctx5, 'user54', 'seller54');
+	check('seller: “Favourites” in the account menu too', (await s5.locator('.th-account__link').allInnerTexts()).some((t) => /^Favourites/.test(t.trim())));
+	await sctx5.close();
+
+	const pctx5 = await browser.newContext({ ...phone });
+	const p5 = await pctx5.newPage();
+	await p5.goto(`${base}/?p=${favId}`);
+	check('phone, guest: heart in the contact bar is the login link', /\/login\/\?redirect_to=/.test((await p5.locator('.th-contact-bar__fav').getAttribute('href')) || ''));
+	await pctx5.close();
 
 	check('no JS errors', errors.length === 0, errors.slice(0, 3).join(' | '));
 } finally {

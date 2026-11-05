@@ -27,13 +27,17 @@ $guest  = ! is_user_logged_in();
 	<?php if ( ! $has ) : ?>
 		<a class="th-btn th-btn--primary" href="#contact"><?php th_icon( 'mail', array( 'size' => 18 ) ); ?><span><?php esc_html_e( 'Contact', 'torrehub' ); ?></span></a>
 	<?php endif; ?>
-	<?php if ( th_favourites_enabled() ) : ?>
-		<button type="button" class="th-btn th-btn--icon th-btn--fav th-contact-bar__fav" aria-pressed="<?php echo th_is_favourite( $view->id ) ? 'true' : 'false'; ?>" data-th-fav="<?php echo esc_attr( (string) $view->id ); ?>">
-			<?php th_icon( 'heart', array( 'size' => 20 ) ); ?>
-			<?php th_icon( 'heart-filled', array( 'size' => 20 ) ); ?>
-			<span class="th-sr-only"><?php esc_html_e( 'Save', 'torrehub' ); ?></span>
-		</button>
-	<?php endif; ?>
+	<?php
+	th_component(
+		'fav-button',
+		array(
+			'listing_id' => (int) $view->id,
+			'title'      => (string) $view->title,
+			'variant'    => 'bar',
+			'pressed'    => th_is_favourite( (int) $view->id ),
+		)
+	);
+	?>
 </div>
 
 <?php if ( $has ) : ?>

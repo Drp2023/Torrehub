@@ -82,11 +82,17 @@ $reported = Report::reported_by_current_user( $view->id );
 
 	<div class="th-listing-head__actions">
 		<div class="th-cluster">
-			<?php if ( th_favourites_enabled() ) : ?>
-				<button type="button" class="th-chip th-listing-head__action" aria-pressed="<?php echo th_is_favourite( $view->id ) ? 'true' : 'false'; ?>" data-th-fav="<?php echo esc_attr( (string) $view->id ); ?>">
-					<?php th_icon( 'heart', array( 'size' => 16 ) ); ?><span><?php esc_html_e( 'Save', 'torrehub' ); ?></span>
-				</button>
-			<?php endif; ?>
+			<?php
+			th_component(
+				'fav-button',
+				array(
+					'listing_id' => (int) $view->id,
+					'title'      => (string) $view->title,
+					'variant'    => 'chip',
+					'pressed'    => th_is_favourite( (int) $view->id ),
+				)
+			);
+			?>
 			<button type="button" class="th-chip th-listing-head__action" data-th-share data-title="<?php echo esc_attr( $view->title ); ?>" data-url="<?php echo esc_url( (string) get_permalink( $view->id ) ); ?>" hidden>
 				<?php th_icon( 'share', array( 'size' => 16 ) ); ?><span><?php esc_html_e( 'Share', 'torrehub' ); ?></span>
 			</button>

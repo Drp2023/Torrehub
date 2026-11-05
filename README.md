@@ -36,7 +36,7 @@ Minden más (auth, chat, eladó-hitelesítés, mentett keresések, értékelése
 | Users (lista) | **Verified** oszlop (kapcsoló), „Mark verified / Remove Verified badge” tömeges művelet, szűrő; ugyanez a szűrő a Listings listán |
 | Users › **Notify all users** | körüzenet (kötegelve), a küldés beállításai, a kampányok naplója; a fiók-oldalsáv értesítése („Terms updated …”) |
 | Eszközök › **Torrehub migration** | élesítési adat-lépések (próbafuttatás → élesítés, napló), adat-ellenőrzés (baseline ↔ most), karbantartási mód (a látogatóknak 503 „Back soon”, az admin működik) |
-| Classified Listing › Settings | kedvencek (be/ki), moderáció, értesítő e-mailek — a téma követi |
+| Classified Listing › Settings | kedvencek (be/ki — 1.1.0-tól be, U3), moderáció, értesítő e-mailek — a téma követi |
 | Classified Listing › Form Builder | a 10 hirdetés-űrlap mezői (Pro nélkül is szerkeszthető; a használt opció-értékeket a téma védi) |
 
 Ahol ügyfél-döntés még nincs, a kódban `// DECISION:` jelöli a beállítható alapértéket (lista: `_dev/docs/BUILD-PLAN.md` §8).
@@ -55,7 +55,7 @@ Ahol ügyfél-döntés még nincs, a kódban `// DECISION:` jelöli a beállíth
 | `Quota` | ingyenes hirdetés-keret (alapból ki) |
 | `Lifetime` | hirdetés-élettartam fióktípus szerint, ingyenes egykattintásos megújítás (My listings + az e-mail aláírt linkje), lejárat előtti e-mail; a lezárást a Classified Listing óránkénti cronja végzi; FAQ-shortcode `[torrehub_listing_lifetime show=duration\|renewal]` |
 | `Reviews` | értékelések + AggregateRating; jóváhagyáskor e-mail az eladónak „Reply via chat” linkkel (a WordPress saját, e-mail-címet mutató levele helyett) |
-| `Account` | fiók-dashboard és szekciók |
+| `Account` | fiók-dashboard és szekciók; **Favourites** (a Classified Listing saját kedvencei: szív a kártyán és a hirdetésen, kijelentkezve login → mentés, fiók › Favourites kártyákkal) |
 | `Verification` | eladó-hitelesítés (feltöltés → admin döntés → badge, a fájl utána törlődik); Users lista „Verified” oszlop, kapcsoló, tömeges művelet, szűrő (a Listings listán is) |
 | `Chat` | üzenetek (polling, e-mail értesítő) — saját táblák |
 | `SearchAlerts` | mentett keresések, napi/azonnali e-mail — saját tábla |
@@ -79,7 +79,7 @@ A mag: `inc/src/Core/` (`Theme`, `Module`, `Settings`, `Installer` — saját t�
 
 Az adat-lépések alapból próbafuttatások, `--apply`-jal írnak; ugyanezek gombként: Eszközök › Torrehub migration (a két út közös naplót ír). Részletek és sorrend: runbook B–D, G. Súgó: `wp help torrehub`.
 
-`wp torrehub fix-option-values` · `migrate-pages [--rollback]` · `import-chat` · `import-search-alerts` · `trash-demo` · `purge-nie` · `trash-listings` · `purge-old-verification-docs` · `service-fields` · `seed-search-keywords` (1.1.0) · `data-check [--save-baseline]` · `maintenance on|off|status`
+`wp torrehub fix-option-values` · `migrate-pages [--rollback]` · `import-chat` · `import-search-alerts` · `trash-demo` · `purge-nie` · `trash-listings` · `purge-old-verification-docs` · `service-fields` · `seed-search-keywords` · `enable-favourites` (1.1.0) · `data-check [--save-baseline]` · `maintenance on|off|status`
 
 ## Bővítési pontok (filterek / actionök)
 

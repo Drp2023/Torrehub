@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-05T21:32:07+00:00\n"
+"POT-Creation-Date: 2026-11-05T22:09:32+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: torrehub\n"
@@ -90,9 +90,9 @@ msgstr ""
 #: inc/src/Modules/Verification/VerifiedAdmin.php:74
 #: inc/src/Modules/Verification/VerifiedAdmin.php:95
 #: page-templates/about.php:20
-#: template-parts/components/listing-card.php:191
+#: template-parts/components/listing-card.php:192
 #: template-parts/home/stats.php:19
-#: template-parts/listing/contact-bar.php:47
+#: template-parts/listing/contact-bar.php:51
 msgid "Verified"
 msgstr ""
 
@@ -136,11 +136,37 @@ msgid "Browse services, homes, cars and what’s on — and contact sellers dire
 msgstr ""
 
 #: classified-listing/myaccount/dashboard.php:135
+#: classified-listing/myaccount/favourite-listings.php:68
 #: template-parts/account/alerts.php:65
 #: template-parts/account/chat.php:109
 #: template-parts/alerts/unsubscribed.php:65
 #: template-parts/listing/notices.php:30
 msgid "Browse listings"
+msgstr ""
+
+#: classified-listing/myaccount/favourite-listings.php:20
+msgid "Favourites"
+msgstr ""
+
+#. translators: %s: number of listings
+#: classified-listing/myaccount/favourite-listings.php:25
+#, php-format
+msgid "%s saved listing"
+msgid_plural "%s saved listings"
+msgstr[0] ""
+msgstr[1] ""
+
+#: classified-listing/myaccount/favourite-listings.php:53
+#: classified-listing/myaccount/my-listings.php:118
+msgid "Pages"
+msgstr ""
+
+#: classified-listing/myaccount/favourite-listings.php:64
+msgid "No favourites yet"
+msgstr ""
+
+#: classified-listing/myaccount/favourite-listings.php:65
+msgid "Tap the heart on a listing to keep it here."
 msgstr ""
 
 #: classified-listing/myaccount/my-listings.php:21
@@ -187,10 +213,6 @@ msgstr ""
 
 #: classified-listing/myaccount/my-listings.php:93
 msgid "Filter by status"
-msgstr ""
-
-#: classified-listing/myaccount/my-listings.php:118
-msgid "Pages"
 msgstr ""
 
 #: classified-listing/myaccount/my-listings.php:127
@@ -349,7 +371,7 @@ msgstr ""
 #: template-parts/consent/bar.php:52
 #: template-parts/header/location-dialog.php:30
 #: template-parts/listing-form/workspace.php:159
-#: template-parts/listing/contact-bar.php:59
+#: template-parts/listing/contact-bar.php:63
 #: template-parts/listing/gallery.php:72
 #: template-parts/listing/report-dialog.php:33
 #: template-parts/listing/review-form.php:28
@@ -357,7 +379,7 @@ msgid "Close"
 msgstr ""
 
 #: inc/assets.php:129
-#: template-parts/listing/contact-bar.php:81
+#: template-parts/listing/contact-bar.php:85
 msgid "Loading…"
 msgstr ""
 
@@ -640,50 +662,50 @@ msgstr ""
 msgid "Private sellers just need an e-mail address, businesses add their NIF. No commission, no subscription."
 msgstr ""
 
-#: inc/listing-card.php:51
+#: inc/listing-card.php:81
 msgid "Price on call"
 msgstr ""
 
-#: inc/listing-card.php:61
+#: inc/listing-card.php:91
 msgid "Free"
 msgstr ""
 
-#: inc/listing-card.php:73
+#: inc/listing-card.php:103
 msgid "/ h"
 msgstr ""
 
-#: inc/listing-card.php:74
+#: inc/listing-card.php:104
 msgid "/ day"
 msgstr ""
 
-#: inc/listing-card.php:75
+#: inc/listing-card.php:105
 msgid "/ week"
 msgstr ""
 
-#: inc/listing-card.php:76
+#: inc/listing-card.php:106
 msgid "/ month"
 msgstr ""
 
-#: inc/listing-card.php:77
+#: inc/listing-card.php:107
 msgid "/ year"
 msgstr ""
 
-#: inc/listing-card.php:78
+#: inc/listing-card.php:108
 msgid "/ sq ft"
 msgstr ""
 
-#: inc/listing-card.php:95
+#: inc/listing-card.php:125
 msgid "negotiable"
 msgstr ""
 
-#: inc/listing-card.php:170
+#: inc/listing-card.php:200
 #: inc/src/Modules/Listing/View.php:282
 #: template-parts/guides/card.php:54
 msgid "Featured"
 msgstr ""
 
 #. translators: %s: human-readable time difference, e.g. "2 days"
-#: inc/listing-card.php:186
+#: inc/listing-card.php:216
 #, php-format
 msgid "%s ago"
 msgstr ""
@@ -817,15 +839,15 @@ msgstr ""
 msgid "Requires the Classified Listing plugin."
 msgstr ""
 
-#: inc/src/Modules/Account/Module.php:265
+#: inc/src/Modules/Account/Module.php:266
 msgid "Good morning"
 msgstr ""
 
-#: inc/src/Modules/Account/Module.php:267
+#: inc/src/Modules/Account/Module.php:268
 msgid "Good afternoon"
 msgstr ""
 
-#: inc/src/Modules/Account/Module.php:267
+#: inc/src/Modules/Account/Module.php:268
 msgid "Good evening"
 msgstr ""
 
@@ -1575,8 +1597,7 @@ msgstr ""
 #: inc/src/Modules/Listing/Report.php:299
 #: page-templates/styleguide.php:305
 #: template-parts/account/alerts.php:108
-#: template-parts/listing/contact-bar.php:34
-#: template-parts/listing/header.php:87
+#: template-parts/components/fav-button.php:59
 msgid "Save"
 msgstr ""
 
@@ -3094,32 +3115,40 @@ msgstr ""
 msgid "Update 1.1.0 (client request). Fills each listing category’s search keywords per site language (e.g. Plumbing: fontanero, putkimies, Klempner, vízvezeték-szerelő …), so a search in any language finds the English listings. Only empty fields are filled — keywords edited on Listings › Categories are kept. Safe to repeat."
 msgstr ""
 
-#: inc/src/Modules/Migration/Steps.php:121
+#: inc/src/Modules/Migration/Steps.php:113
+msgid "Favourites on (Classified Listing)"
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:114
+msgid "Update 1.1.0 (client request). Switches on Classified Listing’s own favourites (Settings › General › Favourites): hearts on cards and listings, Account › Favourites for every user. The same as ticking the box there."
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:129
 msgid "Switch off the “Seller Verification” plugin first (runbook D4)."
 msgstr ""
 
-#: inc/src/Modules/Migration/Steps.php:136
+#: inc/src/Modules/Migration/Steps.php:144
 msgid "Unknown step."
 msgstr ""
 
-#: inc/src/Modules/Migration/Steps.php:140
+#: inc/src/Modules/Migration/Steps.php:148
 msgid "This step has no rollback."
 msgstr ""
 
 #. translators: 1: form id, 2: form title, 3: field name, 4: option position
-#: inc/src/Modules/Migration/Steps.php:189
+#: inc/src/Modules/Migration/Steps.php:197
 #, php-format
 msgid "Form %1$d “%2$s”, field %3$s: option %4$d has neither value nor label — left alone."
 msgstr ""
 
 #. translators: 1: form id, 2: form title, 3: field label, 4: option label, 5: new value
-#: inc/src/Modules/Migration/Steps.php:200
+#: inc/src/Modules/Migration/Steps.php:208
 #, php-format
 msgid "Form %1$d “%2$s” · %3$s: option “%4$s” → value “%5$s”"
 msgstr ""
 
 #. translators: %d: number of option values
-#: inc/src/Modules/Migration/Steps.php:216
+#: inc/src/Modules/Migration/Steps.php:224
 #, php-format
 msgid "%d option value fixed."
 msgid_plural "%d option values fixed."
@@ -3127,43 +3156,43 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of option values
-#: inc/src/Modules/Migration/Steps.php:216
+#: inc/src/Modules/Migration/Steps.php:224
 #, php-format
 msgid "%d option value would be fixed."
 msgid_plural "%d option values would be fixed."
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/src/Modules/Migration/Steps.php:217
+#: inc/src/Modules/Migration/Steps.php:225
 msgid "No empty option values."
 msgstr ""
 
 #. translators: %s: page slug
-#: inc/src/Modules/Migration/Steps.php:234
+#: inc/src/Modules/Migration/Steps.php:242
 #, php-format
 msgid "%s: page not found."
 msgstr ""
 
 #. translators: %s: page slug
-#: inc/src/Modules/Migration/Steps.php:241
+#: inc/src/Modules/Migration/Steps.php:249
 #, php-format
 msgid "%s: restored"
 msgstr ""
 
 #. translators: %s: page slug
-#: inc/src/Modules/Migration/Steps.php:241
+#: inc/src/Modules/Migration/Steps.php:249
 #, php-format
 msgid "%s: not migrated"
 msgstr ""
 
 #. translators: 1: page slug, 2: template file, 3: migration mode, 4: blocks, 5: words before, 6: words after
-#: inc/src/Modules/Migration/Steps.php:251
+#: inc/src/Modules/Migration/Steps.php:259
 #, php-format
 msgid "%1$s → %2$s (%3$s): %4$d blocks, %5$d → %6$d words"
 msgstr ""
 
 #. translators: %d: number of pages
-#: inc/src/Modules/Migration/Steps.php:255
+#: inc/src/Modules/Migration/Steps.php:263
 #, php-format
 msgid "%d page restored."
 msgid_plural "%d pages restored."
@@ -3171,7 +3200,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of pages
-#: inc/src/Modules/Migration/Steps.php:258
+#: inc/src/Modules/Migration/Steps.php:266
 #, php-format
 msgid "%d page migrated."
 msgid_plural "%d pages migrated."
@@ -3179,105 +3208,105 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of pages
-#: inc/src/Modules/Migration/Steps.php:258
+#: inc/src/Modules/Migration/Steps.php:266
 #, php-format
 msgid "%d page would be migrated."
 msgid_plural "%d pages would be migrated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/src/Modules/Migration/Steps.php:284
+#: inc/src/Modules/Migration/Steps.php:292
 msgid "No Classified Listing Pro chat tables — nothing to import."
 msgstr ""
 
-#: inc/src/Modules/Migration/Steps.php:289
+#: inc/src/Modules/Migration/Steps.php:297
 msgid "The theme chat tables are missing: open any wp-admin page once (installer) or switch the Chat module on."
 msgstr ""
 
 #. translators: 1: conversations, 2: messages, 3: skipped conversations
-#: inc/src/Modules/Migration/Steps.php:367
+#: inc/src/Modules/Migration/Steps.php:375
 #, php-format
 msgid "Imported %1$d conversations with %2$d messages (%3$d skipped: already imported, or the listing / user is gone)."
 msgstr ""
 
 #. translators: 1: conversations, 2: messages, 3: skipped conversations
-#: inc/src/Modules/Migration/Steps.php:369
+#: inc/src/Modules/Migration/Steps.php:377
 #, php-format
 msgid "Would import %1$d conversations with %2$d messages (%3$d skipped: already imported, or the listing / user is gone)."
 msgstr ""
 
-#: inc/src/Modules/Migration/Steps.php:390
+#: inc/src/Modules/Migration/Steps.php:398
 msgid "No rtcl-search-alert table — nothing to import."
 msgstr ""
 
-#: inc/src/Modules/Migration/Steps.php:396
+#: inc/src/Modules/Migration/Steps.php:404
 msgid "The theme alerts table is missing: open any wp-admin page once (installer) or switch the module on."
 msgstr ""
 
 #. translators: 1: imported searches, 2: skipped
-#: inc/src/Modules/Migration/Steps.php:468
+#: inc/src/Modules/Migration/Steps.php:476
 #, php-format
 msgid "Imported %1$d saved searches (%2$d skipped: already imported or no address)."
 msgstr ""
 
 #. translators: 1: searches to import, 2: skipped
-#: inc/src/Modules/Migration/Steps.php:470
+#: inc/src/Modules/Migration/Steps.php:478
 #, php-format
 msgid "Would import %1$d saved searches (%2$d skipped: already imported or no address)."
 msgstr ""
 
 #. translators: 1: post type, 2: slug
-#: inc/src/Modules/Migration/Steps.php:518
+#: inc/src/Modules/Migration/Steps.php:526
 #, php-format
 msgid "%1$s %2$s: is the front page / posts page — kept."
 msgstr ""
 
-#: inc/src/Modules/Migration/Steps.php:522
+#: inc/src/Modules/Migration/Steps.php:530
 msgid "trash"
 msgstr ""
 
 #. translators: %d: number of posts and pages
-#: inc/src/Modules/Migration/Steps.php:529
+#: inc/src/Modules/Migration/Steps.php:537
 #, php-format
 msgid "Moved to the trash: %d"
 msgstr ""
 
 #. translators: %d: number of posts and pages
-#: inc/src/Modules/Migration/Steps.php:529
+#: inc/src/Modules/Migration/Steps.php:537
 #, php-format
 msgid "Would move to the trash: %d"
 msgstr ""
 
-#: inc/src/Modules/Migration/Steps.php:546
+#: inc/src/Modules/Migration/Steps.php:554
 msgid "No listings outside the trash."
 msgstr ""
 
 #. translators: 1: post status, 2: number of listings
-#: inc/src/Modules/Migration/Steps.php:554
+#: inc/src/Modules/Migration/Steps.php:562
 #, php-format
 msgid "Status %1$s: %2$d"
 msgstr ""
 
 #. translators: %d: number of further listings
-#: inc/src/Modules/Migration/Steps.php:561
+#: inc/src/Modules/Migration/Steps.php:569
 #, php-format
 msgid "… and %d more"
 msgstr ""
 
 #. translators: 1: listings, 2: photos, 3: days
-#: inc/src/Modules/Migration/Steps.php:572
+#: inc/src/Modules/Migration/Steps.php:580
 #, php-format
 msgid "Moved %1$d listings to the trash. Their %2$d photos are deleted when the trash is emptied (automatically after %3$d days)."
 msgstr ""
 
 #. translators: 1: listings, 2: photos, 3: days
-#: inc/src/Modules/Migration/Steps.php:574
+#: inc/src/Modules/Migration/Steps.php:582
 #, php-format
 msgid "Would move %1$d listings to the trash. Their %2$d photos are deleted when the trash is emptied (automatically after %3$d days)."
 msgstr ""
 
 #. translators: %d: number of meta rows
-#: inc/src/Modules/Migration/Steps.php:594
+#: inc/src/Modules/Migration/Steps.php:602
 #, php-format
 msgid "%d NIE entry (custom_field_1, nif_nie) would be deleted."
 msgid_plural "%d NIE entries (custom_field_1, nif_nie) would be deleted."
@@ -3285,7 +3314,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of meta rows
-#: inc/src/Modules/Migration/Steps.php:600
+#: inc/src/Modules/Migration/Steps.php:608
 #, php-format
 msgid "%d NIE entry deleted."
 msgid_plural "%d NIE entries deleted."
@@ -3293,7 +3322,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of files
-#: inc/src/Modules/Migration/Steps.php:617
+#: inc/src/Modules/Migration/Steps.php:625
 #, php-format
 msgid "%d document file would be deleted."
 msgid_plural "%d document files would be deleted."
@@ -3301,7 +3330,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of files
-#: inc/src/Modules/Migration/Steps.php:626
+#: inc/src/Modules/Migration/Steps.php:634
 #, php-format
 msgid "%d document file deleted; references removed."
 msgid_plural "%d document files deleted; references removed."
@@ -3309,19 +3338,19 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1: form id, 2: form title, 3: field label, 4: field name
-#: inc/src/Modules/Migration/Steps.php:658
+#: inc/src/Modules/Migration/Steps.php:666
 #, php-format
 msgid "Form %1$d “%2$s” · %3$s (%4$s)"
 msgstr ""
 
 #. translators: %s: field
-#: inc/src/Modules/Migration/Steps.php:663
+#: inc/src/Modules/Migration/Steps.php:671
 #, php-format
 msgid "%s: already a multiple choice."
 msgstr ""
 
 #. translators: 1: field, 2: number of listings
-#: inc/src/Modules/Migration/Steps.php:672
+#: inc/src/Modules/Migration/Steps.php:680
 #, php-format
 msgid "%1$s: single choice → multiple choice; %2$d listing keeps its answer as the first choice."
 msgid_plural "%1$s: single choice → multiple choice; %2$d listings keep their answer as the first choice."
@@ -3329,31 +3358,31 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1: field, 2: new label, 3: yes label, 4: its value, 5: no label, 6: its value
-#: inc/src/Modules/Migration/Steps.php:708
+#: inc/src/Modules/Migration/Steps.php:716
 #, php-format
 msgid "%1$s → “%2$s”: “%3$s” (%4$s), “%5$s” (%6$s)."
 msgstr ""
 
 #. translators: 1: field, 2: stored value
-#: inc/src/Modules/Migration/Steps.php:717
+#: inc/src/Modules/Migration/Steps.php:725
 #, php-format
 msgid "%1$s: stored answer “%2$s” matches neither option — left alone."
 msgstr ""
 
 #. translators: 1: field, 2: stored value, 3: new value
-#: inc/src/Modules/Migration/Steps.php:721
+#: inc/src/Modules/Migration/Steps.php:729
 #, php-format
 msgid "%1$s: answer “%2$s” → “%3$s”"
 msgstr ""
 
 #. translators: %s: field label
-#: inc/src/Modules/Migration/Steps.php:739
+#: inc/src/Modules/Migration/Steps.php:747
 #, php-format
 msgid "Field not found: %s."
 msgstr ""
 
 #. translators: %d: number of changes
-#: inc/src/Modules/Migration/Steps.php:749
+#: inc/src/Modules/Migration/Steps.php:757
 #, php-format
 msgid "%d change made."
 msgid_plural "%d changes made."
@@ -3361,25 +3390,25 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of changes
-#: inc/src/Modules/Migration/Steps.php:749
+#: inc/src/Modules/Migration/Steps.php:757
 #, php-format
 msgid "%d change to make."
 msgid_plural "%d changes to make."
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/src/Modules/Migration/Steps.php:750
+#: inc/src/Modules/Migration/Steps.php:758
 msgid "Nothing to change — the Service form is up to date."
 msgstr ""
 
 #. translators: %s: category name
-#: inc/src/Modules/Migration/Steps.php:807
+#: inc/src/Modules/Migration/Steps.php:815
 #, php-format
 msgid "No starter keywords for “%s” — add them on Listings › Categories."
 msgstr ""
 
 #. translators: %d: number of fields
-#: inc/src/Modules/Migration/Steps.php:811
+#: inc/src/Modules/Migration/Steps.php:819
 #, php-format
 msgid "%d keyword field already filled — kept."
 msgid_plural "%d keyword fields already filled — kept."
@@ -3387,19 +3416,31 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1: number of fields, 2: number of categories
-#: inc/src/Modules/Migration/Steps.php:819
+#: inc/src/Modules/Migration/Steps.php:827
 #, php-format
 msgid "%1$d keyword fields filled in %2$d categories."
 msgstr ""
 
 #. translators: 1: number of fields, 2: number of categories
-#: inc/src/Modules/Migration/Steps.php:819
+#: inc/src/Modules/Migration/Steps.php:827
 #, php-format
 msgid "%1$d keyword fields to fill in %2$d categories."
 msgstr ""
 
-#: inc/src/Modules/Migration/Steps.php:820
+#: inc/src/Modules/Migration/Steps.php:828
 msgid "Nothing to fill — every category already has its keywords."
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:843
+msgid "Nothing to change — favourites are already on."
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:851
+msgid "Favourites switched on."
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:851
+msgid "Favourites would be switched on."
 msgstr ""
 
 #: inc/src/Modules/Quota/Module.php:41
@@ -4076,8 +4117,8 @@ msgid "WhatsApp"
 msgstr ""
 
 #: page-templates/styleguide.php:205
-#: template-parts/listing/header.php:101
-#: template-parts/listing/header.php:103
+#: template-parts/listing/header.php:107
+#: template-parts/listing/header.php:109
 msgid "Report"
 msgstr ""
 
@@ -4091,13 +4132,13 @@ msgstr ""
 
 #: page-templates/styleguide.php:282
 #: template-parts/guides/single.php:46
-#: template-parts/listing/header.php:91
+#: template-parts/listing/header.php:97
 msgid "Share"
 msgstr ""
 
 #: page-templates/styleguide.php:292
 #: template-parts/guides/single.php:49
-#: template-parts/listing/header.php:94
+#: template-parts/listing/header.php:100
 msgid "Print"
 msgstr ""
 
@@ -5669,6 +5710,18 @@ msgid_plural "That's all %s"
 msgstr[0] ""
 msgstr[1] ""
 
+#. translators: %s: listing title
+#: template-parts/components/fav-button.php:48
+#, php-format
+msgid "Log in to save %s"
+msgstr ""
+
+#. translators: %s: listing title
+#: template-parts/components/fav-button.php:50
+#, php-format
+msgid "Save %s"
+msgstr ""
+
 #: template-parts/components/field.php:110
 msgid "(optional)"
 msgstr ""
@@ -5699,12 +5752,6 @@ msgid "%s photo"
 msgid_plural "%s photos"
 msgstr[0] ""
 msgstr[1] ""
-
-#. translators: %s: listing title
-#: template-parts/components/listing-card.php:128
-#, php-format
-msgid "Save %s"
-msgstr ""
 
 #. translators: %s: average rating, e.g. 4.9
 #: template-parts/components/rating.php:34
@@ -6439,24 +6486,24 @@ msgstr ""
 msgid "Call"
 msgstr ""
 
-#: template-parts/listing/contact-bar.php:71
+#: template-parts/listing/contact-bar.php:75
 #: template-parts/listing/contact.php:55
 msgid "Log in to see the phone number"
 msgstr ""
 
-#: template-parts/listing/contact-bar.php:84
+#: template-parts/listing/contact-bar.php:88
 msgid "Message on WhatsApp"
 msgstr ""
 
-#: template-parts/listing/contact-bar.php:91
+#: template-parts/listing/contact-bar.php:95
 msgid "Send an e-mail"
 msgstr ""
 
-#: template-parts/listing/contact-bar.php:94
+#: template-parts/listing/contact-bar.php:98
 msgid "Chat and e-mail require an account. Phone and WhatsApp are open to everyone."
 msgstr ""
 
-#: template-parts/listing/contact-bar.php:95
+#: template-parts/listing/contact-bar.php:99
 msgid "Log in or register free"
 msgstr ""
 
@@ -6542,7 +6589,7 @@ msgid_plural "%s reviews"
 msgstr[0] ""
 msgstr[1] ""
 
-#: template-parts/listing/header.php:99
+#: template-parts/listing/header.php:105
 msgid "Reported"
 msgstr ""
 

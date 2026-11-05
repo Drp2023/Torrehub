@@ -28,6 +28,36 @@ function th_is_favourite( int $listing_id ): bool {
 }
 
 /**
+ * Signature of a "save after logging in" link (Account\Favourites checks it), so only links the site made save.
+ *
+ * @param int $listing_id Listing id.
+ */
+function th_fav_token( int $listing_id ): string {
+	return substr( hash_hmac( 'sha256', 'th_fav|' . $listing_id, wp_salt( 'nonce' ) ), 0, 16 );
+}
+
+/**
+ * Guests' heart: log in, then back to this page with the listing saved.
+ *
+ * @param int $listing_id Listing id.
+ */
+function th_fav_login_url( int $listing_id ): string {
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- the login page validates redirect_to.
+	$here = set_url_scheme( 'http://' . sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ?? '' ) ) . wp_unslash( $_SERVER['REQUEST_URI'] ?? '/' ) );
+	if ( wp_doing_ajax() || empty( $_SERVER['HTTP_HOST'] ) ) {
+		$here = (string) get_permalink( $listing_id );
+	}
+	$back = add_query_arg(
+		array(
+			'th_fav'   => $listing_id,
+			'th_fav_t' => th_fav_token( $listing_id ),
+		),
+		remove_query_arg( array( 'th_fav', 'th_fav_t', 'th_faved' ), $here )
+	);
+	return th_url_login( $back );
+}
+
+/**
  * Price of a listing split for display: amount ("€12,450", "€45 – €60", "Free") + suffix ("/ h", "negotiable").
  *
  * RTCL's get_price_html() glues unit and type labels onto the amount ("€24,550total price(Fixed)"), so the

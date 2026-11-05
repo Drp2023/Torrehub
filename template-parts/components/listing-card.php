@@ -119,16 +119,17 @@ if ( $a['eager'] ) {
 
 	<?php if ( $a['fav'] ) : ?>
 		<div class="th-card__fav">
-			<button type="button" class="th-btn th-btn--icon th-btn--sm th-btn--white th-btn--fav" aria-pressed="<?php echo $a['fav_pressed'] ? 'true' : 'false'; ?>" data-th-fav="<?php echo esc_attr( (string) (int) $a['listing_id'] ); ?>">
-				<?php th_icon( 'heart', array( 'size' => 18 ) ); ?>
-				<?php th_icon( 'heart-filled', array( 'size' => 18 ) ); ?>
-				<span class="th-sr-only">
-					<?php
-					/* translators: %s: listing title */
-					echo esc_html( sprintf( __( 'Save %s', 'torrehub' ), $a['title'] ) );
-					?>
-				</span>
-			</button>
+			<?php
+			th_component(
+				'fav-button',
+				array(
+					'listing_id' => (int) $a['listing_id'],
+					'title'      => (string) $a['title'],
+					'variant'    => 'card',
+					'pressed'    => (bool) $a['fav_pressed'],
+				)
+			);
+			?>
 		</div>
 	<?php endif; ?>
 
