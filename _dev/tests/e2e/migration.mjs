@@ -33,7 +33,7 @@ await Promise.all([page.waitForNavigation(), page.click('#wp-submit')]);
 
 /* ---------------------------------------------------------------- page + data check */
 await page.goto(tool);
-check('Tools › Torrehub migration lists the steps in runbook order (+ U1 for update 1.1.0)', (await page.locator('.th-migration .card h3').allInnerTexts()).map((t) => t.split(' ')[0]).join(',') === 'C1,C2,C3,C4,C5,C6,D1b,D4,U1');
+check('Tools › Torrehub migration lists the steps in runbook order (+ U1, U2 for update 1.1.0)', (await page.locator('.th-migration .card h3').allInnerTexts()).map((t) => t.split(' ')[0]).join(',') === 'C1,C2,C3,C4,C5,C6,D1b,D4,U1,U2');
 check('“Apply” locked until a dry run', await card(page, 'trash-demo').getByRole('button', { name: 'Apply', exact: true }).isDisabled());
 await run(page, 'data-check', 'Save as baseline (before)');
 check('baseline saved', /Baseline saved/.test(await page.locator('#data-check').innerText()));

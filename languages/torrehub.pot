@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-05T19:18:15+00:00\n"
+"POT-Creation-Date: 2026-11-05T20:03:29+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: torrehub\n"
@@ -798,7 +798,7 @@ msgid "Other"
 msgstr ""
 
 #: inc/src/Modules/Account/Module.php:59
-#: inc/src/Modules/Archive/Module.php:68
+#: inc/src/Modules/Archive/Module.php:69
 #: inc/src/Modules/Chat/Module.php:69
 #: inc/src/Modules/Lifetime/Module.php:86
 #: inc/src/Modules/Listing/Module.php:77
@@ -908,6 +908,15 @@ msgstr ""
 msgid "Import again"
 msgstr ""
 
+#: inc/src/Modules/Archive/Aliases.php:102
+#: inc/src/Modules/Archive/Aliases.php:121
+msgid "Search keywords"
+msgstr ""
+
+#: inc/src/Modules/Archive/Aliases.php:142
+msgid "Comma-separated words people may type in each language (e.g. Plumbing: Spanish “fontanero, fontanería”). A search with one of them also finds this category’s listings and the listings containing the English words. Accents and capitals don’t matter."
+msgstr ""
+
 #: inc/src/Modules/Archive/CardFields.php:43
 #: inc/src/Modules/Archive/CardFields.php:108
 #: page-templates/styleguide.php:802
@@ -930,22 +939,22 @@ msgstr ""
 msgid "Save card fields"
 msgstr ""
 
-#: inc/src/Modules/Archive/Module.php:47
+#: inc/src/Modules/Archive/Module.php:48
 msgid "Listing archive & filters"
 msgstr ""
 
-#: inc/src/Modules/Archive/Module.php:54
+#: inc/src/Modules/Archive/Module.php:55
 msgid "Category, town and search results with filters, sorting, list/map views and live result counts."
 msgstr ""
 
 #. translators: %s: number of results
-#: inc/src/Modules/Archive/Module.php:231
+#: inc/src/Modules/Archive/Module.php:233
 #: template-parts/archive/filter-sheet.php:46
 msgid "No results"
 msgstr ""
 
 #. translators: %s: number of results
-#: inc/src/Modules/Archive/Module.php:231
+#: inc/src/Modules/Archive/Module.php:233
 #: template-parts/archive/filter-sheet.php:48
 #, php-format
 msgid "Show %s result"
@@ -953,47 +962,47 @@ msgid_plural "Show %s results"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/src/Modules/Archive/Module.php:410
+#: inc/src/Modules/Archive/Module.php:412
 msgid "Loading more listings…"
 msgstr ""
 
-#: inc/src/Modules/Archive/Module.php:411
+#: inc/src/Modules/Archive/Module.php:413
 msgid "More listings loaded."
 msgstr ""
 
-#: inc/src/Modules/Archive/Module.php:412
+#: inc/src/Modules/Archive/Module.php:414
 msgid "Couldn’t load more. Check your connection and try again."
 msgstr ""
 
-#: inc/src/Modules/Archive/Module.php:413
+#: inc/src/Modules/Archive/Module.php:415
 msgid "Counting…"
 msgstr ""
 
-#: inc/src/Modules/Archive/Module.php:414
+#: inc/src/Modules/Archive/Module.php:416
 #: template-parts/archive/map-view.php:55
 msgid "Zoom in"
 msgstr ""
 
-#: inc/src/Modules/Archive/Module.php:415
+#: inc/src/Modules/Archive/Module.php:417
 #: template-parts/archive/map-view.php:56
 msgid "Zoom out"
 msgstr ""
 
-#: inc/src/Modules/Archive/Module.php:416
+#: inc/src/Modules/Archive/Module.php:418
 #: template-parts/archive/map-view.php:54
 msgid "Show my location"
 msgstr ""
 
-#: inc/src/Modules/Archive/Module.php:417
+#: inc/src/Modules/Archive/Module.php:419
 #: template-parts/archive/map-view.php:48
 msgid "Map of the results"
 msgstr ""
 
-#: inc/src/Modules/Archive/Module.php:426
+#: inc/src/Modules/Archive/Module.php:428
 msgid "Saved to your favourites."
 msgstr ""
 
-#: inc/src/Modules/Archive/Module.php:427
+#: inc/src/Modules/Archive/Module.php:429
 msgid "Removed from your favourites."
 msgstr ""
 
@@ -2719,32 +2728,40 @@ msgstr ""
 msgid "Update 1.1.0 (client request). “Languages Spoken” becomes a multiple choice (checkboxes); existing answers stay, as the first choice. “Mobile Service” becomes “Mobile Service Available?” with “Yes – We Come to You” / “No – On-site Service Only”; stored answers map to these (Yes → Yes, No-comes to you → No). Touches the Service form and those two answers only."
 msgstr ""
 
-#: inc/src/Modules/Migration/Steps.php:113
+#: inc/src/Modules/Migration/Steps.php:105
+msgid "Search keywords for every category (9 languages)"
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:106
+msgid "Update 1.1.0 (client request). Fills each listing category’s search keywords per site language (e.g. Plumbing: fontanero, putkimies, Klempner, vízvezeték-szerelő …), so a search in any language finds the English listings. Only empty fields are filled — keywords edited on Listings › Categories are kept. Safe to repeat."
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:121
 msgid "Switch off the “Seller Verification” plugin first (runbook D4)."
 msgstr ""
 
-#: inc/src/Modules/Migration/Steps.php:128
+#: inc/src/Modules/Migration/Steps.php:136
 msgid "Unknown step."
 msgstr ""
 
-#: inc/src/Modules/Migration/Steps.php:132
+#: inc/src/Modules/Migration/Steps.php:140
 msgid "This step has no rollback."
 msgstr ""
 
 #. translators: 1: form id, 2: form title, 3: field name, 4: option position
-#: inc/src/Modules/Migration/Steps.php:181
+#: inc/src/Modules/Migration/Steps.php:189
 #, php-format
 msgid "Form %1$d “%2$s”, field %3$s: option %4$d has neither value nor label — left alone."
 msgstr ""
 
 #. translators: 1: form id, 2: form title, 3: field label, 4: option label, 5: new value
-#: inc/src/Modules/Migration/Steps.php:192
+#: inc/src/Modules/Migration/Steps.php:200
 #, php-format
 msgid "Form %1$d “%2$s” · %3$s: option “%4$s” → value “%5$s”"
 msgstr ""
 
 #. translators: %d: number of option values
-#: inc/src/Modules/Migration/Steps.php:208
+#: inc/src/Modules/Migration/Steps.php:216
 #, php-format
 msgid "%d option value fixed."
 msgid_plural "%d option values fixed."
@@ -2752,43 +2769,43 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of option values
-#: inc/src/Modules/Migration/Steps.php:208
+#: inc/src/Modules/Migration/Steps.php:216
 #, php-format
 msgid "%d option value would be fixed."
 msgid_plural "%d option values would be fixed."
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/src/Modules/Migration/Steps.php:209
+#: inc/src/Modules/Migration/Steps.php:217
 msgid "No empty option values."
 msgstr ""
 
 #. translators: %s: page slug
-#: inc/src/Modules/Migration/Steps.php:226
+#: inc/src/Modules/Migration/Steps.php:234
 #, php-format
 msgid "%s: page not found."
 msgstr ""
 
 #. translators: %s: page slug
-#: inc/src/Modules/Migration/Steps.php:233
+#: inc/src/Modules/Migration/Steps.php:241
 #, php-format
 msgid "%s: restored"
 msgstr ""
 
 #. translators: %s: page slug
-#: inc/src/Modules/Migration/Steps.php:233
+#: inc/src/Modules/Migration/Steps.php:241
 #, php-format
 msgid "%s: not migrated"
 msgstr ""
 
 #. translators: 1: page slug, 2: template file, 3: migration mode, 4: blocks, 5: words before, 6: words after
-#: inc/src/Modules/Migration/Steps.php:243
+#: inc/src/Modules/Migration/Steps.php:251
 #, php-format
 msgid "%1$s → %2$s (%3$s): %4$d blocks, %5$d → %6$d words"
 msgstr ""
 
 #. translators: %d: number of pages
-#: inc/src/Modules/Migration/Steps.php:247
+#: inc/src/Modules/Migration/Steps.php:255
 #, php-format
 msgid "%d page restored."
 msgid_plural "%d pages restored."
@@ -2796,7 +2813,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of pages
-#: inc/src/Modules/Migration/Steps.php:250
+#: inc/src/Modules/Migration/Steps.php:258
 #, php-format
 msgid "%d page migrated."
 msgid_plural "%d pages migrated."
@@ -2804,105 +2821,105 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of pages
-#: inc/src/Modules/Migration/Steps.php:250
+#: inc/src/Modules/Migration/Steps.php:258
 #, php-format
 msgid "%d page would be migrated."
 msgid_plural "%d pages would be migrated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/src/Modules/Migration/Steps.php:276
+#: inc/src/Modules/Migration/Steps.php:284
 msgid "No Classified Listing Pro chat tables — nothing to import."
 msgstr ""
 
-#: inc/src/Modules/Migration/Steps.php:281
+#: inc/src/Modules/Migration/Steps.php:289
 msgid "The theme chat tables are missing: open any wp-admin page once (installer) or switch the Chat module on."
 msgstr ""
 
 #. translators: 1: conversations, 2: messages, 3: skipped conversations
-#: inc/src/Modules/Migration/Steps.php:359
+#: inc/src/Modules/Migration/Steps.php:367
 #, php-format
 msgid "Imported %1$d conversations with %2$d messages (%3$d skipped: already imported, or the listing / user is gone)."
 msgstr ""
 
 #. translators: 1: conversations, 2: messages, 3: skipped conversations
-#: inc/src/Modules/Migration/Steps.php:361
+#: inc/src/Modules/Migration/Steps.php:369
 #, php-format
 msgid "Would import %1$d conversations with %2$d messages (%3$d skipped: already imported, or the listing / user is gone)."
 msgstr ""
 
-#: inc/src/Modules/Migration/Steps.php:382
+#: inc/src/Modules/Migration/Steps.php:390
 msgid "No rtcl-search-alert table — nothing to import."
 msgstr ""
 
-#: inc/src/Modules/Migration/Steps.php:388
+#: inc/src/Modules/Migration/Steps.php:396
 msgid "The theme alerts table is missing: open any wp-admin page once (installer) or switch the module on."
 msgstr ""
 
 #. translators: 1: imported searches, 2: skipped
-#: inc/src/Modules/Migration/Steps.php:460
+#: inc/src/Modules/Migration/Steps.php:468
 #, php-format
 msgid "Imported %1$d saved searches (%2$d skipped: already imported or no address)."
 msgstr ""
 
 #. translators: 1: searches to import, 2: skipped
-#: inc/src/Modules/Migration/Steps.php:462
+#: inc/src/Modules/Migration/Steps.php:470
 #, php-format
 msgid "Would import %1$d saved searches (%2$d skipped: already imported or no address)."
 msgstr ""
 
 #. translators: 1: post type, 2: slug
-#: inc/src/Modules/Migration/Steps.php:510
+#: inc/src/Modules/Migration/Steps.php:518
 #, php-format
 msgid "%1$s %2$s: is the front page / posts page — kept."
 msgstr ""
 
-#: inc/src/Modules/Migration/Steps.php:514
+#: inc/src/Modules/Migration/Steps.php:522
 msgid "trash"
 msgstr ""
 
 #. translators: %d: number of posts and pages
-#: inc/src/Modules/Migration/Steps.php:521
+#: inc/src/Modules/Migration/Steps.php:529
 #, php-format
 msgid "Moved to the trash: %d"
 msgstr ""
 
 #. translators: %d: number of posts and pages
-#: inc/src/Modules/Migration/Steps.php:521
+#: inc/src/Modules/Migration/Steps.php:529
 #, php-format
 msgid "Would move to the trash: %d"
 msgstr ""
 
-#: inc/src/Modules/Migration/Steps.php:538
+#: inc/src/Modules/Migration/Steps.php:546
 msgid "No listings outside the trash."
 msgstr ""
 
 #. translators: 1: post status, 2: number of listings
-#: inc/src/Modules/Migration/Steps.php:546
+#: inc/src/Modules/Migration/Steps.php:554
 #, php-format
 msgid "Status %1$s: %2$d"
 msgstr ""
 
 #. translators: %d: number of further listings
-#: inc/src/Modules/Migration/Steps.php:553
+#: inc/src/Modules/Migration/Steps.php:561
 #, php-format
 msgid "… and %d more"
 msgstr ""
 
 #. translators: 1: listings, 2: photos, 3: days
-#: inc/src/Modules/Migration/Steps.php:564
+#: inc/src/Modules/Migration/Steps.php:572
 #, php-format
 msgid "Moved %1$d listings to the trash. Their %2$d photos are deleted when the trash is emptied (automatically after %3$d days)."
 msgstr ""
 
 #. translators: 1: listings, 2: photos, 3: days
-#: inc/src/Modules/Migration/Steps.php:566
+#: inc/src/Modules/Migration/Steps.php:574
 #, php-format
 msgid "Would move %1$d listings to the trash. Their %2$d photos are deleted when the trash is emptied (automatically after %3$d days)."
 msgstr ""
 
 #. translators: %d: number of meta rows
-#: inc/src/Modules/Migration/Steps.php:586
+#: inc/src/Modules/Migration/Steps.php:594
 #, php-format
 msgid "%d NIE entry (custom_field_1, nif_nie) would be deleted."
 msgid_plural "%d NIE entries (custom_field_1, nif_nie) would be deleted."
@@ -2910,7 +2927,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of meta rows
-#: inc/src/Modules/Migration/Steps.php:592
+#: inc/src/Modules/Migration/Steps.php:600
 #, php-format
 msgid "%d NIE entry deleted."
 msgid_plural "%d NIE entries deleted."
@@ -2918,7 +2935,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of files
-#: inc/src/Modules/Migration/Steps.php:609
+#: inc/src/Modules/Migration/Steps.php:617
 #, php-format
 msgid "%d document file would be deleted."
 msgid_plural "%d document files would be deleted."
@@ -2926,7 +2943,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of files
-#: inc/src/Modules/Migration/Steps.php:618
+#: inc/src/Modules/Migration/Steps.php:626
 #, php-format
 msgid "%d document file deleted; references removed."
 msgid_plural "%d document files deleted; references removed."
@@ -2934,19 +2951,19 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1: form id, 2: form title, 3: field label, 4: field name
-#: inc/src/Modules/Migration/Steps.php:650
+#: inc/src/Modules/Migration/Steps.php:658
 #, php-format
 msgid "Form %1$d “%2$s” · %3$s (%4$s)"
 msgstr ""
 
 #. translators: %s: field
-#: inc/src/Modules/Migration/Steps.php:655
+#: inc/src/Modules/Migration/Steps.php:663
 #, php-format
 msgid "%s: already a multiple choice."
 msgstr ""
 
 #. translators: 1: field, 2: number of listings
-#: inc/src/Modules/Migration/Steps.php:664
+#: inc/src/Modules/Migration/Steps.php:672
 #, php-format
 msgid "%1$s: single choice → multiple choice; %2$d listing keeps its answer as the first choice."
 msgid_plural "%1$s: single choice → multiple choice; %2$d listings keep their answer as the first choice."
@@ -2954,31 +2971,31 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: 1: field, 2: new label, 3: yes label, 4: its value, 5: no label, 6: its value
-#: inc/src/Modules/Migration/Steps.php:700
+#: inc/src/Modules/Migration/Steps.php:708
 #, php-format
 msgid "%1$s → “%2$s”: “%3$s” (%4$s), “%5$s” (%6$s)."
 msgstr ""
 
 #. translators: 1: field, 2: stored value
-#: inc/src/Modules/Migration/Steps.php:709
+#: inc/src/Modules/Migration/Steps.php:717
 #, php-format
 msgid "%1$s: stored answer “%2$s” matches neither option — left alone."
 msgstr ""
 
 #. translators: 1: field, 2: stored value, 3: new value
-#: inc/src/Modules/Migration/Steps.php:713
+#: inc/src/Modules/Migration/Steps.php:721
 #, php-format
 msgid "%1$s: answer “%2$s” → “%3$s”"
 msgstr ""
 
 #. translators: %s: field label
-#: inc/src/Modules/Migration/Steps.php:731
+#: inc/src/Modules/Migration/Steps.php:739
 #, php-format
 msgid "Field not found: %s."
 msgstr ""
 
 #. translators: %d: number of changes
-#: inc/src/Modules/Migration/Steps.php:741
+#: inc/src/Modules/Migration/Steps.php:749
 #, php-format
 msgid "%d change made."
 msgid_plural "%d changes made."
@@ -2986,15 +3003,45 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %d: number of changes
-#: inc/src/Modules/Migration/Steps.php:741
+#: inc/src/Modules/Migration/Steps.php:749
 #, php-format
 msgid "%d change to make."
 msgid_plural "%d changes to make."
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/src/Modules/Migration/Steps.php:742
+#: inc/src/Modules/Migration/Steps.php:750
 msgid "Nothing to change — the Service form is up to date."
+msgstr ""
+
+#. translators: %s: category name
+#: inc/src/Modules/Migration/Steps.php:807
+#, php-format
+msgid "No starter keywords for “%s” — add them on Listings › Categories."
+msgstr ""
+
+#. translators: %d: number of fields
+#: inc/src/Modules/Migration/Steps.php:811
+#, php-format
+msgid "%d keyword field already filled — kept."
+msgid_plural "%d keyword fields already filled — kept."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: 1: number of fields, 2: number of categories
+#: inc/src/Modules/Migration/Steps.php:819
+#, php-format
+msgid "%1$d keyword fields filled in %2$d categories."
+msgstr ""
+
+#. translators: 1: number of fields, 2: number of categories
+#: inc/src/Modules/Migration/Steps.php:819
+#, php-format
+msgid "%1$d keyword fields to fill in %2$d categories."
+msgstr ""
+
+#: inc/src/Modules/Migration/Steps.php:820
+msgid "Nothing to fill — every category already has its keywords."
 msgstr ""
 
 #: inc/src/Modules/Quota/Module.php:41

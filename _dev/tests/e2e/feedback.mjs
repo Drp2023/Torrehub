@@ -2,6 +2,7 @@
 //   Group 1 (bugs): approval e-mail, phone-width account labels in long languages, town picker, "all listings"
 //   paging, Report colour; module cache-busting.
 //   Group 2 (Service form): Languages Spoken → multiple choice, Mobile Service options; migration step U1.
+//   Group 3 (search in any language): category keywords per language, seeding step U2, search expansion.
 //   node _dev/tests/e2e/feedback.mjs [baseUrl]
 // Needs (local only): WP-CLI via bin/env.sh (Git Bash), Mailpit, admin dev/dev, business seller user54/seller54,
 // the th-local-safety mu-plugin (live-like canonical redirects). The language sweep needs the internet (GTranslate);
@@ -261,6 +262,38 @@ try {
 	const sheet = await sp.locator('#th-filters').innerText();
 	check('filter sheet: Languages as multiple choice, Mobile with the new texts', (await sp.locator('#th-filters input[type="checkbox"][name="f[select_moa3gux0][]"]').count()) === 5 && /Mobile Service Available\?/i.test(sheet) && /Yes – We Come to You/.test(sheet) && /No – On-site Service Only/.test(sheet));
 	await sp.context().close();
+
+	/* ------------------------------------------------------------ 3 search in any language */
+	const seed = wp('torrehub seed-search-keywords');
+	check('U2 dry run: every category already seeded (reset-db applied it), nothing to fill', /Nothing to fill/.test(seed), seed.split('\n').slice(-1)[0]);
+	const al = JSON.parse(helper('aliases'));
+	const found = async (q, path = '/listings/') => {
+		const html = await (await fetch(`${base}${path}?q=${encodeURIComponent(q)}`)).text();
+		return { a: html.includes(new URL(al.a).pathname), b: html.includes(new URL(al.b).pathname) };
+	};
+	for (const q of ['fontanero', 'FONTANEROS', 'putkimies', 'Klempner', 'vízvezeték-szerelő', 'vizvezetek szerelo', 'rörmokare', 'instalator', 'сантехник', 'сантехнік']) {
+		const r = await found(q);
+		check(`“${q}” finds the Plumbing listing and the one mentioning a plumber`, r.a && r.b, JSON.stringify(r));
+	}
+	const filtered = await found('fontanero', '/listing-category/marketplace/');
+	check('category filter still applies (Marketplace + “fontanero”: only the shed)', !filtered.a && filtered.b, JSON.stringify(filtered));
+	const own = await found('E2E Pipe Pro');
+	check('plain search unchanged (title words still find it, the other one not)', own.a && !own.b, JSON.stringify(own));
+	const none = await found('qwertyzx');
+	check('search without a keyword match finds nothing extra', !none.a && !none.b);
+	const count = JSON.parse(await (await fetch(`${base}/listings/?q=fontanero&th_count=1`)).text());
+	check('live count follows the expanded search', count.count >= 2, JSON.stringify(count));
+	const alertHits = JSON.parse(helper('matcher fontanero'));
+	check('saved search with “fontanero” matches both listings', alertHits.includes(al.aId) && alertHits.includes(al.bId), JSON.stringify(alertHits));
+
+	// Admin: keywords edited on the category screen work at once (the cached map is rebuilt).
+	const adm = await adminLogin();
+	await adm.goto(`${base}/wp-admin/term.php?taxonomy=rtcl_category&tag_ID=${al.plumbing}&post_type=rtcl_listing`);
+	check('category screen: one keyword field per site language (9)', (await adm.locator('tr.th-aliases input[name^="th_alias["]').count()) === 9);
+	await adm.fill('#th-alias-es', 'fontanero, fontanería, desatascos, cañeríaprueba');
+	await Promise.all([adm.waitForNavigation(), adm.locator('#edittag input[type="submit"].button-primary, #edittag [type="submit"]').first().click()]);
+	check('… a new keyword finds the category’s listing right after saving', (await found('cañeríaprueba')).a);
+	await adm.context().close();
 
 	check('no JS errors', errors.length === 0, errors.slice(0, 3).join(' | '));
 } finally {

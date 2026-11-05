@@ -100,6 +100,14 @@ final class Steps {
 				'rollback'    => false,
 				'run'         => array( self::class, 'service_fields' ),
 			),
+			'seed-search-keywords'        => array(
+				'code'        => 'U2',
+				'title'       => __( 'Search keywords for every category (9 languages)', 'torrehub' ),
+				'help'        => __( 'Update 1.1.0 (client request). Fills each listing category’s search keywords per site language (e.g. Plumbing: fontanero, putkimies, Klempner, vízvezeték-szerelő …), so a search in any language finds the English listings. Only empty fields are filled — keywords edited on Listings › Categories are kept. Safe to repeat.', 'torrehub' ),
+				'destructive' => false,
+				'rollback'    => false,
+				'run'         => array( self::class, 'seed_search_keywords' ),
+			),
 		);
 	}
 
@@ -741,6 +749,76 @@ final class Steps {
 				? sprintf( $apply ? _n( '%d change made.', '%d changes made.', $changes, 'torrehub' ) : _n( '%d change to make.', '%d changes to make.', $changes, 'torrehub' ), $changes )
 				: __( 'Nothing to change — the Service form is up to date.', 'torrehub' ),
 			$changes
+		);
+	}
+
+	/**
+	 * U2 (update 1.1.0) — starter search keywords (inc/data/category-aliases.php) into the empty keyword fields of
+	 * the listing categories, matched by slug, for the languages the site offers.
+	 *
+	 * @param Report $r    Report.
+	 * @param string $mode dry|apply.
+	 */
+	public static function seed_search_keywords( Report $r, string $mode ): void {
+		$apply  = 'apply' === $mode;
+		$data   = (array) require TH_DIR . '/inc/data/category-aliases.php';
+		$langs  = array_keys( \Torrehub\Modules\Archive\Aliases::languages() );
+		$terms  = get_terms(
+			array(
+				'taxonomy'   => 'rtcl_category',
+				'hide_empty' => false,
+			)
+		);
+		$filled = 0;
+		$kept   = 0;
+		$cats   = 0;
+		$none   = array();
+		foreach ( is_array( $terms ) ? $terms : array() as $term ) {
+			if ( ! isset( $data[ $term->slug ] ) ) {
+				$none[] = html_entity_decode( $term->name, ENT_QUOTES ) . ' (' . $term->slug . ')';
+				continue;
+			}
+			$new = array();
+			foreach ( $langs as $code ) {
+				$words = (string) ( $data[ $term->slug ][ $code ] ?? '' );
+				if ( '' === $words ) {
+					continue;
+				}
+				if ( '' !== trim( (string) get_term_meta( $term->term_id, \Torrehub\Modules\Archive\Aliases::META . $code, true ) ) ) {
+					++$kept;
+					continue;
+				}
+				$new[ $code ] = $words;
+			}
+			if ( ! $new ) {
+				continue;
+			}
+			++$cats;
+			$filled += count( $new );
+			$r->line( html_entity_decode( $term->name, ENT_QUOTES ) . ' (' . $term->slug . '): ' . implode( ', ', array_keys( $new ) ) );
+			if ( $apply ) {
+				foreach ( $new as $code => $words ) {
+					update_term_meta( $term->term_id, \Torrehub\Modules\Archive\Aliases::META . $code, \Torrehub\Modules\Archive\Aliases::clean( $words ) );
+				}
+			}
+		}
+		foreach ( $none as $name ) {
+			/* translators: %s: category name */
+			$r->warning( sprintf( __( 'No starter keywords for “%s” — add them on Listings › Categories.', 'torrehub' ), $name ) );
+		}
+		if ( $kept ) {
+			/* translators: %d: number of fields */
+			$r->line( sprintf( _n( '%d keyword field already filled — kept.', '%d keyword fields already filled — kept.', $kept, 'torrehub' ), $kept ) );
+		}
+		if ( $apply && $filled ) {
+			\Torrehub\Modules\Archive\Aliases::flush();
+		}
+		$r->done(
+			$filled
+				/* translators: 1: number of fields, 2: number of categories */
+				? sprintf( $apply ? __( '%1$d keyword fields filled in %2$d categories.', 'torrehub' ) : __( '%1$d keyword fields to fill in %2$d categories.', 'torrehub' ), $filled, $cats )
+				: __( 'Nothing to fill — every category already has its keywords.', 'torrehub' ),
+			$filled
 		);
 	}
 

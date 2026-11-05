@@ -10,6 +10,9 @@
  *   rows ID KEY       → JSON: every meta value of KEY (checkboxes keep one row per choice)
  *   rtcl-published on|off → Classified Listing's own "Listing is approved/published" e-mail
  *   unmigrate         → the Service form and answers as before update 1.1.0 (U1), plus one "Yes" answer to map
+ *   aliases           → JSON: two new live listings of user54 — A in Plumbing without the word "plumber", B in
+ *                       Marketplace › Home & Garden mentioning a plumber; the Plumbing category id (its keywords saved)
+ *   matcher Q         → JSON: listing ids a saved search for keyword Q finds
  *   cleanup           → everything back as it was
  *
  * @package Torrehub
@@ -111,8 +114,53 @@ if ( 'setup' === $cmd ) {
 		}
 	}
 	update_option( FilterConfig::OPTION, $filters, false );
+} elseif ( 'aliases' === $cmd ) {
+	$saved    = (array) get_option( TH_E2E_FEEDBACK, array() );
+	$plumbing = get_term_by( 'slug', 'plumbing', 'rtcl_category' );
+	$author   = get_user_by( 'login', 'user54' )->ID;
+	$make     = static function ( string $title, string $content, array $cats ) use ( $author ) {
+		$id = wp_insert_post(
+			array(
+				'post_type'    => 'rtcl_listing',
+				'post_status'  => 'publish',
+				'post_author'  => $author,
+				'post_title'   => $title,
+				'post_content' => $content,
+			)
+		);
+		wp_set_object_terms( $id, $cats, 'rtcl_category' );
+		update_post_meta( $id, 'th_published_at', time() );
+		return $id;
+	};
+	$a = $make( 'E2E Pipe Pro', 'Quick fixes around the house, same day.', array( 'services', 'home-maintenance', 'plumbing' ) );
+	$b = $make( 'E2E Garden shed', 'Solid wooden shed, sold by a retired plumber.', array( 'marketplace', 'home-garden' ) );
+	$saved['posts']    = array( $a, $b );
+	$saved['plumbing'] = array( (int) $plumbing->term_id, get_term_meta( $plumbing->term_id ) );
+	update_option( TH_E2E_FEEDBACK, $saved, false );
+	echo wp_json_encode(
+		array(
+			'a'        => get_permalink( $a ),
+			'b'        => get_permalink( $b ),
+			'aId'      => $a,
+			'bId'      => $b,
+			'plumbing' => (int) $plumbing->term_id,
+		)
+	);
+} elseif ( 'matcher' === $cmd ) {
+	$found = \Torrehub\Modules\SearchAlerts\Matcher::find( array( 'q' => (string) $args[1] ), 0, 0, 50 );
+	echo wp_json_encode( array_map( static fn( $p ) => (int) $p->ID, $found['posts'] ) );
 } elseif ( 'cleanup' === $cmd ) {
 	$saved = (array) get_option( TH_E2E_FEEDBACK, array() );
+	foreach ( (array) ( $saved['posts'] ?? array() ) as $post_id ) {
+		wp_delete_post( (int) $post_id, true );
+	}
+	if ( ! empty( $saved['plumbing'] ) ) {
+		foreach ( (array) $saved['plumbing'][1] as $key => $values ) {
+			if ( str_starts_with( (string) $key, 'th_alias_' ) ) {
+				update_term_meta( (int) $saved['plumbing'][0], $key, $values[0] );
+			}
+		}
+	}
 	$id    = (int) ( $saved['listing'] ?? 0 );
 	if ( $id ) {
 		$set_status( $id, 'pending' );

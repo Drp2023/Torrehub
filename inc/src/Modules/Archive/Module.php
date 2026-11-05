@@ -2,6 +2,7 @@
 /**
  * Listing archive: filters (Form Builder fields, price, radius, verified), sort, grid/list/map views,
  * load more, live result count. Replaces the Pro filter widget and the "Filter Builder Active" WPCode snippet.
+ * Keyword search in any site language: see Aliases.
  *
  * Templates: classified-listing/{archive-rtcl_listing,taxonomy-rtcl_*}.php → template-parts/archive/*.
  *
@@ -79,6 +80,7 @@ final class Module extends BaseModule {
 		add_action( 'template_redirect', array( $this, 'count_endpoint' ), 1 );
 		add_action( 'template_redirect', array( $this, 'canonical_redirect' ), 5 );
 		add_filter( 'redirect_canonical', array( $this, 'no_core_paging_redirect' ) );
+		( new Aliases() )->register();
 		add_filter( 'wp_robots', array( $this, 'robots' ) );
 		add_filter( 'th_rtcl_assets_needed', array( $this, 'no_rtcl_assets' ) );
 		add_filter( 'th_page_css_bundles', array( $this, 'css_bundles' ) );

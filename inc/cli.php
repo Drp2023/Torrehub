@@ -4,7 +4,8 @@
  * Tools › Torrehub migration (Modules\Migration\Steps); a run from here shows up in that page's log too.
  *
  * Commands: wp torrehub fix-option-values · migrate-pages · import-chat · import-search-alerts · trash-demo ·
- * purge-nie · trash-listings · purge-old-verification-docs · service-fields (each a dry run without --apply) · data-check ·
+ * purge-nie · trash-listings · purge-old-verification-docs · service-fields · seed-search-keywords (each a dry run without
+ * --apply) · data-check ·
  * maintenance
  *
  * @package Torrehub

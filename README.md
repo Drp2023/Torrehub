@@ -31,6 +31,7 @@ Minden más (auth, chat, eladó-hitelesítés, mentett keresések, értékelése
 | Megjelenés › **Testreszabás** | főoldal-blokkok és szövegek, header/footer, közösségi linkek, *Listing page*, *Guides & pages* (kapcsolat-címzett, nyilvános e-mail, iroda/nyitvatartás) |
 | Megjelenés › **Listing cards** | mely Form Builder-mezők látszanak a kártyákon |
 | Listings › **Reports** | bejelentési küszöb és bejelentett hirdetések |
+| Listings › **Categories** › kategória | **Search keywords** nyelvenként (a GTranslate nyelvei): erre keresve a kategória hirdetései és az angol alapszavakat tartalmazó hirdetések is megjelennek |
 | Users › **Verification** | eladó-hitelesítési kérelmek |
 | Eszközök › **Torrehub migration** | élesítési adat-lépések (próbafuttatás → élesítés, napló), adat-ellenőrzés (baseline ↔ most), karbantartási mód (a látogatóknak 503 „Back soon”, az admin működik) |
 | Classified Listing › Settings | kedvencek (be/ki), moderáció, értesítő e-mailek — a téma követi |
@@ -46,7 +47,7 @@ Ahol ügyfél-döntés még nincs, a kódban `// DECISION:` jelöli a beállíth
 | `Location` | város-választás (`th_location` cookie), sugárkeresés |
 | `Auth` | login / regisztráció (Member, Private Seller, Business Seller + NIF) / e-mail megerősítés / admin jóváhagyás / jelszó-visszaállítás |
 | `Languages` | GTranslate-alapú nyelvválasztó |
-| `Archive` | listázás, szűrők, rendezés, térkép-nézet, mobil szűrő-sheet |
+| `Archive` | listázás, szűrők, rendezés, térkép-nézet, mobil szűrő-sheet; nyelvfüggetlen kulcsszó-keresés (kategória-kulcsszavak nyelvenként, `Aliases`) |
 | `Listing` | egyedi hirdetés-oldal, galéria, kontakt, bejelentés, JSON-LD, „Your listing is live” e-mail jóváhagyáskor |
 | `ListingForm` | hirdetésfeladás / szerkesztés munkaterület, piszkozatok, térképes pin |
 | `Quota` | ingyenes hirdetés-keret (alapból ki) |
@@ -75,7 +76,7 @@ A mag: `inc/src/Core/` (`Theme`, `Module`, `Settings`, `Installer` — saját t�
 
 Az adat-lépések alapból próbafuttatások, `--apply`-jal írnak; ugyanezek gombként: Eszközök › Torrehub migration (a két út közös naplót ír). Részletek és sorrend: runbook B–D, G. Súgó: `wp help torrehub`.
 
-`wp torrehub fix-option-values` · `migrate-pages [--rollback]` · `import-chat` · `import-search-alerts` · `trash-demo` · `purge-nie` · `trash-listings` · `purge-old-verification-docs` · `service-fields` (1.1.0) · `data-check [--save-baseline]` · `maintenance on|off|status`
+`wp torrehub fix-option-values` · `migrate-pages [--rollback]` · `import-chat` · `import-search-alerts` · `trash-demo` · `purge-nie` · `trash-listings` · `purge-old-verification-docs` · `service-fields` · `seed-search-keywords` (1.1.0) · `data-check [--save-baseline]` · `maintenance on|off|status`
 
 ## Bővítési pontok (filterek / actionök)
 
