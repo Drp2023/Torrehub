@@ -23,7 +23,8 @@
 		"styleguide.css"
 	],
 	"home": [
-		"home.css"
+		"home.css",
+		"components/guide-card.css"
 	],
 	"archive": [
 		"archive.css"
@@ -45,6 +46,7 @@
 		"listing-form.css"
 	],
 	"content": [
+		"components/guide-card.css",
 		"content.css"
 	]
 }

@@ -1,6 +1,6 @@
 /**
  * Guides and static pages: "In this guide" / legal contents scrollspy, reading progress (mobile), share + print,
- * FAQ search. Everything works without it (anchors, plain accordion).
+ * FAQ search, "Load more guides" in place. Everything works without it (anchors, plain accordion, /page/N/ links).
  */
 
 export function init(root = document) {
@@ -15,6 +15,53 @@ export function init(root = document) {
 	if (faq) {
 		faqSearch(root, faq);
 	}
+	if (root.querySelector('[data-th-guides-more]') && !document.documentElement.dataset.thGuidesReady) {
+		document.documentElement.dataset.thGuidesReady = '1';
+		document.addEventListener('click', loadMoreGuides);
+	}
+}
+
+/** "Load more guides": fetch the next /page/N/ and add its cards here; on any failure the link just navigates. */
+function loadMoreGuides(event) {
+	const link = event.target.closest('[data-th-guides-more]');
+	const list = document.querySelector('[data-th-guides-list]');
+	if (!link || !list || link.getAttribute('aria-busy') === 'true') {
+		return;
+	}
+	event.preventDefault();
+	link.setAttribute('aria-busy', 'true');
+	link.classList.add('is-loading');
+	const status = document.querySelector('[data-th-guides-status]');
+	if (status) {
+		status.textContent = link.dataset.loading || '';
+	}
+	fetch(link.href, { credentials: 'same-origin' })
+		.then((r) => (r.ok ? r.text() : Promise.reject(r.status)))
+		.then((html) => {
+			const doc = new DOMParser().parseFromString(html, 'text/html');
+			const items = [...(doc.querySelector('[data-th-guides-list]')?.children || [])];
+			if (!items.length) {
+				throw new Error('no guides');
+			}
+			list.append(...items.map((li) => document.importNode(li, true)));
+			const wrap = link.closest('[data-th-guides-more-wrap]');
+			const next = doc.querySelector('[data-th-guides-more]');
+			if (next) {
+				link.replaceWith(document.importNode(next, true));
+			} else {
+				link.remove();
+				if (wrap && !wrap.querySelector('a')) {
+					wrap.remove();
+				}
+			}
+			items[0] && list.querySelector(`li:nth-child(${list.children.length - items.length + 1}) a`)?.focus({ preventScroll: false });
+			if (status) {
+				status.textContent = link.dataset.loaded || '';
+			}
+		})
+		.catch(() => {
+			window.location.assign(link.href);
+		});
 }
 
 /** Mark the contents link of the heading currently in view. */

@@ -7,6 +7,8 @@
 //   messages to all users (batches, pause, retry, no doubles) and the account-sidebar notice.
 //   Group 5 (favourites): Classified Listing's favourites on (U3), hearts on cards / listing page, guest → login →
 //   saved, Account › Favourites for every role.
+//   Group 6 (home, guides): the 12 main towns (6/4/3/2 per row), Guides 9 a page in 3 × 3 with real /page/N/ links
+//   and the posts page's excerpt as intro, "Latest guides" on the home page (Customizer switches).
 //   node _dev/tests/e2e/feedback.mjs [baseUrl]
 // Needs (local only): WP-CLI via bin/env.sh (Git Bash), Mailpit, admin dev/dev, business seller user54/seller54,
 // the th-local-safety mu-plugin (live-like canonical redirects). The language sweep needs the internet (GTranslate);
@@ -17,6 +19,9 @@ import { chromium, devices } from 'playwright-core';
 const base = process.argv[2] || 'http://localhost:10004';
 const out = '_dev/screens/theme';
 const mailpit = 'http://localhost:10000/api/v1';
+// Node's fetch keeps sockets alive; after a slow wp-cli step nginx may have closed one — retry once (all requests are idempotent).
+const nativeFetch = globalThis.fetch;
+globalThis.fetch = (url, opts) => nativeFetch(url, opts).catch((e) => (e.cause?.code === 'ECONNRESET' ? nativeFetch(url, opts) : Promise.reject(e)));
 const wp = (cmd) => execSync(`source bin/env.sh >/dev/null 2>&1; wp ${cmd} 2>/dev/null`, { encoding: 'utf8', shell: 'bash' }).trim();
 const helper = (arg) => wp(`eval-file _dev/tests/e2e/feedback-helper.php ${arg}`);
 const mails = async (q) => ((await (await fetch(`${mailpit}/search?query=${encodeURIComponent(q)}`)).json()).messages || []);
@@ -512,6 +517,57 @@ try {
 	await p5.goto(`${base}/?p=${favId}`);
 	check('phone, guest: heart in the contact bar is the login link', /\/login\/\?redirect_to=/.test((await p5.locator('.th-contact-bar__fav').getAttribute('href')) || ''));
 	await pctx5.close();
+
+	/* ------------------------------------------------------------ 6.1 the 12 main towns */
+	const live12 = JSON.parse(helper('towns-live'));
+	const want12 = ['Alicante', 'Altea', 'Benidorm', 'Benissa Costa', 'Calp', 'Dénia', 'Elche (Elx)', 'Guardamar del Segura', 'Orihuela Costa', 'Santa Pola', 'Torrevieja', 'Xàbia'];
+	check('home towns = the 12 top-level locations, alphabetical', JSON.stringify(live12) === JSON.stringify(want12), live12.join(', '));
+	for (const [w, cols] of [[1440, 6], [1000, 4], [700, 3], [390, 2]]) {
+		const tp = await (await browser.newContext({ viewport: { width: w, height: 900 } })).newPage();
+		await tp.goto(`${base}/`);
+		const names = await tp.locator('.th-home__town-list .th-town__name').allInnerTexts();
+		const got = await tp.evaluate(() => getComputedStyle(document.querySelector('.th-home__town-list')).gridTemplateColumns.split(' ').length);
+		check(`${w}px: ${cols} towns per row, ${12 / cols} full rows (no gaps)`, got === cols && names.length === 12 && JSON.stringify(names) === JSON.stringify(want12), `${got} cols, ${names.length} towns`);
+		await tp.context().close();
+	}
+
+	/* ------------------------------------------------------------ 6.2 Guides */
+	const totalGuides = Number(helper('guides 11'));
+	helper('guides-intro "Practical know-how for life on the Costa Blanca."');
+	const gd = await (await browser.newContext({ viewport: { width: 1440, height: 1000 } })).newPage();
+	gd.on('pageerror', (e) => ownError(e) && errors.push(String(e)));
+	await gd.goto(`${base}/guides/`, { waitUntil: 'networkidle' });
+	const gcols = await gd.evaluate(() => getComputedStyle(document.querySelector('[data-th-guides-list]')).gridTemplateColumns.split(' ').length);
+	check('Guides: 9 guides a page as cards, 3 per row', (await gd.locator('[data-th-guides-list] > li .th-guide-card').count()) === 9 && gcols === 3, String(gcols));
+	check('… the posts page’s excerpt as intro under the heading', (await gd.locator('.th-guides__intro').innerText()) === 'Practical know-how for life on the Costa Blanca.');
+	const moreHref = await gd.locator('[data-th-guides-more]').getAttribute('href');
+	check('… “Load more guides” is a real /page/2/ link', /\/guides\/page\/2\/$/.test(moreHref || ''), moreHref);
+	await gd.locator('[data-th-guides-more]').click();
+	await gd.waitForFunction(() => document.querySelectorAll('[data-th-guides-list] > li').length > 9);
+	check('… with JS the next page is added in place', (await gd.locator('[data-th-guides-list] > li').count()) === Math.min(18, totalGuides) && /\/guides\/$/.test(gd.url()));
+	const g1 = gd.locator('[data-th-guides-list] .th-guide-card__title a').first();
+	const g1href = await g1.getAttribute('href');
+	await Promise.all([gd.waitForURL(g1href), g1.click()]);
+	check('… a card opens the whole guide', (await gd.locator('[data-th-guide]').count()) === 1);
+	await gd.context().close();
+	const gnj = await (await browser.newContext({ javaScriptEnabled: false })).newPage();
+	await gnj.goto(`${base}/guides/`);
+	await Promise.all([gnj.waitForURL(/\/guides\/page\/2\/$/), gnj.locator('[data-th-guides-more]').click()]);
+	check('… without JS the link opens page 2', (await gnj.locator('[data-th-guides-list] > li').count()) === totalGuides - 9);
+	await gnj.context().close();
+
+	/* ------------------------------------------------------------ 6.3 Latest guides on the home page */
+	const hm = await (await browser.newContext({ viewport: { width: 1440, height: 900 } })).newPage();
+	await hm.goto(`${base}/`);
+	check('home: “Latest guides” with the 3 newest as cards and the intro', (await hm.locator('.th-home__guides .th-guide-card').count()) === 3 && (await hm.locator('.th-home__guides-intro').count()) === 1);
+	wp('theme mod set th_home_guides_intro_on 0');
+	await hm.reload();
+	check('… the intro can be switched off (Customizer)', (await hm.locator('.th-home__guides-intro').count()) === 0 && (await hm.locator('.th-home__guides .th-guide-card').count()) === 3);
+	wp('theme mod set th_home_guides 0');
+	await hm.reload();
+	check('… and the whole block', (await hm.locator('.th-home__guides').count()) === 0);
+	wp('theme mod remove th_home_guides th_home_guides_intro_on');
+	await hm.context().close();
 
 	check('no JS errors', errors.length === 0, errors.slice(0, 3).join(' | '));
 } finally {

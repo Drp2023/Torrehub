@@ -4,7 +4,8 @@
  *
  * - DECISION (open question Q2): a "Guides" page at /guides/ is created and set as the posts page when no posts page
  *   is set (Settings › Reading can point it elsewhere). The posts keep their URLs and categories.
- * - Featured guide = the newest sticky post, else the newest post.
+ * - Index: 9 guides a page as cards (3 × 3), "Load more guides" = a real /page/N/ link (client request 2026-11); the
+ *   posts page's excerpt is the intro under the heading (pages get the Excerpt box for it).
  * - Article: reading time (200 words/min), "In this guide" from the h2 headings (ids added on output), share/print,
  *   Article JSON-LD. "Related listing categories" box on the post editor → the "Need help with this?" card and the
  *   "Mentioned in this guide" tiles with live listing counts.
@@ -59,6 +60,7 @@ final class Module extends BaseModule {
 	public function register(): void {
 		add_action( 'admin_init', array( $this, 'ensure_page' ) );
 		add_action( 'pre_get_posts', array( $this, 'per_page' ) );
+		add_action( 'init', static fn() => add_post_type_support( 'page', 'excerpt' ) ); // The Guides intro (intro()).
 		add_filter( 'the_content', array( $this, 'heading_ids' ), 20 );
 		add_filter( 'th_page_css_bundles', array( $this, 'css_bundles' ) );
 		add_action( 'wp_head', array( $this, 'schema' ), 30 );
@@ -102,14 +104,38 @@ final class Module extends BaseModule {
 	}
 
 	/**
-	 * 10 guides per page on the index and category pages.
+	 * 9 guides per page (3 × 3) on the index and category pages.
 	 *
 	 * @param \WP_Query $q Query.
 	 */
 	public function per_page( $q ): void {
 		if ( ! is_admin() && $q->is_main_query() && ( $q->is_home() || $q->is_category() || $q->is_tag() ) ) {
-			$q->set( 'posts_per_page', 10 );
+			$q->set( 'posts_per_page', 9 );
 		}
+	}
+
+	/**
+	 * The newest guides (home page "Latest guides").
+	 *
+	 * @param int $count How many.
+	 * @return array<int,\WP_Post>
+	 */
+	public static function latest( $count = 3 ): array {
+		return get_posts(
+			array(
+				'post_type'           => 'post',
+				'posts_per_page'      => max( 1, (int) $count ),
+				'ignore_sticky_posts' => true,
+			)
+		);
+	}
+
+	/**
+	 * Intro under the Guides heading: the posts page's excerpt (Pages › Guides › Excerpt), '' when empty.
+	 */
+	public static function intro(): string {
+		$page = (int) get_option( 'page_for_posts' );
+		return $page ? trim( wp_strip_all_tags( (string) get_post_field( 'post_excerpt', $page ) ) ) : '';
 	}
 
 	/**
@@ -239,22 +265,6 @@ final class Module extends BaseModule {
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * The featured guide: newest sticky post, else the newest post.
-	 */
-	public static function featured(): ?\WP_Post {
-		$sticky = array_filter( array_map( 'absint', (array) get_option( 'sticky_posts', array() ) ) );
-		$posts  = get_posts(
-			array(
-				'post_type'           => 'post',
-				'posts_per_page'      => 1,
-				'post__in'            => $sticky ? $sticky : null,
-				'ignore_sticky_posts' => true,
-			)
-		);
-		return $posts[0] ?? null;
 	}
 
 	/* ------------------------------------------------------------------ schema */

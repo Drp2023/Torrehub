@@ -22,7 +22,7 @@ const jsonld = async (type) => page.locator('script[type="application/ld+json"]'
 /* ---------------------------------------------------------------- guides */
 const guideUrl = helper('setup');
 await page.goto(base + '/guides/');
-check('Guides index: featured guide + cards + topic chips', (await page.locator('.th-guide-featured').count()) === 1 && (await page.locator('.th-guide-card').count()) >= 1 && (await page.locator('.th-guides__chips a').count()) >= 2);
+check('Guides index: guide cards + topic chips', (await page.locator('.th-guide-featured').count()) === 0 && (await page.locator('.th-guide-card').count()) >= 1 && (await page.locator('.th-guides__chips a').count()) >= 2);
 await page.screenshot({ path: `${out}/guides-1440.png` });
 await page.click('.th-guides__chips a:has-text("Tips in Spain")');
 check('topic chip → category, chip current', /\/category\//.test(page.url()) && (await page.locator('.th-guides__chips [aria-current="page"]').innerText()).includes('Tips'));

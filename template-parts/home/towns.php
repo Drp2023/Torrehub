@@ -1,6 +1,7 @@
 <?php
 /**
- * Towns worth exploring (P-01): the 5 towns with most listings; image = rtcl_location term meta `_rtcl_image`.
+ * Towns worth exploring (P-01): the 12 main towns (top-level locations, client 2026-11), 6 / 4 / 3 / 2 per row —
+ * 12 fills every row at each width; image = rtcl_location term meta `_rtcl_image`.
  *
  * @package Torrehub
  */
@@ -9,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
 
 use Torrehub\Data\Directory;
 
-$towns = Directory::top_towns( 5 );
+$towns = Directory::home_towns( 12 );
 if ( ! $towns ) {
 	return;
 }
@@ -27,7 +28,7 @@ if ( ! $towns ) {
 		)
 	);
 	?>
-	<ul class="th-home__town-list th-scroller" role="list">
+	<ul class="th-home__town-list" role="list">
 		<?php foreach ( $towns as $town ) : ?>
 			<li>
 				<?php

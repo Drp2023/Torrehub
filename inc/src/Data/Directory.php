@@ -348,6 +348,29 @@ final class Directory {
 	}
 
 	/**
+	 * Home page "Towns worth exploring": the top-level locations (torrehub.com has exactly 12 — client 2026-11),
+	 * alphabetical (accents ignored: Dénia between Calp and Elche), at most $limit.
+	 *
+	 * @param int $limit Max towns.
+	 * @return array<int,array<string,mixed>>
+	 */
+	public static function home_towns( int $limit = 12 ): array {
+		$top = array();
+		foreach ( self::towns() as $town ) {
+			if ( 0 === (int) get_term_field( 'parent', $town['id'], self::TAX_LOC ) ) {
+				$top[] = $town;
+			}
+		}
+		usort( $top, static fn( $a, $b ) => strcasecmp( remove_accents( $a['name'] ), remove_accents( $b['name'] ) ) );
+		/**
+		 * Towns on the home page (the grid is laid out for 12: 6 / 4 / 3 / 2 per row).
+		 *
+		 * @param array<int,array<string,mixed>> $towns Towns (id, name, slug, url, count, image).
+		 */
+		return array_slice( (array) apply_filters( 'th_home_towns', $top ), 0, $limit );
+	}
+
+	/**
 	 * A town by slug.
 	 *
 	 * @param string $slug Town slug.

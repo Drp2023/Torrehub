@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-05T22:09:32+00:00\n"
+"POT-Creation-Date: 2026-11-05T22:52:03+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: torrehub\n"
@@ -17,7 +17,7 @@ msgstr ""
 #. Theme Name of the theme
 #. Author of the theme
 #: style.css
-#: inc/customizer.php:83
+#: inc/customizer.php:86
 #: inc/src/Core/Settings.php:56
 #: template-parts/footer/footer.php:62
 msgid "Torrehub"
@@ -170,7 +170,7 @@ msgid "Tap the heart on a listing to keep it here."
 msgstr ""
 
 #: classified-listing/myaccount/my-listings.php:21
-#: template-parts/guides/index.php:47
+#: template-parts/guides/index.php:49
 msgid "All"
 msgstr ""
 
@@ -357,8 +357,8 @@ msgid "Explore"
 msgstr ""
 
 #: header.php:51
-#: inc/src/Modules/Guides/Module.php:39
-#: inc/src/Modules/Guides/Module.php:95
+#: inc/src/Modules/Guides/Module.php:40
+#: inc/src/Modules/Guides/Module.php:97
 #: template-parts/footer/bottom-nav.php:44
 #: template-parts/footer/footer.php:39
 #: template-parts/header/drawer.php:110
@@ -383,170 +383,186 @@ msgstr ""
 msgid "Loading…"
 msgstr ""
 
-#: inc/customizer.php:27
+#: inc/customizer.php:29
+msgid "Moving here, buying a car, finding a plumber who turns up: our guides explain how things work on the Costa Blanca. Short, practical and written by people who live here."
+msgstr ""
+
+#: inc/customizer.php:30
 msgid "What’s around you, all in one place."
 msgstr ""
 
-#: inc/customizer.php:28
+#: inc/customizer.php:31
 msgid "Tradespeople, homes, cars, jobs, restaurants and what’s on this weekend — from Alicante down to Pilar de la Horadada."
 msgstr ""
 
-#: inc/customizer.php:29
+#: inc/customizer.php:32
 msgid "Plumber, Rentals, Beach bars, Jobs"
 msgstr ""
 
-#: inc/customizer.php:34
+#: inc/customizer.php:37
 msgid "Search where you actually are"
 msgstr ""
 
-#: inc/customizer.php:35
+#: inc/customizer.php:38
 msgid "Every listing is tied to a Costa Blanca town."
 msgstr ""
 
-#: inc/customizer.php:36
+#: inc/customizer.php:39
 msgid "Verified sellers"
 msgstr ""
 
-#: inc/customizer.php:37
+#: inc/customizer.php:40
 msgid "Every account is checked by a person before it goes live."
 msgstr ""
 
-#: inc/customizer.php:38
+#: inc/customizer.php:41
 msgid "Contact directly"
 msgstr ""
 
-#: inc/customizer.php:39
+#: inc/customizer.php:42
 msgid "Phone, WhatsApp, chat or email. No middleman taking a cut."
 msgstr ""
 
-#: inc/customizer.php:40
+#: inc/customizer.php:43
 msgid "The Costa Blanca local hub — directory, classifieds and local discovery in one place."
 msgstr ""
 
-#: inc/customizer.php:47
+#: inc/customizer.php:50
 #: page-templates/styleguide.php:1298
 msgid "Staying safe"
 msgstr ""
 
-#: inc/customizer.php:48
+#: inc/customizer.php:51
 msgid "Meet in a public place or agree a written quote before work starts. Never pay in advance for something you haven’t seen. Torrehub is a directory: we don’t take part in deals or verify every claim."
 msgstr ""
 
-#: inc/customizer.php:51
+#: inc/customizer.php:54
 msgid "Living and getting things done on the Costa Blanca"
 msgstr ""
 
-#: inc/customizer.php:92
+#: inc/customizer.php:95
 msgid "Home page"
 msgstr ""
 
-#: inc/customizer.php:97
+#: inc/customizer.php:100
 msgid "Show hero search"
 msgstr ""
 
-#: inc/customizer.php:98
+#: inc/customizer.php:101
 msgid "Show “This weekend”"
 msgstr ""
 
-#: inc/customizer.php:99
+#: inc/customizer.php:102
 msgid "Show stats card"
 msgstr ""
 
-#: inc/customizer.php:100
+#: inc/customizer.php:103
 msgid "Show “Explore the hub”"
 msgstr ""
 
-#: inc/customizer.php:101
+#: inc/customizer.php:104
 msgid "Show “New near you”"
 msgstr ""
 
-#: inc/customizer.php:102
+#: inc/customizer.php:105
 msgid "Show “Towns worth exploring”"
 msgstr ""
 
-#: inc/customizer.php:103
+#: inc/customizer.php:106
 msgid "Show seller call-to-action"
 msgstr ""
 
-#: inc/customizer.php:104
+#: inc/customizer.php:107
 msgid "Show “Why Torrehub”"
 msgstr ""
 
-#: inc/customizer.php:125
-msgid "Hero title"
+#: inc/customizer.php:108
+msgid "Show “Latest guides”"
 msgstr ""
 
-#: inc/customizer.php:126
-msgid "Hero lead"
-msgstr ""
-
-#: inc/customizer.php:127
-msgid "Suggestion chips (comma separated)"
-msgstr ""
-
-#: inc/customizer.php:128
-msgid "Seller CTA title (empty: automatic, follows the free-listing allowance)"
-msgstr ""
-
-#: inc/customizer.php:129
-msgid "Seller CTA text (empty: automatic, follows the listing lifetime)"
+#: inc/customizer.php:109
+msgid "Show the “Latest guides” intro"
 msgstr ""
 
 #: inc/customizer.php:130
-msgid "“How it works” URL"
+msgid "Hero title"
 msgstr ""
 
 #: inc/customizer.php:131
-msgid "Why Torrehub · 1 title"
+msgid "Hero lead"
 msgstr ""
 
 #: inc/customizer.php:132
-msgid "Why Torrehub · 1 text"
+msgid "Suggestion chips (comma separated)"
 msgstr ""
 
 #: inc/customizer.php:133
-msgid "Why Torrehub · 2 title"
+msgid "Seller CTA title (empty: automatic, follows the free-listing allowance)"
 msgstr ""
 
 #: inc/customizer.php:134
-msgid "Why Torrehub · 2 text"
+msgid "Seller CTA text (empty: automatic, follows the listing lifetime)"
 msgstr ""
 
 #: inc/customizer.php:135
-msgid "Why Torrehub · 3 title"
+msgid "“How it works” URL"
 msgstr ""
 
 #: inc/customizer.php:136
+msgid "“Latest guides” intro (2–3 sentences)"
+msgstr ""
+
+#: inc/customizer.php:137
+msgid "Why Torrehub · 1 title"
+msgstr ""
+
+#: inc/customizer.php:138
+msgid "Why Torrehub · 1 text"
+msgstr ""
+
+#: inc/customizer.php:139
+msgid "Why Torrehub · 2 title"
+msgstr ""
+
+#: inc/customizer.php:140
+msgid "Why Torrehub · 2 text"
+msgstr ""
+
+#: inc/customizer.php:141
+msgid "Why Torrehub · 3 title"
+msgstr ""
+
+#: inc/customizer.php:142
 msgid "Why Torrehub · 3 text"
 msgstr ""
 
 #. translators: %s: default text
-#: inc/customizer.php:153
+#: inc/customizer.php:159
 #, php-format
 msgid "Empty = “%s”"
 msgstr ""
 
-#: inc/customizer.php:169
+#: inc/customizer.php:175
 msgid "Use the logo above instead of the Torrehub brand logo"
 msgstr ""
 
-#: inc/customizer.php:180
+#: inc/customizer.php:186
 msgid "Footer"
 msgstr ""
 
-#: inc/customizer.php:185
+#: inc/customizer.php:191
 msgid "Footer text"
 msgstr ""
 
-#: inc/customizer.php:186
+#: inc/customizer.php:192
 msgid "Facebook URL"
 msgstr ""
 
-#: inc/customizer.php:187
+#: inc/customizer.php:193
 msgid "Instagram URL"
 msgstr ""
 
-#: inc/customizer.php:211
+#: inc/customizer.php:217
 #: inc/src/Modules/Location/Module.php:36
 #: page-templates/styleguide.php:1133
 #: template-parts/listing/place.php:28
@@ -554,111 +570,111 @@ msgstr ""
 msgid "Location"
 msgstr ""
 
-#: inc/customizer.php:231
+#: inc/customizer.php:237
 msgid "Default town"
 msgstr ""
 
-#: inc/customizer.php:232
+#: inc/customizer.php:238
 msgid "Used until the visitor picks a town."
 msgstr ""
 
-#: inc/customizer.php:243
+#: inc/customizer.php:249
 msgid "Listing archive"
 msgstr ""
 
-#: inc/customizer.php:244
+#: inc/customizer.php:250
 msgid "Which filters each category offers is set under Appearance → Archive filters."
 msgstr ""
 
-#: inc/customizer.php:258
+#: inc/customizer.php:264
 msgid "Listings per page"
 msgstr ""
 
-#: inc/customizer.php:259
+#: inc/customizer.php:265
 msgid "“Load more” adds this many at a time. Multiples of 3 fill the desktop grid."
 msgstr ""
 
-#: inc/customizer.php:274
+#: inc/customizer.php:280
 #: inc/src/Modules/Listing/Module.php:49
 msgid "Listing page"
 msgstr ""
 
-#: inc/customizer.php:280
+#: inc/customizer.php:286
 msgid "E-mail enquiries need an account"
 msgstr ""
 
-#: inc/customizer.php:281
+#: inc/customizer.php:287
 msgid "Phone and WhatsApp need an account"
 msgstr ""
 
-#: inc/customizer.php:309
+#: inc/customizer.php:315
 msgid "Safety note — title"
 msgstr ""
 
-#: inc/customizer.php:323
+#: inc/customizer.php:329
 msgid "Safety note — text"
 msgstr ""
 
-#: inc/customizer.php:324
+#: inc/customizer.php:330
 msgid "Shown under the seller card."
 msgstr ""
 
-#: inc/customizer.php:339
+#: inc/customizer.php:345
 msgid "Guides & pages"
 msgstr ""
 
-#: inc/customizer.php:344
+#: inc/customizer.php:350
 msgid "Guides — page title"
 msgstr ""
 
-#: inc/customizer.php:345
+#: inc/customizer.php:351
 msgid "Contact — public e-mail address"
 msgstr ""
 
-#: inc/customizer.php:345
+#: inc/customizer.php:351
 msgid "Shown on the Contact page."
 msgstr ""
 
-#: inc/customizer.php:346
+#: inc/customizer.php:352
 msgid "Contact form — send messages to"
 msgstr ""
 
-#: inc/customizer.php:346
+#: inc/customizer.php:352
 msgid "Empty: the site administration e-mail."
 msgstr ""
 
-#: inc/customizer.php:347
+#: inc/customizer.php:353
 msgid "Contact — office address"
 msgstr ""
 
-#: inc/customizer.php:347
-#: inc/customizer.php:348
+#: inc/customizer.php:353
+#: inc/customizer.php:354
 msgid "Empty: not shown."
 msgstr ""
 
-#: inc/customizer.php:348
+#: inc/customizer.php:354
 msgid "Contact — opening hours"
 msgstr ""
 
 #. translators: 1: number of listings, 2: number of days
-#: inc/customizer.php:384
+#: inc/customizer.php:390
 #, php-format
 msgid "%1$s free listing every %2$s days"
 msgid_plural "%1$s free listings every %2$s days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/customizer.php:386
+#: inc/customizer.php:392
 msgid "Post your listings for free"
 msgstr ""
 
 #. translators: %s: "Listings run 15 days (30 for businesses)"
-#: inc/customizer.php:402
+#: inc/customizer.php:408
 #, php-format
 msgid "Private sellers just need an e-mail address, businesses add their NIF. %s and renew for free in one tap. No commission, no subscription."
 msgstr ""
 
-#: inc/customizer.php:403
+#: inc/customizer.php:409
 msgid "Private sellers just need an e-mail address, businesses add their NIF. No commission, no subscription."
 msgstr ""
 
@@ -2190,23 +2206,23 @@ msgstr ""
 msgid "Reply to this e-mail to answer the sender directly."
 msgstr ""
 
-#: inc/src/Modules/Guides/Module.php:46
+#: inc/src/Modules/Guides/Module.php:47
 msgid "Blog index and articles in the Guides layout, with related listing categories."
 msgstr ""
 
-#: inc/src/Modules/Guides/Module.php:307
+#: inc/src/Modules/Guides/Module.php:317
 msgid "Related listing categories"
 msgstr ""
 
-#: inc/src/Modules/Guides/Module.php:329
+#: inc/src/Modules/Guides/Module.php:339
 msgid "Shown under the guide (“Mentioned in this guide”); the first also as “Need help with this?”."
 msgstr ""
 
-#: inc/src/Modules/Guides/Module.php:331
+#: inc/src/Modules/Guides/Module.php:341
 msgid "Listing category"
 msgstr ""
 
-#: inc/src/Modules/Guides/Module.php:331
+#: inc/src/Modules/Guides/Module.php:341
 msgid "— None —"
 msgstr ""
 
@@ -5895,35 +5911,43 @@ msgid_plural "%d min"
 msgstr[0] ""
 msgstr[1] ""
 
-#: template-parts/guides/index.php:32
+#: template-parts/guides/index.php:31
 msgid "Torrehub guides"
 msgstr ""
 
 #. translators: %s: number of guides
-#: template-parts/guides/index.php:40
+#: template-parts/guides/index.php:42
 #, php-format
 msgid "%s guide"
 msgid_plural "%s guides"
 msgstr[0] ""
 msgstr[1] ""
 
-#: template-parts/guides/index.php:46
+#: template-parts/guides/index.php:48
 msgid "Guide topics"
 msgstr ""
 
-#: template-parts/guides/index.php:60
+#: template-parts/guides/index.php:62
 msgid "No guides here yet"
 msgstr ""
 
-#: template-parts/guides/index.php:61
+#: template-parts/guides/index.php:63
 msgid "New guides are added every week. Have a look at the other topics meanwhile."
 msgstr ""
 
-#: template-parts/guides/index.php:122
+#: template-parts/guides/index.php:89
+msgid "Loading more guides…"
+msgstr ""
+
+#: template-parts/guides/index.php:89
+msgid "More guides loaded."
+msgstr ""
+
+#: template-parts/guides/index.php:89
 msgid "Load more guides"
 msgstr ""
 
-#: template-parts/guides/index.php:125
+#: template-parts/guides/index.php:92
 msgid "Back to the newest"
 msgstr ""
 
@@ -5979,7 +6003,7 @@ msgstr ""
 
 #. translators: %s: number of towns
 #: template-parts/header/drawer.php:78
-#: template-parts/home/towns.php:26
+#: template-parts/home/towns.php:27
 #, php-format
 msgid "All %s towns"
 msgstr ""
@@ -6075,6 +6099,14 @@ msgstr[1] ""
 msgid "Show all %s"
 msgstr ""
 
+#: template-parts/home/guides.php:24
+msgid "Latest guides"
+msgstr ""
+
+#: template-parts/home/guides.php:27
+msgid "All guides"
+msgstr ""
+
 #. translators: %s: number of towns
 #: template-parts/home/hero.php:18
 #, php-format
@@ -6099,7 +6131,7 @@ msgstr ""
 msgid "Torrehub in numbers"
 msgstr ""
 
-#: template-parts/home/towns.php:22
+#: template-parts/home/towns.php:23
 msgid "Towns worth exploring"
 msgstr ""
 

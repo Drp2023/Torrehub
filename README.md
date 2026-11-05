@@ -28,7 +28,7 @@ Minden más (auth, chat, eladó-hitelesítés, mentett keresések, értékelése
 |---|---|
 | Megjelenés › **Torrehub** | modulok ki/be (chat, értékelések, mentett keresések, hitelesítés, kvóta, consent …), kvóta limit/napok, **Listing lifetime & renewal** (napok fióktípusonként: Private 15, Business 30, staff 0 = nem jár le; emlékeztető 3 nappal előtte), **Cookie consent** (szöveg, kategóriánkénti scriptek, újrakérés) |
 | Megjelenés › **Archive filters** | kategóriánkénti szűrőcsoportok az archive-on |
-| Megjelenés › **Testreszabás** | főoldal-blokkok és szövegek, header/footer, közösségi linkek, *Listing page*, *Guides & pages* (kapcsolat-címzett, nyilvános e-mail, iroda/nyitvatartás) |
+| Megjelenés › **Testreszabás** | főoldal-blokkok és szövegek (köztük „Latest guides” + bevezető, külön kapcsolóval), header/footer, közösségi linkek, *Listing page*, *Guides & pages* (kapcsolat-címzett, nyilvános e-mail, iroda/nyitvatartás) |
 | Megjelenés › **Listing cards** | mely Form Builder-mezők látszanak a kártyákon |
 | Listings › **Reports** | bejelentési küszöb és bejelentett hirdetések |
 | Listings › **Categories** › kategória | **Search keywords** nyelvenként (a GTranslate nyelvei): erre keresve a kategória hirdetései és az angol alapszavakat tartalmazó hirdetések is megjelennek |
@@ -60,7 +60,7 @@ Ahol ügyfél-döntés még nincs, a kódban `// DECISION:` jelöli a beállíth
 | `Chat` | üzenetek (polling, e-mail értesítő) — saját táblák |
 | `SearchAlerts` | mentett keresések, napi/azonnali e-mail — saját tábla |
 | `Broadcast` | Users › Notify all users: üzenet minden usernek / szerepkörnek, előnézet, teszt, WP-Cron kötegek (méret, gyakoriság), napló, szünet/folytatás, dupla küldés nélkül; eltüntethető értesítés a fiók-oldalsávban — saját táblák |
-| `Guides` | `/guides/` cikkek, Article JSON-LD |
+| `Guides` | `/guides/` cikkek (oldalanként 9 kártya 3 × 3-ban, „Load more” = valódi `/page/N/` link; bevezető: a Guides oldal kivonata), Article JSON-LD; főoldali „Latest guides” blokk |
 | `Content` | About / Contact / FAQ / jogi oldal-sablonok, kapcsolat-űrlap, FAQPage JSON-LD |
 | `Consent` | cookie-sáv: a nem szükséges scriptek és beágyazások a hozzájárulásig **nem futnak**; sáv csak akkor, ha van mit kérdezni |
 | `Migration` | Eszközök › Torrehub migration: a runbook adat-lépései (`Steps`, ugyanaz a kód, mint a `wp torrehub …` parancsoké), adat-ellenőrzés, karbantartási mód |

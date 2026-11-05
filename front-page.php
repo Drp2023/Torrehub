@@ -53,6 +53,10 @@ get_header();
 	<?php endif; ?>
 
 	<?php
+	if ( th_mod( 'th_home_guides' ) ) {
+		get_template_part( 'template-parts/home/guides' );
+	}
+
 	// Page content of the static front page, if the editor added any.
 	while ( have_posts() ) {
 		the_post();

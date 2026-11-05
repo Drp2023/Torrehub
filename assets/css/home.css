@@ -134,29 +134,41 @@
 	}
 }
 
-/* Towns: scroller on mobile, 5 columns on desktop */
+/* Towns: the 12 main towns — 2 / 3 / 4 / 6 per row (12 fills every row, no gaps) */
 .th-home__town-list {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--th-s-3);
 	margin: 0;
 	padding: 0;
 	list-style: none;
-	gap: var(--th-s-3);
 }
 
-.th-home__town-list > li {
-	width: 150px;
+@media (min-width: 600px) {
+	.th-home__town-list {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
 }
 
 @media (min-width: 900px) {
 	.th-home__town-list {
-		display: grid;
-		grid-template-columns: repeat(5, minmax(0, 1fr));
-		overflow: visible;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
 		gap: var(--th-s-4);
 	}
+}
 
-	.th-home__town-list > li {
-		width: auto;
+@media (min-width: 1200px) {
+	.th-home__town-list {
+		grid-template-columns: repeat(6, minmax(0, 1fr));
 	}
+}
+
+/* Latest guides: intro under the heading, the Guides cards (components/guide-card.css) */
+.th-home__guides-intro {
+	max-width: 70ch;
+	margin: calc(-1 * var(--th-s-2)) 0 var(--th-s-5);
+	color: var(--th-text);
+	font-size: var(--th-fs-body);
 }
 
 /* Bottom row: sellers + why */

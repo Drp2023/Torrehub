@@ -22,6 +22,10 @@
  *   bc-last           → id of the newest campaign
  *   favs LOGIN        → JSON: the user's favourites (rtcl_favourites); saved once for cleanup
  *   fav-clear LOGIN   → empty favourites
+ *   guides N          → N extra published guide posts (deleted at cleanup); JSON: total published posts
+ *   guides-intro TEXT → the posts page's excerpt (the Guides intro); '-' = empty
+ *   towns-live        → locations as on torrehub.com: the 12 main towns top-level (Benissa Costa, Elche (Elx)), the
+ *                       other local ones moved under Torrevieja; JSON: the 12 names
  *   cleanup           → everything back as it was
  *
  * @package Torrehub
@@ -256,8 +260,76 @@ if ( 'setup' === $cmd ) {
 	}
 	wp_cache_delete( $user->ID, 'user_meta' );
 	echo wp_json_encode( array_values( array_map( 'intval', (array) get_user_meta( $user->ID, 'rtcl_favourites', true ) ) ) );
+} elseif ( 'guides' === $cmd ) {
+	$saved = (array) get_option( TH_E2E_FEEDBACK, array() );
+	for ( $i = 1; $i <= (int) $args[1]; $i++ ) {
+		$saved['posts'][] = wp_insert_post(
+			array(
+				'post_type'    => 'post',
+				'post_status'  => 'publish',
+				'post_author'  => get_user_by( 'login', 'dev' )->ID,
+				'post_title'   => sprintf( 'E2E guide %02d', $i ),
+				'post_content' => 'A short test guide about life on the Costa Blanca. ' . str_repeat( 'More words. ', 40 ),
+				'post_date'    => gmdate( 'Y-m-d H:i:s', time() - ( 100 - $i ) * HOUR_IN_SECONDS ),
+			)
+		);
+	}
+	update_option( TH_E2E_FEEDBACK, $saved, false );
+	echo (int) wp_count_posts( 'post' )->publish;
+} elseif ( 'guides-intro' === $cmd ) {
+	$saved = (array) get_option( TH_E2E_FEEDBACK, array() );
+	$page  = (int) get_option( 'page_for_posts' );
+	if ( ! array_key_exists( 'intro', $saved ) ) {
+		$saved['intro'] = (string) get_post_field( 'post_excerpt', $page );
+		update_option( TH_E2E_FEEDBACK, $saved, false );
+	}
+	wp_update_post(
+		array(
+			'ID'           => $page,
+			'post_excerpt' => '-' === $args[1] ? '' : (string) $args[1],
+		)
+	);
+} elseif ( 'towns-live' === $cmd ) {
+	$saved = (array) get_option( TH_E2E_FEEDBACK, array() );
+	$main  = array( 'alicante', 'altea', 'benidorm', 'benissa', 'calp', 'denia', 'elcheelx', 'guardamar-del-segura', 'orihuela-costa', 'santa-pola', 'torrevieja', 'xabia' );
+	$names = array(
+		'benissa'  => 'Benissa Costa',
+		'elcheelx' => 'Elche (Elx)',
+	);
+	$host  = get_term_by( 'slug', 'torrevieja', 'rtcl_location' );
+	foreach ( get_terms( array( 'taxonomy' => 'rtcl_location', 'hide_empty' => false ) ) as $t ) {
+		if ( ! isset( $saved['towns'][ $t->term_id ] ) ) {
+			$saved['towns'][ $t->term_id ] = array( $t->name, (int) $t->parent );
+		}
+		$args = in_array( $t->slug, $main, true ) ? array( 'parent' => 0 ) : array( 'parent' => (int) $host->term_id );
+		if ( isset( $names[ $t->slug ] ) ) {
+			$args['name'] = $names[ $t->slug ];
+		}
+		wp_update_term( $t->term_id, 'rtcl_location', $args );
+	}
+	update_option( TH_E2E_FEEDBACK, $saved, false );
+	\Torrehub\Data\Directory::flush();
+	echo wp_json_encode( array_column( \Torrehub\Data\Directory::home_towns(), 'name' ) );
 } elseif ( 'cleanup' === $cmd ) {
 	$saved = (array) get_option( TH_E2E_FEEDBACK, array() );
+	if ( array_key_exists( 'intro', $saved ) ) {
+		wp_update_post(
+			array(
+				'ID'           => (int) get_option( 'page_for_posts' ),
+				'post_excerpt' => (string) $saved['intro'],
+			)
+		);
+	}
+	foreach ( (array) ( $saved['towns'] ?? array() ) as $term_id => $was ) {
+		wp_update_term(
+			(int) $term_id,
+			'rtcl_location',
+			array(
+				'name'   => $was[0],
+				'parent' => $was[1],
+			)
+		);
+	}
 	foreach ( (array) ( $saved['favs'] ?? array() ) as $uid => $value ) {
 		'' === $value ? delete_user_meta( (int) $uid, 'rtcl_favourites' ) : update_user_meta( (int) $uid, 'rtcl_favourites', $value );
 	}
