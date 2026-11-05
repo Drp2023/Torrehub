@@ -13,6 +13,13 @@
  *   aliases           → JSON: two new live listings of user54 — A in Plumbing without the word "plumber", B in
  *                       Marketplace › Home & Garden mentioning a plumber; the Plumbing category id (its keywords saved)
  *   matcher Q         → JSON: listing ids a saved search for keyword Q finds
+ *   review            → JSON: a new member (e2e_reviewer / reviewer-pass-1) and their pending 4-star review on a
+ *                       live listing of user54
+ *   verified ID       → 1|0
+ *   bc-run ID [fail]  → one broadcast batch (fail: every send refused); JSON queue counts
+ *   bc-stale ID       → one queued row of campaign ID looks interrupted mid-send
+ *   bc-counts ID      → JSON queue counts
+ *   bc-last           → id of the newest campaign
  *   cleanup           → everything back as it was
  *
  * @package Torrehub
@@ -45,6 +52,22 @@ if ( 'setup' === $cmd ) {
 	$seller = get_user_by( 'login', 'user54' );
 	$first  = static fn( array $q ) => (int) ( get_posts( array_merge( array( 'post_type' => 'rtcl_listing', 'author' => $seller->ID, 'numberposts' => 1, 'fields' => 'ids' ), $q ) )[0] ?? 0 );
 	$id     = $first( array( 'post_status' => 'pending' ) );
+	$status = 'pending';
+	if ( ! $id ) { // Run on its own after reset-db.sh: borrow a live one (put back at cleanup).
+		$id     = $first(
+			array(
+				'post_status' => 'publish',
+				'meta_query'  => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query -- local test.
+					array(
+						'key'     => 'select_moa3gux0',
+						'compare' => 'NOT EXISTS',
+					),
+				),
+			)
+		);
+		$status = 'publish';
+		$set_status( $id, 'pending' );
+	}
 	// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- local test.
 	$svc  = $first( array( 'post_status' => 'publish', 'meta_key' => 'select_moa3gux0' ) );
 	$form = $service_form();
@@ -58,6 +81,7 @@ if ( 'setup' === $cmd ) {
 			'rows'    => array_combine( TH_E2E_KEYS, array_map( static fn( $k ) => get_post_meta( $svc, $k ), TH_E2E_KEYS ) ),
 			'form'    => $form ? array( (int) $form->id, $form->fields ) : null,
 			'filters' => get_option( FilterConfig::OPTION ),
+			'status'  => $status,
 		),
 		false
 	);
@@ -134,7 +158,7 @@ if ( 'setup' === $cmd ) {
 	};
 	$a = $make( 'E2E Pipe Pro', 'Quick fixes around the house, same day.', array( 'services', 'home-maintenance', 'plumbing' ) );
 	$b = $make( 'E2E Garden shed', 'Solid wooden shed, sold by a retired plumber.', array( 'marketplace', 'home-garden' ) );
-	$saved['posts']    = array( $a, $b );
+	$saved['posts']    = array_merge( (array) ( $saved['posts'] ?? array() ), array( $a, $b ) );
 	$saved['plumbing'] = array( (int) $plumbing->term_id, get_term_meta( $plumbing->term_id ) );
 	update_option( TH_E2E_FEEDBACK, $saved, false );
 	echo wp_json_encode(
@@ -149,8 +173,100 @@ if ( 'setup' === $cmd ) {
 } elseif ( 'matcher' === $cmd ) {
 	$found = \Torrehub\Modules\SearchAlerts\Matcher::find( array( 'q' => (string) $args[1] ), 0, 0, 50 );
 	echo wp_json_encode( array_map( static fn( $p ) => (int) $p->ID, $found['posts'] ) );
+} elseif ( 'review' === $cmd ) {
+	$saved = (array) get_option( TH_E2E_FEEDBACK, array() );
+	$uid   = wp_insert_user(
+		array(
+			'user_login'   => 'e2e_reviewer',
+			'user_pass'    => 'reviewer-pass-1',
+			'user_email'   => 'e2e-reviewer@example.test',
+			'display_name' => 'Rita Reviewer',
+			'role'         => 'customer',
+		)
+	);
+	$listing = (int) ( get_posts(
+		array(
+			'post_type'   => 'rtcl_listing',
+			'post_status' => 'publish',
+			'author'      => get_user_by( 'login', 'user54' )->ID,
+			'numberposts' => 1,
+			'fields'      => 'ids',
+		)
+	)[0] ?? 0 );
+	$comment = wp_insert_comment(
+		array(
+			'comment_post_ID'      => $listing,
+			'comment_type'         => 'review',
+			'comment_content'      => 'Great service, quick and friendly. Would book again.',
+			'comment_author'       => 'Rita Reviewer',
+			'comment_author_email' => 'e2e-reviewer@example.test',
+			'user_id'              => $uid,
+			'comment_approved'     => 0,
+			'comment_meta'         => array(
+				'rating'          => 4,
+				'th_review_title' => 'Very happy',
+			),
+		)
+	);
+	$saved['reviewer'] = (int) $uid;
+	$saved['verified'] = get_user_meta( get_user_by( 'login', 'user54' )->ID, 'rtcl_verified_seller', true );
+	$saved['bc_max']   = (int) $wpdb->get_var( "SELECT COALESCE(MAX(id),0) FROM {$wpdb->prefix}th_broadcasts" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	$saved['bc_opts']  = array( get_option( 'th_broadcast' ), get_option( 'th_account_notice' ) );
+	update_option( TH_E2E_FEEDBACK, $saved, false );
+	echo wp_json_encode(
+		array(
+			'reviewer' => (int) $uid,
+			'comment'  => (int) $comment,
+			'listing'  => $listing,
+			'title'    => html_entity_decode( get_the_title( $listing ), ENT_QUOTES ),
+			'url'      => get_permalink( $listing ),
+			'seller'   => (int) get_user_by( 'login', 'user54' )->ID,
+		)
+	);
+} elseif ( 'verified' === $cmd ) {
+	echo '1' === (string) get_user_meta( (int) $args[1], 'rtcl_verified_seller', true ) ? '1' : '0';
+} elseif ( in_array( $cmd, array( 'bc-run', 'bc-stale', 'bc-counts', 'bc-last' ), true ) ) {
+	$id = (int) ( $args[1] ?? 0 );
+	if ( 'bc-last' === $cmd ) {
+		echo (int) $wpdb->get_var( "SELECT COALESCE(MAX(id),0) FROM {$wpdb->prefix}th_broadcasts" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		return;
+	}
+	if ( 'bc-run' === $cmd ) {
+		if ( 'fail' === ( $args[2] ?? '' ) ) {
+			add_filter( 'pre_wp_mail', '__return_false' );
+		}
+		\Torrehub\Modules\Broadcast\Queue::run( $id );
+	} elseif ( 'bc-stale' === $cmd ) {
+		$q = $wpdb->prefix . 'th_broadcast_queue';
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$wpdb->query( $wpdb->prepare( "UPDATE {$q} SET status = 'sending', updated_at = %s WHERE campaign_id = %d AND status = 'queued' ORDER BY user_id LIMIT 1", gmdate( 'Y-m-d H:i:s', time() - HOUR_IN_SECONDS ), $id ) );
+	}
+	echo wp_json_encode( \Torrehub\Modules\Broadcast\Queue::counts( $id ) );
 } elseif ( 'cleanup' === $cmd ) {
 	$saved = (array) get_option( TH_E2E_FEEDBACK, array() );
+	if ( ! empty( $saved['reviewer'] ) ) {
+		require_once ABSPATH . 'wp-admin/includes/user.php';
+		foreach ( get_comments( array( 'user_id' => (int) $saved['reviewer'] ) ) as $c ) {
+			wp_delete_comment( (int) $c->comment_ID, true );
+		}
+		wp_delete_user( (int) $saved['reviewer'] ); // Also forgets the user's chats.
+	}
+	if ( array_key_exists( 'verified', $saved ) ) {
+		$seller = get_user_by( 'login', 'user54' )->ID;
+		'' === $saved['verified'] ? delete_user_meta( $seller, 'rtcl_verified_seller' ) : update_user_meta( $seller, 'rtcl_verified_seller', $saved['verified'] );
+		delete_user_meta( $seller, \Torrehub\Modules\Broadcast\Notice::DISMISSED );
+	}
+	if ( array_key_exists( 'bc_max', $saved ) ) {
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}th_broadcast_queue WHERE campaign_id > %d", $saved['bc_max'] ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}th_broadcasts WHERE id > %d", $saved['bc_max'] ) );
+		// phpcs:enable
+		wp_unschedule_hook( \Torrehub\Modules\Broadcast\Queue::HOOK );
+		foreach ( array( 'th_broadcast', 'th_account_notice' ) as $i => $opt ) {
+			false === $saved['bc_opts'][ $i ] ? delete_option( $opt ) : update_option( $opt, $saved['bc_opts'][ $i ], false );
+		}
+		delete_user_meta( get_user_by( 'login', 'dev' )->ID, 'th_broadcast_draft' );
+	}
 	foreach ( (array) ( $saved['posts'] ?? array() ) as $post_id ) {
 		wp_delete_post( (int) $post_id, true );
 	}
@@ -163,7 +279,7 @@ if ( 'setup' === $cmd ) {
 	}
 	$id    = (int) ( $saved['listing'] ?? 0 );
 	if ( $id ) {
-		$set_status( $id, 'pending' );
+		$set_status( $id, (string) ( $saved['status'] ?? 'pending' ) );
 		foreach ( (array) ( $saved['meta'] ?? array() ) as $key => $value ) {
 			'' === $value ? delete_post_meta( $id, $key ) : update_post_meta( $id, $key, $value );
 		}

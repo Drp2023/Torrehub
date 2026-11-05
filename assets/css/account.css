@@ -23,6 +23,16 @@
 		position: sticky;
 		top: var(--th-s-4);
 	}
+
+	/* The sidebar notice sits under the menu; the content spans both rows. */
+	.th-account__content {
+		grid-column: 2;
+		grid-row: 1 / span 2;
+	}
+
+	.th-account-notice {
+		grid-column: 1;
+	}
 }
 
 .th-account__menu {

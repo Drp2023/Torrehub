@@ -89,6 +89,7 @@ final class Module extends BaseModule {
 		add_action( 'init', array( $this, 'maybe_flush_rewrites' ), 99 );
 
 		if ( is_admin() ) {
+			( new VerifiedAdmin() )->register();
 			add_action( 'admin_menu', array( $this, 'menu' ) );
 			add_action( 'admin_post_th_verification_decide', array( $this, 'decide' ) );
 			add_action( 'wp_ajax_th_verification_file', array( $this, 'stream' ) );
@@ -119,6 +120,58 @@ final class Module extends BaseModule {
 				'reason'    => '',
 			)
 		);
+	}
+
+	/**
+	 * Give or take the Verified badge — every path (review screen, Users list toggle and bulk action) comes here.
+	 * The badge is read live (cards, listing page, dashboard, filters); what is cached is cleared: the theme's
+	 * counts, and each of the seller's listings (`clean_post_cache` — page caches such as GoDaddy's purge the
+	 * listing, the home page and its archives on it).
+	 *
+	 * @param int  $user_id  User.
+	 * @param bool $verified Badge on/off.
+	 */
+	public static function set_verified( int $user_id, bool $verified ): void {
+		$r = self::record( $user_id );
+		if ( $verified ) {
+			update_user_meta( $user_id, 'rtcl_verified_seller', '1' );
+			$r['status'] = 'approved';
+		} else {
+			delete_user_meta( $user_id, 'rtcl_verified_seller' );
+			if ( 'approved' === $r['status'] ) {
+				$r['status'] = ''; // Revoked: the seller can ask again.
+			}
+		}
+		update_user_meta( $user_id, self::META, $r );
+		\Torrehub\Data\Directory::flush();
+		$listings = get_posts(
+			array(
+				'post_type'      => 'rtcl_listing',
+				'post_status'    => 'any',
+				'author'         => $user_id,
+				'posts_per_page' => -1, // phpcs:ignore WordPress.WP.PostsPerPage.posts_per_page_posts_per_page -- one seller's listings.
+				'fields'         => 'ids',
+			)
+		);
+		foreach ( $listings as $listing_id ) {
+			clean_post_cache( (int) $listing_id );
+		}
+		/**
+		 * The Verified badge was given or taken.
+		 *
+		 * @param int  $user_id  User.
+		 * @param bool $verified Now verified.
+		 */
+		do_action( 'th_seller_verified_changed', $user_id, $verified );
+	}
+
+	/**
+	 * Is the user verified?
+	 *
+	 * @param int $user_id User.
+	 */
+	public static function is_verified( int $user_id ): bool {
+		return '1' === (string) get_user_meta( $user_id, 'rtcl_verified_seller', true );
 	}
 
 	/**
@@ -424,9 +477,9 @@ final class Module extends BaseModule {
 			$r['file'] = '';
 			$r['mime'] = '';
 		}
+		update_user_meta( $user_id, self::META, $r ); // Without the document; set_verified() / below set the status.
 		if ( 'approve' === $decision ) {
-			$r['status'] = 'approved';
-			update_user_meta( $user_id, 'rtcl_verified_seller', '1' );
+			self::set_verified( $user_id, true );
 			Mailer::send(
 				$user->user_email,
 				__( 'You’re verified', 'torrehub' ),
@@ -435,9 +488,11 @@ final class Module extends BaseModule {
 				array( __( 'Go to my account', 'torrehub' ), th_rtcl_page_url( 'myaccount', '/my-account/' ) )
 			);
 		} else {
+			self::set_verified( $user_id, false );
+			$r           = self::record( $user_id );
 			$r['status'] = 'rejected';
 			$r['reason'] = $reason;
-			delete_user_meta( $user_id, 'rtcl_verified_seller' );
+			update_user_meta( $user_id, self::META, $r );
 			Mailer::send(
 				$user->user_email,
 				__( 'About your verification', 'torrehub' ),
@@ -453,8 +508,6 @@ final class Module extends BaseModule {
 				array( __( 'Try again', 'torrehub' ), \Rtcl\Helpers\Link::get_account_endpoint_url( self::ENDPOINT ) )
 			);
 		}
-		update_user_meta( $user_id, self::META, $r );
-		\Torrehub\Data\Directory::flush(); // Verified-seller counts.
 		wp_safe_redirect( admin_url( 'users.php?page=th-verification&done=' . $decision ) );
 		exit;
 	}

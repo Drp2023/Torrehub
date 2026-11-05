@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-05T20:03:29+00:00\n"
+"POT-Creation-Date: 2026-11-05T21:32:07+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: torrehub\n"
@@ -86,6 +86,9 @@ msgid "Team"
 msgstr ""
 
 #: classified-listing/myaccount/dashboard.php:61
+#: inc/src/Modules/Verification/VerifiedAdmin.php:59
+#: inc/src/Modules/Verification/VerifiedAdmin.php:74
+#: inc/src/Modules/Verification/VerifiedAdmin.php:95
 #: page-templates/about.php:20
 #: template-parts/components/listing-card.php:191
 #: template-parts/home/stats.php:19
@@ -134,7 +137,7 @@ msgstr ""
 
 #: classified-listing/myaccount/dashboard.php:135
 #: template-parts/account/alerts.php:65
-#: template-parts/account/chat.php:107
+#: template-parts/account/chat.php:109
 #: template-parts/alerts/unsubscribed.php:65
 #: template-parts/listing/notices.php:30
 msgid "Browse listings"
@@ -279,6 +282,7 @@ msgid "Save & exit"
 msgstr ""
 
 #: header-submit.php:49
+#: inc/src/Modules/Broadcast/Admin.php:382
 #: template-parts/listing/report-dialog.php:71
 #: template-parts/listing/review-form.php:86
 msgid "Cancel"
@@ -299,6 +303,7 @@ msgstr ""
 #: header-submit.php:55
 #: header.php:67
 #: inc/src/Modules/Account/Module.php:38
+#: inc/src/Modules/Broadcast/Module.php:128
 #: inc/src/Modules/Content/Module.php:55
 #: template-parts/account/page.php:17
 #: template-parts/footer/footer.php:26
@@ -724,7 +729,7 @@ msgid "Footer · Torrehub"
 msgstr ""
 
 #. translators: %s: URL
-#: inc/src/Core/Mailer.php:79
+#: inc/src/Core/Mailer.php:112
 #, php-format
 msgid "Or open this link: %s"
 msgstr ""
@@ -799,7 +804,7 @@ msgstr ""
 
 #: inc/src/Modules/Account/Module.php:59
 #: inc/src/Modules/Archive/Module.php:69
-#: inc/src/Modules/Chat/Module.php:69
+#: inc/src/Modules/Chat/Module.php:83
 #: inc/src/Modules/Lifetime/Module.php:86
 #: inc/src/Modules/Listing/Module.php:77
 #: inc/src/Modules/ListingForm/Module.php:67
@@ -833,8 +838,10 @@ msgstr ""
 #: inc/src/Modules/Archive/AdminScreen.php:48
 #: inc/src/Modules/Archive/CardFields.php:72
 #: inc/src/Modules/Auth/UsersAdmin.php:161
+#: inc/src/Modules/Broadcast/Admin.php:99
 #: inc/src/Modules/Listing/Report.php:248
 #: inc/src/Modules/Migration/Module.php:215
+#: inc/src/Modules/Verification/VerifiedAdmin.php:180
 msgid "You are not allowed to do this."
 msgstr ""
 
@@ -1154,7 +1161,7 @@ msgstr ""
 #. translators: %s: reason
 #: inc/src/Modules/Auth/Accounts.php:243
 #: inc/src/Modules/Listing/Report.php:140
-#: inc/src/Modules/Verification/Module.php:449
+#: inc/src/Modules/Verification/Module.php:504
 #, php-format
 msgid "Reason: %s"
 msgstr ""
@@ -1335,7 +1342,7 @@ msgid "Rejected"
 msgstr ""
 
 #: inc/src/Modules/Auth/UsersAdmin.php:59
-#: inc/src/Modules/Verification/Module.php:333
+#: inc/src/Modules/Verification/Module.php:386
 #: template-parts/footer/bottom-nav.php:52
 #: template-parts/footer/footer.php:61
 msgid "Account"
@@ -1346,12 +1353,12 @@ msgid "NIF on file"
 msgstr ""
 
 #: inc/src/Modules/Auth/UsersAdmin.php:142
-#: inc/src/Modules/Verification/Module.php:360
+#: inc/src/Modules/Verification/Module.php:413
 msgid "Approve"
 msgstr ""
 
 #: inc/src/Modules/Auth/UsersAdmin.php:145
-#: inc/src/Modules/Verification/Module.php:362
+#: inc/src/Modules/Verification/Module.php:415
 msgid "Reject"
 msgstr ""
 
@@ -1384,8 +1391,10 @@ msgid "Torrehub account"
 msgstr ""
 
 #: inc/src/Modules/Auth/UsersAdmin.php:237
+#: inc/src/Modules/Broadcast/Admin.php:321
+#: inc/src/Modules/Broadcast/Admin.php:402
 #: inc/src/Modules/Listing/Report.php:305
-#: inc/src/Modules/Verification/Module.php:335
+#: inc/src/Modules/Verification/Module.php:388
 msgid "Status"
 msgstr ""
 
@@ -1414,161 +1423,523 @@ msgstr ""
 msgid "<strong>Error:</strong> the NIF isn’t valid."
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:48
-#: inc/src/Modules/Chat/Module.php:599
+#: inc/src/Modules/Broadcast/Admin.php:39
+#: inc/src/Modules/Broadcast/Admin.php:213
+msgid "Notify all users"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:123
+msgid "Test"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:164
+msgid "Paused."
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:167
+msgid "Resumed."
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:170
+msgid "Cancelled — the rest will not be sent."
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:197
+msgid "Write a subject and a message first."
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:198
+msgid "Preview below. Check it, then start sending."
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:199
+msgid "Preview this exact message before sending it (the subject, text or roles changed since the last preview)."
+msgstr ""
+
+#. translators: %s: e-mail address
+#: inc/src/Modules/Broadcast/Admin.php:201
+#, php-format
+msgid "Test sent to %s."
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:202
+msgid "The test e-mail could not be sent. Check the mail settings (FluentSMTP)."
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:203
+msgid "Sending started. The first batch goes out within a minute; progress is below."
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:204
+msgid "No user matches these roles."
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:205
+msgid "Saved."
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:206
+msgid "Done."
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:218
+msgid "New message"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:224
+#: inc/src/Modules/Broadcast/Admin.php:319
+#: page-templates/contact.php:103
+msgid "Subject"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:228
+#: page-templates/contact.php:114
+#: page-templates/styleguide.php:481
+#: template-parts/listing/contact.php:167
+msgid "Message"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:231
+msgid "Plain text. A blank line starts a new paragraph; {name} becomes the user’s name."
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:235
+msgid "Send to"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:238
+msgid "Roles"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:242
+msgid "Nothing ticked = everyone. Only accounts that can log in get it (not unconfirmed, awaiting approval or rejected ones)."
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:248
+#: inc/src/Modules/Broadcast/Admin.php:270
+#: inc/src/Modules/ListingForm/Module.php:247
+#: template-parts/listing-form/workspace.php:150
+msgid "Preview"
+msgstr ""
+
+#. translators: %s: e-mail address
+#: inc/src/Modules/Broadcast/Admin.php:252
+#, php-format
+msgid "Send a test to %s"
+msgstr ""
+
+#. translators: %s: number of users
+#: inc/src/Modules/Broadcast/Admin.php:255
+#, php-format
+msgid "Send this message to %s users?"
+msgstr ""
+
+#. translators: %s: number of users
+#: inc/src/Modules/Broadcast/Admin.php:260
+#, php-format
+msgid "Start sending to %s user"
+msgid_plural "Start sending to %s users"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/src/Modules/Broadcast/Admin.php:261
+msgid "Start sending (preview first)"
+msgstr ""
+
+#. translators: 1: subject, 2: number of users
+#: inc/src/Modules/Broadcast/Admin.php:274
+#, php-format
+msgid "Subject: “%1$s” — to %2$s user."
+msgid_plural "Subject: “%1$s” — to %2$s users."
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/src/Modules/Broadcast/Admin.php:277
+msgid "E-mail preview"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:280
+#: inc/src/Modules/Broadcast/Admin.php:309
+msgid "Sending"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:286
+msgid "E-mails per batch"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:288
+msgid "Minutes between batches"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:289
+#: inc/src/Modules/Listing/Report.php:299
+#: page-templates/styleguide.php:305
+#: template-parts/account/alerts.php:108
+#: template-parts/listing/contact-bar.php:34
+#: template-parts/listing/header.php:87
+msgid "Save"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:291
+msgid "Batches run on WP-Cron. Keep them small enough for your mail service’s hourly limit."
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:310
+msgid "Paused"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:311
+msgid "Cancelled"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:312
+msgid "Finished"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:315
+msgid "Messages sent"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:320
+msgid "Started"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:322
+msgid "Progress"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:323
+msgid "Actions"
+msgstr ""
+
+#. translators: %s: time
+#: inc/src/Modules/Broadcast/Admin.php:358
+#, php-format
+msgid "next batch %s"
+msgstr ""
+
+#. translators: 1: sent, 2: total
+#: inc/src/Modules/Broadcast/Admin.php:366
+#, php-format
+msgid "%1$s of %2$s sent"
+msgstr ""
+
+#. translators: %s: number of e-mails
+#: inc/src/Modules/Broadcast/Admin.php:369
+#, php-format
+msgid "%s not delivered"
+msgid_plural "%s not delivered"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/src/Modules/Broadcast/Admin.php:376
+msgid "Send next batch now"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:377
+msgid "Pause"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:379
+msgid "Resume"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:385
+msgid "Retry failed"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:393
+msgid "Log and problems"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:402
+msgid "User"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Admin.php:402
+msgid "Reason"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Module.php:39
+msgid "Messages to all users"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Module.php:46
+msgid "Users › Notify all users: e-mail to every user (or chosen roles), sent in batches; optional notice in the account sidebar."
+msgstr ""
+
+#. translators: %s: site name
+#: inc/src/Modules/Broadcast/Module.php:127
+#, php-format
+msgid "You receive this because you have an account on %s."
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Notice.php:48
+msgid "Terms updated"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Notice.php:49
+msgid "We updated our Terms & Conditions on {date}."
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Notice.php:51
+msgid "Read the terms"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Notice.php:104
+msgid "Got it"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Notice.php:110
+msgid "Notice"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Notice.php:155
+msgid "Notice in the account sidebar"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Notice.php:156
+msgid "Logged-in users see it next to their account menu until they dismiss it. Changing the text, date or link shows it again to everyone."
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Notice.php:163
+msgid "Show the notice"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Notice.php:164
+msgid "On"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Notice.php:167
+#: template-parts/listing/review-form.php:61
+msgid "Title"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Notice.php:171
+#: inc/src/Modules/RtclCompat/Module.php:148
+msgid "Text"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Notice.php:174
+msgid "{date} becomes the date below."
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Notice.php:178
+msgid "Date"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Notice.php:182
+msgid "Link"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Notice.php:185
+msgid "Link address"
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Notice.php:189
+msgid "Save notice"
+msgstr ""
+
+#. translators: 1: number of users, 2: user name
+#: inc/src/Modules/Broadcast/Queue.php:109
+#, php-format
+msgid "Started for %1$d users by %2$s."
+msgstr ""
+
+#. translators: %d: number of e-mails
+#: inc/src/Modules/Broadcast/Queue.php:197
+#, php-format
+msgid "%d failed e-mail queued again."
+msgid_plural "%d failed e-mails queued again."
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/src/Modules/Broadcast/Queue.php:270
+msgid "Interrupted while sending — not resent, as it may have arrived."
+msgstr ""
+
+#. translators: %d: number of e-mails
+#: inc/src/Modules/Broadcast/Queue.php:278
+#, php-format
+msgid "%d e-mail was interrupted while sending (not resent)."
+msgid_plural "%d e-mails were interrupted while sending (not resent)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/src/Modules/Broadcast/Queue.php:288
+msgid "User deleted or without a valid e-mail address."
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Queue.php:295
+msgid "The mail server refused the message."
+msgstr ""
+
+#. translators: 1: sent, 2: failed, 3: still queued
+#: inc/src/Modules/Broadcast/Queue.php:314
+#, php-format
+msgid "Batch: %1$d sent, %2$d failed, %3$d left."
+msgstr ""
+
+#: inc/src/Modules/Broadcast/Queue.php:323
+msgid "Finished."
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:62
+#: inc/src/Modules/Chat/Module.php:658
 #: page-templates/styleguide.php:301
 #: page-templates/styleguide.php:1289
 msgid "Chat"
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:55
+#: inc/src/Modules/Chat/Module.php:69
 msgid "Messages between members and sellers about a listing, with e-mail notifications."
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:176
-#: inc/src/Modules/Chat/Module.php:643
-#: template-parts/account/chat.php:52
-#: template-parts/account/chat.php:174
+#: inc/src/Modules/Chat/Module.php:191
+#: inc/src/Modules/Chat/Module.php:702
+#: template-parts/account/chat.php:54
+#: template-parts/account/chat.php:176
 msgid "Messages"
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:229
+#: inc/src/Modules/Chat/Module.php:244
 msgid "Deleted user"
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:234
+#: inc/src/Modules/Chat/Module.php:249
 msgid "Listing removed"
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:309
+#: inc/src/Modules/Chat/Module.php:325
 msgid "Log in to send messages."
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:312
-#: inc/src/Modules/Chat/Module.php:363
+#: inc/src/Modules/Chat/Module.php:328
+#: inc/src/Modules/Chat/Module.php:418
 msgid "You’re sending messages too fast. Wait a few minutes."
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:364
-#: inc/src/Modules/Chat/Store.php:158
-msgid "Write a message first."
-msgstr ""
-
-#: inc/src/Modules/Chat/Module.php:365
-#: inc/src/Modules/Chat/Store.php:110
-msgid "You can’t message yourself."
-msgstr ""
-
-#: inc/src/Modules/Chat/Module.php:366
-#: inc/src/Modules/Chat/Store.php:106
-msgid "This listing isn’t available any more."
-msgstr ""
-
-#: inc/src/Modules/Chat/Module.php:367
-#: inc/src/Modules/Chat/Store.php:154
+#: inc/src/Modules/Chat/Module.php:336
+#: inc/src/Modules/Chat/Module.php:422
+#: inc/src/Modules/Chat/Store.php:156
 msgid "This conversation isn’t yours."
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:369
-#: inc/src/Modules/Chat/Store.php:128
-#: inc/src/Modules/Chat/Store.php:174
+#: inc/src/Modules/Chat/Module.php:419
+#: inc/src/Modules/Chat/Store.php:160
+msgid "Write a message first."
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:420
+#: inc/src/Modules/Chat/Store.php:112
+msgid "You can’t message yourself."
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:421
+#: inc/src/Modules/Chat/Store.php:108
+msgid "This listing isn’t available any more."
+msgstr ""
+
+#: inc/src/Modules/Chat/Module.php:424
+#: inc/src/Modules/Chat/Store.php:130
+#: inc/src/Modules/Chat/Store.php:176
 msgid "The message couldn’t be sent. Try again."
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:471
+#: inc/src/Modules/Chat/Module.php:530
 msgid "Conversation not found."
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:599
+#: inc/src/Modules/Chat/Module.php:658
 msgid "Chat on Torrehub"
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:624
+#: inc/src/Modules/Chat/Module.php:683
 msgid "Within an hour"
 msgstr ""
 
 #. translators: %s: number of hours
-#: inc/src/Modules/Chat/Module.php:627
+#: inc/src/Modules/Chat/Module.php:686
 #, php-format
 msgid "Within %s hour"
 msgid_plural "Within %s hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/src/Modules/Chat/Module.php:628
+#: inc/src/Modules/Chat/Module.php:687
 msgid "Within a few days"
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:629
+#: inc/src/Modules/Chat/Module.php:688
 msgid "Typical reply"
 msgstr ""
 
 #. translators: %s: number of unread messages
-#: inc/src/Modules/Chat/Module.php:642
+#: inc/src/Modules/Chat/Module.php:701
 #, php-format
 msgid "Messages, %s unread"
 msgid_plural "Messages, %s unread"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/src/Modules/Chat/Module.php:664
+#: inc/src/Modules/Chat/Module.php:723
 msgid "Chats"
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:682
+#: inc/src/Modules/Chat/Module.php:741
 msgid "Unread"
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:700
+#: inc/src/Modules/Chat/Module.php:759
 #: inc/src/Modules/Listing/Module.php:246
 msgid "Sending…"
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:701
+#: inc/src/Modules/Chat/Module.php:760
 msgid "Not sent. Try again."
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:702
-#: template-parts/account/chat.php:191
+#: inc/src/Modules/Chat/Module.php:761
+#: template-parts/account/chat.php:198
 msgid "Seen"
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:703
-#: template-parts/account/chat.php:185
+#: inc/src/Modules/Chat/Module.php:762
+#: template-parts/account/chat.php:192
 msgid "You"
 msgstr ""
 
 #. translators: %s: sender name
-#: inc/src/Modules/Chat/Module.php:744
+#: inc/src/Modules/Chat/Module.php:803
 #, php-format
 msgid "New message from %s"
 msgstr ""
 
 #. translators: %s: listing title
-#: inc/src/Modules/Chat/Module.php:746
+#: inc/src/Modules/Chat/Module.php:805
 #, php-format
 msgid "A new message about “%s”"
 msgstr ""
 
 #. translators: %s: sender name
-#: inc/src/Modules/Chat/Module.php:750
+#: inc/src/Modules/Chat/Module.php:809
 #, php-format
 msgid "%s wrote:"
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:754
+#: inc/src/Modules/Chat/Module.php:813
 msgid "Reply on Torrehub"
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:755
+#: inc/src/Modules/Chat/Module.php:814
 msgid "Reply on Torrehub rather than by e-mail — your address stays private."
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:784
+#: inc/src/Modules/Chat/Module.php:843
 msgid "Show “Typical reply” on the seller card"
 msgstr ""
 
-#: inc/src/Modules/Chat/Module.php:785
+#: inc/src/Modules/Chat/Module.php:844
 msgid "Median time to the first chat reply in the last 90 days; shown once a seller has 3 or more conversations."
 msgstr ""
 
@@ -2159,14 +2530,6 @@ msgstr ""
 msgid "Move a listing back to “Pending” after this many reports (0 = never):"
 msgstr ""
 
-#: inc/src/Modules/Listing/Report.php:299
-#: page-templates/styleguide.php:305
-#: template-parts/account/alerts.php:108
-#: template-parts/listing/contact-bar.php:34
-#: template-parts/listing/header.php:87
-msgid "Save"
-msgstr ""
-
 #: inc/src/Modules/Listing/Report.php:304
 msgid "Listing"
 msgstr ""
@@ -2194,7 +2557,7 @@ msgid "Listed %s ago"
 msgstr ""
 
 #: inc/src/Modules/Listing/View.php:262
-#: inc/src/Modules/Verification/Module.php:332
+#: inc/src/Modules/Verification/Module.php:385
 msgid "Seller"
 msgstr ""
 
@@ -2423,11 +2786,6 @@ msgstr ""
 
 #: inc/src/Modules/ListingForm/Module.php:246
 msgid "Map: click to place the listing’s pin"
-msgstr ""
-
-#: inc/src/Modules/ListingForm/Module.php:247
-#: template-parts/listing-form/workspace.php:150
-msgid "Preview"
 msgstr ""
 
 #. translators: %s: allowed types
@@ -3108,27 +3466,67 @@ msgstr ""
 msgid "Star ratings and written reviews on listings, with moderation and rating summaries."
 msgstr ""
 
-#: inc/src/Modules/Reviews/Module.php:145
+#: inc/src/Modules/Reviews/Module.php:146
 #: page-templates/styleguide.php:793
 msgid "Excellent"
 msgstr ""
 
-#: inc/src/Modules/Reviews/Module.php:148
+#: inc/src/Modules/Reviews/Module.php:149
 msgid "Very good"
 msgstr ""
 
-#: inc/src/Modules/Reviews/Module.php:151
+#: inc/src/Modules/Reviews/Module.php:152
 #: template-parts/components/field.php:180
 msgid "Good"
 msgstr ""
 
-#: inc/src/Modules/Reviews/Module.php:154
+#: inc/src/Modules/Reviews/Module.php:155
 #: template-parts/components/field.php:180
 msgid "Fair"
 msgstr ""
 
-#: inc/src/Modules/Reviews/Module.php:156
+#: inc/src/Modules/Reviews/Module.php:157
 msgid "Poor"
+msgstr ""
+
+#: inc/src/Modules/Reviews/Notice.php:90
+msgid "A visitor"
+msgstr ""
+
+#. translators: 1: reviewer name, 2: stars, 3: rating, 4: listing title
+#: inc/src/Modules/Reviews/Notice.php:94
+#, php-format
+msgid "%1$s rated your listing %2$s (%3$d out of 5): “%4$s”."
+msgstr ""
+
+#: inc/src/Modules/Reviews/Notice.php:98
+msgid "See the review"
+msgstr ""
+
+#: inc/src/Modules/Reviews/Notice.php:102
+msgid "Reply via chat"
+msgstr ""
+
+#: inc/src/Modules/Reviews/Notice.php:110
+msgid "Thank them or answer a question in the chat — your reply goes to them, not to the public review."
+msgstr ""
+
+#. translators: %s: listing title
+#: inc/src/Modules/Reviews/Notice.php:115
+#, php-format
+msgid "New review on “%s”"
+msgstr ""
+
+#: inc/src/Modules/Reviews/Notice.php:116
+msgid "You have a new review"
+msgstr ""
+
+#: inc/src/Modules/Reviews/Notice.php:121
+msgid "Your listing"
+msgstr ""
+
+#: inc/src/Modules/Reviews/Notice.php:122
+msgid "See the review on your listing"
 msgstr ""
 
 #: inc/src/Modules/RtclCompat/Module.php:35
@@ -3142,10 +3540,6 @@ msgstr ""
 #: inc/src/Modules/RtclCompat/Module.php:136
 #: inc/src/Modules/RtclCompat/Module.php:159
 msgid "Repeater"
-msgstr ""
-
-#: inc/src/Modules/RtclCompat/Module.php:148
-msgid "Text"
 msgstr ""
 
 #: inc/src/Modules/RtclCompat/Module.php:153
@@ -3219,108 +3613,179 @@ msgstr ""
 msgid "Sellers upload an ID document; an admin checks it and the seller gets the Verified badge. Documents are deleted after review."
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:188
-#: inc/src/Modules/Verification/Module.php:300
+#: inc/src/Modules/Verification/Module.php:241
+#: inc/src/Modules/Verification/Module.php:353
 #: template-parts/account/verification.php:30
 msgid "Verification"
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:279
+#: inc/src/Modules/Verification/Module.php:332
 msgid "Verification request"
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:280
+#: inc/src/Modules/Verification/Module.php:333
 msgid "A seller asked to be verified"
 msgstr ""
 
 #. translators: 1: name, 2: e-mail
-#: inc/src/Modules/Verification/Module.php:282
+#: inc/src/Modules/Verification/Module.php:335
 #, php-format
 msgid "%1$s (%2$s) uploaded an ID document."
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:283
+#: inc/src/Modules/Verification/Module.php:336
 msgid "Review requests"
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:299
-#: inc/src/Modules/Verification/Module.php:325
+#: inc/src/Modules/Verification/Module.php:352
+#: inc/src/Modules/Verification/Module.php:378
 msgid "Verification requests"
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:327
+#: inc/src/Modules/Verification/Module.php:380
 msgid "Seller verified — the document was deleted and the seller e-mailed."
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:327
+#: inc/src/Modules/Verification/Module.php:380
 msgid "Request rejected — the document was deleted and the seller e-mailed."
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:329
+#: inc/src/Modules/Verification/Module.php:382
 msgid "Check that the document matches the account name. Documents are deleted as soon as you decide."
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:334
+#: inc/src/Modules/Verification/Module.php:387
 msgid "Submitted"
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:336
+#: inc/src/Modules/Verification/Module.php:389
 msgid "Decision"
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:340
+#: inc/src/Modules/Verification/Module.php:393
 msgid "No requests yet."
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:354
+#: inc/src/Modules/Verification/Module.php:407
 msgid "View document"
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:361
+#: inc/src/Modules/Verification/Module.php:414
 msgid "Reason (for a rejection)"
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:388
+#: inc/src/Modules/Verification/Module.php:441
 msgid "The document is no longer stored."
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:432
+#: inc/src/Modules/Verification/Module.php:485
 #: template-parts/account/verification.php:47
 msgid "You’re verified"
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:433
+#: inc/src/Modules/Verification/Module.php:486
 msgid "Your Verified badge is live"
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:434
+#: inc/src/Modules/Verification/Module.php:487
 msgid "We checked your document: your listings now show the Verified badge. As promised, the document has been deleted."
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:435
+#: inc/src/Modules/Verification/Module.php:488
 #: template-parts/listing-form/denied.php:52
 msgid "Go to my account"
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:443
+#: inc/src/Modules/Verification/Module.php:498
 msgid "About your verification"
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:444
+#: inc/src/Modules/Verification/Module.php:499
 msgid "We couldn’t verify the document"
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:447
+#: inc/src/Modules/Verification/Module.php:502
 msgid "Thanks for sending it. We couldn’t verify your account with this document, and it has been deleted."
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:450
+#: inc/src/Modules/Verification/Module.php:505
 msgid "You can upload another document from your account."
 msgstr ""
 
-#: inc/src/Modules/Verification/Module.php:453
+#: inc/src/Modules/Verification/Module.php:508
 msgid "Try again"
 msgstr ""
+
+#: inc/src/Modules/Verification/VerifiedAdmin.php:56
+msgid "Filter by Verified badge"
+msgstr ""
+
+#: inc/src/Modules/Verification/VerifiedAdmin.php:58
+msgctxt "verified filter"
+msgid "All"
+msgstr ""
+
+#: inc/src/Modules/Verification/VerifiedAdmin.php:60
+#: inc/src/Modules/Verification/VerifiedAdmin.php:96
+msgid "Not verified"
+msgstr ""
+
+#: inc/src/Modules/Verification/VerifiedAdmin.php:91
+msgid "Not a seller account"
+msgstr ""
+
+#. translators: %s: user name
+#: inc/src/Modules/Verification/VerifiedAdmin.php:102
+#, php-format
+msgid "Remove the Verified badge of %s"
+msgstr ""
+
+#. translators: %s: user name
+#: inc/src/Modules/Verification/VerifiedAdmin.php:102
+#, php-format
+msgid "Give %s the Verified badge"
+msgstr ""
+
+#: inc/src/Modules/Verification/VerifiedAdmin.php:104
+msgid "Remove badge"
+msgstr ""
+
+#: inc/src/Modules/Verification/VerifiedAdmin.php:104
+#: inc/src/Modules/Verification/VerifiedAdmin.php:197
+msgid "Mark verified"
+msgstr ""
+
+#: inc/src/Modules/Verification/VerifiedAdmin.php:118
+msgid "Filter"
+msgstr ""
+
+#: inc/src/Modules/Verification/VerifiedAdmin.php:198
+msgid "Remove Verified badge"
+msgstr ""
+
+#. translators: %d: number of sellers
+#: inc/src/Modules/Verification/VerifiedAdmin.php:236
+#, php-format
+msgid "%d seller marked verified — the badge shows on their listings."
+msgid_plural "%d sellers marked verified — the badge shows on their listings."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of sellers
+#: inc/src/Modules/Verification/VerifiedAdmin.php:238
+#, php-format
+msgid "Verified badge removed from %d seller — it no longer shows anywhere."
+msgid_plural "Verified badge removed from %d sellers — it no longer shows anywhere."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of accounts
+#: inc/src/Modules/Verification/VerifiedAdmin.php:241
+#, php-format
+msgid "%d account skipped (not a seller account)."
+msgid_plural "%d accounts skipped (not seller accounts)."
+msgstr[0] ""
+msgstr[1] ""
 
 #: index.php:36
 msgid "Nothing here yet"
@@ -3376,16 +3841,6 @@ msgstr ""
 #: template-parts/auth/register.php:129
 #: template-parts/auth/register.php:321
 msgid "E-mail address"
-msgstr ""
-
-#: page-templates/contact.php:103
-msgid "Subject"
-msgstr ""
-
-#: page-templates/contact.php:114
-#: page-templates/styleguide.php:481
-#: template-parts/listing/contact.php:167
-msgid "Message"
 msgstr ""
 
 #: page-templates/contact.php:118
@@ -4283,59 +4738,65 @@ msgstr ""
 msgid "Delete “%s”"
 msgstr ""
 
-#: template-parts/account/chat.php:67
+#: template-parts/account/chat.php:69
 msgid "Conversations"
 msgstr ""
 
-#: template-parts/account/chat.php:82
+#: template-parts/account/chat.php:84
 msgid "You:"
 msgstr ""
 
-#: template-parts/account/chat.php:89
+#: template-parts/account/chat.php:91
 #: template-parts/account/page.php:27
 #: template-parts/footer/bottom-nav.php:75
 msgid "unread"
 msgstr ""
 
-#: template-parts/account/chat.php:102
+#: template-parts/account/chat.php:104
 msgid "No messages yet"
 msgstr ""
 
-#: template-parts/account/chat.php:103
+#: template-parts/account/chat.php:105
 msgid "Use “Chat” on a listing to ask the seller a question. Replies show up here."
 msgstr ""
 
-#: template-parts/account/chat.php:130
+#: template-parts/account/chat.php:132
 msgid "All conversations"
 msgstr ""
 
-#: template-parts/account/chat.php:153
+#: template-parts/account/chat.php:155
 msgid "Remove this conversation from your list? It comes back if a new message arrives."
 msgstr ""
 
-#: template-parts/account/chat.php:166
+#: template-parts/account/chat.php:168
 msgid "Remove conversation"
 msgstr ""
 
+#. translators: %s: reviewer name
+#: template-parts/account/chat.php:183
+#, php-format
+msgid "Write to %s about their review. Keep payments and personal details off the chat until you trust the other side."
+msgstr ""
+
 #. translators: %s: seller name
-#: template-parts/account/chat.php:179
+#: template-parts/account/chat.php:185
 #, php-format
 msgid "Ask %s about this listing. Keep payments and personal details off the chat until you trust the other side."
 msgstr ""
 
-#: template-parts/account/chat.php:198
+#: template-parts/account/chat.php:208
 msgid "Your message"
 msgstr ""
 
-#: template-parts/account/chat.php:199
+#: template-parts/account/chat.php:209
 msgid "Write a message…"
 msgstr ""
 
-#: template-parts/account/chat.php:204
+#: template-parts/account/chat.php:214
 msgid "Send"
 msgstr ""
 
-#: template-parts/account/chat.php:217
+#: template-parts/account/chat.php:227
 msgid "Choose a conversation."
 msgstr ""
 
@@ -6177,10 +6638,6 @@ msgstr ""
 
 #: template-parts/listing/report-dialog.php:79
 msgid "Send report"
-msgstr ""
-
-#: template-parts/listing/review-form.php:61
-msgid "Title"
 msgstr ""
 
 #: template-parts/listing/review-form.php:71

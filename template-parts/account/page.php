@@ -32,6 +32,12 @@ $nav = Account::nav();
 				<?php endforeach; ?>
 			</ul>
 		</nav>
+		<?php
+		/**
+		 * Under the account menu (Broadcast: the dismissible "Terms updated" notice).
+		 */
+		do_action( 'th_account_sidebar' );
+		?>
 		<div class="th-account__content">
 			<?php
 			while ( have_posts() ) {

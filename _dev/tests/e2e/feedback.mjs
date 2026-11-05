@@ -3,6 +3,8 @@
 //   paging, Report colour; module cache-busting.
 //   Group 2 (Service form): Languages Spoken → multiple choice, Mobile Service options; migration step U1.
 //   Group 3 (search in any language): category keywords per language, seeding step U2, search expansion.
+//   Group 4 (admin tools): Verified column / toggle / bulk / filters, review e-mail + "Reply via chat",
+//   messages to all users (batches, pause, retry, no doubles) and the account-sidebar notice.
 //   node _dev/tests/e2e/feedback.mjs [baseUrl]
 // Needs (local only): WP-CLI via bin/env.sh (Git Bash), Mailpit, admin dev/dev, business seller user54/seller54,
 // the th-local-safety mu-plugin (live-like canonical redirects). The language sweep needs the internet (GTranslate);
@@ -24,8 +26,9 @@ const check = (name, ok, extra = '') => {
 	if (!ok) failures++;
 };
 const errors = [];
-// GTranslate's own script (cdn.gtranslate.net) throws now and then while it translates; only this site's code counts.
-const ownError = (e) => (e.stack || String(e)).includes(new URL(base).host);
+// Only the theme's code counts: GTranslate's script throws now and then while it translates, and Classified
+// Listing's form-builder.js throws "rtclFB is not defined" on the Listings admin screen (the plugin's, unchanged).
+const ownError = (e) => (e.stack || String(e)).includes('/wp-content/themes/torrehub/');
 const adminLogin = async () => {
 	const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
 	const p = await ctx.newPage();
@@ -294,6 +297,159 @@ try {
 	await Promise.all([adm.waitForNavigation(), adm.locator('#edittag input[type="submit"].button-primary, #edittag [type="submit"]').first().click()]);
 	check('… a new keyword finds the category’s listing right after saving', (await found('cañeríaprueba')).a);
 	await adm.context().close();
+
+	/* ------------------------------------------------------------ 4.1 Verified badge in the admin */
+	const rv = JSON.parse(helper('review'));
+	const sellerId = rv.seller;
+	const a4 = await adminLogin();
+	const usersUrl = `${base}/wp-admin/users.php`;
+	const seller54 = (p) => p.locator(`#the-list tr:has(#user_${sellerId})`);
+	if (helper(`verified ${sellerId}`) !== '1') {
+		await a4.goto(`${usersUrl}?s=user54`);
+		await Promise.all([a4.waitForURL(/th_verified_done/), seller54(a4).locator('td.column-th_verified a').click()]);
+	}
+	await a4.goto(`${usersUrl}?th_verified=yes`);
+	check('Users › Verified filter lists the verified seller', (await seller54(a4).count()) === 1);
+	await a4.goto(`${usersUrl}?th_verified=no`);
+	check('Users › Not verified filter leaves them out', (await seller54(a4).count()) === 0);
+	await a4.goto(`${usersUrl}?s=user54`);
+	check('Users list: “Verified” column with the switch', /Verified/.test(await seller54(a4).locator('td.column-th_verified').innerText()) && /Remove badge/.test(await seller54(a4).locator('td.column-th_verified').innerText()));
+	await Promise.all([a4.waitForURL(/th_verified_done=off/), seller54(a4).locator('td.column-th_verified a').click()]);
+	check('row switch removes the badge', helper(`verified ${sellerId}`) === '0' && /Not verified/.test(await seller54(a4).locator('td.column-th_verified').innerText()));
+
+	const pub = await (await browser.newContext({ viewport: { width: 1440, height: 900 } })).newPage();
+	await pub.goto(`${base}/listings/?seller=user54`);
+	const cardsOff = await pub.locator('.th-card__verified').count();
+	await pub.goto(rv.url);
+	const pageOff = await pub.locator('.th-listing-seller__verified').count();
+	check('revoked: no Verified badge on the cards and on the listing page', cardsOff === 0 && pageOff === 0, `${cardsOff}/${pageOff}`);
+	const vOnly = await (await fetch(`${base}/listings/?verified=1&th_count=1`)).json();
+	await a4.goto(`${base}/wp-admin/edit.php?post_type=rtcl_listing&th_verified=yes`);
+	const listedYes = await a4.locator('#the-list tr:not(.no-items)').count();
+	check('Listings › Verified filter: none of their listings now', listedYes === 0 || !(await a4.locator('#the-list').innerText()).includes(rv.title), `${listedYes}, verified-only archive count ${vOnly.count}`);
+
+	await a4.goto(`${usersUrl}?s=user54`);
+	await a4.check(`#user_${sellerId}`);
+	await a4.selectOption('#bulk-action-selector-top', 'th_verify');
+	await Promise.all([a4.waitForURL(/th_verified_done=on/), a4.click('#doaction')]);
+	check('bulk “Mark verified” gives the badge back', helper(`verified ${sellerId}`) === '1' && /1 seller marked verified/.test(await a4.locator('.notice-success').first().innerText()));
+	await pub.goto(`${base}/listings/?seller=user54`);
+	check('… and it shows on the cards again', (await pub.locator('.th-card__verified').count()) > 0);
+	await a4.goto(`${base}/wp-admin/edit.php?post_type=rtcl_listing&th_verified=yes`);
+	check('Listings › Verified filter lists their listings', (await a4.locator('#the-list').innerText()).includes(rv.title));
+	await a4.goto(`${base}/wp-admin/edit.php?post_type=rtcl_listing&th_verified=no`);
+	check('Listings › Not verified filter leaves them out', !(await a4.locator('#the-list').innerText()).includes(rv.title));
+
+	/* ------------------------------------------------------------ 4.2 review e-mail to the seller */
+	await fetch(`${mailpit}/messages`, { method: 'DELETE' });
+	await a4.goto(`${base}/wp-admin/edit-comments.php?comment_status=moderated`);
+	const crow = a4.locator(`#comment-${rv.comment}`);
+	await crow.hover();
+	await crow.locator('.approve a').click();
+	await a4.waitForTimeout(2500);
+	const all = (await (await fetch(`${mailpit}/messages`)).json()).messages || [];
+	const toSeller = all.filter((m) => m.To.some((t) => /user54@/.test(t.Address)));
+	const reviewMail = toSeller.find((m) => /New review/.test(m.Subject));
+	const full = reviewMail ? await (await fetch(`${mailpit}/message/${reviewMail.ID}`)).json() : { Text: '', HTML: '' };
+	check('approving a review e-mails the seller once', toSeller.length === 1 && !!reviewMail, toSeller.map((m) => m.Subject).join(' | '));
+	check('… with the reviewer’s name, the rating, the text and the listing link', /Rita Reviewer/.test(full.Text) && /★★★★☆/.test(full.Text) && /4 out of 5/.test(full.Text) && /Great service, quick and friendly/.test(full.Text) && full.Text.includes(rv.url));
+	check('… never the reviewer’s e-mail address', !/e2e-reviewer@example\.test/.test(full.Text + full.HTML));
+	const chatLink = (full.Text.match(/Reply via chat: (\S+)/) || [])[1] || '';
+	check('… and a “Reply via chat” link for a new conversation with the reviewer', new RegExp(`listing=${rv.listing}`).test(chatLink) && new RegExp(`buyer=${rv.reviewer}`).test(chatLink), chatLink);
+
+	const sctx4 = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+	const s4 = await frontLogin(sctx4, 'user54', 'seller54');
+	await s4.goto(chatLink);
+	check('chat opens a new conversation with the reviewer', /Write to Rita Reviewer about their review/.test(await s4.locator('main').innerText()) && (await s4.locator('form[data-th-chat-form] input[name="buyer"]').count()) === 1);
+	await fetch(`${mailpit}/messages`, { method: 'DELETE' });
+	await s4.fill('#th-chat-message', 'Thank you for the kind review, Rita!');
+	await Promise.all([s4.waitForURL(/thread=\d+/), s4.click('form[data-th-chat-form] [type="submit"]')]);
+	check('the seller’s first message starts the thread', /Thank you for the kind review/.test(await s4.locator('.th-chat__messages').innerText()));
+	await new Promise((r) => setTimeout(r, 800));
+	const toReviewer = await mails('to:e2e-reviewer@example.test');
+	check('the reviewer is told about the message', toReviewer.length >= 1, String(toReviewer.length));
+	const other = Number(wp('user get tester --field=ID'));
+	await s4.goto(`${base}/my-account/chat/?listing=${rv.listing}&buyer=${other}`);
+	check('no conversation can be started with someone who didn’t review the listing', (await s4.locator('form[data-th-chat-form] input[name="buyer"]').count()) === 0);
+	const forged = await s4.evaluate(async ({ listing, buyer }) => {
+		const r = await fetch('/wp-json/torrehub/v1/chat/threads', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-WP-Nonce': window.torrehub?.config?.chat?.nonce || '' }, body: JSON.stringify({ listing_id: listing, buyer_id: buyer, message: 'spam' }) });
+		return r.status;
+	}, { listing: rv.listing, buyer: other });
+	check('… not even with a forged request', forged >= 400, String(forged));
+	await sctx4.close();
+
+	/* ------------------------------------------------------------ 4.3 messages to all users */
+	const page4 = `${base}/wp-admin/users.php?page=th-notify-users`;
+	const go = async (sel, re) => { const l = a4.locator(sel); await l.scrollIntoViewIfNeeded(); await a4.waitForTimeout(250); await Promise.all([a4.waitForURL(re), l.click()]); };
+	await a4.goto(page4);
+	await a4.fill('input[name=batch]', '2');
+	await a4.fill('input[name=interval]', '1');
+	await go('form:has(input[name=batch]) [type=submit]', /th_msg=saved/);
+	await fetch(`${mailpit}/messages`, { method: 'DELETE' });
+	await a4.fill('#th-bc-subject', 'E2E news');
+	await a4.fill('#th-bc-body', 'Hello {name},\n\nE2E broadcast body.');
+	await a4.check('input[name="roles[]"][value=customer]');
+	await go('button[value=test]', /th_msg=test/);
+	const test = await mails('subject:"[Test] E2E news"');
+	check('test e-mail goes to me only', test.length === 1 && test[0].To[0].Address === 'dev@example.test');
+	check('“Start sending” is locked until a preview', await a4.locator('button[value=start]').isDisabled());
+	await go('button[value=preview]', /th_msg=preview/);
+	await a4.fill('#th-bc-body', 'Edited after the preview');
+	a4.once('dialog', (d) => d.accept());
+	await go('button[value=start]', /th_msg=preview-first/);
+	check('… and refused on the server when the text changed after the preview', /Preview this exact message/.test(await a4.locator('.th-broadcast > .notice').first().innerText()));
+	await a4.fill('#th-bc-body', 'Hello {name},\n\nE2E broadcast body.');
+	await go('button[value=preview]', /th_msg=preview/);
+	const startLabel = await a4.locator('button[value=start]').innerText();
+	const nUsers = Number((startLabel.match(/(\d+)/) || [])[1] || 0);
+	check('preview shows the e-mail and the number of recipients (role filter)', (await a4.locator('iframe').count()) === 1 && nUsers >= 3, startLabel.trim());
+	a4.once('dialog', (d) => d.accept());
+	await go('button[value=start]', /th_msg=started/);
+	const camp = Number(helper('bc-last'));
+	let c = JSON.parse(helper(`bc-run ${camp}`));
+	check('first batch: batch size respected', c.sent === 2 && c.queued === nUsers - 2, JSON.stringify(c));
+	helper(`bc-stale ${camp}`);
+	c = JSON.parse(helper(`bc-run ${camp} fail`));
+	check('interrupted e-mail becomes “unknown”, refused ones “failed”', c.unknown === 1 && c.failed >= 1 && c.sent === 2, JSON.stringify(c));
+	await a4.goto(page4);
+	const crow4 = a4.locator(`tr[data-campaign="${camp}"]`);
+	await Promise.all([a4.waitForURL(/th_msg=updated/), crow4.locator('button:has-text("Pause")').click()]);
+	check('pause stops the scheduled batches', /Paused/.test(await a4.locator(`tr[data-campaign="${camp}"] .th-broadcast__status`).innerText()) && wp(`cron event list --hook=th_broadcast_batch --format=count`) === '0');
+	await Promise.all([a4.waitForURL(/th_msg=updated/), a4.locator(`tr[data-campaign="${camp}"] button:has-text("Resume")`).click()]);
+	await Promise.all([a4.waitForURL(/th_msg=updated/), a4.locator(`tr[data-campaign="${camp}"] button:has-text("Retry failed")`).click()]);
+	for (let i = 0; i < 6 && JSON.parse(helper(`bc-counts ${camp}`)).queued > 0; i++) {
+		helper(`bc-run ${camp}`);
+	}
+	c = JSON.parse(helper(`bc-counts ${camp}`));
+	await a4.goto(page4);
+	check('resumed and retried: finished, the interrupted one not resent', c.sent === nUsers - 1 && c.unknown === 1 && c.queued === 0 && /Finished/.test(await a4.locator(`tr[data-campaign="${camp}"] .th-broadcast__status`).innerText()), JSON.stringify(c));
+	const sentMails = (await mails('subject:"E2E news"')).filter((m) => !/\[Test\]/.test(m.Subject));
+	const recipients = sentMails.map((m) => m.To[0].Address);
+	check('nobody got it twice', recipients.length === new Set(recipients).size && recipients.length === nUsers - 1, `${recipients.length} mails, ${new Set(recipients).size} people`);
+	const body = sentMails[0] ? (await (await fetch(`${mailpit}/message/${sentMails[0].ID}`)).json()).Text : '';
+	check('{name} filled in, paragraphs kept', /Hello [^{]+,/.test(body) && /E2E broadcast body\./.test(body), body.slice(0, 120));
+	await a4.locator(`tr[data-campaign="${camp}"] + tr details summary`).click();
+	check('log and problems listed', /Batch: 2 sent/.test(await a4.locator(`tr[data-campaign="${camp}"] + tr details`).innerText()) && /Interrupted/.test(await a4.locator(`tr[data-campaign="${camp}"] + tr details`).innerText()));
+
+	// Account-sidebar notice.
+	await a4.check('input[name=notice_enabled]');
+	await a4.fill('input[name=notice_date]', '2026-11-05');
+	await go('form:has(input[name=notice_enabled]) [type=submit]', /th_msg=saved/);
+	const nctx4 = await browser.newContext({ ...phone });
+	const n4 = await frontLogin(nctx4, 'user54', 'seller54');
+	const noticeText = await n4.locator('.th-account-notice').innerText().catch(() => '');
+	check('logged-in users see the notice in the account sidebar', /Terms updated/.test(noticeText) && /05\.11\.2026|5 Nov/.test(noticeText), noticeText.replace(/\s+/g, ' '));
+	await Promise.all([n4.waitForURL(/my-account/), n4.locator('.th-account-notice button[type=submit]').click()]);
+	await n4.goto(`${base}/my-account/listings/`);
+	check('dismissed: gone on every account page', (await n4.locator('.th-account-notice').count()) === 0);
+	await a4.goto(page4);
+	await a4.fill('input[name=notice_date]', '2026-11-06');
+	await go('form:has(input[name=notice_enabled]) [type=submit]', /th_msg=saved/);
+	await n4.goto(`${base}/my-account/`);
+	check('changing the date shows it again', (await n4.locator('.th-account-notice').count()) === 1);
+	await nctx4.close();
+	await pub.context().close();
+	await a4.context().close();
 
 	check('no JS errors', errors.length === 0, errors.slice(0, 3).join(' | '));
 } finally {

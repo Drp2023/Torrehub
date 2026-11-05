@@ -15,14 +15,16 @@ $user_id = get_current_user_id();
 // phpcs:disable WordPress.Security.NonceVerification.Recommended -- navigation and notices.
 $thread_id  = isset( $_GET['thread'] ) ? absint( $_GET['thread'] ) : 0;
 $listing_id = isset( $_GET['listing'] ) ? absint( $_GET['listing'] ) : 0;
+$buyer_id   = isset( $_GET['buyer'] ) ? absint( $_GET['buyer'] ) : 0; // The seller writes first (e.g. replying to a review).
 $chat_error = isset( $_GET['th_chat_error'] ) ? sanitize_key( wp_unslash( $_GET['th_chat_error'] ) ) : '';
 // phpcs:enable
 
-$threads = array_map( static fn( $t ) => Chat::thread_view( $t, $user_id ), Store::threads( $user_id ) );
-$thread  = $thread_id ? Store::get( $thread_id ) : null;
-$thread  = $thread && Store::side( $thread, $user_id ) ? $thread : null;
+$threads  = array_map( static fn( $t ) => Chat::thread_view( $t, $user_id ), Store::threads( $user_id ) );
+$thread   = $thread_id ? Store::get( $thread_id ) : null;
+$thread   = $thread && Store::side( $thread, $user_id ) ? $thread : null;
+$buyer_id = $buyer_id && $listing_id && Chat::seller_may_start( $listing_id, $buyer_id ) ? $buyer_id : 0;
 if ( ! $thread && $listing_id ) {
-	$existing = Store::find( $listing_id, $user_id );
+	$existing = Store::find( $listing_id, $buyer_id ? $buyer_id : $user_id );
 	$thread   = $existing ? $existing : null;
 }
 $current  = $thread ? Chat::thread_view( $thread, $user_id ) : null;
@@ -36,7 +38,7 @@ if ( $thread ) {
 $new_listing = null;
 if ( ! $thread && $listing_id ) {
 	$listing_post = get_post( $listing_id );
-	if ( $listing_post && 'rtcl_listing' === $listing_post->post_type && 'publish' === $listing_post->post_status && (int) $listing_post->post_author !== $user_id ) {
+	if ( $listing_post && 'rtcl_listing' === $listing_post->post_type && 'publish' === $listing_post->post_status && ( $buyer_id || (int) $listing_post->post_author !== $user_id ) ) {
 		$new_listing = $listing_post;
 	}
 }
@@ -123,7 +125,7 @@ foreach ( $messages as $msg ) {
 				'url'   => (string) get_permalink( $new_listing ),
 				'image' => (int) get_post_thumbnail_id( $new_listing ),
 			);
-			$other_name   = $current ? $current['other']['name'] : ( get_userdata( (int) $new_listing->post_author )->display_name ?? '' );
+			$other_name   = $current ? $current['other']['name'] : ( get_userdata( $buyer_id ? $buyer_id : (int) $new_listing->post_author )->display_name ?? '' );
 			?>
 			<section class="th-chat__thread" aria-labelledby="th-chat-with">
 				<header class="th-chat__head">
@@ -175,8 +177,13 @@ foreach ( $messages as $msg ) {
 					<?php if ( ! $messages ) : ?>
 						<li class="th-chat__intro">
 							<?php
-							/* translators: %s: seller name */
-							echo esc_html( sprintf( __( 'Ask %s about this listing. Keep payments and personal details off the chat until you trust the other side.', 'torrehub' ), $other_name ) );
+							echo esc_html(
+								$buyer_id
+									/* translators: %s: reviewer name */
+									? sprintf( __( 'Write to %s about their review. Keep payments and personal details off the chat until you trust the other side.', 'torrehub' ), $other_name )
+									/* translators: %s: seller name */
+									: sprintf( __( 'Ask %s about this listing. Keep payments and personal details off the chat until you trust the other side.', 'torrehub' ), $other_name )
+							);
 							?>
 						</li>
 					<?php endif; ?>
@@ -194,6 +201,9 @@ foreach ( $messages as $msg ) {
 					<input type="hidden" name="th_action" value="th_chat_send">
 					<input type="hidden" name="thread" value="<?php echo esc_attr( (string) ( $current['id'] ?? 0 ) ); ?>">
 					<input type="hidden" name="listing" value="<?php echo esc_attr( (string) $head_listing['id'] ); ?>">
+					<?php if ( $buyer_id && ! $current ) : ?>
+						<input type="hidden" name="buyer" value="<?php echo esc_attr( (string) $buyer_id ); ?>">
+					<?php endif; ?>
 					<?php wp_nonce_field( 'th_chat_send' ); ?>
 					<label class="th-sr-only" for="th-chat-message"><?php esc_html_e( 'Your message', 'torrehub' ); ?></label>
 					<textarea class="th-textarea th-chat__input" id="th-chat-message" name="message" rows="2" maxlength="<?php echo esc_attr( (string) Store::MAX_LENGTH ); ?>" required placeholder="<?php esc_attr_e( 'Write a message…', 'torrehub' ); ?>"></textarea>

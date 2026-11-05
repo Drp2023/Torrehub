@@ -108,7 +108,8 @@ export function init(root = document) {
 				updateSeen(Number(list.dataset.seen) || 0);
 			} else {
 				const listing = Number(form.querySelector('[name="listing"]').value);
-				const json = await api('threads', { method: 'POST', body: JSON.stringify({ listing_id: listing, message: text }) });
+				const buyer = Number(form.querySelector('[name="buyer"]')?.value || 0); // the seller writes first (review reply)
+				const json = await api('threads', { method: 'POST', body: JSON.stringify({ listing_id: listing, buyer_id: buyer, message: text }) });
 				window.location.href = json.url;
 				return;
 			}

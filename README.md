@@ -33,6 +33,8 @@ Minden más (auth, chat, eladó-hitelesítés, mentett keresések, értékelése
 | Listings › **Reports** | bejelentési küszöb és bejelentett hirdetések |
 | Listings › **Categories** › kategória | **Search keywords** nyelvenként (a GTranslate nyelvei): erre keresve a kategória hirdetései és az angol alapszavakat tartalmazó hirdetések is megjelennek |
 | Users › **Verification** | eladó-hitelesítési kérelmek |
+| Users (lista) | **Verified** oszlop (kapcsoló), „Mark verified / Remove Verified badge” tömeges művelet, szűrő; ugyanez a szűrő a Listings listán |
+| Users › **Notify all users** | körüzenet (kötegelve), a küldés beállításai, a kampányok naplója; a fiók-oldalsáv értesítése („Terms updated …”) |
 | Eszközök › **Torrehub migration** | élesítési adat-lépések (próbafuttatás → élesítés, napló), adat-ellenőrzés (baseline ↔ most), karbantartási mód (a látogatóknak 503 „Back soon”, az admin működik) |
 | Classified Listing › Settings | kedvencek (be/ki), moderáció, értesítő e-mailek — a téma követi |
 | Classified Listing › Form Builder | a 10 hirdetés-űrlap mezői (Pro nélkül is szerkeszthető; a használt opció-értékeket a téma védi) |
@@ -52,11 +54,12 @@ Ahol ügyfél-döntés még nincs, a kódban `// DECISION:` jelöli a beállíth
 | `ListingForm` | hirdetésfeladás / szerkesztés munkaterület, piszkozatok, térképes pin |
 | `Quota` | ingyenes hirdetés-keret (alapból ki) |
 | `Lifetime` | hirdetés-élettartam fióktípus szerint, ingyenes egykattintásos megújítás (My listings + az e-mail aláírt linkje), lejárat előtti e-mail; a lezárást a Classified Listing óránkénti cronja végzi; FAQ-shortcode `[torrehub_listing_lifetime show=duration\|renewal]` |
-| `Reviews` | értékelések + AggregateRating |
+| `Reviews` | értékelések + AggregateRating; jóváhagyáskor e-mail az eladónak „Reply via chat” linkkel (a WordPress saját, e-mail-címet mutató levele helyett) |
 | `Account` | fiók-dashboard és szekciók |
-| `Verification` | eladó-hitelesítés (feltöltés → admin döntés → badge, a fájl utána törlődik) |
+| `Verification` | eladó-hitelesítés (feltöltés → admin döntés → badge, a fájl utána törlődik); Users lista „Verified” oszlop, kapcsoló, tömeges művelet, szűrő (a Listings listán is) |
 | `Chat` | üzenetek (polling, e-mail értesítő) — saját táblák |
 | `SearchAlerts` | mentett keresések, napi/azonnali e-mail — saját tábla |
+| `Broadcast` | Users › Notify all users: üzenet minden usernek / szerepkörnek, előnézet, teszt, WP-Cron kötegek (méret, gyakoriság), napló, szünet/folytatás, dupla küldés nélkül; eltüntethető értesítés a fiók-oldalsávban — saját táblák |
 | `Guides` | `/guides/` cikkek, Article JSON-LD |
 | `Content` | About / Contact / FAQ / jogi oldal-sablonok, kapcsolat-űrlap, FAQPage JSON-LD |
 | `Consent` | cookie-sáv: a nem szükséges scriptek és beágyazások a hozzájárulásig **nem futnak**; sáv csak akkor, ha van mit kérdezni |
@@ -67,7 +70,7 @@ A mag: `inc/src/Core/` (`Theme`, `Module`, `Settings`, `Installer` — saját t�
 
 ## Adattárolás
 
-- Saját táblák: `{prefix}th_chat_threads`, `{prefix}th_chat_messages`, `{prefix}th_search_alerts`.
+- Saját táblák: `{prefix}th_chat_threads`, `{prefix}th_chat_messages`, `{prefix}th_search_alerts`, `{prefix}th_broadcasts`, `{prefix}th_broadcast_queue`.
 - Opciók / theme mod: `th_*` (pl. `th_consent`, `th_auth_pages`, `th_archive_filters`); Customizer: `th_*` theme mod.
 - Meta: a hirdetések a Classified Listing kulcsait használják; téma-kulcsok `th_*` (pl. `th_published_at`, `th_draft*`), user: `th_verification`, `custom_field_2` (NIF).
 - A téma váltásakor a funkciók elérhetetlenek, **az adat megmarad**.
@@ -80,7 +83,7 @@ Az adat-lépések alapból próbafuttatások, `--apply`-jal írnak; ugyanezek go
 
 ## Bővítési pontok (filterek / actionök)
 
-`th_module_classes`, `th_settings_sections`, `th_page_css_bundles`, `th_rtcl_assets_needed`, `th_account_sections`, `th_account_lean_sections`, `th_header_actions`, `th_bottom_nav_items`, `th_footer_legal_links`, `th_listing_fields`, `th_listing_card_args`, `th_listing_contact_buttons`, `th_listing_schema`, `th_archive_filter_fields`, `th_consent_script_handles` (enqueue-olt scriptek kategóriába sorolása), `th_share_image`, `th_noindex_page_ids`, `th_listing_lifetime_days` / `th_listing_can_renew` / `th_listing_renewed` (később fizetős csomagok: hosszabb élettartam, feltételhez kötött megújítás — most minden ingyenes), `th_town_coordinates`, `th_hours_timezone`, `th_chat_email_notify`, `th_registration_open`; események: `th_account_registered|approved|rejected`, `th_chat_message_sent`.
+`th_module_classes`, `th_settings_sections`, `th_page_css_bundles`, `th_rtcl_assets_needed`, `th_account_sections`, `th_account_lean_sections`, `th_header_actions`, `th_bottom_nav_items`, `th_footer_legal_links`, `th_listing_fields`, `th_listing_card_args`, `th_listing_contact_buttons`, `th_listing_schema`, `th_archive_filter_fields`, `th_consent_script_handles` (enqueue-olt scriptek kategóriába sorolása), `th_share_image`, `th_noindex_page_ids`, `th_listing_lifetime_days` / `th_listing_can_renew` / `th_listing_renewed` (később fizetős csomagok: hosszabb élettartam, feltételhez kötött megújítás — most minden ingyenes), `th_town_coordinates`, `th_hours_timezone`, `th_chat_email_notify`, `th_registration_open`; `th_chat_seller_may_start`, `th_field_texts`, `th_listing_list_fields`, `th_verified_seller_roles`; események: `th_account_registered|approved|rejected`, `th_chat_message_sent`, `th_seller_verified_changed`; hely: `th_account_sidebar`.
 
 ## Fejlesztés
 

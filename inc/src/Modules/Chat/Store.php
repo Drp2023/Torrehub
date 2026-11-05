@@ -93,14 +93,16 @@ final class Store {
 	}
 
 	/**
-	 * Start (or reuse) the buyer's thread about a listing and add the first message.
+	 * Start (or reuse) the buyer's thread about a listing and add the first message — from the buyer, or from the
+	 * seller when they write first (Module::seller_may_start(), e.g. replying to a review).
 	 *
 	 * @param int    $listing_id Listing.
 	 * @param int    $buyer_id   Buyer.
 	 * @param string $body       Message.
+	 * @param int    $sender_id  Who writes (default: the buyer).
 	 * @return array{thread:int,message:int}|\WP_Error
 	 */
-	public static function start( int $listing_id, int $buyer_id, string $body ) {
+	public static function start( int $listing_id, int $buyer_id, string $body, int $sender_id = 0 ) {
 		$post = get_post( $listing_id );
 		if ( ! $post || 'rtcl_listing' !== $post->post_type || 'publish' !== $post->post_status ) {
 			return new \WP_Error( 'th_chat_listing', __( 'This listing isn’t available any more.', 'torrehub' ) );
@@ -129,7 +131,7 @@ final class Store {
 			}
 			$thread = self::get( (int) $wpdb->insert_id );
 		}
-		$message = self::send( (int) $thread->id, $buyer_id, $body );
+		$message = self::send( (int) $thread->id, $sender_id ? $sender_id : $buyer_id, $body );
 		if ( is_wp_error( $message ) ) {
 			return $message;
 		}

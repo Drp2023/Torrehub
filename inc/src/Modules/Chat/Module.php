@@ -35,6 +35,20 @@ final class Module extends BaseModule {
 	private const RATE    = 30; // Messages per 10 minutes per user.
 
 	/**
+	 * Registered in this request.
+	 *
+	 * @var bool
+	 */
+	private static bool $active = false;
+
+	/**
+	 * Is the chat running (module on)?
+	 */
+	public static function active(): bool {
+		return self::$active;
+	}
+
+	/**
 	 * Module id.
 	 */
 	public function id(): string {
@@ -119,6 +133,7 @@ final class Module extends BaseModule {
 	 * Hooks.
 	 */
 	public function register(): void {
+		self::$active = true;
 		add_action( 'rest_api_init', array( $this, 'routes' ) );
 		add_filter( 'rtcl_my_account_endpoint', array( $this, 'endpoint' ) );
 		add_filter( 'th_account_sections', array( $this, 'section' ) );
@@ -301,9 +316,10 @@ final class Module extends BaseModule {
 	 * @param int    $thread_id  Thread.
 	 * @param int    $listing_id Listing (new conversation).
 	 * @param string $body       Message.
+	 * @param int    $buyer_id   New conversation started by the seller: with this user.
 	 * @return int|\WP_Error Thread id.
 	 */
-	public static function deliver( int $thread_id, int $listing_id, string $body ) {
+	public static function deliver( int $thread_id, int $listing_id, string $body, int $buyer_id = 0 ) {
 		$user = get_current_user_id();
 		if ( ! $user ) {
 			return new \WP_Error( 'th_chat_login', __( 'Log in to send messages.', 'torrehub' ) );
@@ -315,8 +331,39 @@ final class Module extends BaseModule {
 			$sent = Store::send( $thread_id, $user, $body );
 			return is_wp_error( $sent ) ? $sent : $thread_id;
 		}
-		$started = Store::start( $listing_id, $user, $body );
+		if ( $buyer_id ) {
+			if ( ! self::seller_may_start( $listing_id, $buyer_id ) ) {
+				return new \WP_Error( 'th_chat_forbidden', __( 'This conversation isn’t yours.', 'torrehub' ) );
+			}
+			$started = Store::start( $listing_id, $buyer_id, $body, $user );
+		} else {
+			$started = Store::start( $listing_id, $user, $body );
+		}
 		return is_wp_error( $started ) ? $started : $started['thread'];
+	}
+
+	/**
+	 * May the current user (the listing's seller) open a conversation with this user? Conversations are started by
+	 * buyers; a seller only writes first where another feature allows it (Reviews: to someone who reviewed the
+	 * listing — "Reply via chat").
+	 *
+	 * @param int $listing_id Listing.
+	 * @param int $buyer_id   The other side.
+	 */
+	public static function seller_may_start( int $listing_id, int $buyer_id ): bool {
+		$seller = get_current_user_id();
+		if ( ! $seller || $seller === $buyer_id || ! get_userdata( $buyer_id ) || 'rtcl_listing' !== get_post_type( $listing_id ) || (int) get_post_field( 'post_author', $listing_id ) !== $seller ) {
+			return false;
+		}
+		/**
+		 * May the seller start a conversation with this user about the listing?
+		 *
+		 * @param bool $allowed    Default false.
+		 * @param int  $listing_id Listing.
+		 * @param int  $buyer_id   The other user.
+		 * @param int  $seller_id  The seller (current user).
+		 */
+		return (bool) apply_filters( 'th_chat_seller_may_start', false, $listing_id, $buyer_id, $seller );
 	}
 
 	/**
@@ -327,11 +374,19 @@ final class Module extends BaseModule {
 		// phpcs:disable WordPress.Security.NonceVerification.Missing -- verified above.
 		$thread  = isset( $_POST['thread'] ) ? absint( $_POST['thread'] ) : 0;
 		$listing = isset( $_POST['listing'] ) ? absint( $_POST['listing'] ) : 0;
+		$buyer   = isset( $_POST['buyer'] ) ? absint( $_POST['buyer'] ) : 0;
 		$body    = isset( $_POST['message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['message'] ) ) : '';
 		// phpcs:enable
-		$result = self::deliver( $thread, $listing, $body );
+		$result = self::deliver( $thread, $listing, $body, $buyer );
 		if ( is_wp_error( $result ) ) {
-			$back = self::url( $thread ? array( 'thread' => $thread ) : array( 'listing' => $listing ) );
+			$back = self::url(
+				$thread ? array( 'thread' => $thread ) : array_filter(
+					array(
+						'listing' => $listing,
+						'buyer'   => $buyer,
+					)
+				)
+			);
 			wp_safe_redirect( add_query_arg( 'th_chat_error', rawurlencode( $result->get_error_code() ), $back ) );
 			exit;
 		}
@@ -393,6 +448,10 @@ final class Module extends BaseModule {
 						'listing_id' => array(
 							'type'     => 'integer',
 							'required' => true,
+						),
+						'buyer_id'   => array(
+							'type'    => 'integer',
+							'default' => 0,
 						),
 						'message'    => array(
 							'type'     => 'string',
@@ -521,7 +580,7 @@ final class Module extends BaseModule {
 	 * @return \WP_REST_Response|\WP_Error
 	 */
 	public function rest_start( \WP_REST_Request $request ) {
-		$result = self::deliver( 0, (int) $request['listing_id'], (string) $request['message'] );
+		$result = self::deliver( 0, (int) $request['listing_id'], (string) $request['message'], (int) $request['buyer_id'] );
 		if ( is_wp_error( $result ) ) {
 			return self::rest_error( $result );
 		}

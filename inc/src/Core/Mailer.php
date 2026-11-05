@@ -16,6 +16,13 @@ defined( 'ABSPATH' ) || exit;
 final class Mailer {
 
 	/**
+	 * Why the last send() failed ('' = it didn't, or no reason given).
+	 *
+	 * @var string
+	 */
+	private static string $error = '';
+
+	/**
 	 * Send a message.
 	 *
 	 * @param string                        $to         Recipient.
@@ -39,13 +46,39 @@ final class Mailer {
 		}
 		$text .= ( $button ? "\n\n" . $button[0] . ': ' . $button[1] : '' ) . ( $footnote ? "\n\n" . $footnote : '' ) . ( $foot ? "\n\n" . $foot[0] . ': ' . $foot[1] : '' );
 
-		$alt = static function ( $phpmailer ) use ( $text ) {
+		$alt         = static function ( $phpmailer ) use ( $text ) {
 			$phpmailer->AltBody = $text; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHPMailer API.
 		};
+		$failed      = static function ( $error ) {
+			self::$error = $error instanceof \WP_Error ? $error->get_error_message() : 'wp_mail failed';
+		};
+		self::$error = '';
 		add_action( 'phpmailer_init', $alt );
+		add_action( 'wp_mail_failed', $failed );
 		$sent = wp_mail( $to, sprintf( '[%s] %s', $site, $subject ), $html, array_merge( array( 'Content-Type: text/html; charset=UTF-8' ), array_map( 'strval', (array) ( $extra['headers'] ?? array() ) ) ) );
 		remove_action( 'phpmailer_init', $alt );
+		remove_action( 'wp_mail_failed', $failed );
 		return $sent;
+	}
+
+	/**
+	 * Why the last send() failed.
+	 */
+	public static function last_error(): string {
+		return self::$error;
+	}
+
+	/**
+	 * The HTML body send() would build (admin previews).
+	 *
+	 * @param string                        $heading    Heading.
+	 * @param array<int,string>             $paragraphs Paragraphs.
+	 * @param array{0:string,1:string}|null $button     [ label, url ].
+	 * @param string                        $footnote   Small print.
+	 * @param array<string,mixed>           $extra      `items`, `footer` as in send().
+	 */
+	public static function preview( string $heading, array $paragraphs, ?array $button = null, string $footnote = '', array $extra = array() ): string {
+		return self::html( $heading, $paragraphs, $button, $footnote, (array) ( $extra['items'] ?? array() ), isset( $extra['footer'] ) && is_array( $extra['footer'] ) ? $extra['footer'] : null );
 	}
 
 	/**

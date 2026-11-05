@@ -79,6 +79,7 @@ final class Module extends BaseModule {
 	 */
 	public function register(): void {
 		self::$active = true;
+		( new Notice() )->register();
 		th_on_front_post( 'th_review', array( $this, 'submit' ) );
 
 		// Keep aggregates in sync whatever changes a review (front end, admin, bulk actions, deletion).
