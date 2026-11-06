@@ -30,6 +30,7 @@ wp torrehub trash-demo --apply --quiet 2>/dev/null || true         # Demo posts/
 wp torrehub service-fields --apply --quiet 2>/dev/null || true     # 1.1.0 U1: Service form Languages (multiple) / Mobile Service.
 wp torrehub seed-search-keywords --apply --quiet 2>/dev/null || true # 1.1.0 U2: category search keywords in the 9 site languages.
 wp torrehub enable-favourites --apply --quiet 2>/dev/null || true    # 1.1.0 U3: Classified Listing favourites on.
+wp torrehub disable-saved-searches --apply --quiet 2>/dev/null || true # 1.1.0 U4: saved searches off (data kept).
 # Plugin end state (runbook D, after the migrations above): only classified-listing + gtranslate stay active.
 wp plugin deactivate classified-listing-pro classified-listing-store rtcl-seller-verification rtcl-search-alert rtcl-verification   rtcl-elementor-builder review-schema-pro review-schema elementor-pro elementor cldirectory-core rt-framework classified-listing-toolkits   gdpr-cookie-compliance insert-headers-and-footers filester duplicate-page fluentform advanced-custom-fields --quiet 2>/dev/null || true
 # Local test accounts (e2e, a11y; the anonymiser gave everyone a random password): member tester/tester, business seller user54/seller54.

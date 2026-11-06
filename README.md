@@ -58,7 +58,8 @@ Ahol ügyfél-döntés még nincs, a kódban `// DECISION:` jelöli a beállíth
 | `Account` | fiók-dashboard és szekciók; **Favourites** (a Classified Listing saját kedvencei: szív a kártyán és a hirdetésen, kijelentkezve login → mentés, fiók › Favourites kártyákkal) |
 | `Verification` | eladó-hitelesítés (feltöltés → admin döntés → badge, a fájl utána törlődik); Users lista „Verified” oszlop, kapcsoló, tömeges művelet, szűrő (a Listings listán is) |
 | `Chat` | üzenetek (polling, e-mail értesítő) — saját táblák |
-| `SearchAlerts` | mentett keresések, napi/azonnali e-mail — saját tábla |
+| `SearchAlerts` | mentett keresések, napi/azonnali e-mail — saját tábla. **1.1.0-tól kikapcsolva** (ügyfél-kérés, U4): se gomb, se fiók-menüpont, se e-mail, se cron; a tárolt keresések megmaradnak, a modul a Megjelenés › Torrehub alatt visszakapcsolható |
+| `Compare` | hirdetések összehasonlítása: max. 3, azonos főkategóriából, bejelentkezés nélkül (funkcionális `th_compare` süti, csak az id-k); gomb a kártyán (a szív alatt) és a hirdetés oldalán (Save mellett), lebegő sáv alul, `/compare/` oldal (fotó, cím, ár, város, kategória, a hirdetés mezői soronként; noindex). JS nélkül is működik |
 | `Broadcast` | Users › Notify all users: üzenet minden usernek / szerepkörnek, előnézet, teszt, WP-Cron kötegek (méret, gyakoriság), napló, szünet/folytatás, dupla küldés nélkül; eltüntethető értesítés a fiók-oldalsávban — saját táblák |
 | `Guides` | `/guides/` cikkek (1. oldalon featured cikk, oldalanként 9 kártya 3 × 3-ban, „Load more” = valódi `/page/N/` link; bevezető: a Guides oldal kivonata), Article JSON-LD; főoldali „Latest guides” blokk |
 | `Content` | About / Contact / FAQ / jogi oldal-sablonok, kapcsolat-űrlap, FAQPage JSON-LD |
@@ -79,7 +80,7 @@ A mag: `inc/src/Core/` (`Theme`, `Module`, `Settings`, `Installer` — saját t�
 
 Az adat-lépések alapból próbafuttatások, `--apply`-jal írnak; ugyanezek gombként: Eszközök › Torrehub migration (a két út közös naplót ír). Részletek és sorrend: runbook B–D, G. Súgó: `wp help torrehub`.
 
-`wp torrehub fix-option-values` · `migrate-pages [--rollback]` · `import-chat` · `import-search-alerts` · `trash-demo` · `purge-nie` · `trash-listings` · `purge-old-verification-docs` · `service-fields` · `seed-search-keywords` · `enable-favourites` (1.1.0) · `data-check [--save-baseline]` · `maintenance on|off|status`
+`wp torrehub fix-option-values` · `migrate-pages [--rollback]` · `import-chat` · `import-search-alerts` · `trash-demo` · `purge-nie` · `trash-listings` · `purge-old-verification-docs` · `service-fields` · `seed-search-keywords` · `enable-favourites` · `disable-saved-searches` (1.1.0) · `data-check [--save-baseline]` · `maintenance on|off|status`
 
 ## Bővítési pontok (filterek / actionök)
 
@@ -108,4 +109,4 @@ Dokumentáció: `_dev/docs/BUILD-PLAN.md` (döntések, fázisok, mérési napló
 
 - OpenStreetMap-csempék: mérsékelt forgalomra; nagy forgalomnál fizetős csempe-szolgáltató (`th_map_tiles`).
 - GTranslate: gépi fordítás a böngészőben; a fordított oldalak nem indexelődnek külön URL-en.
-- WP-Cron helyett rendszer-cron kell (mentett keresések e-mailjei).
+- WP-Cron helyett rendszer-cron ajánlott (hirdetés-lejárat, értesítők; a mentett keresések e-mailjei 1.1.0-tól nincsenek).

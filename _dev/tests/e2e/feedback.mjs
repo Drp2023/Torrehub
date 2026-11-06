@@ -9,6 +9,8 @@
 //   saved, Account › Favourites for every role.
 //   Group 6 (home, guides): the 12 main towns (6/4/3/2 per row), Guides 9 a page in 3 × 3 with real /page/N/ links
 //   and the posts page's excerpt as intro, "Latest guides" on the home page (Customizer switches).
+//   Group 7: saved searches off everywhere (U4; data kept, no alert cron); Compare — up to 3 listings of one main
+//   category, toggles on cards and the listing page, the floating bar, /compare/ (also without JS and logged out).
 //   node _dev/tests/e2e/feedback.mjs [baseUrl]
 // Needs (local only): WP-CLI via bin/env.sh (Git Bash), Mailpit, admin dev/dev, business seller user54/seller54,
 // the th-local-safety mu-plugin (live-like canonical redirects). The language sweep needs the internet (GTranslate);
@@ -496,7 +498,7 @@ try {
 
 	await g5.goto(`${base}/my-account/favourites/`);
 	const nav5 = (await g5.locator('.th-account__link').allInnerTexts()).map((t) => t.trim());
-	check('member: “Favourites” in the account menu, Saved searches still there', nav5.some((t) => /^Favourites/.test(t)) && nav5.some((t) => /^Saved searches/.test(t)), nav5.join(' | '));
+	check('member: “Favourites” in the account menu (Saved searches off since group 7)', nav5.some((t) => /^Favourites/.test(t)) && !nav5.some((t) => /^Saved searches/.test(t)), nav5.join(' | '));
 	const cardTitles = await g5.locator('[data-th-fav-list] .th-card__title').allInnerTexts();
 	check('Favourites: the saved listings as cards, with their own titles', cardTitles.length === 2 && !cardTitles.some((t) => /Favourites/.test(t)), cardTitles.join(' | '));
 	await g5.locator('[data-th-fav-list] [data-th-fav]').first().click();
@@ -571,6 +573,99 @@ try {
 	check('… and the whole block', (await hm.locator('.th-home__guides').count()) === 0);
 	wp('theme mod remove th_home_guides th_home_guides_intro_on');
 	await hm.context().close();
+
+	/* ------------------------------------------------------------ 7.1 saved searches off */
+	const u4 = wp('torrehub disable-saved-searches');
+	check('U4 dry run: saved searches already off (reset-db applied it), nothing to change', /Nothing to change/.test(u4), u4.split('\n').slice(-1)[0]);
+	const sg = await (await browser.newContext({ viewport: { width: 1280, height: 900 } })).newPage();
+	await sg.goto(`${base}/listing-category/auto-moto-boats/`);
+	check('archive: no “Save this search”; the hearts stay', (await sg.locator('.th-save-search').count()) === 0 && (await sg.locator('.th-card .th-btn--fav').count()) > 0);
+	await sg.context().close();
+	const sctx7 = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+	const sm = await frontLogin(sctx7, 'tester', 'tester');
+	await sm.goto(`${base}/listing-category/auto-moto-boats/`);
+	check('… not for members either', (await sm.locator('.th-save-search').count()) === 0);
+	await sm.goto(`${base}/my-account/`);
+	check('account: no Saved searches in the menus (sidebar, drawer); Favourites stays', !(await sm.content()).includes('/my-account/alerts/') && (await sm.locator('a', { hasText: 'Favourites' }).count()) > 0);
+	await sm.goto(`${base}/my-account/alerts/`);
+	check('… /my-account/alerts/ is no saved-searches page any more', (await sm.locator('.th-alert-row').count()) === 0 && !/Saved searches/.test(await sm.locator('h1').first().textContent().catch(() => '')));
+	await sctx7.close();
+	helper('alerts-on');
+	await fetch(`${base}/`); // The module (on, as before 1.1.0) schedules its digest.
+	let st = JSON.parse(helper('alerts-state'));
+	check('(as before 1.1.0: module on, digest scheduled, a saved search in the table)', st.module && st.cron && st.kept, JSON.stringify(st));
+	const u4a = wp('torrehub disable-saved-searches --apply');
+	await fetch(`${base}/`);
+	st = JSON.parse(helper('alerts-state'));
+	check('U4 apply: module off, no alert cron left, the saved searches stay in the database', /switched off/.test(u4a) && !st.module && !st.cron && st.kept && st.rows >= 1, JSON.stringify(st));
+
+	/* ------------------------------------------------------------ 7.2 compare */
+	const cmp = JSON.parse(helper('compare-ids'));
+	const [c1, c2, c3, c4] = cmp.same;
+	const toastSays = (pg, re) => pg.waitForFunction((src) => new RegExp(src).test(document.querySelector('.th-toasts')?.textContent || ''), re.source);
+	const cc = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+	const cp = await cc.newPage();
+	cp.on('pageerror', (e) => ownError(e) && errors.push(String(e)));
+	const cbtn = (id) => cp.locator(`.th-card [data-th-compare="${id}"]`);
+	await cp.goto(cmp.category);
+	check('cards: a Compare toggle under the heart, logged out too', (await cp.locator('.th-card [data-th-compare][role="button"][aria-pressed="false"]').count()) >= 4 && (await cp.locator('[data-th-compare-bar]').count()) === 0);
+	await cbtn(c1).click();
+	await cp.waitForSelector('[data-th-compare-bar]');
+	check('… pressed: the listing is in, the bar appears (1 + 2 empty slots)', (await cbtn(c1).getAttribute('aria-pressed')) === 'true' && (await cp.locator('.th-compare-bar__item').count()) === 1 && (await cp.locator('.th-compare-bar__slot').count()) === 2);
+	await cbtn(c2).click();
+	await cp.waitForFunction(() => document.querySelectorAll('.th-compare-bar__item').length === 2);
+	await cbtn(c3).focus();
+	await cp.keyboard.press('Space');
+	await cp.waitForFunction(() => document.querySelectorAll('.th-compare-bar__item').length === 3);
+	check('… Space presses it too; 3 fill the bar', (await cbtn(c3).getAttribute('aria-pressed')) === 'true');
+	await cbtn(c4).click();
+	await toastSays(cp, /up to 3/);
+	check('… a 4th is refused with a message', (await cbtn(c4).getAttribute('aria-pressed')) === 'false' && (await cp.locator('.th-compare-bar__item').count()) === 3);
+	await cp.goto(cmp.otherUrl);
+	const chip = cp.locator('.th-listing-head [data-th-compare]');
+	await chip.click();
+	await toastSays(cp, /one category/);
+	check('listing page: Compare next to Save; another category is refused (one category at a time)', (await chip.getAttribute('aria-pressed')) === 'false' && (await cp.locator('.th-compare-bar__item').count()) === 3);
+	await cp.goto(cmp.category);
+	check('… back on the cards the choice is remembered (server-side, cookie)', (await cbtn(c1).getAttribute('aria-pressed')) === 'true' && (await cbtn(c4).getAttribute('aria-pressed')) === 'false');
+	await cp.locator(`[data-th-compare-remove="${c3}"]`).click();
+	await cp.waitForFunction(() => document.querySelectorAll('.th-compare-bar__item').length === 2);
+	check('bar: × removes one (its card unpressed, the focus stays in the bar)', (await cbtn(c3).getAttribute('aria-pressed')) === 'false' && (await cp.evaluate(() => !!document.activeElement?.closest('[data-th-compare-bar]'))));
+	await Promise.all([cp.waitForURL(/\/compare\/$/), cp.locator('.th-compare-bar .th-btn--primary').click()]);
+	const labels = await cp.locator('.th-compare__label th').evaluateAll((els) => els.map((el) => el.textContent.trim()));
+	const tied = await cp.locator('.th-compare__values td').evaluateAll((els) => els.length > 0 && els.every((td) => /^th-cmp-c\d th-cmp-r\d+$/.test(td.getAttribute('headers') || '')));
+	check('/compare/: the 2 side by side — photo, title, then town, category and the details row by row', (await cp.locator('.th-compare__name').count()) === 2 && (await cp.locator('.th-compare__media').count()) === 2 && labels.includes('Town') && labels.includes('Category') && labels.length > 3 && tied, labels.join(', '));
+	check('… noindex, and no bar on the page itself', (await cp.locator('meta[name="robots"][content*="noindex"]').count()) === 1 && (await cp.locator('[data-th-compare-bar]').count()) === 0);
+	await cp.screenshot({ path: `${out}/feedback-compare-1280.png`, fullPage: true });
+	await Promise.all([cp.waitForURL(/th_compare_msg=removed/), cp.locator('.th-compare__remove').first().click()]);
+	check('… Remove on the page: 1 left, with a notice', (await cp.locator('.th-compare__name').count()) === 1 && (await cp.locator('.th-compare .th-alert').count()) === 1);
+	await Promise.all([cp.waitForURL(/th_compare_msg=cleared/), cp.locator('.th-compare__head a', { hasText: 'Clear' }).click()]);
+	check('… Clear: empty state with a way to the listings', (await cp.locator('.th-compare .th-empty').count()) === 1 && (await cp.locator('.th-compare__table').count()) === 0);
+	await cc.close();
+	const nj = await (await browser.newContext({ javaScriptEnabled: false })).newPage();
+	await nj.goto(cmp.category);
+	await Promise.all([nj.waitForURL(/\/compare\/\?th_compare_msg=added/), nj.locator(`.th-card [data-th-compare="${c2}"]`).click()]);
+	check('without JS: Compare adds the listing and opens the comparison', (await nj.locator('.th-compare__name').count()) === 1);
+	await nj.context().close();
+	const mc = await browser.newContext(phone);
+	const mp = await mc.newPage();
+	mp.on('pageerror', (e) => ownError(e) && errors.push(String(e)));
+	await mp.goto(cmp.category);
+	const c1url = await mp.locator(`.th-card:has([data-th-compare="${c1}"]) .th-card__title a`).getAttribute('href');
+	await mp.locator(`.th-card [data-th-compare="${c1}"]`).click();
+	await mp.waitForSelector('[data-th-compare-bar]');
+	const above = (sel) => mp.evaluate((s) => {
+		const bar = document.querySelector('.th-compare-bar').getBoundingClientRect();
+		const below = document.querySelector(s).getBoundingClientRect();
+		return bar.bottom <= below.top + 1 && bar.left >= 0 && bar.right <= innerWidth && document.documentElement.scrollWidth <= innerWidth;
+	}, sel);
+	check('390px: the bar sits above the bottom navigation, no sideways scroll', await above('.th-bottom-nav'));
+	await mp.goto(c1url);
+	check('… and above the contact bar on a listing page', await above('.th-contact-bar'));
+	await mp.screenshot({ path: `${out}/feedback-compare-390.png` });
+	await mp.goto(`${base}/compare/`);
+	check('… /compare/ fits the phone', (await mp.evaluate(() => document.documentElement.scrollWidth)) <= 390);
+	await mc.close();
 
 	check('no JS errors', errors.length === 0, errors.slice(0, 3).join(' | '));
 } finally {

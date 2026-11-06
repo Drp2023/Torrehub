@@ -392,6 +392,10 @@
 	color: var(--th-error);
 }
 
+.th-listing-head__action--compare[aria-pressed="true"] .th-icon {
+	color: inherit;
+}
+
 .th-listing-head__report {
 	display: inline-flex;
 	align-items: center;

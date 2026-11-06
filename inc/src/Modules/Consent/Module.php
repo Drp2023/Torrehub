@@ -143,7 +143,7 @@ final class Module extends BaseModule {
 		$labels = self::labels();
 		?>
 		<h2 id="th-consent-settings"><?php esc_html_e( 'Cookie consent', 'torrehub' ); ?></h2>
-		<p><?php esc_html_e( 'Code pasted here runs only for visitors who agreed to its category. Paste the full snippet as given by the provider (Google Analytics, Meta Pixel …). Strictly necessary cookies (login, chosen town, language, session) need no consent.', 'torrehub' ); ?></p>
+		<p><?php esc_html_e( 'Code pasted here runs only for visitors who agreed to its category. Paste the full snippet as given by the provider (Google Analytics, Meta Pixel …). Strictly necessary cookies (login, chosen town, language, compare list, session) need no consent.', 'torrehub' ); ?></p>
 		<table class="form-table" role="presentation">
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Consent bar', 'torrehub' ); ?></th>

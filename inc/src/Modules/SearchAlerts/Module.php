@@ -13,6 +13,9 @@
  * DECISION: at most 20 saved searches per account; daily/weekly digests go out at the hour the alert was saved
  * (rounded to the hourly cron). Real system cron recommended (runbook).
  *
+ * Off since 1.1.0 (client request 2026-11, migration step U4): no button, no account section, no e-mails. The saved
+ * searches stay in the table; switching the module back on (Appearance › Torrehub) brings everything back.
+ *
  * @package Torrehub
  */
 
@@ -20,6 +23,7 @@ namespace Torrehub\Modules\SearchAlerts;
 
 use Torrehub\Core\Mailer;
 use Torrehub\Core\Module as BaseModule;
+use Torrehub\Core\Settings;
 use Torrehub\Modules\Archive\Search;
 
 defined( 'ABSPATH' ) || exit;
@@ -52,6 +56,41 @@ final class Module extends BaseModule {
 	 */
 	public function description(): string {
 		return __( 'Members save a search and get new matching listings by e-mail (instantly, daily or weekly).', 'torrehub' );
+	}
+
+	/**
+	 * Off on a fresh install since 1.1.0 (client request).
+	 */
+	public function default_enabled(): bool {
+		return false;
+	}
+
+	/**
+	 * While switched off, no alert cron is left behind, and Account › Saved searches leaves the permalinks (once).
+	 */
+	public function always(): void {
+		if ( Settings::module_enabled( $this ) ) {
+			return;
+		}
+		add_action( 'init', array( self::class, 'unschedule' ) );
+		if ( '1' === get_option( 'th_alerts_rewrite' ) ) {
+			add_action(
+				'init',
+				static function () {
+					flush_rewrite_rules( false );
+					update_option( 'th_alerts_rewrite', '0' );
+				},
+				99
+			);
+		}
+	}
+
+	/**
+	 * Remove the digest and instant alert events (the saved searches stay).
+	 */
+	public static function unschedule(): void {
+		wp_unschedule_hook( self::CRON );
+		wp_unschedule_hook( self::INSTANT );
 	}
 
 	/**

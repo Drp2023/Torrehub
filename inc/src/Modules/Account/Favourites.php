@@ -7,7 +7,7 @@
  * - Guests: the heart links to the login page with `redirect_to` = this page + a signed `th_fav`; after logging in
  *   the listing is saved here and the page comes back without the parameters (`th_faved` → "Saved" toast).
  * - Account › Favourites for every role: classified-listing/myaccount/favourite-listings.php (cards, as in the
- *   archive). Saved searches stay as they are.
+ *   archive). Saved searches are off since 1.1.0 (SearchAlerts module, U4).
  *
  * @package Torrehub
  */

@@ -1,6 +1,7 @@
 // E2E: saved searches + alert e-mails (phase 7). node _dev/tests/e2e/search-alerts.mjs [baseUrl]
 // Needs (local only): member tester/tester, seller user54, Mailpit on :10000, WP-CLI via bin/env.sh (run from Git Bash).
-// Side effects: removed at the end (search-alerts-helper.php cleanup).
+// Side effects: removed at the end (search-alerts-helper.php cleanup). The module is off since 1.1.0 (client request):
+// switched on for this test, off again at the end.
 import { execSync } from 'node:child_process';
 import { chromium } from 'playwright-core';
 
@@ -20,6 +21,8 @@ const mailText = async (msg) => (await (await fetch(`${mailpit}/message/${msg.ID
 const errors = [];
 
 helper('cleanup');
+helper('module on');
+await fetch(base + '/'); // First request after the switch: the module flushes the permalinks (account endpoint).
 const archive = `${base}/listing-category/auto-moto-boats/?min_price=1000`;
 
 /* ---------------------------------------------------------------- guest */
@@ -112,5 +115,6 @@ await mob.close();
 check('no JS errors', errors.length === 0, errors.join(' | '));
 await browser.close();
 helper('cleanup');
+helper('module off');
 console.log(failures ? `\n${failures} FAILED` : '\nAll passed');
 process.exit(failures ? 1 : 0);

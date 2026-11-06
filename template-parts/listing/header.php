@@ -1,6 +1,7 @@
 <?php
 /**
- * Listing header card: badges, logo, H1, price (mobile), rating, address, age, views, actions (save, share, print, report).
+ * Listing header card: badges, logo, H1, price (mobile), rating, address, age, views, actions (save, compare, share,
+ * print, report).
  *
  * @package Torrehub
  *
@@ -9,6 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
+use Torrehub\Modules\Compare\Module as Compare;
 use Torrehub\Modules\Listing\Report;
 
 $view     = $args['view'];
@@ -92,6 +94,17 @@ $reported = Report::reported_by_current_user( $view->id );
 					'pressed'    => th_is_favourite( (int) $view->id ),
 				)
 			);
+			if ( $view->is_public() && class_exists( Compare::class ) && Compare::active() ) {
+				th_component(
+					'compare-button',
+					array(
+						'listing_id' => (int) $view->id,
+						'title'      => (string) $view->title,
+						'variant'    => 'chip',
+						'pressed'    => Compare::has( (int) $view->id ),
+					)
+				);
+			}
 			?>
 			<button type="button" class="th-chip th-listing-head__action" data-th-share data-title="<?php echo esc_attr( $view->title ); ?>" data-url="<?php echo esc_url( (string) get_permalink( $view->id ) ); ?>" hidden>
 				<?php th_icon( 'share', array( 'size' => 16 ) ); ?><span><?php esc_html_e( 'Share', 'torrehub' ); ?></span>

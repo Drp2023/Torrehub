@@ -116,6 +116,14 @@ final class Steps {
 				'rollback'    => false,
 				'run'         => array( self::class, 'enable_favourites' ),
 			),
+			'disable-saved-searches'      => array(
+				'code'        => 'U4',
+				'title'       => __( 'Saved searches off', 'torrehub' ),
+				'help'        => __( 'Update 1.1.0 (client request). Switches off the “Saved searches & alerts” module (Appearance › Torrehub): no “Save this search”, no account section, no alert e-mails. The saved searches stay in the database — switching the module back on restores them.', 'torrehub' ),
+				'destructive' => false,
+				'rollback'    => false,
+				'run'         => array( self::class, 'disable_saved_searches' ),
+			),
 		);
 	}
 
@@ -849,6 +857,32 @@ final class Steps {
 			update_option( 'rtcl_queue_flush_rewrite_rules', 'yes' );
 		}
 		$r->done( 'apply' === $mode ? __( 'Favourites switched on.', 'torrehub' ) : __( 'Favourites would be switched on.', 'torrehub' ), 1 );
+	}
+
+	/**
+	 * U4: the saved searches module off (its table stays).
+	 *
+	 * @param Report $r    Report.
+	 * @param string $mode dry|apply.
+	 */
+	public static function disable_saved_searches( Report $r, string $mode ): void {
+		global $wpdb;
+		$alerts = \Torrehub\Modules\SearchAlerts\Store::table();
+		$kept   = self::table_exists( $alerts ) ? (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$alerts}" ) : 0; // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- own table name.
+		$saved  = get_option( \Torrehub\Core\Settings::OPTION, array() );
+		$saved  = is_array( $saved ) ? $saved : array();
+		/* translators: %s: number of saved searches */
+		$r->line( sprintf( _n( '%s saved search stays in the database.', '%s saved searches stay in the database.', $kept, 'torrehub' ), number_format_i18n( $kept ) ) );
+		if ( array_key_exists( 'search-alerts', $saved ) && ! $saved['search-alerts'] ) {
+			$r->done( __( 'Nothing to change — saved searches are already off.', 'torrehub' ) );
+			return;
+		}
+		if ( 'apply' === $mode ) {
+			$saved['search-alerts'] = 0;
+			update_option( \Torrehub\Core\Settings::OPTION, $saved );
+			\Torrehub\Modules\SearchAlerts\Module::unschedule();
+		}
+		$r->done( 'apply' === $mode ? __( 'Saved searches switched off.', 'torrehub' ) : __( 'Saved searches would be switched off.', 'torrehub' ), 1 );
 	}
 
 	/**

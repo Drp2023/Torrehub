@@ -5,6 +5,7 @@
  *   wp eval-file _dev/tests/e2e/search-alerts-helper.php publish "<title>" <price>   → publishes a Cars listing by user54
  *   wp eval-file _dev/tests/e2e/search-alerts-helper.php backdate                    → tester's alerts: last sent 2 days ago
  *   wp eval-file _dev/tests/e2e/search-alerts-helper.php cleanup                     → removes tester's alerts + "E2E alert" listings
+ *   wp eval-file _dev/tests/e2e/search-alerts-helper.php module on|off               → the module (off since 1.1.0) for this test
  *
  * @package Torrehub
  */
@@ -43,6 +44,10 @@ if ( 'publish' === $cmd ) {
 	// phpcs:ignore WordPress.DB.DirectDatabaseQuery,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- test helper.
 	$wpdb->query( $wpdb->prepare( "UPDATE {$table} SET last_sent = %s WHERE user_id = %d", gmdate( 'Y-m-d H:i:s', time() - 2 * DAY_IN_SECONDS ), $tester->ID ) );
 	WP_CLI::line( 'ok' );
+} elseif ( 'module' === $cmd ) {
+	$modules                  = (array) get_option( Torrehub\Core\Settings::OPTION, array() );
+	$modules['search-alerts'] = 'on' === ( $args[1] ?? '' ) ? 1 : 0;
+	update_option( Torrehub\Core\Settings::OPTION, $modules ); // The module flushes the permalinks on its next request.
 } elseif ( 'cleanup' === $cmd ) {
 	Torrehub\Modules\SearchAlerts\Store::forget_user( $tester->ID );
 	foreach ( get_posts( array( 'post_type' => 'rtcl_listing', 'post_status' => 'any', 's' => 'E2E alert', 'posts_per_page' => -1, 'fields' => 'ids' ) ) as $id ) {

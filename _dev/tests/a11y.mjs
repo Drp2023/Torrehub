@@ -12,9 +12,9 @@ const guest = [
 	'/', '/listings/', '/listing-category/auto-moto-boats/?view=list', '/listing-category/auto-moto-boats/?view=map',
 	'/listing-category/services/?th_sheet=1', '/listings/amrit-restaurant/', '/guides/', '/renting-a-car-in-spain/',
 	'/about-us/', '/contact/', '/faq/', '/privacy-policy/', '/login/', '/register/', '/register/?type=business',
-	'/lost-password/', '/no-such-page/',
+	'/lost-password/', '/no-such-page/', '/compare/', '/compare/?add=7332',
 ];
-const seller = ['/my-account/', '/my-account/listings/', '/my-account/chat/', '/my-account/alerts/', '/my-account/verification/', '/my-account/edit-account/', '/listing-form/', '/listing-form/?th_cat=39', '/listing-form/?th_cat=41'];
+const seller = ['/my-account/', '/my-account/listings/', '/my-account/chat/', '/my-account/favourites/', '/my-account/verification/', '/my-account/edit-account/', '/listing-form/', '/listing-form/?th_cat=39', '/listing-form/?th_cat=41'];
 const member = ['/my-account/', '/listing-form/'];
 
 async function login(ctx, user, pass) {

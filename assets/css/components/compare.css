@@ -1,0 +1,179 @@
+/* Compare (client request 2026-11): the toggle on cards, and the floating bar with the selection.
+   The bar is the consent bar's floating card; on phones it sits above the bottom navigation / contact bar. */
+
+/* Card: the compare button sits under the heart. */
+.th-card__fav {
+	display: grid;
+	gap: 6px;
+}
+
+.th-btn--compare[aria-pressed="true"],
+.th-btn--compare[aria-pressed="true"]:hover {
+	--btn-bg: var(--th-blue);
+	--btn-fg: var(--th-white);
+	border-color: transparent;
+	background: var(--btn-bg);
+}
+
+.th-btn--compare[aria-busy="true"],
+.th-listing-head__action--compare[aria-busy="true"] {
+	opacity: 0.6;
+}
+
+/* --------------------------------------------------------------- bar */
+.th-compare-bar {
+	position: fixed;
+	left: 50%;
+	bottom: calc(var(--th-s-4) + env(safe-area-inset-bottom));
+	z-index: var(--th-z-sticky);
+	display: flex;
+	align-items: center;
+	gap: var(--th-s-4);
+	width: min(760px, calc(100vw - 2 * var(--th-gutter)));
+	padding: var(--th-s-3) var(--th-s-4);
+	border: 1px solid var(--th-line);
+	border-radius: var(--th-r-card);
+	background: var(--th-white);
+	box-shadow: var(--th-lift);
+	transform: translateX(-50%);
+}
+
+body:has(.th-bottom-nav) .th-compare-bar {
+	bottom: calc(96px + env(safe-area-inset-bottom));
+}
+
+@media (min-width: 900px) {
+	body:has(.th-bottom-nav) .th-compare-bar {
+		bottom: calc(var(--th-s-4) + env(safe-area-inset-bottom));
+	}
+}
+
+/* Listing pages on phones: above the contact bar (which replaces the bottom navigation there). */
+@media (max-width: 999px) {
+	body:has(.th-contact-bar) .th-compare-bar {
+		bottom: calc(86px + env(safe-area-inset-bottom));
+	}
+}
+
+/* Toasts (e.g. "Added to the comparison") above the bar on phones. */
+@media (max-width: 899px) {
+	body:has(.th-compare-bar) .th-toasts {
+		bottom: calc(180px + env(safe-area-inset-bottom));
+	}
+}
+
+/* Room at the end of the page, so the bar never covers the last of the footer. */
+body:has(.th-compare-bar)::after {
+	content: "";
+	display: block;
+	height: 96px;
+}
+
+.th-compare-bar__info {
+	flex: 1;
+	min-width: 0;
+}
+
+.th-compare-bar__title {
+	font-size: var(--th-fs-ui);
+	line-height: var(--th-lh-tight);
+}
+
+.th-compare-bar__meta {
+	overflow: hidden;
+	color: var(--th-muted);
+	font-size: var(--th-fs-meta);
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.th-compare-bar__items {
+	display: flex;
+	gap: var(--th-s-2);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.th-compare-bar__item,
+.th-compare-bar__slot {
+	position: relative;
+	width: 48px;
+	height: 48px;
+	border-radius: var(--th-r-input);
+}
+
+.th-compare-bar__slot {
+	border: 1.5px dashed var(--th-line);
+}
+
+.th-compare-bar__thumb {
+	display: block;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	border-radius: inherit;
+	background: var(--th-surface-2);
+}
+
+.th-compare-bar__thumb img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.th-compare-bar__remove {
+	position: absolute;
+	top: -8px;
+	right: -8px;
+	display: grid;
+	place-items: center;
+	width: 24px;
+	height: 24px;
+	border: 2px solid var(--th-white);
+	border-radius: 50%;
+	background: var(--th-ink);
+	color: var(--th-white);
+}
+
+.th-compare-bar__remove:focus-visible,
+.th-compare-bar__thumb:focus-visible {
+	outline: 3px solid var(--th-focus-ring);
+	outline-offset: 2px;
+}
+
+.th-compare-bar__actions {
+	display: flex;
+	align-items: center;
+	gap: var(--th-s-2);
+	margin-left: auto;
+}
+
+.th-compare-bar__actions .th-btn {
+	white-space: nowrap;
+}
+
+@media (max-width: 599px) {
+	.th-compare-bar {
+		gap: var(--th-s-3);
+		padding: 10px var(--th-s-3);
+	}
+
+	.th-compare-bar__info {
+		display: none;
+	}
+
+	.th-compare-bar__item,
+	.th-compare-bar__slot {
+		width: 42px;
+		height: 42px;
+	}
+
+	.th-compare-bar__actions {
+		gap: 0;
+	}
+
+	.th-compare-bar__actions .th-btn {
+		--btn-px: var(--th-s-3);
+	}
+}

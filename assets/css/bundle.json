@@ -16,6 +16,7 @@
 		"components/prose.css",
 		"components/feedback.css",
 		"components/consent.css",
+		"components/compare.css",
 		"components/header.css",
 		"components/footer.css"
 	],
@@ -44,6 +45,9 @@
 	"listing-form": [
 		"auth.css",
 		"listing-form.css"
+	],
+	"compare": [
+		"compare.css"
 	],
 	"content": [
 		"components/guide-card.css",

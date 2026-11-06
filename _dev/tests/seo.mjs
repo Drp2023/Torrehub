@@ -12,9 +12,9 @@ const guest = [
 	['/', true], ['/listings/', true], ['/listing-category/auto-moto-boats/', true], ['/listing-category/auto-moto-boats/?view=map', false],
 	['/listings/?q=car&sort=price-asc', false], ['/listings/amrit-restaurant/', true], ['/guides/', true], ['/renting-a-car-in-spain/', true],
 	['/category/uncategorized/', true], ['/about-us/', true], ['/contact/', true], ['/faq/', true], ['/privacy-policy/', true],
-	['/login/', false], ['/register/', false], ['/lost-password/', false], ['/listing-form/', false], ['/no-such-page/', false],
+	['/login/', false], ['/register/', false], ['/lost-password/', false], ['/listing-form/', false], ['/no-such-page/', false], ['/compare/', false],
 ];
-const seller = [['/my-account/', false], ['/my-account/listings/', false], ['/my-account/chat/', false], ['/my-account/alerts/', false], ['/listing-form/?th_cat=39', false]];
+const seller = [['/my-account/', false], ['/my-account/listings/', false], ['/my-account/chat/', false], ['/my-account/favourites/', false], ['/listing-form/?th_cat=39', false]];
 
 let problems = 0;
 const titles = new Map();

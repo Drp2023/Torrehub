@@ -25,7 +25,9 @@
  *     @type int        $photo_count  Shows "5 photos" chip when > 1.
  *     @type bool       $fav          Show the favourite button.
  *     @type bool       $fav_pressed
- *     @type int        $listing_id   For the favourite button (data attribute).
+ *     @type int        $listing_id   For the favourite and compare buttons (data attribute).
+ *     @type bool       $compare      Show the compare button (Compare module, published listings).
+ *     @type bool       $compare_pressed
  *     @type array      $actions      List of button component args (archive card: Contact + chat).
  *     @type string     $heading      h2|h3. Default 'h3'.
  * }
@@ -36,29 +38,31 @@ defined( 'ABSPATH' ) || exit;
 $a = wp_parse_args(
 	$args ?? array(),
 	array(
-		'variant'      => 'default',
-		'title'        => '',
-		'url'          => '',
-		'image'        => '',
-		'image_alt'    => '',
-		'image_size'   => 'th-card',
-		'eager'        => false,
-		'price'        => '',
-		'price_suffix' => '',
-		'badges'       => array(),
-		'attrs'        => array(),
-		'location'     => '',
-		'age'          => '',
-		'meta_end'     => '',
-		'verified'     => false,
-		'rating'       => 0,
-		'rating_count' => 0,
-		'photo_count'  => 0,
-		'fav'          => false,
-		'fav_pressed'  => false,
-		'listing_id'   => 0,
-		'actions'      => array(),
-		'heading'      => 'h3',
+		'variant'         => 'default',
+		'title'           => '',
+		'url'             => '',
+		'image'           => '',
+		'image_alt'       => '',
+		'image_size'      => 'th-card',
+		'eager'           => false,
+		'price'           => '',
+		'price_suffix'    => '',
+		'badges'          => array(),
+		'attrs'           => array(),
+		'location'        => '',
+		'age'             => '',
+		'meta_end'        => '',
+		'verified'        => false,
+		'rating'          => 0,
+		'rating_count'    => 0,
+		'photo_count'     => 0,
+		'fav'             => false,
+		'fav_pressed'     => false,
+		'listing_id'      => 0,
+		'compare'         => false,
+		'compare_pressed' => false,
+		'actions'         => array(),
+		'heading'         => 'h3',
 	)
 );
 
@@ -117,18 +121,31 @@ if ( $a['eager'] ) {
 		<?php endif; ?>
 	</div>
 
-	<?php if ( $a['fav'] ) : ?>
+	<?php if ( $a['fav'] || $a['compare'] ) : ?>
 		<div class="th-card__fav">
 			<?php
-			th_component(
-				'fav-button',
-				array(
-					'listing_id' => (int) $a['listing_id'],
-					'title'      => (string) $a['title'],
-					'variant'    => 'card',
-					'pressed'    => (bool) $a['fav_pressed'],
-				)
-			);
+			if ( $a['fav'] ) {
+				th_component(
+					'fav-button',
+					array(
+						'listing_id' => (int) $a['listing_id'],
+						'title'      => (string) $a['title'],
+						'variant'    => 'card',
+						'pressed'    => (bool) $a['fav_pressed'],
+					)
+				);
+			}
+			if ( $a['compare'] ) {
+				th_component(
+					'compare-button',
+					array(
+						'listing_id' => (int) $a['listing_id'],
+						'title'      => (string) $a['title'],
+						'variant'    => 'card',
+						'pressed'    => (bool) $a['compare_pressed'],
+					)
+				);
+			}
 			?>
 		</div>
 	<?php endif; ?>

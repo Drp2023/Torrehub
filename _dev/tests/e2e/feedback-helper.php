@@ -26,6 +26,9 @@
  *   guides-intro TEXT → the posts page's excerpt (the Guides intro); '-' = empty
  *   towns-live        → locations as on torrehub.com: the 12 main towns top-level (Benissa Costa, Elche (Elx)), the
  *                       other local ones moved under Torrevieja; JSON: the 12 names
+ *   alerts-on         → the saved searches module on (as before 1.1.0) + one saved search of tester; JSON: its id
+ *   alerts-state      → JSON: module on, digest cron scheduled, saved searches in the table, tester's still there
+ *   compare-ids       → JSON: the live listings of one main category with ≥ 4 (same), one of another (other)
  *   cleanup           → everything back as it was
  *
  * @package Torrehub
@@ -310,8 +313,72 @@ if ( 'setup' === $cmd ) {
 	update_option( TH_E2E_FEEDBACK, $saved, false );
 	\Torrehub\Data\Directory::flush();
 	echo wp_json_encode( array_column( \Torrehub\Data\Directory::home_towns(), 'name' ) );
+} elseif ( 'alerts-on' === $cmd ) {
+	$saved   = (array) get_option( TH_E2E_FEEDBACK, array() );
+	$modules = (array) get_option( Torrehub\Core\Settings::OPTION, array() );
+	if ( ! array_key_exists( 'alerts_module', $saved ) ) {
+		$saved['alerts_module'] = array_key_exists( 'search-alerts', $modules ) ? (int) $modules['search-alerts'] : '-';
+	}
+	$modules['search-alerts'] = 1;
+	update_option( Torrehub\Core\Settings::OPTION, $modules );
+	$saved['alert'] = Torrehub\Modules\SearchAlerts\Store::create(
+		array(
+			'user_id'   => get_user_by( 'login', 'tester' )->ID,
+			'label'     => 'E2E kept search',
+			'params'    => array( 'q' => 'boat' ),
+			'frequency' => 'daily',
+		)
+	);
+	update_option( TH_E2E_FEEDBACK, $saved, false );
+	echo (int) $saved['alert'];
+} elseif ( 'alerts-state' === $cmd ) {
+	$saved   = (array) get_option( TH_E2E_FEEDBACK, array() );
+	$modules = (array) get_option( Torrehub\Core\Settings::OPTION, array() );
+	$table   = Torrehub\Modules\SearchAlerts\Store::table();
+	echo wp_json_encode(
+		array(
+			'module' => ! empty( $modules['search-alerts'] ),
+			'cron'   => (bool) wp_next_scheduled( 'th_search_alerts_digest' ),
+			'rows'   => (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$table}" ), // phpcs:ignore WordPress.DB
+			'kept'   => ! empty( $saved['alert'] ) && null !== Torrehub\Modules\SearchAlerts\Store::get( (int) $saved['alert'] ),
+		)
+	);
+} elseif ( 'compare-ids' === $cmd ) {
+	$by_root = array();
+	foreach ( get_posts( array( 'post_type' => 'rtcl_listing', 'post_status' => 'publish', 'posts_per_page' => -1, 'fields' => 'ids', 'orderby' => 'ID', 'order' => 'ASC' ) ) as $listing_id ) { // phpcs:ignore WordPress.Arrays.ArrayDeclarationSpacing
+		$by_root[ Torrehub\Modules\Compare\Module::root( (int) $listing_id ) ][] = (int) $listing_id;
+	}
+	$same  = array();
+	$other = 0;
+	foreach ( $by_root as $ids ) {
+		if ( ! $same && count( $ids ) >= 4 ) {
+			$same = array_slice( $ids, 0, 4 );
+		} elseif ( ! $other ) {
+			$other = $ids[0];
+		}
+	}
+	echo wp_json_encode(
+		array(
+			'same'     => $same,
+			'other'    => $other,
+			'otherUrl' => (string) get_permalink( $other ),
+			'category' => (string) get_term_link( Torrehub\Modules\Compare\Module::root( $same[0] ), 'rtcl_category' ),
+		)
+	);
 } elseif ( 'cleanup' === $cmd ) {
 	$saved = (array) get_option( TH_E2E_FEEDBACK, array() );
+	if ( ! empty( $saved['alert'] ) ) {
+		Torrehub\Modules\SearchAlerts\Store::delete( (int) $saved['alert'] );
+	}
+	if ( array_key_exists( 'alerts_module', $saved ) ) {
+		$modules = (array) get_option( Torrehub\Core\Settings::OPTION, array() );
+		if ( '-' === $saved['alerts_module'] ) {
+			unset( $modules['search-alerts'] );
+		} else {
+			$modules['search-alerts'] = (int) $saved['alerts_module'];
+		}
+		update_option( Torrehub\Core\Settings::OPTION, $modules );
+	}
 	if ( array_key_exists( 'intro', $saved ) ) {
 		wp_update_post(
 			array(
