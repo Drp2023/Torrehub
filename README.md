@@ -8,7 +8,7 @@ Klasszikus PHP WordPress téma a torrehub.com-hoz (Direction C · Modern Local H
 
 ## Telepítés
 
-Élesre **csak** a `bin/build-zip.sh` kimenete mehet (`dist/torrehub-<verzió>.zip`, csak commitolt fájlok, dev-mappák nélkül): Megjelenés › Témák › Feltöltés. Első éles verzió: **1.0.0**, most **1.1.0** (ügyfél-visszajelzés 2026-11; frissítés: runbook J). Az élesítés teljes menete: **`_dev/docs/GO-LIVE-RUNBOOK.md`** — minden lépés wp-adminból (Eszközök › Torrehub migration) vagy WP-CLI-ből; SSH nem feltétel.
+Élesre **csak** a `bin/build-zip.sh` kimenete mehet (`dist/torrehub-<verzió>.zip`, csak commitolt fájlok, dev-mappák nélkül): Megjelenés › Témák › Feltöltés. Első éles verzió: **1.0.0**, most **1.1.1** (1.1.0: ügyfél-visszajelzés 2026-11, frissítés: runbook J; 1.1.1: modul-kapcsoló javítás). Az élesítés teljes menete: **`_dev/docs/GO-LIVE-RUNBOOK.md`** — minden lépés wp-adminból (Eszközök › Torrehub migration) vagy WP-CLI-ből; SSH nem feltétel.
 
 Frissítéskor a `style.css` `Version` sorát emelni kell — a JS/CSS cache-busting ebből jön.
 

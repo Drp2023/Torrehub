@@ -109,6 +109,32 @@ const denied = await sp.request.post(base + '/wp-admin/admin-post.php', { form: 
 check('a seller cannot use the handler', denied.status() === 403 && wp('option get th_maintenance') !== '1');
 await s.close();
 
+/* ---------------------------------------------------------------- module switches (1.1.0 live bug) */
+// U4 from wp-admin, where Settings::sanitize() runs on the write: it used to switch every other optional module off.
+// Two starting points: nothing saved (every module at its default, as on torrehub.com) and switches saved by hand.
+const changedModules = (a, b) => Object.keys(a).filter((id) => a[id] !== b[id]);
+for (const [label, start] of [['nothing saved', '-'], ['switches saved by hand', '{"search-alerts":1,"quota":1,"chat":0,"consent":1}']]) {
+	helper(`modules-set '${start}'`);
+	const before = JSON.parse(helper('modules-state'));
+	await page.goto(tool);
+	await run(page, 'disable-saved-searches', 'Dry run');
+	await run(page, 'disable-saved-searches', 'Apply');
+	const after = JSON.parse(helper('modules-state'));
+	const changed = changedModules(before, after);
+	check(`U4 from wp-admin (${label}): only saved searches off, every other module as before`, changed.every((id) => id === 'search-alerts') && after['search-alerts'] === false, `changed: ${changed.join(', ') || 'none'}`);
+}
+helper("modules-set '-'");
+const fresh = JSON.parse(helper('modules-state'));
+const compareBox = page.locator('input[type="checkbox"][name="th_modules[compare]"]');
+await page.goto(base + '/wp-admin/themes.php?page=torrehub');
+await compareBox.uncheck();
+await Promise.all([page.waitForNavigation(), page.locator('#submit').click()]);
+const unticked = changedModules(fresh, JSON.parse(helper('modules-state')));
+check('Appearance › Torrehub: unticking a module switches only that one off', unticked.join() === 'compare', unticked.join(', '));
+await compareBox.check();
+await Promise.all([page.waitForNavigation(), page.locator('#submit').click()]);
+check('… ticking it switches it back on', changedModules(fresh, JSON.parse(helper('modules-state'))).length === 0);
+
 check('no JS errors', errors.length === 0, errors.join(' | '));
 await browser.close();
 helper('cleanup');

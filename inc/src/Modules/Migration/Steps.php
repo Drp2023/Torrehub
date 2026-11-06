@@ -860,7 +860,8 @@ final class Steps {
 	}
 
 	/**
-	 * U4: the saved searches module off (its table stays).
+	 * U4: the saved searches module off (its table stays). Writes only the search-alerts key; every other module
+	 * keeps its state (Settings::sanitize() leaves keys missing from a write alone).
 	 *
 	 * @param Report $r    Report.
 	 * @param string $mode dry|apply.

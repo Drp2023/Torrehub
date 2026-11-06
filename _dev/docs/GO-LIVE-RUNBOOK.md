@@ -139,6 +139,8 @@ A csomag feltöltése az I.3 szerint (utána hosting-cache ürítés). A téma c
 
 Továbbá (nincs adatlépés, a táblák az első admin-oldalbetöltéskor jönnek létre): *Users › Notify all users* › „Sending”: a köteg mérete és gyakorisága a levelezési szolgáltatás óránkénti korlátja szerint (FluentSMTP / hosting); GoDaddy-n a WP-Cron látogatás-alapú (E2), egy elakadt kampány a „Send next batch now” gombbal is továbbvihető. A fiók-oldalsáv értesítése alapból ki van kapcsolva.
 
+**1.1.1 (hibajavítás):** az 1.1.0-s U4 wp-adminból futtatva az összes többi opcionális modult is kikapcsolta (a modul-kapcsolók mentése a hiányzó kulcsot „ki”-nek vette). 1.1.1-től az U4 csak a „Saved searches & alerts”-et kapcsolja ki, a többi marad. Feltöltés után: *Megjelenés › Torrehub* — a modulok a kívánt állapotban (élesen kézzel már visszaállítva); adatlépés nincs, az U4 újrafuttatása biztonságos („Nothing to change”).
+
 Összehasonlítás (Compare): adatlépés nincs; a `/compare/` cím az első oldalbetöltéskor kerül a permalinkek közé (ha 404: *Beállítások › Közvetlen hivatkozások › Mentés*). Ellenőrzés: egy kategória kártyáin a ⇄ gomb → alul a sáv → „Compare” → a hirdetések egymás mellett.
 
 Tartalom (nem kötelező): a Guides archívum bevezetője a *Pages › Guides › Excerpt* (Kivonat) mező — üresen nincs bevezető. A főoldal „Latest guides” bevezetője: *Megjelenés › Testreszabás › Torrehub › Home page*.

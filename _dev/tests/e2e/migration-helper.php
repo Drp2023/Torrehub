@@ -7,6 +7,10 @@
  *   wp eval-file _dev/tests/e2e/migration-helper.php cleanup  → back to the migrated state (as after bin/reset-db.sh);
  *                                                               listings the test moved to the trash come back with
  *                                                               their status (publish hooks detached: no new dates)
+ *   wp eval-file _dev/tests/e2e/migration-helper.php modules-set '{"chat":1}'|-  → th_modules as given ('-' = none
+ *                                                               saved, as on a site where the settings were never
+ *                                                               saved); the original comes back at cleanup
+ *   wp eval-file _dev/tests/e2e/migration-helper.php modules-state → JSON: every optional module => on (effective)
  *
  * @package Torrehub
  */
@@ -17,6 +21,27 @@ use Torrehub\Modules\Migration\Module as Migration;
 use Torrehub\Modules\Migration\Steps;
 
 $cmd = $args[0] ?? '';
+
+// Module switches (no effect on the migration log below).
+if ( 'modules-set' === $cmd ) {
+	if ( false === get_option( 'th_e2e_migration_modules' ) ) {
+		$was = get_option( Torrehub\Core\Settings::OPTION );
+		update_option( 'th_e2e_migration_modules', false === $was ? '-' : $was, false );
+	}
+	'-' === ( $args[1] ?? '-' ) ? delete_option( Torrehub\Core\Settings::OPTION ) : update_option( Torrehub\Core\Settings::OPTION, (array) json_decode( $args[1], true ) );
+	return;
+}
+if ( 'modules-state' === $cmd ) {
+	$state = array();
+	foreach ( Torrehub\Core\Theme::instance()->modules() as $id => $module ) {
+		if ( $module->optional() ) {
+			$state[ $id ] = Torrehub\Core\Settings::module_enabled( $module );
+		}
+	}
+	echo wp_json_encode( $state );
+	return;
+}
+
 delete_option( Migration::LOG );
 delete_option( Migration::BASELINE );
 Migration::set_maintenance( false );
@@ -66,6 +91,11 @@ if ( 'setup' === $cmd ) {
 		}
 	}
 	delete_option( 'th_e2e_migration_listings' );
+	$modules = get_option( 'th_e2e_migration_modules' );
+	if ( false !== $modules ) {
+		'-' === $modules ? delete_option( Torrehub\Core\Settings::OPTION ) : update_option( Torrehub\Core\Settings::OPTION, $modules );
+		delete_option( 'th_e2e_migration_modules' );
+	}
 	foreach ( array( 'migrate-pages', 'trash-demo', 'purge-nie' ) as $key ) {
 		Steps::run( $key, 'apply' );
 	}

@@ -76,9 +76,12 @@ final class Settings {
 	}
 
 	/**
-	 * Keep only known optional module ids, as booleans.
+	 * Keep only known optional module ids, as booleans. The form sends every switch (a hidden 0 before each
+	 * checkbox), so a module missing from the input was not part of the change — e.g. update_option() of one key
+	 * (migration step U4) — and keeps its current state. (Treating missing as "off" switched every module off when
+	 * U4 ran from wp-admin, where this callback is registered.)
 	 *
-	 * @param mixed $input Raw form input.
+	 * @param mixed $input Raw form input, or the option as written by code.
 	 * @return array<string,bool>
 	 */
 	public function sanitize( $input ): array {
@@ -86,7 +89,7 @@ final class Settings {
 		$out   = array();
 		foreach ( $this->theme->modules() as $id => $module ) {
 			if ( $module->optional() ) {
-				$out[ $id ] = ! empty( $input[ $id ] );
+				$out[ $id ] = array_key_exists( $id, $input ) ? ! empty( $input[ $id ] ) : self::module_enabled( $module );
 			}
 		}
 		return $out;
@@ -117,6 +120,7 @@ final class Settings {
 								<?php elseif ( ! $module->optional() ) : ?>
 									<p><?php esc_html_e( 'Always on.', 'torrehub' ); ?></p>
 								<?php else : ?>
+									<input type="hidden" name="<?php echo esc_attr( self::OPTION . '[' . $id . ']' ); ?>" value="0">
 									<label>
 										<input type="checkbox" name="<?php echo esc_attr( self::OPTION . '[' . $id . ']' ); ?>" value="1" <?php checked( self::module_enabled( $module ) ); ?>>
 										<?php esc_html_e( 'Enabled', 'torrehub' ); ?>
